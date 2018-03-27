@@ -5,24 +5,21 @@ use Think\Auth;
 
 /**
  * 公共控制器
- * 后台控制器除login外必须继承我
- * @author 潘宏钢 <619328391@qq.com>
+ * 后台控制器除login外 其他必须继承
  */
-
 class CommonController extends Controller 
 {
 	/**
      * 初始化
-     * @author 潘宏钢 <619328391@qq.com>
      */
     public function _initialize()
     {	
     	// 登录检测
-    	if(empty($_SESSION['adminuser'])) $this->redirect('Login/login');
+    	if(empty($_SESSION['adminInfo'])) $this->redirect('Login/index');
 
         $bool = $this->rule_check(session('adminuser.id'));
         if(!$bool){
-            redirect('Login/login',5,'权限不足');
+//            redirect('Login/index',5,'权限不足');
         }
 
         // 分配菜单权限
@@ -45,12 +42,4 @@ class CommonController extends Controller
         return $auth->check($name, $uid);
     }
 
-    // 经销商权限 
-    public function get_level()
-    {
-        if($_SESSION['adminuser']['leavel'] > 0){
-            return true;
-        }
-        return false;
-    }
 }

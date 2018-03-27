@@ -10,9 +10,9 @@ class IndexController extends CommonController {
 
 	    	// 滤芯订单数量（已发货及未发货数量->以发货及未发货列表）
 	    	$order_filters = D('Orders')
-	    						->join('pub_express_information ON pub_orders.express_id = pub_express_information.id')
-	    						->field('distinct(order_id)')
-	    	                    ->select();
+                    ->join('pub_express_information ON pub_orders.express_id = pub_express_information.id')
+                    ->field('distinct(order_id)')
+                    ->select();
 	    	$order_filter['total'] = count($order_filters); 
 
 	    	// 保修数量统计->保修列表  
