@@ -1,0 +1,139 @@
+
+/*录入信息*/
+.am-container {
+	padding-top: 2vh;
+	background: #fff;
+}
+label {
+	margin-bottom: 0;
+}
+.am-container>.am-g {
+	display: flex;
+	align-items: center;
+	position: relative;
+	padding: 14px 20px;
+	border-bottom: 1px solid #eee;
+} 
+.am-g input,
+.am-g textarea {
+	border: none;
+}
+/*确定按钮*/
+.confirm {
+	width: 80vw;
+	position: absolute;
+	padding: 10px;
+	bottom: 6vh;
+	left: 50%;
+	margin-left: -40vw;
+	text-align: center;
+	border-radius: 4px;
+	font-size: 20px;
+}
+/*地区选择*/
+#areaChoose {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	display: none;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,.5);
+	z-index: 999;
+}
+.areaChoosebg {
+	width: 100%;
+	height: 40vh;
+}
+.areaDiv {
+	width: 100%;
+	height: 60vh;
+	position: relative;
+	background: #fff;
+}
+.areaDiv .fblue {
+	padding-bottom: 1vh;
+	border-bottom: 1px solid #0d94f3;
+}
+.atop {
+	height: 8vh;
+	display: block;
+	line-height: 8vh;
+}
+.atop>p,
+.atop>h2,
+.atop>button {
+	height: 100%;
+	display: inline-block;
+	float: left;
+}
+.atop>p,
+.atop>button {
+	width: 20%;
+	text-align: center;
+}
+.atop>h2 {
+	width: 60%;
+}
+
+.areaDiv>div:nth-of-type(2) {
+	width: 100%;
+	display: flex;
+}
+.areaDiv>div>div {
+	flex: 1 0 33.33%;
+	display: inline-block;
+	overflow: hidden;
+}
+.areaDiv h2 {
+	margin: 0;
+}
+/*收货地址*/
+.label {
+	align-self: flex-start;
+}
+/*请选择*/
+.choosebtn {
+	position: absolute;
+	right: 20px;
+}
+/*省份，城市，区*/
+.ptext,
+.ctext,
+.atext {
+	text-align: center;
+}
+.province,
+.city,
+.area {
+	width: 100%;
+	height: 40vh;
+	padding-left: 4vw;
+	overflow-y: scroll;
+}
+.province>p,
+.city>p,
+.area>p {
+	position: relative;    
+	margin: 6vh 0;
+}
+.province>p:nth-of-type(1),
+.city>p:nth-of-type(1),
+.area>p:nth-of-type(1) {
+	color: rgb(0,144,255);
+}
+.uaddrdetail {
+	padding: 4px;
+}
+.areabtn {
+	border: none;
+	background: transparent;
+}
+.close {
+	width: 12%;
+	text-align: center;
+	opacity: .5;
+}
+#seepwd {
+	text-align: center;
+}
