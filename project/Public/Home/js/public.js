@@ -18,12 +18,16 @@
 !function(){
     var navbar = document.createElement('div');
     navbar.setAttribute('id', 'navbar');
+    navbar.setAttribute('class','am-cf');
     navbar.innerHTML = '<span class="iconfont icon-fanhui1" onclick="history.go(-1)">&emsp;</span>'+
         '<h2>title</h2>'+
         '<span class="back2home">首页</span>';
     var fc = document.body.firstChild;  
     // 添加到页面body下最前面
     document.body.insertBefore(navbar,fc);
+    // 获取title
+    var title = document.getElementById('navbar').getElementsByTagName('h2');
+    title[0].innerText = document.getElementsByTagName('title')[0].innerText;
 }()
 //验证特殊字符
 var specailCheck = function(val){

@@ -1,4 +1,4 @@
-$(function(){
+window.onload = function(){
 	// 提交
 	$('.confirm').click(function(){
 		var uname = trimFn($('.uname').val()),
@@ -101,6 +101,14 @@ $(function(){
 				city = $('.ctext').text(),
 				area = $('.atext').text();
 
+		if(city.indexOf('请选择') > -1){
+			noticeFn({text:'请选择一个有有效的地址！'});
+			return
+		}
+		if(area.indexOf('请选择') > -1){
+			noticeFn({text:'请选择一个有效的地址！'});
+			return
+		}
 		$('.uaddress').text(province + ' ' + city + ' ' + area);
 		$("#areaChoose").fadeOut('fast');	//关闭地区选择面板
 		$('.choosebtn').hide();	// 隐藏请选择
@@ -120,13 +128,20 @@ $(function(){
 			$('.province>p').removeClass('selected');
 		}
 		$(this).toggleClass('selected fblue');
+		
+	})
+	$('.areadiv').on('click','p', function(){
+		// console.log($(this).text())
+		if($(this).text().indexOf('请选择') > -1){
+			noticeFn({text:'请选择一个有有效的地址！'});
+		}
 	})
 	// 地区选择
 	var script = $("<script/>");
 	var scriptCode = `
 		// 选择地区
 		$(".areabtn").on("click", function(){
-				$("#areaChoose").fadeIn('fast');
+			$("#areaChoose").fadeIn('fast');
 		});
 
 		// 关闭地区选择，并显示到对应区域
@@ -137,14 +152,16 @@ $(function(){
 				area = $(this).text();
 			
 			$(".uaddress").text( (!province && !city && !area) ? '请选择' : province + ' ' + city + ' ' + area);
-
-			setTimeout(function(){
-				$("#areaChoose").fadeOut('fast');
-				$('.choosebtn').hide();
-			},300);
+			// console.log($(this).text().indexOf('请选择'));
+			if($(this).text().indexOf('请选择') == -1){
+				setTimeout(function(){
+					$("#areaChoose").fadeOut('fast');
+					$('.choosebtn').hide();
+				},300);
+			}
 
 		});`;
 	script.html(scriptCode);
 	$("body").append(script);
 
-})
+}
