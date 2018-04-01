@@ -241,3 +241,34 @@ var confirmFn = function(text, callback){
 
     document.body.appendChild(loading);
 }()
+
+/**
+ * 顶部导航栏上滑消失，下滑出现
+ * scTop: 当前scrollTop
+ * scrollTop: 上次scrollTop
+ */
+var scrollTop = 0;  // scrolltop
+var navbar = document.getElementById('navbar');
+window.onscroll = function(){   
+    var scTop = document.body.scrollTop || document.documentElement.scrollTop;
+    // console.log('scrollTop-scTop: ',scrollTop-scTop);
+    // 滑到顶部了
+    if(scTop <= 6){
+        navbar.setAttribute('style',
+            'position: relative;left:0;transform:translateY(0px)'
+        );
+        return
+    }
+    if(scrollTop - scTop > 0){
+        // console.log('手指下滑');
+        navbar.setAttribute('style',
+            'position: fixed;left:0;transform:translateY('+ scTop +'px)'
+        );
+
+    }else if(scrollTop - scTop < 0){
+        // console.log('手指上滑');
+
+    }
+    // 初始化
+    scrollTop = scTop;
+}
