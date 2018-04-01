@@ -24,10 +24,6 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
     color: rgba(128,128,128);
 }
 
-ul, ol, li {
-	padding: 0;
-	list-style: none;
-}
 body {
 	width: 100vw;
 	height: 100vh;
@@ -50,6 +46,8 @@ body {
 	border-bottom: 1px solid #eee;
     color: #000;
     background: #fff;
+    transition: .2s linear;
+    z-index: 999;
 }
 
 #navbar>h2,
@@ -81,6 +79,14 @@ label {
 
 [class*=am-u-] {
 	padding: 0;
+}
+
+ul, ol, li {
+	padding: 0;
+	list-style: none;
+}
+p {
+	margin: 0;
 }
 /* 去除amazeui样式--结束 */
 
