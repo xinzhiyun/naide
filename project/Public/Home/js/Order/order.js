@@ -1,7 +1,7 @@
 var product_pay = new Vue({
 	el:"#app",
 	data:{
-	//待付款
+	//待付款   
 		all_pay:[
 			{
 				product_pay_info:[
