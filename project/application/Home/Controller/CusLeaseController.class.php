@@ -2,7 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController; 
 
-class UsersController extends HomebaseController {
+class CusLeaseController extends HomebaseController {
 
 }
 

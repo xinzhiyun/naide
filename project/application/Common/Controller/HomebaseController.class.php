@@ -9,6 +9,11 @@ class HomebaseController extends AppframeController {
 		$this->set_action_success_error_tpl();
 		parent::__construct();
 	}
+
+    public function __call($a,$b)
+    {
+        $this->display($a);
+    }
 	
 	function _initialize() {
 		parent::_initialize();
