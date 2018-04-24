@@ -6,6 +6,7 @@ use Common\Controller\AppframeController;
 class HomebaseController extends AppframeController {
 	
 	public function __construct() {
+
 		$this->set_action_success_error_tpl();
 		parent::__construct();
 	}

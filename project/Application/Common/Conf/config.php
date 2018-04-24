@@ -49,7 +49,7 @@ $configs= array(
         'APP_USE_NAMESPACE'     =>   true, // 关闭应用的命名空间定义
         'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', // 模块自动加载的类库后缀
         
-        'SP_TMPL_PATH'     		=> 'themes/',       // 前台模板文件根目录
+        'SP_TMPL_PATH'     		=> 'pages/',       // 前台模板文件根目录
         'SP_DEFAULT_THEME'		=> 'simplebootx',       // 前台模板文件
         'SP_TMPL_ACTION_ERROR' 	=> 'error', // 默认错误跳转对应的模板文件,注：相对于前台模板路径
         'SP_TMPL_ACTION_SUCCESS' 	=> 'success', // 默认成功跳转对应的模板文件,注：相对于前台模板路径
