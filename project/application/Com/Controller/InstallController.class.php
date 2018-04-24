@@ -2,7 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController; 
 
-class TraIndexController extends HomebaseController {
+class InstallController extends HomebaseController {
 
 }
 
