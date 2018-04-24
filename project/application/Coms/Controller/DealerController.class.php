@@ -1,5 +1,5 @@
 <?php
-namespace Com\Controller;
+namespace Coms\Controller;
 use Common\Controller\HomebaseController; 
 
 class DealerController extends HomebaseController {
