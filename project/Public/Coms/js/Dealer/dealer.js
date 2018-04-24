@@ -31,5 +31,5 @@ new Vue({
     // 实例创建后请求数据
     created:function() {  
         this.getData();   
-    }, 
+    }
 })

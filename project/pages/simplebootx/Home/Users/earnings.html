@@ -5,11 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
 	<title>我的收益</title>
-	<link rel="stylesheet" href="amazeui/css/amazeui.min.css">
-	<link rel="stylesheet" href="iconfont/iconfont.css">
-	<link rel="stylesheet" href="stylesheets/common.css">
-	<link rel="stylesheet" href="stylesheets/myearnings.css">
-	<script src="javascripts/vue.min.js"></script>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/earnings.css">
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 </head>
 <body>
 	<div id="earnings" >
@@ -27,9 +27,9 @@
 		</div>
 		<ul id='main'>
 			<li v-for='e in eList'>
-				<span>{{e.name}}</span>
-				<span>{{e.inmoney}}</span>
-				<span>{{e.way}}</span>
+				<span v-text='e.name'></span>
+				<span v-text='e.inmoney'></span>
+				<span v-text='e.way'></span>
 			</li>
 		</ul>
 		<ul id='footer'>
@@ -38,10 +38,10 @@
 			<li>累计：<span v-text='totalscore'></span>分</li>
 		</ul>
 	</div>
-	<script src="javascripts/jquery.min.js"></script>
-	<script src="amazeui/js/amazeui.min.js"></script>
-	<script src="javascripts/public.js"></script>
-	<script src='javascripts/downfresh.js'></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script>
 		var earnings = new Vue({
 			el: '#earnings',

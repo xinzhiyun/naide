@@ -4,16 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<title>代缴费</title>
-	<link rel="stylesheet" href="../../Public/frontEnd/css/vendors/Generation_payment/css/Generation_payment.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/AmazeUI/assets/css/amazeui.min.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/css/common.css">
-	<!-- <link rel="stylesheet" href="../../Public/frontEnd/css/laydate.css"> -->
-	<link rel="stylesheet" href="../../Public/frontEnd/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/vendors/Generation_payment/css/Generation_payment.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body>
 <div id="wait_payment_vue">
 
-<!-- 查找设备页面部分开始 -->
+	<!-- 查找设备页面部分开始 -->
 	<div id="form_div">
 		<form action="" method="post" id="form">
 			<div class="bottom_line">
@@ -37,9 +37,9 @@
 			<input type="button" value="确定" id="Generation_payment_btn" class="bgblue" @touchstart="device_number()">
 		</form>
 	</div>
-<!-- 查找设备页面部分结束 -->
+	<!-- 查找设备页面部分结束 -->
 
-<!-- 设备匹配用户信息部分开始 -->
+	<!-- 设备匹配用户信息部分开始 -->
 	<div id="user_info">
 		<!-- 用户信息 -->
 		<div class="user_info">
@@ -77,24 +77,17 @@
 			<div class="botton_right" @touchstart="pay()">立即支付</div>
 		</div>
 	</div>
-<!-- 设备匹配用户信息部分结束 -->
+	<!-- 设备匹配用户信息部分结束 -->
 
 </div>
-	<script src="../../Public/frontEnd/js/jquery.min.js"></script>
-	<script src="../../Public/frontEnd/AmazeUI/assets/js/amazeui.min.js"></script>
-	<script src="../../Public/frontEnd/js/public.js"></script>
-	<script src="../../Public/frontEnd/js/vue.min.js"></script>
-	<script src="../../Public/frontEnd/js/vendors/Generation_payment.js"></script>
-	<!-- <script src="../../Public/frontEnd/js/laydate.js"></script> -->
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Coms/js/vendors/Generation_payment.js"></script>
+	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script>
 
 	</script>
 </body>
 </html>
-<!-- #form_div{
-	display:none;
-} -->
-
-
-
-

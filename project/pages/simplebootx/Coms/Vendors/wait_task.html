@@ -4,16 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<title>待办任务</title>
-	<link rel="stylesheet" href="../../Public/frontEnd/css/vendors/Wait_task/css/Wait_task.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/AmazeUI/assets/css/amazeui.min.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/css/common.css">
-	<!-- <link rel="stylesheet" href="../../Public/frontEnd/css/laydate.css"> -->
-	<link rel="stylesheet" href="../../Public/frontEnd/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/vendors/Wait_task/css/Wait_task.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body>
 <div id="wait_task_vue">
 
-<!-- 待办任务页面部分开始 -->
+	<!-- 待办任务页面部分开始 -->
 	<div class="wait_task_bg" id="wait_task">
 		<ul class="wait_task_content">
 			<li v-for="(each_task,index) in task" @click="task_one(index)">
@@ -26,9 +26,9 @@
 			</li>
 		</ul>
 	</div>
-<!-- 待办任务页面部分结束 -->
+	<!-- 待办任务页面部分结束 -->
 
-<!-- 待安装页面部分开始 -->
+	<!-- 待安装页面部分开始 -->
 	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
 		<div class="install_input">
@@ -53,9 +53,9 @@
 			</div>
 		</div>
 	</div>
-<!-- 待安装页面部分结束 -->
+	<!-- 待安装页面部分结束 -->
 
-<!-- 服务详情页面部分开始 -->
+	<!-- 服务详情页面部分开始 -->
 	<div id="service_details_bg">
 		<!-- 用户信息 -->
 		<div class="service_details_public">
@@ -109,9 +109,9 @@
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
 	</div>
-<!-- 服务详情页面部分结束 -->
+	<!-- 服务详情页面部分结束 -->
 
-<!-- 派工信息页面部分开始 -->
+	<!-- 派工信息页面部分开始 -->
 	<div id="plan_personnel_info_bg" class="all_div_bg">
 		<div class="all_div_content">
 			<ul>
@@ -134,9 +134,9 @@
 			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
 		</div>
 	</div>
-<!-- 派工信息页面部分结束 -->
+	<!-- 派工信息页面部分结束 -->
 
-<!-- 蒙版部分开始 -->
+	<!-- 蒙版部分开始 -->
 	<div class="mask_bg_public" id="plan_personnel_mask_bg">
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
@@ -145,38 +145,16 @@
 			</ul>
 		</div>
 	</div>
-<!-- 蒙版部分结束 -->
+	<!-- 蒙版部分结束 -->
 </div>
-	<script src="../../Public/frontEnd/js/jquery.min.js"></script>
-	<script src="../../Public/frontEnd/AmazeUI/assets/js/amazeui.min.js"></script>
-	<script src="../../Public/frontEnd/js/public.js"></script>
-	<script src="../../Public/frontEnd/js/vue.min.js"></script>
-	<script src="../../Public/frontEnd/js/vendors/Wait_task.js"></script>
-	<!-- <script src="../../Public/frontEnd/js/laydate.js"></script> -->
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
+	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script>
 
 	</script>
 </body>
 </html>
-<!-- 待办任务 -->
-<!-- .wait_task_bg{
-	display:none;
-} -->
-<!-- 待安装 -->
-<!-- .wait_install_bg{
-	display:none;
-} -->
-
-
-<!-- <ul>
-	<li @click="a()"></li>
-	<li></li>
-	<li></li>
-	<li></li>
-</ul>
-
-methods:{
-	a:function(){
-		我点击某个li，就获取哪个li的元素标签
-	}
-} -->
