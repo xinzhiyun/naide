@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<title>首页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no minimal-ui">
-	<link rel="stylesheet" href="amazeui/css/amazeui.min.css">
-	<link rel="stylesheet" type="text/css" href="iconfont/iconfont.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/common.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/home.css">
-	<script src="javascripts/vue.min.js"></script>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/css/amazeui.min.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/home.css">
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 </head>
 <body><!--设备状态数据-->
 	<div class="content" id='home'>
@@ -253,16 +253,16 @@
 		</div>
 	</div>
 
-	<script src="javascripts/jquery.min.js"></script>
-	<script src="amazeui/js/amazeui.min.js"></script>
-	<script src="javascripts/public.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script>
 		// 显示loading
 		var loaddiv = document.getElementsByClassName('loadingdiv');
 		fadeFn({elem: loaddiv[0]});
 	</script>
-	<script src="javascripts/home.js"></script>
-	<script src="javascripts/websocket.js"></script>
+	<script src="__PUBLIC__/Home/js/home.js"></script>
+	<script src="__PUBLIC__/Home/js/websocket.js"></script>
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','');
