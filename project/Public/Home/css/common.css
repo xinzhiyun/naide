@@ -30,7 +30,6 @@ body {
 	min-height: 500px;
 	font-size: .7rem;
 	background: #edeef2;
-	transform: translate3d(0,0,0);
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
@@ -38,11 +37,11 @@ body {
 /* 导航栏--开始 */
 #navbar {
 	width: 100vw;
-	height: 7vh;
+	height: 12vmin;
 	display: block;
 	position: relative;
 	top: 0;
-	line-height: 7vh;
+	line-height: 12vmin;
 	border-bottom: 1px solid #eee;
     color: #000;
     background: #fff;
@@ -50,12 +49,20 @@ body {
     z-index: 999;
 }
 
+#navbar::after {
+	content: '';
+	display: block;
+	visibility: hidden;
+	clear: both;
+	zoom: 1;
+}
 #navbar>h2,
+#navbar>a,
 #navbar>span {
 	height: 100%;
 	display: inline-block;
 	position: relative;
-	top: 0;
+	top: -1px;
 	text-align: center;
 	float: left;
 }
@@ -63,45 +70,79 @@ body {
 	width: 50%;
 	margin: 0;
 	font-weight: 400;
+	font-size: .8rem;
 }
-#navbar>span {
+#navbar>span,
+#navbar>a {
 	width: 25%;
+	color: #000;
 }
-#navbar>span:nth-of-type(1){
+#navbar>span{
 	font-size: 1.2rem;
+}
+body .nav-move {
+	position: fixed !important;
+	-webkit-animation: navmove .3s linear forwards;
+	        animation: navmove .3s linear forwards;
+}
+@-webkit-keyframes navmove {
+	from {
+		-webkit-transform: translateY(-100%);
+		        transform: translateY(-100%);
+	}
+	to {
+		-webkit-transform: translateY(0);
+		        transform: translateY(0);
+	}
+}
+@keyframes navmove {
+	from {
+		-webkit-transform: translateY(-100%);
+		        transform: translateY(-100%);
+	}
+	to {
+		-webkit-transform: translateY(0);
+		        transform: translateY(0);
+	}
 }
 /* 导航栏--结束 */
 
 /* 去除amazeui样式--开始 */
-label {
-	margin-bottom: 0;
+.am-datepicker tr.am-datepicker-header {font-size: .7rem;
 }
+.am-datepicker td {font-size: .7rem;}
+label {margin-bottom: 0;}
 
-[class*=am-u-] {
-	padding: 0;
-}
+[class*=am-u-] {padding: 0;}
 
-ul, ol, li {
-	padding: 0;
-	list-style: none;
-}
-p {
-	margin: 0;
-}
+ul, ol, li {margin: 0;padding: 0;list-style: none;}
+p {margin: 0;}
 /* 去除amazeui样式--结束 */
 
-/*不换行*/
-.nowrap {
-	white-space: nowrap;
+/* 一些自定义方法类 -- 开始 */
+/*文字对齐*/
+.tcenter {
+	text-align: center;
 }
+.tleft {
+	text-align: left;
+}
+.tright {
+	text-align: right;
+}
+/*左浮动*/
+.fleft {float: left;}
+/*右浮动*/
+.fright {float: right;}
+
+/*清除浮动*/
+.cfix::after {content: '';display: block;visibility: hidden;clear: both;zoom: 1;}
+
+/*不换行*/
+.nowrap {white-space: nowrap;}
+/* 一些自定义方法类 -- 结束 */
 
 /*蓝色字体*/
-.fblue {
-	color: #0d94f3;
-}
-
+.fblue {color: #0d94f3;}
 /*蓝色背景*/
-.bgblue {
-	color: #fff;
-	background: #0d94f3;
-}
+.bgblue {color: #fff;background: #0d94f3;}
