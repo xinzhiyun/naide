@@ -1,0 +1,76 @@
+@rem:46.875rem;
+.main {
+    padding: 0 30/@rem;
+    .userInfos, .deviceInfo {
+        border-top: 1px solid #EDEEF2;
+        p {
+            font-size: 28/@rem;
+            color: #4398f0;
+            margin: 30/@rem 0 5/@rem;
+        }
+        ul {
+            background: white;
+            padding: 0 30/@rem;
+            li {
+                display: flex;
+                padding: 20/@rem 0;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #E0E0E0;
+                span:nth-child(1) {
+                    font-size: 32/@rem;
+                    color: #545454;
+                    flex:1;
+                    text-align: left;
+                }
+                span:nth-child(2) {
+                    flex: 2;
+                    font-size: 28/@rem;
+                    color: #b3b3b3;
+                    text-align: right;
+                }
+            }
+            .userAddr {
+                border-bottom: none;
+            }
+        }
+    }
+    .deviceInfo {
+        .serviceStatus {
+            background: white;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20/@rem 0 30/@rem;
+            .serviceTitle {
+                padding: 0 30/@rem;
+            }
+            ul {
+                
+                margin:0;
+                li {
+                    display: flex;
+                    padding: 0;
+                    flex-direction: column;
+                    border: none;
+                    margin: 0;
+                    #container1, #container2, #container3, #container4, #container5,
+                    #container6, #container7, #container8, #container9, #container10 {
+                        width: 100/@rem;
+                        height: 100/@rem;
+                        position: relative;
+                    }
+                    span:nth-child(2) {
+                        text-align: center;
+                        font-size: 32/@rem;
+                        color: #545454;
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    
+}

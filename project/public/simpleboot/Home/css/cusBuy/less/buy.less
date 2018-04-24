@@ -1,0 +1,145 @@
+@rem:46.875rem;
+body {
+	background-color: white !important;
+	.main {
+		background-color: white;
+	}
+	.mainContent {
+		padding: 30/@rem;
+		h1 {
+			font-size: 36/@rem;
+			margin: 0;
+		}
+		ul {
+			li {
+				text-align:center;
+				margin: 30/@rem 0 0 0;
+				padding: 0 10/@rem;
+				border: none;
+				p {
+					margin: 0;
+					padding: 15/@rem 0;
+					background-color: rgb(245,245,250);
+					border-radius: 2px;
+				}
+			}
+			li:first-child {
+				p {
+					background-color: rgb(0, 144, 255);
+					color: white;
+				}
+				
+			}
+		}
+		.quikBuy {
+			width: 90%;
+			height: 80/@rem;
+			text-align:center;
+			line-height: 80/@rem;
+			font-size: 36/@rem;
+			color:white;
+			background-color: rgb(0, 144, 255);
+			border-radius: 2px;
+			margin:300/@rem auto 0;
+		}
+	}
+	.am-thumbnails {
+		margin: 0;
+	} 
+	/*弹框*/
+	.payKuan {
+		height: 100%;
+		width: 100%;
+		background-color: rgba(0, 0, 0, .2);
+		position:fixed;
+		top: 0;
+		left: 0;
+		.kuanBan {
+			height: 50%;
+			width: 100%;
+			background-color: white;
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			p {
+				height: 100/@rem;
+				margin: 0;
+				padding: 0 30/@rem;
+				position: relative;
+				display: flex;
+				justify-content:center;
+				align-items: center;
+				border-bottom: 1px solid rgb(228,228,228);
+				span:first-child {
+					position: absolute;
+					top:12/@rem;
+					left: 30/@rem;
+					font-size: 53/@rem;
+				}
+				span:last-child {
+					font-size: 40/@rem;
+					font-weight: bolder;
+				}
+			}
+			ul {
+				height: 90%;
+				overflowY: auto;
+				padding: 0 30/@rem;
+				display: flex;
+				flex-direction: column;
+				li:first-child {
+					flex: 1;
+					font-size:70/@rem;
+					text-align:center;
+					color: rgb(247,49,82);
+				}
+				li:nth-child(2) {
+					flex: 1;
+					font-size:40/@rem;
+					color: rgb(55, 55, 55);
+					display:flex;
+					align-items:center;
+				}
+				li:nth-child(3) {
+					flex: 1;
+					font-size:35/@rem;
+					color: rgb(61, 61, 61);
+					display: flex;
+					justify-content: space-between;
+					span:first-child {
+						i {
+							font-style: normal;
+							font-size: 70/@rem;
+							color: rgb(20,158,35);
+							margin-right: 5/@rem;
+						}
+						display: flex;
+						align-items: center;
+					}
+					span:last-child {
+						font-size: 80/@rem;
+						color: rgb(0, 144, 255);
+						display: flex;
+						align-items: center;
+					}
+				}
+				li:nth-child(4) {
+					flex: 3;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					p {
+						width: 90%;
+						height: 80/@rem;
+						line-height: 80/@rem;
+						text-align: center;
+						font-size: 40/@rem;
+						background-color: rgb(0, 144, 255);
+						color: white;
+						border-radius: 2px;
+					}
+				}
+			}
+		}
+	}
+}

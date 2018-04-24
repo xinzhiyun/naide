@@ -1,0 +1,61 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\000032}}
+.main {
+  padding: 0.42666667rem 0.64rem 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\000035}}
+.main form .installAdd {
+  background: white;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\000037}}
+.main form .installAdd p:nth-child(1) {
+  padding: 0 1.28rem 0 0.64rem;
+  height: 1.92rem;
+  line-height: 1.92rem;
+  color: #F96375;
+  font-size: 0.768rem;
+  background: #FAFAFA;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000315}}
+.main form .installAdd ul {
+  padding: 0 1.28rem 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000317}}
+.main form .installAdd ul li {
+  display: flex;
+  height: 1.87733333rem;
+  font-szie: 0.68266667rem;
+  color: #545454;
+  line-height: 1.87733333rem;
+  justify-content: space-between;
+  border-top: 1px solid #EFEFEF;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000325}}
+.main form .installAdd ul li label {
+  flex: 1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000328}}
+.main form .installAdd ul li input {
+  flex: 2;
+  outline-style: none;
+  border: none;
+  text-align: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000335}}
+.main form .installAdd ul li:nth-child(1) {
+  border-top: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000340}}
+.main form .save {
+  margin-top: 3.2rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000342}}
+.main form .save input[type='submit'] {
+  height: 1.92rem;
+  background-color: #0D94F3;
+  font-size: 0.72533333rem;
+  border: none;
+  color: white;
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>设备管理</title>
+	<link rel="stylesheet" href="../../Public/frontEnd/AmazeUI/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="../../Public/frontEnd/css/common.css">
+	<link rel="stylesheet" href="../../Public/frontEnd/iconfont/iconfont.css">
+	<link rel="stylesheet" href="../../Public/frontEnd/css/device_administrate/css/device_administrate.css">
+</head>
+<body>
+	<div class="device_administrate_bg" id="device_administrate_vue">
+		<div>所有设备</div>
+		<div>
+			<ul>
+				<li v-for="(device_number,index_number) in all_device_number" @click="tick()">
+					<div></div>
+					<div>
+						<span>设备号：{{device_number.device_number}}</span>
+						<p :class="tick_i"></p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="device_administrate_bottom">
+			<i class="iconfont icon-add"></i>
+			<span>添加设备</span>
+		</div>
+	</div>
+	<script src="../../Public/frontEnd/js/jquery.min.js"></script>
+	<script src="../../Public/frontEnd/AmazeUI/assets/js/amazeui.min.js"></script>
+	<script src="../../Public/frontEnd/js/echarts.simple.min.js"></script>
+	<script src="../../Public/frontEnd/js/public.js"></script>
+	<script src="../../Public/frontEnd/js/vue.min.js"></script>
+	<!-- <script src="../../Public/frontEnd/js/Order/order.js"></script> -->
+	<script src="../../Public/frontEnd/js/device_administrate/device_administrate.js"></script>
+	<script>
+
+	</script>
+</body>
+</html>
+<!-- &#&#xe687;; -->

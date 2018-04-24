@@ -1,0 +1,157 @@
+body {
+  background-color: #f7f7f7;
+}
+body .main .mainContent {
+  display: flex;
+  flex-direction: column;
+}
+body .main .mainContent .goods {
+  padding: 0.53333333rem;
+  background-color: white;
+}
+body .main .mainContent .goods p {
+  height: 5.12rem;
+  margin: 0;
+}
+body .main .mainContent .goods p img {
+  width: 100%;
+  height: 100%;
+}
+body .main .mainContent .goods ul {
+  padding-left: 0.42666667rem;
+  font-size: 0.64rem;
+  height: 100%;
+}
+body .main .mainContent .goods ul li:nth-child(2) {
+  font-size: 0.59733333rem;
+  color: #999999;
+  margin: 0.21333333rem 0 1.28rem 0;
+}
+body .main .mainContent .goods ul li:nth-child(3) {
+  font-size: .7rem;
+}
+body .main .mainContent .goods ul li:nth-child(3) span:first-child {
+  color: #f25555;
+  margin-right: 0.96rem;
+}
+body .main .mainContent .goodsAddress {
+  margin-top: 0.42666667rem;
+  padding: 0.64rem;
+  background-color: white;
+}
+body .main .mainContent .goodsAddress div:first-child {
+  display: flex;
+  align-items: center;
+}
+body .main .mainContent .goodsAddress div:first-child span {
+  font-size: 1.70666667rem;
+  color: #0090ff;
+}
+body .main .mainContent .goodsAddress ul li:first-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.21333333rem;
+}
+body .main .mainContent .goodsAddress ul li:first-child span i {
+  font-style: normal;
+}
+body .main .mainContent .payBtn p {
+  width: 12.8rem;
+  height: 1.70666667rem;
+  line-height: 1.70666667rem;
+  text-align: center;
+  color: white;
+  border-radius: 3px;
+  margin: 4.26666667rem auto;
+  background-color: #0090ff;
+}
+body .main .payKuan {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+body .main .payKuan ul {
+  position: absolute;
+  bottom: 0;
+  height: 55%;
+  width: 100%;
+  margin: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.64rem;
+  color: #4d4d4d;
+}
+body .main .payKuan ul li {
+  flex: 1;
+  display: flex;
+}
+body .main .payKuan ul li p {
+  margin: 0;
+  padding: 0;
+}
+body .main .payKuan ul li:nth-child(1) {
+  justify-content: center;
+  align-items: center;
+}
+body .main .payKuan ul li:nth-child(1) span {
+  font-size: 0.72533333rem;
+  color: #f43030;
+}
+body .main .payKuan ul li:nth-child(2) {
+  align-items: center;
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+}
+body .main .payKuan ul li:last-child {
+  flex: 4;
+  padding: 0.64rem 0.64rem 0.93866667rem 0.64rem;
+  display: flex;
+  flex-direction: column;
+}
+body .main .payKuan ul li:last-child div {
+  display: flex;
+  flex-direction: row;
+}
+body .main .payKuan ul li:last-child div .quanquan {
+  font-size: 1.49333333rem;
+  margin-right: 0.85333333rem;
+  color: #0090ff;
+}
+body .main .payKuan ul li:last-child div p {
+  white-space: nowrap;
+}
+body .main .payKuan ul li:last-child div p span {
+  font-size: 1.49333333rem;
+  vertical-align: middle;
+  margin-right: 0.32rem;
+}
+body .main .payKuan ul li:last-child div .ylpic {
+  position: relative;
+  padding-left: 1.81333333rem;
+  display: flex;
+  align-items: center;
+}
+body .main .payKuan ul li:last-child div .ylpic img {
+  position: absolute;
+  top: 0.576rem;
+  left: 0;
+  width: 1.38666667rem;
+  height: 1.17333333rem;
+}
+body .main .payKuan ul li:last-child .payConfirm {
+  margin-top: 0.42666667rem;
+  display: flex;
+  justify-content: center;
+}
+body .main .payKuan ul li:last-child .payConfirm p {
+  width: 12.8rem;
+  height: 1.70666667rem;
+  background-color: #0090ff;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 1.70666667rem;
+  color: white;
+}

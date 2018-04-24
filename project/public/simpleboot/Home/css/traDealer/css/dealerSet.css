@@ -1,0 +1,58 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\000035}}
+.main form ul li {
+  height: 5.97333333rem;
+  background: white;
+  margin-top: 0.42666667rem;
+  padding: 0 2.13333333rem 0 0.64rem;
+  display: flex;
+  align-itmes: center;
+  justify-content: center;
+  flex-direction: column;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000314}}
+.main form ul li p:nth-child(1) {
+  font-size: 0.768rem;
+  color: #545454;
+  padding-left: 0.42666667rem;
+  margin-bottom: 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000320}}
+.main form ul li p:nth-child(2) {
+  font-size: 0.59733333rem;
+  display: flex;
+  color: #808080;
+  border-bottom: 1px solid #EEEEEE;
+  padding-bottom: 0.21333333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000326}}
+.main form ul li p:nth-child(2) input {
+  outline: none;
+  padding-left: 0.10666667rem;
+  border: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000334}}
+.main form ul li:nth-child(1) p:nth-child(1) {
+  border-left: 5px solid #51cee4;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000339}}
+.main form ul li:nth-child(2) p:nth-child(1) {
+  border-left: 5px solid #42d5b8;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000344}}
+.main form ul li:nth-child(3) p:nth-child(1) {
+  border-left: 5px solid #ad6bd0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealerSet\.less}line{font-family:\0000350}}
+.main form div input {
+  display: block;
+  width: 90%;
+  height: 2.13333333rem;
+  background-color: #0D94F3;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 2.13333333rem;
+  margin: 2.13333333rem auto 0;
+  border: none;
+  font-size: 0.74666667rem;
+  color: white;
+}
