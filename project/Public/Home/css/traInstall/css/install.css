@@ -1,0 +1,82 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\000033}}
+.main form {
+  padding: 0.42666667rem 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\000035}}
+.main form div {
+  display: flex;
+  background: white;
+  border-radius: 6px;
+  padding: 0.21333333rem 0.42666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000310}}
+.main form div span {
+  font-size: 0.96rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000313}}
+.main form div input[type='search'] {
+  outline: none;
+  border: none;
+  width: 85%;
+  margin-left: 0.42666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000319}}
+.main form div input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000324}}
+.main .userInfo {
+  background: white;
+  height: 83vh;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000327}}
+.main .userInfo .userLi {
+  height: 1.92rem;
+  line-height: 1.92rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000331}}
+.main .userInfo .userLi a {
+  display: block;
+  color: #545454;
+  font-size: 0.59733333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000335}}
+.main .userInfo .userLi a ol {
+  margin: 0;
+  padding: 0 0.42666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000338}}
+.main .userInfo .userLi a ol li {
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000341}}
+.main .userInfo .userLi a ol .nextIcon {
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000343}}
+.main .userInfo .userLi a ol .nextIcon span:nth-child(2) {
+  color: #b3b3b3;
+  position: absolute;
+  right: .2rem;
+  top: .05rem;
+  font-size: 0.74666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000355}}
+.main .userInfo .userLi:nth-child(1) {
+  height: 1.92rem;
+  font-size: 0.59733333rem;
+  line-height: 1.92rem;
+  border-bottom: 1px solid #F3F4F6;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000360}}
+.main .userInfo .userLi:nth-child(1) ol {
+  margin: 0;
+  padding: 0 0.42666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/install\.less}line{font-family:\0000363}}
+.main .userInfo .userLi:nth-child(1) ol li {
+  color: #4398f0;
+  font-size: 0.68266667rem;
+  text-align: center;
+}

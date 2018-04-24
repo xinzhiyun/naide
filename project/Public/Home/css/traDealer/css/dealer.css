@@ -1,0 +1,142 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\000032}}
+img {
+  width: 100%;
+  height: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\000036}}
+body {
+  background-color: #EDEEF2;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\000038}}
+body .main {
+  color: #545454;
+  font-size: 0.59733333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000311}}
+body .main .serviceTop {
+  height: 4.26666667rem;
+  background-color: white;
+  padding: 0.64rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000318}}
+body .main .serviceTop div:nth-child(1) {
+  width: 2.64533333rem;
+  height: 2.64533333rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000324}}
+body .main .serviceTop div:nth-child(2) {
+  margin-left: -2.13333333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000326}}
+body .main .serviceTop div:nth-child(2) p:nth-child(1) {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.10666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000331}}
+body .main .serviceTop div:nth-child(2) p:nth-child(1) span:nth-child(1) i {
+  font-style: normal;
+  margin: 0 0.42666667rem 0 0.21333333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000336}}
+body .main .serviceTop div:nth-child(2) p:nth-child(1) span:nth-child(2) {
+  width: 0.85333333rem;
+  height: 0.72533333rem;
+  background: url('../../../../images/hylvse.png') no-repeat;
+  background-size: 100% 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000345}}
+body .main .serviceTop div:nth-child(3) a {
+  width: 3.456rem;
+  height: 1.536rem;
+  display: block;
+  background: #4398F0;
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 1.536rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000357}}
+body .main .serviceCenter {
+  background-color: white;
+  margin: 0.21333333rem 0 0.42666667rem 0;
+  display: flex;
+  padding: 0.53333333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000362}}
+body .main .serviceCenter div {
+  flex: 1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000364}}
+body .main .serviceCenter div p {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000369}}
+body .main .serviceCenter div p span:nth-child(2) {
+  font-size: 0.81066667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000373}}
+body .main .serviceCenter div p:nth-child(1) {
+  margin-bottom: 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000377}}
+body .main .serviceCenter div:nth-child(1) {
+  border-right: 1px solid #F0F0F0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000380}}
+body .main .serviceCenter div:nth-child(1) p span:nth-child(2) {
+  color: #4398f0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000387}}
+body .main .serviceCenter div:nth-child(2) p:nth-child(1) span:nth-child(2) {
+  color: #1ED59C;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000392}}
+body .main .serviceCenter div:nth-child(2) p:nth-child(2) span:nth-child(2) {
+  color: #F43737;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\0000398}}
+body .main .serviceBottom {
+  background: white;
+  padding-bottom: 0.85333333rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003101}}
+body .main .serviceBottom ul:nth-child(1) {
+  height: 1.70666667rem;
+  line-height: 1.70666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003104}}
+body .main .serviceBottom ul:nth-child(1) li {
+  color: #4398f0;
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003111}}
+body .main .serviceBottom ul:nth-child(2) .moneyInfo {
+  border-top: 1px solid #F2F3F6;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003113}}
+body .main .serviceBottom ul:nth-child(2) .moneyInfo ol {
+  display: flex;
+  align-items: center;
+  padding: 0.21333333rem 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003117}}
+body .main .serviceBottom ul:nth-child(2) .moneyInfo ol li {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/dealer\/less\/dealer\.less}line{font-family:\00003123}}
+body .main .serviceBottom ul:nth-child(2) .moneyInfo ol li span:nth-child(1) {
+  font-size: 0.768rem;
+}

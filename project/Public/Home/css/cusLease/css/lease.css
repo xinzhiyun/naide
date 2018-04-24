@@ -1,0 +1,134 @@
+body {
+  font-size: .7rem;
+}
+.main {
+  height: 100%;
+}
+.main .monikuan {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main .monikuan .buyProtocal {
+  width: 11.136rem;
+  margin-top: -2.13333333rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.main .monikuan .buyProtocal h1 {
+  height: 1.792rem;
+  line-height: 1.792rem;
+  font-size: 0.72533333rem;
+  color: #000000;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  font-weight: bolder;
+}
+.main .monikuan .buyProtocal .protocalContent {
+  padding: 1.408rem 0.896rem 1.57866667rem;
+  font-size: 0.512rem;
+  color: #18191a;
+  flex: 2;
+  text-indent: 2em;
+  letter-spacing: 0.064rem;
+  font-weight: bolder;
+}
+.main .monikuan .buyProtocal .behavior {
+  height: 2.13333333rem;
+  border-top: 1px solid #e5e5e5;
+  font-size: 0.72533333rem;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  line-height: 2.13333333rem;
+}
+.main .monikuan .buyProtocal .behavior p:first-child {
+  border-right: 1px solid #e5e5e5;
+  flex: 1;
+  color: #999999;
+}
+.main .monikuan .buyProtocal .behavior p:last-child {
+  flex: 1;
+  color: #0090ff;
+}
+.main .mainContent {
+  height: 100%;
+  background-color: white;
+}
+.main .mainContent .aboutMeal {
+  height: 50%;
+  background-color: #B8D7EB;
+}
+.main .mainContent .selectMeal {
+  height: 45%;
+  display: flex;
+  flex-direction: column;
+}
+.main .mainContent .selectMeal li {
+  flex: 1;
+}
+.main .mainContent .selectMeal li:nth-child(1) {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #0090ff;
+  font-size: 0.74666667rem;
+}
+.main .mainContent .selectMeal li:nth-child(1) span {
+  font-size: 0.96rem;
+  behaviormargin-right: 0.21333333rem;
+}
+.main .mainContent .selectMeal li:nth-child(2) {
+  flex: 2;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.main .mainContent .selectMeal li:nth-child(2) div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.main .mainContent .selectMeal li:nth-child(2) div p {
+  width: 5.97333333rem;
+  height: 1.70666667rem;
+  background-color: #f5f5fa;
+  text-align: center;
+  line-height: 1.70666667rem;
+  border-radius: 2px;
+}
+.main .mainContent .selectMeal li:nth-child(2) div:first-child {
+  margin-right: 1.06666667rem;
+}
+.main .mainContent .selectMeal li:nth-child(2) div:first-child p:first-child {
+  margin-bottom: 0.64rem;
+}
+.main .mainContent .selectMeal li:nth-child(2) div:last-child p:first-child {
+  margin-bottom: 0.64rem;
+}
+.main .mainContent .selectMeal li:nth-child(3) {
+  padding: 0 1.28rem;
+  display: flex;
+  align-items: center;
+}
+.main .mainContent .selectMeal li:nth-child(3) p {
+  height: 2.13333333rem;
+  width: 100%;
+  background-color: #0090ff;
+  text-align: center;
+  line-height: 2.13333333rem;
+  color: white;
+  border-radius: 3px;
+}

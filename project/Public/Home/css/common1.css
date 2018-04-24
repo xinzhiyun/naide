@@ -1,0 +1,122 @@
+﻿/**
+ * 这是公共css,
+ * amazeui中已有重置样式，不需要reset.css或normalize.css
+*/
+@charset "utf-8";
+ul, li, dl, dt, dd, form, h1, h2, h3, h4, p, input, form {
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	-webkit-appearance: none; 
+}
+
+/*placeholder颜色*/
+input::-webkit-input-placeholder{
+    color: rgba(128,128,128);
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color: rgba(128,128,128);
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color: rgba(128,128,128);
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+    color: rgba(128,128,128);
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	min-height: 500px;
+	font-size: .7rem;
+	background: #edeef2;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	margin: 0;
+}
+
+/* 导航栏--开始 */
+#navbar {
+	width: 100vw;
+	height: 7vh;
+	display: block;
+	position: relative;
+	top: 0;
+	line-height: 7vh;
+	border-bottom: 1px solid #eee;
+    color: #000;
+    background: #fff;
+    transition: .2s linear;
+    z-index: 999;
+}
+
+#navbar>h2,
+#navbar>span {
+	height: 100%;
+	display: inline-block;
+	position: relative;
+	top: 0;
+	text-align: center;
+	float: left;
+}
+#navbar>h2 {
+	width: 50%;
+	margin: 0;
+	font-weight: 400;
+}
+#navbar>span {
+	width: 25%;
+}
+#navbar>span:nth-of-type(1){
+	font-size: 1.2rem;
+}
+/* 导航栏--结束 */
+
+/* 去除amazeui样式--开始 */
+label {
+	margin-bottom: 0;
+}
+
+[class*=am-u-] {
+	padding: 0;
+}
+
+ul, ol, li {
+	padding: 0;
+	list-style: none;
+	margin: 0;
+}
+p {
+	margin: 0;
+}
+/* 去除amazeui样式--结束 */
+
+/*不换行*/
+.nowrap {
+	white-space: nowrap;
+}
+
+/*蓝色字体*/
+.fblue {
+	color: #0d94f3;
+}
+
+/*蓝色背景*/
+.bgblue {
+	color: #fff;
+	background: #0d94f3;
+}
+
+/*图片*/
+img {
+	width: 100%;
+	height: 100%;
+}
+
+/*清除浮动*/
+.clearfix:after {
+	content: "";
+	height: 0;
+	display: block;
+	clear: both;
+}

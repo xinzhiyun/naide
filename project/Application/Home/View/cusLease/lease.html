@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>租赁水机</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<link rel="stylesheet" href="../../Public/iconfont/iconfont.css">
+	<link rel="stylesheet" href="../../Public/css/common.css">
+	<link rel="stylesheet" href="../../Public/css/lease/css/lease.css">
+</head>
+<body>
+	<div class="main" v-cloak>
+		<!-- 主题内容 -->
+		<div class="mainContent">
+			<div class="aboutMeal"></div>
+			<!-- 选择套餐 -->
+			<ul class="selectMeal">
+				<li>
+					<span class="iconfont icon-taocan"></span>
+					<p>选择套餐</p>
+				</li>
+				<li class="mealDetail">
+					<div>
+						<p>{{mealSet.one}}</p>
+						<p>{{mealSet.two}}</p>
+					</div>
+					<div>
+						<p>{{mealSet.three}}</p>
+						<p>{{mealSet.four}}</p>
+					</div>
+				</li>
+				<li><p class="confirmSelect" @click="confirmSelects">确定选择</p></li>
+			</ul>
+		</div>
+
+		<!-- 租赁协议 -->
+		<div class="monikuan">
+			<div class="buyProtocal">
+				<h1>购买协议</h1>
+				<div class="protocalContent"> 购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致</div>
+				<div class="behavior">
+					<p class="refuse">拒绝</p>
+					<p class="accept" @click="accepts">同意</p>
+				</div>
+			</div>
+		</div>
+	</div>	
+</body>
+<script src="../../Public/js/jquery.min.js"></script>
+<script src="../../Public/js/public.js"></script>
+<script src="../../Public/js/vue.min.js"></script>
+<script src="../../Public/js/lease/lease.js"></script>
+</html>

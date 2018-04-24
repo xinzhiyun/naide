@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装人员详情</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="../../../Public/iconfont/iconfont.css">
+    <link rel="stylesheet" href="../../../Public/AmazeUI/assets/css/amazeui.css">
+    <link rel="stylesheet" href="../../../Public/css/trader/install/css/installEdit.css">
+    <link rel="stylesheet" href="../../../Public/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <form action="" method="post" id="form1">
+            <div class="installAdd">
+                <p>新的安装人员：</p>
+                <ul>
+                    <li>
+                        <label for="">姓名：</label>
+                        <input type="text" placeholder="请输入姓名" name="userName" :value="userInfo.username">
+                    </li>
+                    <li>
+                        <label for="">手机号码：</label>
+                        <input type="text" placeholder="请输入手机号码" name="userPhone" :value="userInfo.telphone">
+                    </li>
+                    <li>
+                        <label for="">登录密码：</label>
+                        <input type="text" placeholder="请输入登录密码" name="userPass" :value="userInfo.password">
+                    </li>
+                    <li>
+                        <label for="">住址：</label>
+                        <input type="text" name="userAddr" :value="userInfo.address">
+                    </li>
+                </ul>
+            </div>
+            <div class="save">
+                <input type="submit" value="保存修改">
+            </div>
+        </form>
+    </div>
+</body>
+<script src="../../../Public/js/jquery.min.js"></script>
+<script src="../../../Public/js/public.js"></script>
+<script src="../../../Public/js/vue.min.js"></script>
+<script src="../../../Public/js/trade/install/installEdit.js"></script>
+</html>

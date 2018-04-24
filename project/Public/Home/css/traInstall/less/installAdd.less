@@ -1,0 +1,56 @@
+@rem:46.875rem;
+.main {
+    padding: 20/@rem 30/@rem 0 30/@rem;
+    form {
+        .installAdd {
+            background: white;
+            p:nth-child(1) {
+                padding: 0 60/@rem 0 30/@rem;
+                height: 90/@rem;
+                line-height: 90/@rem;
+                color: #F96375;
+                font-size: 36/@rem;
+                background: #FAFAFA;
+            }
+            ul {
+                padding: 0 60/@rem 0 30/@rem;
+                li {
+                    display: flex;
+                    height: 88/@rem;
+                    font-szie: 32/@rem;
+                    color: #545454;
+                    line-height: 88/@rem;
+                    justify-content: space-between;
+                    border-top: 1px solid #EFEFEF;
+                    label {
+                        flex: 1;
+                    }
+                    input {
+                        flex: 2;
+                        outline-style: none;
+                        border: none;
+                        text-align: right;
+                    }
+                }
+                li:nth-child(1) {
+                    border-top: none;
+                }
+            }
+        }
+        .save {
+            margin-top: 150/@rem;
+            input[type='submit'] {
+                height: 90/@rem;
+                width: 100%;
+                background-color: #0D94F3;
+                font-size: 34/@rem;
+                border:none;
+                color: white;
+                width: 100%;
+                border-radius: 4px;
+                outline: none;
+            }
+        }
+    }
+
+}

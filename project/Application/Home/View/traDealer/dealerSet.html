@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营销设置</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="../../../Public/iconfont/iconfont.css">
+    <link rel="stylesheet" href="../../../Public/AmazeUI/assets/css/amazeui.css">
+    <link rel="stylesheet" href="../../../Public/css/trader/dealer/css/dealerSet.css">
+    <link rel="stylesheet" href="../../../Public/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <form method="post" id="form1" action="">
+            <ul>
+                <!-- 初装费金额 -->
+                <li>
+                    <p>初装费金额: <span>{{split("2000")}}</span>元</p>
+                    <p>
+                        <label>初装费金额：</label>
+                        <input type="text" name="czfei" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+                <!-- 年服务费金额 -->
+                <li>
+                    <p>年服务费金额: <span>{{split("12000")}}</span>元</p>
+                    <p>
+                        <label>年服务费金额：</label>
+                        <input type="text" name="nfwu" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+                <!-- 分享佣金金额 -->
+                <li>
+                    <p>分享佣金金额: <span>{{split("600")}}</span>元</p>
+                    <p>
+                        <label>分享佣金金额：</label>
+                        <input type="text" name="fxyjin" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+            </ul>
+            <!-- 提交 -->
+            <div>
+                <input type="submit" value="提交">
+            </div>
+        </form>
+    </div>
+</body>
+<script src="../../../Public/js/jquery.min.js"></script>
+<script src="../../../Public/js/public.js"></script>
+<script src="../../../Public/js/vue.min.js"></script>
+<script src="../../../Public/js/trade/dealer/dealerSet.js"></script>
+</html>
