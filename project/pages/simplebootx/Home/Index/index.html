@@ -9,6 +9,11 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/index/index.css">
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script>
+		// 显示loading
+		var loaddiv = document.getElementsByClassName('loadingdiv');
+		fadeFn({elem: loaddiv[0]});
+	</script>
 </head>
 <body><!--设备状态数据-->
 	<div class="content" id='home'>
@@ -119,10 +124,10 @@
 					<a class="buy" href="javascript:;"><p class="iconfont icon-buy"></p><span>购买</span></a>
 				</li>
 				<li>
-					<a href="javascript:;"><p class="iconfont icon-user"></p><span>我的</span></a>
+					<a href="{{:U('Home/Users/mine')}}"><p class="iconfont icon-user"></p><span>我的</span></a>
 				</li>
 				<li>
-					<a class="repair" href="javascript:;"><p class="iconfont icon-repair"></p><span>报修</span></a>
+					<a class="repair" href="{{:U('Home/Repair/index')}}"><p class="iconfont icon-repair"></p><span>报修</span></a>
 				</li>
 			</ul>
 		</div>
@@ -256,11 +261,6 @@
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script>
-		// 显示loading
-		var loaddiv = document.getElementsByClassName('loadingdiv');
-		fadeFn({elem: loaddiv[0]});
-	</script>
 	<script src="__PUBLIC__/Home/js/index/index.js"></script>
 	<script src="__PUBLIC__/Home/js/websocket.js"></script>
 	<script>
