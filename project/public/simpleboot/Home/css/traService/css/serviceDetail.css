@@ -1,0 +1,98 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\000032}}
+.main {
+  padding: 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\000034}}
+.main .userInfos,
+.main .deviceInfo {
+  border-top: 1px solid #EDEEF2;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\000036}}
+.main .userInfos p,
+.main .deviceInfo p {
+  font-size: 0.59733333rem;
+  color: #4398f0;
+  margin: 0.64rem 0 0.10666667rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000311}}
+.main .userInfos ul,
+.main .deviceInfo ul {
+  background: white;
+  padding: 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000314}}
+.main .userInfos ul li,
+.main .deviceInfo ul li {
+  display: flex;
+  padding: 0.42666667rem 0;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #E0E0E0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000320}}
+.main .userInfos ul li span:nth-child(1),
+.main .deviceInfo ul li span:nth-child(1) {
+  font-size: 0.68266667rem;
+  color: #545454;
+  flex: 1;
+  text-align: left;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000326}}
+.main .userInfos ul li span:nth-child(2),
+.main .deviceInfo ul li span:nth-child(2) {
+  flex: 2;
+  font-size: 0.59733333rem;
+  color: #b3b3b3;
+  text-align: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000333}}
+.main .userInfos ul .userAddr,
+.main .deviceInfo ul .userAddr {
+  border-bottom: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000339}}
+.main .deviceInfo .serviceStatus {
+  background: white;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.42666667rem 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000344}}
+.main .deviceInfo .serviceStatus .serviceTitle {
+  padding: 0 0.64rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000347}}
+.main .deviceInfo .serviceStatus ul {
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000350}}
+.main .deviceInfo .serviceStatus ul li {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  border: none;
+  margin: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000356}}
+.main .deviceInfo .serviceStatus ul li #container1,
+.main .deviceInfo .serviceStatus ul li #container2,
+.main .deviceInfo .serviceStatus ul li #container3,
+.main .deviceInfo .serviceStatus ul li #container4,
+.main .deviceInfo .serviceStatus ul li #container5,
+.main .deviceInfo .serviceStatus ul li #container6,
+.main .deviceInfo .serviceStatus ul li #container7,
+.main .deviceInfo .serviceStatus ul li #container8,
+.main .deviceInfo .serviceStatus ul li #container9,
+.main .deviceInfo .serviceStatus ul li #container10 {
+  width: 2.13333333rem;
+  height: 2.13333333rem;
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/serviceDetail\.less}line{font-family:\0000362}}
+.main .deviceInfo .serviceStatus ul li span:nth-child(2) {
+  text-align: center;
+  font-size: 0.68266667rem;
+  color: #545454;
+  display: flex;
+  justify-content: center;
+}

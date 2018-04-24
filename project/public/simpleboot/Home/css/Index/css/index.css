@@ -1,0 +1,66 @@
+body {
+  background: url("../../../images/bj.png") no-repeat;
+  background-size: 100% 100%;
+}
+.main {
+  border-top: 1px solid #F7F7FB;
+}
+.main .companyLogo {
+  width: 1.87733333rem;
+  height: 1.89866667rem;
+  margin: 4.05333333rem auto 2.13333333rem;
+  background-color: gray;
+}
+.main .userInfo {
+  width: 10.66666667rem;
+  margin: 0 auto;
+}
+.main .userInfo form p {
+  position: relative;
+  font-size: 0.64rem;
+  text-align: right;
+}
+.main .userInfo form p input[type=text],
+.main .userInfo form p input[type=password] {
+  border: none;
+  width: 100%;
+  height: 1.87733333rem;
+  line-height: 1.87733333rem;
+  border-radius: 0.93866667rem;
+  padding-left: 1.6rem;
+  box-sizing: border-box;
+}
+.main .userInfo form p input::-webkit-input-placeholder {
+  color: #999999;
+}
+.main .userInfo form p input::-moz-placeholder {
+  color: #999999;
+}
+.main .userInfo form p input:-ms-input-placeholder {
+  color: #999999;
+}
+.main .userInfo form p input:-moz-placeholder {
+  color: #999999;
+}
+.main .userInfo form p span {
+  position: absolute;
+  top: 0.42666667rem;
+  left: 0.53333333rem;
+  font-size: 0.85333333rem;
+  color: #0090ff;
+}
+.main .userInfo form p a {
+  color: #0090ff;
+}
+.main .userInfo form p:last-child {
+  margin-top: 2.13333333rem;
+}
+.main .userInfo form p:last-child button {
+  width: 100%;
+  height: 1.87733333rem;
+  background-color: #0090ff;
+  border-radius: 0.08533333rem;
+  color: white;
+  border: none;
+  font-size: 0.72533333rem;
+}
