@@ -1,5 +1,5 @@
 <?php
-namespace Home\Controller;
+namespace Com\Controller;
 use Common\Controller\HomebaseController; 
 /**
  * 首页
