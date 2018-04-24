@@ -70,11 +70,11 @@
 				<div>
 					<p class="am-u-sm-3">&nbsp;</p>
 					<!-- 产品个数 -->
-					<p class="am-u-sm-4" class="chang_1">共0件商品</p>
+					<p class="am-u-sm-4" class="chang_1">共{{totalCount_take}}{{order_take_info.order_count}}件商品</p>
 					<!-- 总价钱 -->
-					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥0</span></p>
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_take}}{{order_take_info.order_total}}</span></p>
 				</div>
-				<div><span>(含邮费：0.00)</span></div>
+				<div><span>(含邮费：<span class="express_fee_text">{{order_take_info.franking}}</span>元)</span></div>
 			</div>
 			<!-- <div class="sign_take">交易完成</div> -->
 		</div>
@@ -190,11 +190,11 @@
 				<div>
 					<p class="am-u-sm-3">&nbsp;</p>
 					<!-- 产品个数 -->
-					<p class="am-u-sm-4" class="chang_1">共0件商品</p>
+					<p class="am-u-sm-4" class="chang_1">共{{totalCount_send}}{{order_send_info.order_count}}件商品</p>
 					<!-- 总价钱 -->
-					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥0</span></p>
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_send}}{{order_send_info.order_total}}</span></p>
 				</div>
-				<div><span>(含邮费：0.00)</span></div>
+				<div><span>(含邮费：<span class="express_fee_text">{{order_send_info.franking}}</span>元)</span></div>
 			</div>
 			<div class="warn_send_btn">
 				<p id="warn_send" style="lineHeight:0.9rem;">提醒发货</p>
@@ -230,7 +230,7 @@
 	<script src="../../Public/frontEnd/js/public.js"></script>
 	<script src="../../Public/frontEnd/js/vue.min.js"></script>
 	<!-- <script src="../../Public/frontEnd/js/Order/order.js"></script> -->
-	<script src="../../Public/frontEnd/js/Order/order.js"></script>
+	<script src="../../Public/frontEnd/js/Order/ceshi.js"></script>
 	<script>
 
 	</script>

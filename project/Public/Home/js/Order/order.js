@@ -135,7 +135,8 @@ var product_pay = new Vue({
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
+						product_count:1,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
@@ -143,6 +144,7 @@ var product_pay = new Vue({
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
 						product_count:2,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 				],
 				flow_send_info:[
@@ -150,10 +152,12 @@ var product_pay = new Vue({
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
 						flow_count:2,//流量包购买件数
+						each_flow_total : ""//单品总价
 					},			{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
+						flow_count:3,//流量包购买件数
+						each_flow_total : ""//单品总价
 					}
 				],
 				order_time : "2017年10月20日",//订单时间
@@ -173,13 +177,15 @@ var product_pay = new Vue({
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
 						product_count:2,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
+						product_count:4,//产品购买件数
+						each_product_total : ""//单品总价
 					}
 					],
 				flow_send_info:[
@@ -187,10 +193,12 @@ var product_pay = new Vue({
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
 						flow_count:2,//流量包购买件数
+						each_flow_total : ""//单品总价
 					},			{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
+						flow_count:5,//流量包购买件数
+						each_flow_total : ""//单品总价
 					}
 				],
 				order_time : "2017年10月20日",//订单时间
@@ -213,6 +221,7 @@ var product_pay = new Vue({
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
 						product_count:2,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
@@ -220,6 +229,7 @@ var product_pay = new Vue({
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
 						product_count:2,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 				],
 				flow_take_info:[
@@ -227,10 +237,12 @@ var product_pay = new Vue({
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
 						flow_count:2,//流量包购买件数
+						each_flow_total : ""//单品总价
 					},			{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
 						flow_count:2,//流量包购买件数
+						each_flow_total : ""//单品总价
 					}
 				],
 				order_time : "2017年10月20日",//订单时间
@@ -249,35 +261,40 @@ var product_pay = new Vue({
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
+						product_count:3,//产品购买件数
+						each_product_total : ""//单品总价
 					},
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-					}
-					],
+						product_count:4,//产品购买件数
+						each_product_total : ""//单品总价
+					},
+				],
 				flow_take_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
+						flow_count:5,//流量包购买件数
+						each_flow_total : ""//单品总价
 					},			{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
+						flow_count:6,//流量包购买件数
+						each_flow_total : ""//单品总价
 					}
 				],
 				order_time : "2017年10月20日",//订单时间
 				order_number : "454649874649475",//订单编号
+				courier_number : "12345678",//顺丰快递单号
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
-				franking : 20.00,//邮费
+				franking : 30.00,//邮费
 				// num:""
-			}
+			},
 		],
 
 		num:"",
@@ -285,7 +302,7 @@ var product_pay = new Vue({
 
 
 	computed:{
-		// 订单总件数
+		// 订单总件数(待付款)
 		totalCount:function(){
 			for(var x = 0;x<this.all_pay.length;x++){
 				var each_product_Count = 0;//产品总件数
@@ -302,7 +319,40 @@ var product_pay = new Vue({
 				this.all_pay[x].order_count = zongjia;
 			}
 		},
-
+		// 订单总件数(待发货)
+		totalCount_send:function(){
+			for(var x = 0;x<this.all_send.length;x++){
+				var each_product_Count = 0;//产品总件数
+				for(var i = 0;i<this.all_send[x].product_send_info.length;i++){
+					each_product_Count += Number(this.all_send[x].product_send_info[i].product_count);
+					// console.log(each_product_Count);
+				}
+				var each_flow_Count = 0;//流量包总件数
+				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
+					each_flow_Count += Number(this.all_send[x].flow_send_info[i].flow_count);
+				}
+				var zongjia = 0;
+				zongjia = each_product_Count + each_flow_Count;
+				this.all_send[x].order_count = zongjia;
+			}
+		},
+		// 订单总件数(待收货)
+		totalCount_take:function(){
+			for(var x = 0;x<this.all_take.length;x++){
+				var each_product_Count = 0;//产品总件数
+				for(var i = 0;i<this.all_take[x].product_take_info.length;i++){
+					each_product_Count += Number(this.all_take[x].product_take_info[i].product_count);
+					// console.log(each_product_Count);
+				}
+				var each_flow_Count = 0;//流量包总件数
+				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
+					each_flow_Count += Number(this.all_take[x].flow_take_info[i].flow_count);
+				}
+				var zongjia = 0;
+				zongjia = each_product_Count + each_flow_Count;
+				this.all_take[x].order_count = zongjia;
+			}
+		},
 		// 总价
 		totalPrice:function(){
 			for(var x = 0;x<this.all_pay.length;x++){
@@ -311,6 +361,7 @@ var product_pay = new Vue({
 					var sum = 0;
 					each_product_total = Number(each_product_total);
 					this.all_pay[x].product_pay_info[i].each_product_total += this.all_pay[x].product_pay_info[i].product_count *  this.all_pay[x].product_pay_info[i].product_price;//产品总价钱
+					// console.log(this.all_pay[x].product_pay_info[i].each_product_total);
 				}
 
 				// console.log(this.all_pay[x].product_total);
@@ -330,6 +381,67 @@ var product_pay = new Vue({
 				// 加邮费
 				var c = this.all_pay[x].franking;
 				this.all_pay[x].order_total  += Number(c);
+			}
+		},
+		// 总价(待发货)
+		totalPrice_send:function(){
+			for(var x = 0;x<this.all_send.length;x++){
+				for(var i = 0;i<this.all_send[x].product_send_info.length;i++){
+					var each_product_total = "";//每件产品总价钱
+					var sum = 0;
+					each_product_total = Number(each_product_total);
+					this.all_send[x].product_send_info[i].each_product_total += this.all_send[x].product_send_info[i].product_count *  this.all_send[x].product_send_info[i].product_price;//产品总价钱
+				}
+
+				// console.log(this.all_pay[x].product_total);
+				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
+					var each_flow_total = "";//每件流量包总价钱
+					each_flow_total = Number(each_flow_total);
+					this.all_send[x].flow_send_info[i].each_flow_total += this.all_send[x].flow_send_info[i].flow_count * this.all_send[x].flow_send_info[i].flow_price;//流量包总价钱
+
+				}
+				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
+					var a = 0;
+					var b = 0;
+					a = this.all_send[x].product_send_info[i].each_product_total;
+					b = this.all_send[x].flow_send_info[i].each_flow_total;
+					this.all_send[x].order_total += Number(a) + Number(b);
+				}
+				// 加邮费
+				var c = this.all_send[x].franking;
+				this.all_send[x].order_total  += Number(c);
+				// console.log(this.all_send[x].order_total);
+			}
+		},
+		// 总价(待收货)
+		totalPrice_take:function(){
+			for(var x = 0;x<this.all_take.length;x++){
+				for(var i = 0;i<this.all_take[x].product_take_info.length;i++){
+					var each_product_total = "";//每件产品总价钱
+					var sum = 0;
+					each_product_total = Number(each_product_total);
+					this.all_take[x].product_take_info[i].each_product_total += this.all_take[x].product_take_info[i].product_count *  this.all_take[x].product_take_info[i].product_price;//产品总价钱
+					// console.log(this.all_take[x].product_take_info[i].each_product_total);
+				}
+
+				// console.log(this.all_take[x].product_total);
+				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
+					var each_flow_total = "";//每件流量包总价钱
+					each_flow_total = Number(each_flow_total);
+					this.all_take[x].flow_take_info[i].each_flow_total += this.all_take[x].flow_take_info[i].flow_count * this.all_take[x].flow_take_info[i].flow_price;//流量包总价钱
+					// console.log(this.all_take[x].flow_take_info[i].each_flow_total);
+				}
+				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
+					var a = 0;
+					var b = 0;
+					a = this.all_take[x].product_take_info[i].each_product_total;
+					b = this.all_take[x].flow_take_info[i].each_flow_total;
+					this.all_take[x].order_total += Number(a) + Number(b);
+					console.log(this.all_take[x].order_total);
+				}
+				// // 加邮费
+				var c = this.all_take[x].franking;
+				this.all_take[x].order_total  += Number(c);
 			}
 		},
 		// 确认支付总金额
