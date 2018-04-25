@@ -25,10 +25,11 @@ $configs= array(
         'THIRD_UDER_ACCESS'		=> false, //第三方用户是否有全部权限，没有则需绑定本地账号
         /* 标签库 */
         'TAGLIB_BUILD_IN' => THINKCMF_CORE_TAGLIBS,
-        'MODULE_ALLOW_LIST'  => array('Admin','Portal','Asset','Api','User','Wx','Comment','Qiushi','Tpl','Topic','Install','Bug','Better','Pay','Cas','Home'),
+        'MODULE_ALLOW_LIST'  => array('Admin','Portal','Asset','Api','User','Wx','Comment','Qiushi','Tpl','Topic','Install','Bug','Better','Pay','Cas','Home','Coms'),
         'TMPL_DETECT_THEME'     => false,       // 自动侦测模板主题
         'TMPL_TEMPLATE_SUFFIX'  => '.html',     // 默认模板文件后缀
-        'DEFAULT_MODULE'        =>  'Portal',  // 默认模块
+        // 'DEFAULT_MODULE'        =>  'Portal',  // 默认模块
+        'DEFAULT_MODULE'        =>  'Home',  // 默认模块
         'DEFAULT_CONTROLLER'    =>  'Index', // 默认控制器名称
         'DEFAULT_ACTION'        =>  'index', // 默认操作名称
         'DEFAULT_M_LAYER'       =>  'Model', // 默认的模型层名称
@@ -49,7 +50,7 @@ $configs= array(
         'APP_USE_NAMESPACE'     =>   true, // 关闭应用的命名空间定义
         'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', // 模块自动加载的类库后缀
         
-        'SP_TMPL_PATH'     		=> 'themes/',       // 前台模板文件根目录
+        'SP_TMPL_PATH'     		=> 'pages/',       // 前台模板文件根目录
         'SP_DEFAULT_THEME'		=> 'simplebootx',       // 前台模板文件
         'SP_TMPL_ACTION_ERROR' 	=> 'error', // 默认错误跳转对应的模板文件,注：相对于前台模板路径
         'SP_TMPL_ACTION_SUCCESS' 	=> 'success', // 默认成功跳转对应的模板文件,注：相对于前台模板路径

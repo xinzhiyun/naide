@@ -122,4 +122,15 @@ return array (
   'ADMIN_USER_ADD' => '管理员添加',
   'ADMIN_USER_DELETE' => '删除管理员',
   'ADMIN_USER_EDIT' => '管理员编辑',
+
+    'DEVICE_CODE' => "设备编码",
+    'DEVICE_TYPE' => "设备类型",
+    'DEVICE_STATU' => "设备类型",
+    'ACTIVATION_STATU' => "激活状态",
+    'DEVICE_USER' => "用户",
+    'VENDOR' =>"经销商",
+    'ADMIN_DEVICE_INDEX'=>'设备',
+    'ADMIN_DEVICE_ADD' => "设备添加",
+    'ADMIN_DEVICE_ADDS' => '批量添加设备',
+    'ADMIN_DEVICE_BIND' => '设备绑定',
 );

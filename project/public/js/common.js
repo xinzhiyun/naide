@@ -1,4 +1,6 @@
 ;(function () {
+    Wind.use('layer3');
+
     //全局ajax处理
     $.ajaxSetup({
         complete: function (jqXHR) {},
@@ -72,6 +74,7 @@
                 if(btn.data("loading")){
             		return;
             	}
+
 
                 //批量操作 判断选项
                 if (btn.data('subcheck')) {
@@ -186,14 +189,17 @@
                             },
                             success: function (data, statusText, xhr, $form) {
                                 var text = $btn.text();
-
+                                console.log(data,'123123');
+                                layuiHint(data.info);
                                 //按钮文案、状态修改
                                 $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
                                 if (data.state === 'success') {
                                     $('<span class="tips_success">' + data.info + '</span>').appendTo($btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
                                     });
                                 } else if (data.state === 'fail') {
-                                	var $verify_img=$form.find(".verify_img");
+                                    // layuiHint(data.info);
+
+                                    var $verify_img=$form.find(".verify_img");
                                 	if($verify_img.length){
                                 		$verify_img.attr("src",$verify_img.attr("src")+"&refresh="+Math.random()); 
                                 	}
@@ -217,18 +223,18 @@
                                 
                             },
                             error:function(xhr,e,statusText){
-                            	art.dialog({
-                                    id: 'warning',
-                                    icon: 'warning',
-                                    content: statusText,
-                                    cancelVal: '关闭',
-                                    cancel: function () {
-                                    	reloadPage(window);
-                                    },
-                                    ok: function () {
-                                    	reloadPage(window);
-                                    }
-                                });
+                                // art.dialog({
+                                //     id: 'warning',
+                                //     icon: 'warning',
+                                //     content: statusText,
+                                //     cancelVal: '关闭',
+                                //     cancel: function () {
+                                //     	reloadPage(window);
+                                //     },
+                                //     ok: function () {
+                                //     	reloadPage(window);
+                                //     }
+                                // });
                                 
                             },
                             complete: function(){
@@ -738,6 +744,13 @@ function artdialog_alert(msg) {
         });
     });
 
+}
+
+//layuiHint弹框提示封装
+function layuiHint(text){
+    Wind.use("layer", function () {
+        layer.msg(text,{time: 1200});
+    });
 }
 
 function open_iframe_layer(url, title, options) {

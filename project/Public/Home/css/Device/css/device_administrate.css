@@ -1,0 +1,68 @@
+body {
+  background: #fff;
+}
+.device_administrate_bg {
+  width: 100%;
+  background: #fff;
+}
+.device_administrate_bg div:nth-child(1) {
+  width: 95%;
+  margin: 0 auto;
+  height: 1.87733333rem;
+  line-height: 1.87733333rem;
+  font-size: 0.704rem;
+}
+.device_administrate_bg div:nth-child(2) {
+  width: 90%;
+  margin: 0 auto;
+}
+.device_administrate_bg div:nth-child(2) ul li {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 0.42666667rem;
+  position: relative;
+}
+.device_administrate_bg div:nth-child(2) ul li div:nth-child(1) {
+  width: 1.87733333rem;
+  height: 1.87733333rem;
+  line-height: 1.87733333rem;
+  border-radius: 50%;
+  background: #4BB8EF;
+}
+.device_administrate_bg div:nth-child(2) ul li div:nth-child(2) {
+  width: 80%;
+  height: 1.87733333rem;
+  line-height: 1.87733333rem;
+  border-bottom: 0.02133333rem solid #cccccc;
+}
+.device_administrate_bg div:nth-child(2) ul li div:nth-child(2) .tick_i {
+  position: absolute;
+  right: 0.42666667rem;
+  top: 0;
+  color: #1CBB58;
+}
+.device_administrate_bg div:nth-child(2) ul li div:nth-child(2) .tick_i i {
+  font-size: 1.06666667rem;
+}
+.device_administrate_bg .device_administrate_bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.87733333rem;
+  line-height: 1.87733333rem;
+  background: #F1F1F1;
+}
+.device_administrate_bg .device_administrate_bottom i {
+  color: #4BB8EF;
+  font-size: 1.06666667rem;
+  margin: 0 0.74666667rem;
+}
+.device_administrate_bg .device_administrate_bottom span {
+  color: #4BB8EF;
+  font-size: 0.68266667rem;
+  margin: 0 0.74666667rem;
+  font-weight: bold;
+}

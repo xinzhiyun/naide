@@ -180,11 +180,11 @@ function sp_log($content,$file="log.txt"){
  */
 function sp_random_string($len = 6) {
 	$chars = array(
-			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-			"l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+			"a", "b", "c", "d", "e", "f", "g", "h", "j", "k",
+            "m", "n", "p", "q", "r", "s", "t", "u", "v",
 			"w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
-			"H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-			"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
+			"H", "J", "K", "L", "M", "N", "P", "Q", "R",
+			"S", "T", "U", "V", "W", "X", "Y", "Z", "2",
 			"3", "4", "5", "6", "7", "8", "9"
 	);
 	$charsLen = count($chars) - 1;
@@ -2162,3 +2162,68 @@ function sp_mobile_code_log($mobile,$code,$expire_time){
     
     return $result;
 }
+
+
+/**
+ * @param $data
+ * @param array $replace
+ * @param string $suffix
+ * @return mixed
+ *
+ * 传入说明:
+ * $arr = [
+        'is_pay'=>['0'=>'未付款','1'=>'已付款','2'=>'已取消'],
+        'is_receipt'=>['0'=>'未发货','1'=>'已发货'],
+        'is_ship'=>['0'=>'未收货','1'=>'已收货'],
+        'is_recharge'=>['0'=>'未充值','1'=>'已充值'],
+        'created_at'=>['date','Y-m-d H:i:s'],
+        'total_price'=>['price']
+        ];
+ *  格式 :
+ *  (1) 字段下标=> 状态替换的对应文字
+ *  (2) 字段下标=> ['date','Y-m-d H:i:s']   使用函数date进行'Y-m-d H:i:s'处理
+ *  (3) 字段下标=> ['str','123']   使用函数 在原数据上拼接 '123'
+ *  执行函数 传入的格式 原值在参数集合最后进行执行 call_user_func(...$val)
+ *      依靠 最后一个值判断是头部插入 还是尾部插入 原数据 例: 'created_at'=>['date','Y-m-d H:i:s','_unshift'], (默认是尾部插入)
+ *
+ *
+ */
+function replace_array_value($data, array $replace, $suffix="")
+{
+    $arr=['replace'=>$replace, 'suffix'=>$suffix];
+    array_walk($data,function(&$v,$k,$arr){
+        extract($arr);
+        $fun=['date','str','price'];
+        foreach ($replace as $key=> $val) {
+            if(array_key_exists($key,$v)){
+                if($v[$key]=== null || $v[$key] === ''){
+                    $v[$key.$suffix]=$val['null']?:'';
+                }else{
+                    if(in_array($val[0],$fun)){
+                        switch ($val[0]) {
+                            case 'str':
+                                $v[$key.$suffix] = $v[$key].$val[1];
+                                break;
+                            case 'price':
+                                $v[$key.$suffix] = number_format(intval(trim($v[$key]), 10)/100,2);
+                                break;
+                            default:
+                                if( $val[count($val)-1] == '_unshift'){
+                                    unset($val[count($val)-1]);
+                                    array_unshift($val,$v[$key]);
+                                }else{
+                                    $val[]=$v[$key];
+                                }
+                                $v[$key.$suffix] = call_user_func(...$val);
+                                break;
+                        }
+                    }else{
+                        $v[$key.$suffix]=$val[$v[$key]];
+                    }
+                }
+            }
+        }
+    },$arr);
+    return $data;
+}
+
