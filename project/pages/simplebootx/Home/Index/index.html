@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>首页</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no minimal-ui">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/common.css">
@@ -119,10 +119,10 @@
 					<a class="buy" href="javascript:;"><p class="iconfont icon-buy"></p><span>购买</span></a>
 				</li>
 				<li>
-					<a href="javascript:;"><p class="iconfont icon-user"></p><span>我的</span></a>
+					<a href="{{:U('Home/Users/mine')}}"><p class="iconfont icon-user"></p><span>我的</span></a>
 				</li>
 				<li>
-					<a class="repair" href="javascript:;"><p class="iconfont icon-repair"></p><span>报修</span></a>
+					<a class="repair" href="{{:U('Home/Repair/index')}}"><p class="iconfont icon-repair"></p><span>报修</span></a>
 				</li>
 			</ul>
 		</div>
@@ -253,19 +253,33 @@
 		</div>
 	</div>
 
-	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script>
 		// 显示loading
 		var loaddiv = document.getElementsByClassName('loadingdiv');
 		fadeFn({elem: loaddiv[0]});
 	</script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/index/index.js"></script>
 	<script src="__PUBLIC__/Home/js/websocket.js"></script>
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','');
+
+		var href = location.href;
+		// 显示滤芯页面
+		if(href.indexOf('filter') > -1){
+			home.homeStyle = 'opacity:0;';
+			home.filterstyle = 'display:block;';
+			document.title = '滤芯';
+			$('#navbar>h2').text('滤芯');
+			$('#navbar').css({position:'fixed'});
+			$("#navbar").show();
+
+		}else{
+			home.homeStyle = 'opacity:1;';
+		}
 		window.onload = function(){
 			var wsurl = "ws://localhost:8181";
 			// wsFun(wsurl, function(str, res){
@@ -292,24 +306,13 @@
 				{fNum:'3',fName:'滤芯2',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'40',reflow:'70'},
 				{fNum:'4',fName:'PP棉',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'66',reflow:'90'}
 			];
-			var href = location.href;
-			// 显示滤芯页面
-			if(href.indexOf('filter') > -1){
-				home.homeStyle = 'opacity:0;';
-				home.filterstyle = 'display:block;';
-				document.title = '滤芯';
-				$('#navbar>h2').text('滤芯');
-				$('#navbar').css({position:'fixed'});
-				$("#navbar").show();
 
-			}else{
-				home.homeStyle = 'opacity:1;';
-			}
-			home.tdsPure = 100;
-			home.tdsRaw = 99;
-			home.statusText = home.statusList[0];
-			home.statusIconName = home.statusIconClass.makeWater;
+			home.tdsPure = 100;		// 纯水值
+			home.tdsRaw = 99;		// 原水值
+			home.statusText = home.statusList[0];	// 水机状态
+			home.statusIconName = home.statusIconClass.makeWater;	// 水机状态图标
 			
+			// 加载结束，隐藏loading
 			fadeFn({elem: $('.loadingdiv')[0],handle:'hide'});
 		}
 	</script>

@@ -5,10 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
 	<title>提现</title>
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/withdraw.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Withdraw/index.css">
 </head>
 <body>
 	<div class='am-container' id='withdraw'>
@@ -27,7 +27,7 @@
 				</li>
 				<li class='cfix typeitem' @click='chooseway($event)' index='2'>
 					<a>&emsp;提现到银行卡</a>
-					<i class='ylpng fleft'><img src="images/yl.png" alt=""></i>
+					<i class='ylpng fleft'><img src="__PUBLIC__/Home/images/yl.png" alt=""></i>
 					<span class='iconfont icon-empty fright'></span>
 				</li>
 			</ul>
@@ -175,7 +175,7 @@
 	</div>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-	<script src="__PUBLIC__/Home/amazeui/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/webuploader.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
@@ -282,7 +282,7 @@
 				        }
 				        withdraw.hasPic = true;		// 图片已添加
 				        // $('.codeimg').attr( 'src', src ).show();
-				        $('.codeimg').attr( 'src', '/images/icon.jpg' ).show();
+				        $('.codeimg').attr( 'src', '__PUBLIC__/Home/images/icon.jpg' ).show();
 				    }, 'auto', '100%' );
 				});
 				this.enmoney = '510.00';
@@ -329,7 +329,7 @@
 						// 银行卡提现
 						this.payway = 'unionpay';
 						this.payclass = 'ylpng';
-						$('.withNext>p>i').html('<img src="images/yl.png" alt="">');
+						$('.withNext>p>i').html('<img src="__PUBLIC__/Home/images/yl.png" alt="">');
 						document.title = '银行卡提现';
 						$('#navbar>h2').text('银行卡提现');
 						$('#unionpay').show();

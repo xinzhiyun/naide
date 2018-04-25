@@ -21,7 +21,7 @@ h3 {
 #mTop {
 	padding-top: 6vh;
 	color: #276F99;
-	background: url('../images/mine02.jpg') 100% 100%/100%;
+	background: url('../../images/mine02.jpg') 100% 100%/100%;
 }
 #mTop>div {
 	width: 64vw;

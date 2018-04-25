@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<title>耐的管家</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
-	<link rel="stylesheet" href="../../../Public/iconfont/iconfont.css">
-	<link rel="stylesheet" href="../../../Public/css/trader/Index/css/index.css">
-	<link rel="stylesheet" href="../../../Public/AmazeUI/assets/css/amazeui.css">
-	<link rel="stylesheet" href="../../../Public/css/common.css">
-	<link rel="stylesheet" href="../../../Public/css/swiper-4.2.2.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/Index/css/index.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/swiper-4.2.2.min.css">
     
 </head>
 <body>
@@ -18,7 +18,7 @@
 			<ul>
 				<li><h1>耐的管家</h1></li>
 				<li>
-					<span><img src="../../../Public/images/tx.png" alt=""></span>
+					<span><img src="__PUBLIC__/Home/images/tx.png" alt=""></span>
 				</li>
 				<!-- 判断会员等级 -->
 				<li>
@@ -26,21 +26,21 @@
 					<p v-if="type === 'A'">
                     账号：
 						<span>{{userInfo.userName}}</span>
-						<span><img src="../../../Public/images/hylanse.png" alt=""></span>
-						<span><img src="../../../Public/images/hylvse.png" alt=""></span>
+						<span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span>
+						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 						
 					</p>
 					<!-- 服务站收益 -->
 					<p v-else-if="type === 'B'">
 						账号：
 						<span>{{userInfo.userName}}</span>
-						<span><img src="../../../Public/images/hylanse.png" alt=""></span>
+						<span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span>
 					</p>
 					<!-- 经销商收益 -->
 					<p v-else-if="type === 'C'">
 						账号：
 						<span>{{userInfo.userName}}</span>
-						<span><img src="../../../Public/images/hylvse.png" alt=""></span>
+						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 					</p>
 				</li>
 			</ul>
@@ -64,7 +64,7 @@
 				<li class="service dealerProfit swiper-slide">
 					<p>
 						<span>经销商收益：</span>
-						<span><img src="../../../Public/images/hylvse.png" alt=""></span>
+						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 					</p>
 					<p><span>余额：</span><span><i>12, 562</i>元</span></p>
 					<p><span>用户量：</span><span><i>183</i>人</span></p>
@@ -72,7 +72,7 @@
 					<div><a href="####">更多详情<span class="iconfont icon-xiangyou1"></span></a></div>
 				</li>
 				<li class="dealer dealerProfit swiper-slide">
-					<p><span>服务站收益：</span><span><img src="../../../Public/images/hylanse.png" alt=""></span></p>
+					<p><span>服务站收益：</span><span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span></p>
 					<p><span>余额：</span><span><i>12, 562</i>元</span></p>
 					<p><span>合约设备：</span><span><i>12, 562</i>台</span></p>
 					<div><a href="####">更多详情<span class="iconfont icon-xiangyou1"></span></a></div>
@@ -83,7 +83,7 @@
 			<!-- 经销商收益 -->
 			<ul v-if="type === 'B'">
 				<li class="dealer dealerProfit" style="width: 100% !important; margin-right: 0;">
-					<p><span>经销商收益：</span><span><img src="../../../Public/images/hylvse.png" alt=""></span>></p>
+					<p><span>经销商收益：</span><span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>></p>
 					<p><span>余额：</span><span><i>12, 562</i>元</span></p>
 					<p><span>用户量：</span><span><i>183</i>人</span></p>
 					<p><span>库存量：</span><span><i>12, 562</i>台</span></p>
@@ -93,7 +93,7 @@
 			<!-- 服务站收益 -->
 			<ul v-if="type === 'C'">
 				<li class="service dealerProfit" style="width: 100% !important; margin-right: 0;">
-					<p><span>服务站收益：</span><span><img src="../../../Public/images/hylanse.png" alt=""></span></p>
+					<p><span>服务站收益：</span><span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span></p>
 					<p><span>余额：</span><span><i>12, 562</i>元</span></p>
 					<p><span>合约设备：</span><span><i>12, 562</i>台</span></p>
 					<div><a href="####">更多详情<span class="iconfont icon-xiangyou1"></span></a></div>
@@ -142,10 +142,10 @@
 			</ul>
 		</div>
 	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/js/swiper-4.2.2.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Coms/js/index/index.js"></script>
 </body>
-<script src="../../../Public/js/jquery.min.js"></script>
-<script src="../../../Public/js/swiper-4.2.2.min.js"></script>
-<script src="../../../Public/js/public.js"></script>
-<script src="../../../Public/js/vue.min.js"></script>
-<script src="../../../Public/js/trade/index/index.js"></script>
 </html>

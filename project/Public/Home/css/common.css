@@ -80,6 +80,22 @@ body {
 #navbar>span{
 	font-size: 1.2rem;
 }
+#navbar>span:active::after,
+#navbar>a:active::after {
+	content: '';
+	width: 12vmin;
+	height: 12vmin;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -6vmin;
+	border-radius: 50%;
+	background: rgba(0,0,0,.05);
+}
+#navbar>span:active::after {
+	left: 40%;
+}
 body .nav-move {
 	position: fixed !important;
 	-webkit-animation: navmove .3s linear forwards;
