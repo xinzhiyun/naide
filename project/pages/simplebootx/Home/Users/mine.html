@@ -29,7 +29,7 @@
 			<div id="mTop">
 				<div class="mine-pic">
 					<p>
-						<img class='userPic' src="images/icon.jpg" alt="">
+						<img class='userPic' src="__PUBLIC__/Home/images/icon.jpg" alt="">
 					</p>
 					<p>
 						<span v-text='uname'>&emsp;</span> 
@@ -54,25 +54,25 @@
 					<h3>我的订单</h3>
 					<ul class='am-g' style='margin:1vh 0;'>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="javascript:;" >
+							<a href="{:U('Home/Pay/order')}" >
 								<i class="iconfont icon-order_all"></i><br>
 								<span>全部订单</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="javascript:;">
+							<a href="{:U('Home/Pay/buy')}?index=1">
 								<i class="iconfont icon-wait_pay"></i><br>
 								<span>待付款</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="javascript:;">
+							<a href="{:U('Home/Pay/buy')}?index=2">
 								<i class="iconfont icon-wait_send"></i><br>
 								<span>待发货</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="javascript:;">
+							<a href="{:U('Home/Pay/buy')}?index=3">
 								<i class="iconfont icon-wait_receive"></i><br>
 								<span>待收货</span>
 							</a>
@@ -82,21 +82,21 @@
 				<div class="mbItem">
 					<ul>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Users/team')}">
 								<i class="iconfont icon-team fleft" style='color:#3548A4;'></i>
 								<span class='fleft'> 我的团队</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Users/earnings')}">
 								<i class="iconfont icon-indent fleft" style='color:#FFDA48;'></i>
 								<span class='fleft'> 我的收益</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Withdraw/index')}">
 								<i class="iconfont icon-package fleft" style='color:#FF8A42;'></i>
 								<span class='fleft'> 提现</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -105,7 +105,7 @@
 					</ul>
 					<ul>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Device/index')}">
 								<i class="iconfont icon-device fleft" style='color:#308BE8;'></i>
 								<span class='fleft'> 设备管理</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -113,7 +113,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Users/waterrecord')}">
 								<i class="iconfont icon-record fleft" style='color:#54A8A8;'></i>
 								<span class='fleft'>净水记录</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -127,7 +127,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Repair/index')}">
 								<i class="iconfont icon-repair fleft" style='color:#5475A8;'></i>
 								<span class='fleft'> 报修</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>

@@ -138,12 +138,12 @@ body .main .mainCenter ul li p:nth-child(1) span:nth-child(2) img {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003126}}
 body .main .mainCenter ul .service {
-  background: url("../../../../images/jxsindex1.png") no-repeat;
+  background: url("../../../../Home/images/jxsindex1.png") no-repeat;
   background-size: 100% 100%;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003130}}
 body .main .mainCenter ul .dealer {
-  background: url("../../../../images/jxsindex2.png") no-repeat;
+  background: url("../../../../Home/images/jxsindex2.png") no-repeat;
   background-size: 100% 100%;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003135}}
