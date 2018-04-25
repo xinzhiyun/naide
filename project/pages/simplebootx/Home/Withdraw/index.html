@@ -15,7 +15,7 @@
 		<div class='item' :style='{ display: !withNext ? "block" : "none" }'>
 			<span class='fblue f6'>&nbsp;&nbsp;提现方式</span>
 			<ul>
-				<li class='cfix typeitem' @click='chooseway($event)' index='0'>
+				<!-- <li class='cfix typeitem' @click='chooseway($event)' index='0'>
 					<a>&emsp;提现到微信</a>
 					<i class='iconfont icon-weixin fleft'></i>
 					<span class='iconfont icon-empty fright'></span>
@@ -29,6 +29,10 @@
 					<a>&emsp;提现到银行卡</a>
 					<i class='ylpng fleft'><img src="__PUBLIC__/Home/images/yl.png" alt=""></i>
 					<span class='iconfont icon-empty fright'></span>
+				</li> -->
+				<li class='cfix typeitem'>
+					<a>&emsp;提现到银行卡</a>
+					<i class='ylpng fleft'><img src="__PUBLIC__/Home/images/yl.png" alt=""></i>
 				</li>
 			</ul>
 		</div>
@@ -260,6 +264,7 @@
 				}
 			},
 			mounted() {
+				this.payway = 'unionpay';	// 提现到银行卡
 				this.tel = 'tel:400-888-1139';
 				// 初始化Web Uploader
 				var uploader = WebUploader.create({
@@ -404,11 +409,11 @@
 				},
 				// 点击确定
 				sure: function(){
-					var chooseway = $('.item .icon-select');
-					if(!chooseway.length){
-						noticeFn({text: '请选择提现方式！'});
-						return 
-					}
+					// var chooseway = $('.item .icon-select');
+					// if(!chooseway.length){
+					// 	noticeFn({text: '请选择提现方式！'});
+					// 	return 
+					// }
 					if(!trimFn(this.inmoney)){
 						noticeFn({text: '请输入提现金额！'});
 						return
