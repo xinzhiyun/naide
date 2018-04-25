@@ -1,3 +1,4 @@
+
 var product_pay = new Vue({
 	el:"#app",
 	data:{
@@ -6,7 +7,7 @@ var product_pay = new Vue({
 			{
 				product_pay_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -14,7 +15,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -47,7 +48,7 @@ var product_pay = new Vue({
 			{
 				product_pay_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -55,7 +56,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "220.00",//产品单价
@@ -87,7 +88,7 @@ var product_pay = new Vue({
 			{
 				product_pay_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -95,7 +96,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "150.00",//产品单价
@@ -131,7 +132,7 @@ var product_pay = new Vue({
 			{
 				product_send_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -139,7 +140,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -172,7 +173,7 @@ var product_pay = new Vue({
 			{
 				product_send_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -180,7 +181,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -216,7 +217,7 @@ var product_pay = new Vue({
 			{
 				product_take_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -224,7 +225,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -257,7 +258,7 @@ var product_pay = new Vue({
 			{
 				product_take_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -265,7 +266,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "__PUBLIC__/Home/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -308,7 +309,6 @@ var product_pay = new Vue({
 				var each_product_Count = 0;//产品总件数
 				for(var i = 0;i<this.all_pay[x].product_pay_info.length;i++){
 					each_product_Count += Number(this.all_pay[x].product_pay_info[i].product_count);
-					// console.log(each_product_Count);
 				}
 				var each_flow_Count = 0;//流量包总件数
 				for(var i = 0;i<this.all_pay[x].flow_pay_info.length;i++){
@@ -325,7 +325,6 @@ var product_pay = new Vue({
 				var each_product_Count = 0;//产品总件数
 				for(var i = 0;i<this.all_send[x].product_send_info.length;i++){
 					each_product_Count += Number(this.all_send[x].product_send_info[i].product_count);
-					// console.log(each_product_Count);
 				}
 				var each_flow_Count = 0;//流量包总件数
 				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
@@ -342,7 +341,6 @@ var product_pay = new Vue({
 				var each_product_Count = 0;//产品总件数
 				for(var i = 0;i<this.all_take[x].product_take_info.length;i++){
 					each_product_Count += Number(this.all_take[x].product_take_info[i].product_count);
-					// console.log(each_product_Count);
 				}
 				var each_flow_Count = 0;//流量包总件数
 				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
@@ -361,10 +359,8 @@ var product_pay = new Vue({
 					var sum = 0;
 					each_product_total = Number(each_product_total);
 					this.all_pay[x].product_pay_info[i].each_product_total += this.all_pay[x].product_pay_info[i].product_count *  this.all_pay[x].product_pay_info[i].product_price;//产品总价钱
-					// console.log(this.all_pay[x].product_pay_info[i].each_product_total);
 				}
 
-				// console.log(this.all_pay[x].product_total);
 				for(var i = 0;i<this.all_pay[x].flow_pay_info.length;i++){
 					var each_flow_total = "";//每件流量包总价钱
 					each_flow_total = Number(each_flow_total);
@@ -393,7 +389,6 @@ var product_pay = new Vue({
 					this.all_send[x].product_send_info[i].each_product_total += this.all_send[x].product_send_info[i].product_count *  this.all_send[x].product_send_info[i].product_price;//产品总价钱
 				}
 
-				// console.log(this.all_pay[x].product_total);
 				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
 					var each_flow_total = "";//每件流量包总价钱
 					each_flow_total = Number(each_flow_total);
@@ -410,7 +405,6 @@ var product_pay = new Vue({
 				// 加邮费
 				var c = this.all_send[x].franking;
 				this.all_send[x].order_total  += Number(c);
-				// console.log(this.all_send[x].order_total);
 			}
 		},
 		// 总价(待收货)
@@ -437,7 +431,7 @@ var product_pay = new Vue({
 					a = this.all_take[x].product_take_info[i].each_product_total;
 					b = this.all_take[x].flow_take_info[i].each_flow_total;
 					this.all_take[x].order_total += Number(a) + Number(b);
-					console.log(this.all_take[x].order_total);
+					// console.log(this.all_take[x].order_total);
 				}
 				// // 加邮费
 				var c = this.all_take[x].franking;
@@ -495,7 +489,7 @@ var product_pay = new Vue({
 			var pay_product_info = this.all_pay[this.num];//支付产品信息
 			var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
 			// console.log(pay_product_info);	
-			console.log(product_totalPrice);	
+			// console.log(product_totalPrice);	
 			$(".pay_bg").hide();
 		}
 	},
@@ -517,9 +511,7 @@ $(function(){
 			// 点击将改变选中字体样式
 			// $(this).addClass(".fblue");
 			$(this).css("color","#0d94f3").siblings().css("color","#000");
-			// console.log($(this).children("a"));
 			var class_value = $(this).attr("data-name");
-			// console.log(class_value);
 			switch(class_value){
 				case "all":
 					$(".line_check").css("left"," 0.42666667rem");

@@ -261,6 +261,10 @@
   position: relative;
   font-size: 0.85333333rem !important;
 }
+.pay_bg .pay_content .pay_1 p {
+  font-size: 0.96rem !important;
+  color: #373737;
+}
 .pay_bg .pay_content .pay_2 {
   font-size: 1.49333333rem !important;
   text-align: center;
@@ -277,21 +281,19 @@
   display: -webkit-flex;
   justify-content: space-between;
   font-size: 0.85333333rem !important;
+  position: relative;
+}
+.select-copy {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 1.06666667rem !important;
 }
 #pay_i_chacha {
   position: absolute;
   top: 0.10666667rem;
   left: 0;
   font-size: 0.85333333rem !important;
-}
-.pay_radio_out {
-  width: 1.06666667rem;
-  height: 1.06666667rem;
-  border: 0.064rem solid #000000;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 1.06666667rem;
 }
 .pay_radio_in {
   display: inline-block;
