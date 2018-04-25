@@ -189,13 +189,13 @@
                             },
                             success: function (data, statusText, xhr, $form) {
                                 var text = $btn.text();
-                                console.log(data,'123123');
+
                                 layuiHint(data.info);
                                 //按钮文案、状态修改
                                 $btn.removeClass('disabled').prop('disabled', false).text(text.replace('中...', '')).parent().find('span').remove();
                                 if (data.state === 'success') {
-                                    $('<span class="tips_success">' + data.info + '</span>').appendTo($btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
-                                    });
+                                    // $('<span class="tips_success">' + data.info + '</span>').appendTo($btn.parent()).fadeIn('slow').delay(1000).fadeOut(function () {
+                                    // });
                                 } else if (data.state === 'fail') {
                                     // layuiHint(data.info);
 
@@ -207,20 +207,21 @@
                                 	var $verify_input=$form.find("[name='verify']");
                                 	$verify_input.val("");
                                 	
-                                    $('<span class="tips_error">' + data.info + '</span>').appendTo($btn.parent()).fadeIn('fast');
+                                    // $('<span class="tips_error">' + data.info + '</span>').appendTo($btn.parent()).fadeIn('fast');
                                     $btn.removeProp('disabled').removeClass('disabled');
                                 }
-                                
-                                if (data.referer) {
-                                    //返回带跳转地址
-                                	window.location.href = data.referer;
-                                } else {
-                                	if (data.state === 'success') {
-                                		//刷新当前页
-                                        reloadPage(window);
-                                	}
-                                }
-                                
+
+                                window.setTimeout(function () {
+                                    if (data.referer) {
+                                        //返回带跳转地址
+                                        window.location.href = data.referer;
+                                    } else {
+                                        if (data.state === 'success') {
+                                            //刷新当前页
+                                            reloadPage(window);
+                                        }
+                                    }
+                                },2500);
                             },
                             error:function(xhr,e,statusText){
                                 // art.dialog({
@@ -235,6 +236,7 @@
                                 //     	reloadPage(window);
                                 //     }
                                 // });
+                                layuiHint('网络连接错误,请稍后再试!!!');
                                 
                             },
                             complete: function(){
@@ -748,7 +750,7 @@ function artdialog_alert(msg) {
 
 //layuiHint弹框提示封装
 function layuiHint(text){
-    Wind.use("layer", function () {
+    Wind.use("layer3", function () {
         layer.msg(text,{time: 1200});
     });
 }

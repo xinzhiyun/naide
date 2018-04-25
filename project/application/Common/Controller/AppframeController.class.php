@@ -10,6 +10,11 @@ class AppframeController extends Controller {
         $this->assign("js_debug",APP_DEBUG?"?v=$time":"");
     }
 
+    public function __call($a,$b)
+    {
+        $this->display($a);
+    }
+
     /**
      * Ajax方式返回数据到客户端
      * @access protected
@@ -20,7 +25,7 @@ class AppframeController extends Controller {
     protected function ajaxReturn($data, $type = '',$json_option=0) {
 
         $data['referer'] = $data['url'] ? $data['url'] : "";
-        $data['state']   = !empty($data['status']) ? "success" : "fail";
+        $data['state']   = (!empty($data['status']) and $data['status']== 200) ? "success" : "fail";
 
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');
         switch (strtoupper($type)){

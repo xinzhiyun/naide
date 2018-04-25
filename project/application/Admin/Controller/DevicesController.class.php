@@ -124,19 +124,19 @@ class DevicesController extends AdminbaseController
         try {
             $where['id'] = I('post.id');
             $data['vid'] = I('post.vid');
-            if($_POST['vid'] == '--') E('请选择经销商','605');
-            if($_POST['id'] == '--') E('请选择设备','604');
+            if($_POST['vid'] == '') E('请选择经销商',202);
+            if($_POST['id'] == '') E('请选择设备',203);
             $data['bind_status'] = 1;
             $res = M('devices')->where($where)->save($data);
             if($res){
-                E('绑定成功',1);
+                E('绑定成功',200);
             } else {
-                E('绑定失败',0);
+                E('绑定失败',201);
             }
         } catch (\Exception $e) {
             $err = [
                 'status' => $e->getCode(),
-                'msg' => $e->getMessage(),
+                'info' => $e->getMessage(),
             ];
             $this->ajaxReturn($err);
         }
@@ -159,45 +159,62 @@ class DevicesController extends AdminbaseController
      */
     public function add_device()
     {
-        $type_id = I('type_id');
-        $device_code = trim(I('device_code'));
-        if($type_id == '') {
-            $res['state'] = 'fail';
-            $res['info'] = '请选择滤芯';
+        try {
+            $type_id = I('type_id');
+            $device_code = trim(I('device_code'));
+            if($type_id == '') E('请选择滤芯',202);
+            if($device_code == '') E('请输入设备编码',202);
+
+            //判断库里有没有这个设备编码
+            $devices =  $this->device_model->where('device_code = '.$device_code)->find();
+
+            $data['type_id'] = $type_id;
+            $data['addtime'] = time();
+
+            //设备添加 或 更新
+            if(empty($devices)){
+                $data['device_code'] = $device_code;
+                $bool = $this->device_model->add($data);
+            }else{
+                $bool = $this->device_model->where('id = '.$devices['id'])->save($data);
+            }
+
+            if($bool){
+                E('添加成功',200);
+            } else {
+                E('添加失败',201);
+            }
+
+        } catch (\Exception $e) {
+            $err = [
+                'status' => $e->getCode(),
+                'info' => $e->getMessage(),
+            ];
+            $this->ajaxReturn($err);
         }
-        if($device_code == '') {
-            $res['state'] = 'fail';
-            $res['info'] = '请输入设备编码';
-        }
-        if($res['state'] == 'fail') $this->ajaxReturn($res,'JSON');
+    }
 
-        //判断库里有没有这个设备编码
-        $devices =  $this->device_model->where('device_code = '.$device_code)->find();
-
-        $data['type_id'] = $type_id;
-        $data['addtime'] = time();
-
-        //设备添加 或 更新
-        if(empty($devices)){
-            $data['device_code'] = $device_code;
-            $bool = $this->device_model->add($data);
-        }else{
-            $bool = $this->device_model->where('id = '.$devices['id'])->save($data);
+    public function filterList()
+    {
+        $map = array('status'=>0);
+        if(!empty($_GET)){
+            if($_GET['filtername'] != null){
+                $map['filtername'] = array('like',"%{$_GET['filtername']}%");
+            }
         }
 
-        if($bool){
-            $res['status'] = 1;
-            $res['info'] = '添加成功';
-        } else {
-            $res['status'] = 0;
-            $res['info'] = '添加失败';
-        }
-
-        $this->ajaxReturn($res);
-
-
-
-
+        $filters = D('Filters');
+        $count = $filters->where($map)->count();
+        $page  = new \Think\Page($count,8);
+        page_config($page);
+        $pageButton =$page->show();
+        $data = $filters->where($map)->limit($page->firstRow.','.$page->listRows)->order('updatetime desc')->select();
+        $assign = [
+            'data' => $data,
+            'page' =>bootstrap_page_style($pageButton)
+        ];
+        $this->assign($assign);
+        $this->display();
     }
 
     // 设备详情

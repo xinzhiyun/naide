@@ -16,6 +16,11 @@ class AdminbaseController extends AppframeController {
 		parent::__construct();
 		$time=time();
 		$this->assign("js_debug",APP_DEBUG?"?v=$time":"");
+
+        if(I('sou')){
+            $_GET['p'] = 1;
+            unset($_GET['sou']);
+        }
 	}
 
 	function _initialize(){
