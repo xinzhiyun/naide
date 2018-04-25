@@ -2,6 +2,6 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController; 
 
-class BuyController extends HomebaseController {
+class PayController extends HomebaseController {
 
 }

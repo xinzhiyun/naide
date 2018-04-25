@@ -5,5 +5,3 @@ use Common\Controller\HomebaseController;
 class VendorsController extends HomebaseController {
 
 }
-
-
