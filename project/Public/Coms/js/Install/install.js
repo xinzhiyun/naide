@@ -42,7 +42,3 @@ $("#form1").on("submit", function(e) {
 })
 // 将首页改为安装
 $(".back2home").text("添加");
-// 点击安装跳转页面
-$(".back2home").on("touchstart", function() {
-    window.location.href = '';
-})

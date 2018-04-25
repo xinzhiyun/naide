@@ -23,6 +23,13 @@
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+	</script>
+	<script>
 
 		var oHeight = $(document).height(); //浏览器当前的高度
 	    $(window).resize(function(){

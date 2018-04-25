@@ -84,7 +84,7 @@
 			methods: {
 				// 点击购买隐藏介绍界面
 				hideshare: function(e){
-					location.href = location.href + '?buy';
+					location.href = '{:U("Home/Users/info")}';
 				},
 				// 点击同意时模拟框消失
 				accepts: function() {
@@ -92,7 +92,7 @@
 				},
 				// 确认选择 提交内容
 				confirmSelects: function() {
-					location.href = '{:U("Home/Users/info")}' + '?meal=' + this.meal;
+					location.href = '{:U("Home/Pay/firstHire")}' + '?meal=' + this.meal;
 					// $.ajax({
 					// 	url: "",
 					// 	type: "post",

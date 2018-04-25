@@ -153,6 +153,11 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script>
+		window.onload = function(){
+			
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
 		var mine = new Vue({
 			el: '#mine',
 			data() {
