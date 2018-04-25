@@ -4,11 +4,22 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<title>服务记录</title>
-	<link rel="stylesheet" href="../../Public/frontEnd/css/Service_Log/css/service_log.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/AmazeUI/assets/css/amazeui.min.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/css/common.css">
-	<!-- <link rel="stylesheet" href="../../Public/frontEnd/css/laydate.css"> -->
-	<link rel="stylesheet" href="../../Public/frontEnd/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/Service_Log/css/service_log.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<style>
+		#navbar {
+			color: #fff;
+			border: none;
+			background: linear-gradient(to right, #3b90e1, #76f5e4);
+		}
+		#navbar>span, 
+		#navbar>a {
+			color: #fff;
+		}
+	</style>
 </head>
 <body>
 	<div class="service_log_bg" id="service_log_vue">
@@ -94,13 +105,14 @@
 		</div>
 		<!-- 服务详情页面部分结束 -->
 	</div>
-	<script src="../../Public/frontEnd/js/jquery.min.js"></script>
-	<script src="../../Public/frontEnd/AmazeUI/assets/js/amazeui.min.js"></script>
-	<script src="../../Public/frontEnd/js/public.js"></script>
-	<script src="../../Public/frontEnd/js/vue.min.js"></script>
-	<script src="../../Public/frontEnd/js/Service_Log/service_log.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/AmazeUI/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Users/Service_Log/service_log.js"></script>
 	<script>
-
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
 	</script>
 </body>
 </html>
