@@ -13,28 +13,28 @@ function new_page($count,$limit=10){
 function page_config(&$page){
     $config=array(
         "listlong"=>"10",
-        "first"=>"首页",
-        "last"=>"尾页",
-        "prev"=>"上一页",
-        "next"=>"下一页",
+//        "first"=>"首页",
+//        "last"=>"尾页",
+        "prev"=>"<<",
+        "next"=>">>",
         "list"=>"*",
         "jump"=>"select",
         "currentclass"=>"active",
     );
     $tpl ='<nav aria-label="Page navigation"><ul class="pagination">';
-
-    $tpl .='{first}';
+//    $tpl .='{first}';
     $tpl .='{prev}';
     $tpl .='{list}';
     $tpl .='{next}';
-    $tpl .='{last}';
-    $tpl .='<li>';
+//    $tpl .='{last}';
+    $tpl .='</ul>';
+    $tpl .='<ul class="pagination" style="float: right;"><span>';
     $tpl .='共{recordcount}条数据&nbsp;&nbsp;';
     $tpl .='共{pagecount}页&nbsp;&nbsp;';
-    $tpl .='转到&nbsp;{jump}&nbsp;页';
-    $tpl .='</li>';
-    $tpl .='</ul></nav>';
-    $tpl .='';
+//    $tpl .='转到&nbsp;{jump}&nbsp;页';
+    $tpl .='</span></ul>';
+
+    $tpl .='</nav>';
 
     $page->SetPager('admin',$tpl,$config);
 }

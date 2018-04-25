@@ -16,4 +16,9 @@ return array(
     'ADMIN_DEVICE_ADD' => "设备添加",
     'ADMIN_DEVICE_ADDS' => '批量添加设备',
     'ADMIN_DEVICE_BIND' => '设备绑定',
+
+    'ADMIN_FILTER_INDEX'=>'滤芯',
+    'ADMIN_FILTER_ADD'=>'滤芯添加',
+    'FILTER_NAME'=>'滤芯名称',
+    'FILTER_ALIAS'=>'滤芯别名',
 );

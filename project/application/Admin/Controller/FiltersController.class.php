@@ -11,6 +11,7 @@ class FiltersController extends AdminbaseController
         parent::_initialize();
         $this->filters_model = D("filters");
     }
+
     /**
      * 显示滤芯列表
      */
@@ -32,10 +33,10 @@ class FiltersController extends AdminbaseController
         $pageButton =$page_data['show'];
 
         $data = $m->limit($page->firstRow.','.$page->listRows)->order('id desc')->select();
-
+//        dump($data);
         $assign = [
             'data' => $data,
-            'page' =>bootstrap_page_style($pageButton)
+            'page' =>$pageButton
         ];
         $this->assign($assign);
         $this->display();
@@ -117,7 +118,7 @@ class FiltersController extends AdminbaseController
     }
 
     // 滤芯删除
-    public function filtersDel()
+    public function delete()
     {
         try {
             $filter = D('Filters');
@@ -148,8 +149,8 @@ class FiltersController extends AdminbaseController
             }
         } catch (\Exception $e) {
             $err = [
-                'code' => $e->getCode(),
-                'msg' => $e->getMessage(),
+                'status' => $e->getCode(),
+                'info'  => $e->getMessage(),
             ];
             $this->ajaxReturn($err);
         }

@@ -20,10 +20,6 @@ return array(
     'ADMIN_FILTER_ADD'=>'滤芯添加',
     'FILTER_NAME'=>'滤芯名称',
     'FILTER_ALIAS'=>'滤芯别名',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
 
 
 		
