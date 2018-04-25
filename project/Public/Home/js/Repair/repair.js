@@ -1,3 +1,14 @@
+var repair_bg_vue = new Vue({
+	el:"#repair_vue",
+	data:{
+		info_confirm:{
+			linkman:"恩恩",//联系人
+			contact_number:"135-1354-1354",//联系电话
+			device_code:"123123123123123",//设备编码
+			detailed_add:"广东广州番禺区，钟村文化广场"//详细地址
+		},
+	},
+});
 $(function(){
 //预约时段
 	$("#repair_time").bind("touchstart",function(e){

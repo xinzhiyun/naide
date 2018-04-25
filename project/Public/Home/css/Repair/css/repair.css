@@ -1,3 +1,7 @@
+.left {
+  color: #f00;
+  font-size: 0.64rem;
+}
 .repair-all_bg {
   position: relative;
 }
@@ -16,9 +20,6 @@
 #repair-all #repair-container ul:nth-child(1) li:nth-child(1) {
   border: none;
 }
-#repair-all #repair-container ul:nth-child(1) li:nth-child(1) p {
-  font-size: 34 46.875rem;
-}
 #repair-all #repair-container ul:nth-child(1) li {
   width: 95%;
   height: 1.87733333rem;
@@ -32,8 +33,17 @@
   margin: 0 auto;
   border-bottom: 0.02133333rem solid #e0e0e0;
 }
-#repair-all #repair-container ul:nth-child(2) li:nth-child(1) {
-  margin-top: -0.68266667rem;
+#repair-all #repair-container ul:nth-child(2) li textarea::-ms-input-placeholder {
+  color: #8b8b8b;
+  font-size: 0.64rem;
+}
+#repair-all #repair-container ul:nth-child(2) li textarea::-webkit-input-placeholder {
+  color: #8b8b8b;
+  font-size: 0.64rem;
+}
+#repair-all #repair-container ul:nth-child(2) li textarea::-moz-placeholder {
+  color: #8b8b8b;
+  font-size: 0.64rem;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child {
   padding: 0.42666667rem 0.42666667rem;
@@ -52,6 +62,10 @@
 #repair-all #repair-container ul:nth-child(2) li:last-child div img {
   width: 3.2rem;
   height: 3.2rem;
+}
+#repair_t {
+  width: 1.70666667rem;
+  margin-left: 3.2rem;
 }
 textarea {
   width: 10.88rem;
