@@ -109,12 +109,38 @@ class DevicesController extends AdminbaseController
     {
         $vendors = M('vendors')->field('id,name,leavel')->where(['status'=>7,'reviewed'=>3])->select();
         $devices = M('devices')->where('vid IS NULL')->select();
+
         $assign = [
             'user' => $vendors,
             'devices' => $devices,
         ];
         $this->assign($assign);
         $this->display();
+    }
+
+    // 设备绑定经销商
+    public function bindAction()
+    {
+        try {
+            $where['id'] = I('post.id');
+            $data['vid'] = I('post.vid');
+            if($_POST['vid'] == '--') E('请选择经销商','605');
+            if($_POST['id'] == '--') E('请选择设备','604');
+            $data['bind_status'] = 1;
+            $res = M('devices')->where($where)->save($data);
+            if($res){
+                E('绑定成功',1);
+            } else {
+                E('绑定失败',0);
+            }
+        } catch (\Exception $e) {
+            $err = [
+                'status' => $e->getCode(),
+                'msg' => $e->getMessage(),
+            ];
+            $this->ajaxReturn($err);
+        }
+
     }
 
 
@@ -160,14 +186,14 @@ class DevicesController extends AdminbaseController
         }
 
         if($bool){
-            $res['state'] = 'success';
+            $res['status'] = 1;
             $res['info'] = '添加成功';
         } else {
-            $res['state'] = 'fail';
+            $res['status'] = 0;
             $res['info'] = '添加失败';
         }
 
-        $this->ajaxReturn($res,'JSON');
+        $this->ajaxReturn($res);
 
 
 
