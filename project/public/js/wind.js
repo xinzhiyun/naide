@@ -705,6 +705,7 @@ Wind.ready(function() {
             ajaxfileupload    : 'ajaxfileupload',
 
             layer             : 'layer/layer',
+            layer3             : 'layer3/layer',
 			plupload          : 'plupload/plupload.full.min',
 			
 			echarts           : 'echarts/echarts.min'
