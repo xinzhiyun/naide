@@ -253,7 +253,7 @@ var noticeFn = function(obj){
     obj.bgcolor = obj.bgcolor || 'rgba(90,90,90,.9)';
     // 消失时间
     obj.time = obj.time || 1800;
-    console.log(obj.time);
+    // console.log(obj.time);
     var notice = document.getElementById('noticeDiv');
     var noticeSpan = notice.getElementsByTagName('span')[0];
     
