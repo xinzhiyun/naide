@@ -122,8 +122,27 @@
 					return
 				}
 				$('input[name="uaddress"]').val(uaddress);
+
+				var formdata = new FormData($('#form')[0]);
 				// 验证通过则 提交
-				// $("#form").submit();
+				// $.ajax({
+				// 	url: '{:U("Home/Users/info")}',
+				// 	data: formdata,
+				// 	contentType: false,
+				// 	success: function(res){
+				// 		console.log('请求成功: ',res);
+				// 		noticeFn({text:'提交成功!'});
+				// 		setTimeout(function(){
+				// 			// 调回租赁页
+				// 			location.href = '{:U("Home/Pay/lease")}' + '?buy';
+				// 		},500);
+				// 	},
+				// 	error: function(err){
+				// 		console.log('请求失败: ',err);
+				// 		noticeFn({text:'提交失败，请稍后再试!'});
+				// 	}
+				// })
+				
 				// 调回租赁页
 				location.href = '{:U("Home/Pay/lease")}' + '?buy';
 			})
