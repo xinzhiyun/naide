@@ -134,7 +134,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="javascript:;">
+							<a class='cfix' href="{:U('Home/Users/advice')}">
 								<i class="iconfont icon-suggest fleft" style='color:#7F55CF;'></i>
 								<span class='fleft'> 建议</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -153,6 +153,11 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script>
+		window.onload = function(){
+			
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
 		var mine = new Vue({
 			el: '#mine',
 			data() {
@@ -173,6 +178,7 @@
 				this.uAddress = '水电费是多少大局观和高房价';
 				this.uPhone = '13265987456';
 				this.device_now = 'dfgdf54512135';
+				
 			},
 			methods: {
 				showInfo: function(e){

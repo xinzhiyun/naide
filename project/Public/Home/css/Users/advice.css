@@ -1,0 +1,73 @@
+ul, li, dl, dt, dd, form, h1, h2, h3, h4, p, input, form {
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	-webkit-appearance: none;
+}
+body {
+	font-size: .7rem;
+	background: #fff;
+}
+
+#advice-container {
+	width: 100vw;
+}
+
+#advice-container h3 {
+	font-size: .8rem;
+	font-weight: 400;
+	margin: 1vh 0;
+}
+
+#advice-container h3 b {
+	color: #F9586B;
+}
+
+#advice-container textarea {
+	width: 100%;
+	display: inline-block;
+	margin: 1vh 0;
+	resize: none;
+	overflow: hidden;
+	border: 1px dashed #CCC;
+}
+
+#advice-container p {
+	color: #767676;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+}
+
+#advice-container {
+    padding: 0 0.4rem 0.4rem 0.4rem;
+    margin: 0;
+}
+#advice-container .btn {
+	width: 96%;
+	position: absolute;
+	padding: 2vh 0;
+	bottom: 0;
+	left: 50%;
+	margin: 1vh 0;
+	transform: translateX(-50%);
+	border: none;
+	border-radius: 0.106667rem;
+	color: #FFF;
+	background: #039CE9;
+}
+#advice-container textarea {
+	border-radius: 5px;
+	border: 1px dashed #039CE9;
+}
+#form {
+	height: 92%;
+}

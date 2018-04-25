@@ -14,7 +14,7 @@
 		<div class="mainContent">
 			<!-- 货物详情 -->
 			<div class="goods am-g">
-				<p class="am-u-sm-4 am-u-md-4 am-u-lg-4"><img src="../../Public/images/bj.png" alt=""></p>
+				<p class="am-u-sm-4 am-u-md-4 am-u-lg-4"><img src="__PUBLIC__/Home/images/bj.png" alt=""></p>
 				<ul class="am-u-sm-8 am-u-md-8 am-u-lg-8">
 					<li>{{goodsInfo.goodsTitle}}</li>
 					<li>{{goodsInfo.goodsDetail}}</li>
@@ -55,7 +55,7 @@
 					<div class="payWay">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p class="ylpic">
-							<img src="../../Public/images/yl.png" alt="">银联支付
+							<img src="__PUBLIC__/Home/images/yl.png" alt="">银联支付
 						</p>
 					</div>
 					<div class="payWay">
@@ -71,9 +71,13 @@
 			</ul>
 		</div>
 	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Pay/firstHire.js"></script>
+	<script>
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].innerHTML = '';
+	</script>
 </body>
-<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-<script src="__PUBLIC__/Home/js/public.js"></script>
-<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-<script src="__PUBLIC__/Home/js/Pay/firstHire.js"></script>
 </html>

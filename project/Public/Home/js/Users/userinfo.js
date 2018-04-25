@@ -1,55 +1,5 @@
 window.onload = function(){
-	// 提交
-	$('.confirm').click(function(){
-		var uname = trimFn($('.uname').val()),
-			uphone = trimFn($('.uphone').val()),
-			upwd = trimFn($('.upwd').val()),
-			uaddress = trimFn($('.uaddress').text()),
-			uaddrdetail = trimFn($('.uaddrdetail').val());
-
-		//验证收货人
-		if(!uname){
-			noticeFn({text:'请输入收货人！',time:1000});
-			return
-		}else if(!nameCheck(uname)){
-			noticeFn({text:'收货人只能是中文,英文,下划线组成',time:1000});
-			return
-		}
-
-		//验证手机号码
-		if(!uphone){
-			noticeFn({text:'请输入手机号码！',time:1000});
-			return
-		}else if(!phoneCheck(uphone)){
-			noticeFn({text:'请输入正确的手机号码！',time:1000});
-			return
-		}
-
-		//验证密码
-		if(!upwd){
-			noticeFn({text:'请输入密码！',time:1000});
-			return
-		}
-
-		//验证地区
-		if(!uaddress){
-			noticeFn({text:'请选择收货地区！',time:1000});
-			return
-		}
-
-		//验证详细地址
-		if(!uaddrdetail){
-			noticeFn({text:'请输入详细地址！',time:1000});
-			return
-		}else if(!nameCheck(uaddrdetail)){
-			noticeFn({text:'详细地址只能是中文、英文和下划线组成！',time:1000});
-			return
-		}
-		$('input[name="uaddress"]').val(uaddress);
-		// 验证通过则 提交
-		$("#form").submit();
-	})
-
+	
 	// 密码可见不可见切换
 	$("#seepwd").click(function(){
 		if($(this).hasClass('am-icon-eye-slash')){

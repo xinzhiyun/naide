@@ -1,6 +1,39 @@
+var get = {};
+var $_GET = (function() {
+	var url = window.document.location.href.toString();
+	var u = url.split("?");
+	if (typeof(u[1]) == "string") {
+		u = u[1].split("&");//["index=3"]
+		//遍历
+		for (var i in u) {
+			var j = u[i].split("=");
+			get[j[0]] = j[1];
+		}
+		return get;
+	} else {
+		// 如何传入的参数只有1对键值对则直接return返回出去
+		return {};
+	}
+})();
+console.log(typeof $_GET.index);
+if($_GET.index == undefined){
+	$(".line_check").css("left"," 0.42666667rem");
+	$(".pay_page").show().siblings().show();
+}else if($_GET.index == "1"){
+	$(".line_check").css("left"," 3.94666667rem");
+	$(".pay_page").show().siblings().hide();
+}else if($_GET.index == "2"){
+	$(".line_check").css("left"," 7.57333333rem");
+	$(".send_page").show().siblings().hide();
+}else if($_GET.index == "3"){
+	$(".line_check").css("left"," 11.41333333rem");
+	$(".take_page").show().siblings().hide();
+}
+
 var product_pay = new Vue({
 	el:"#app",
 	data:{
+		end_price:"",
 	//待付款   
 		all_pay:[
 			{
@@ -446,17 +479,7 @@ var product_pay = new Vue({
 		},
 		// 确认支付总金额
 		confirm_pay:function(){
-			// var nums = this.num;
-			// console.log(nums);
-			// var a = nums;
-			// 	var nums = this.num;
-			// 	var js = this.all_pay[num].order_total;
-			// 	return js;
-			// window.onload = function(){
-			// 	var num = $(".pay").attr("num");
-			// 	var js = this.all_pay[num].order_total;
-			// 	return js;
-			// }
+			return this.end_price;
 		}
 	},
 	methods:{
@@ -487,6 +510,8 @@ var product_pay = new Vue({
 				$(".pay_bg").hide();
 			});
 			this.num = pay_index;
+			// 点击哪条订单，将获取指定订单总金额
+			this.end_price = this.all_pay[this.num].order_total;
 		},
 		//立即支付
 		immediate_pay:function(){
@@ -494,41 +519,39 @@ var product_pay = new Vue({
 			// 点击立即支付，获取指定支付的产品信息
 			var pay_product_info = this.all_pay[this.num];//支付产品信息
 			var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
-			// console.log(pay_product_info);	
-			console.log(product_totalPrice);	
+			console.log(pay_product_info);	
 			$(".pay_bg").hide();
+		},
+		// 微信支付方式
+		weixin:function(){
+			var a = "iconfont icon-selected-copy select-copy";//选中
+			var b = "iconfont icon-not_Selected-copy select-copy";//未选中
+			if($(".select-copy").attr("class") == b){
+				$(".select-copy").attr("class",a).css({"color":"#039CE9"});
+			}else{
+				$(".select-copy").attr("class",b).css({"color":"#000"});
+			}
 		}
 	},
 });
 
 $(function(){
 	var data_li = $(".obligation_nav_content>ul li");
-	var replace_Suc = $("#replace_success").html();//交易成功
-	var replace_Pay = $("#replace_pay").html();//未支付
-	var replace_Send = $("#replace_send").html();//待发货
-	// console.log(replace_Suc);
-	// console.log(replace_Pay);
-	// console.log(replace_Send);
-	// console.log(data_li.length);
+	var replace_Suc = $("#replace_success").html();//交易成功 订单编号
+	var replace_Pay = $("#replace_pay").html();//未支付 订单编号
+	var replace_Send = $("#replace_send").html();//待发货 订单编号
 	for(var i = 0;i<data_li.length;i++){
 		$(data_li[i]).bind("touchstart",function(e){
 			event.preventDefault();
-			// $(this).children("a").append().html('<div class="line_check"></div>');
 			// 点击将改变选中字体样式
-			// $(this).addClass(".fblue");
 			$(this).css("color","#0d94f3").siblings().css("color","#000");
-			// console.log($(this).children("a"));
 			var class_value = $(this).attr("data-name");
-			// console.log(class_value);
 			switch(class_value){
 				case "all":
 					$(".line_check").css("left"," 0.42666667rem");
 					$(".pay_page").css("display","block");
 					$(".send_page").css("display","block");
 					$(".take_page").css("display","block");
-					// $("#replace_success").html('<span class="replace_success">交易成功</span>');//交易成功
-					// $("#replace_pay").html('<span class="replace_success">未支付</span>');//未支付
-					// $("#replace_send").html('<span class="replace_success">待发货</span>');//待发货
 					break;
 				case "pay":
 					$(".line_check").css("left"," 3.94666667rem");
