@@ -1,17 +1,51 @@
 body {
   font-size: .7rem;
 }
+#navbar {display: none;}
+#share  {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  z-index: 999;
+}
+#share>li>img {
+  width: 100%;
+  height: auto;
+  margin-top: -1px;
+}
+.sharebuy {
+  width: 12vmin;
+  height: 12vmin;
+  position: fixed;
+  bottom: 6vmin;
+  right: 6vmin;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 12vmin;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+.sharebuy:active {
+  background: #ddd;
+}
 .main {
   height: 100%;
 }
+.mainContent {
+  display: none;
+}
 .main .monikuan {
   position: fixed;
+  display: none;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
+  /*display: flex;*/
   justify-content: center;
   align-items: center;
 }
@@ -131,4 +165,8 @@ body {
   line-height: 2.13333333rem;
   color: white;
   border-radius: 3px;
+}
+.mealselect {
+  background-color: rgb(0,144,255) !important;
+  color: white;
 }

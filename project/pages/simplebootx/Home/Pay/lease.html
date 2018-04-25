@@ -5,11 +5,18 @@
 	<title>租赁水机</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/Pay/css/lease.css">
 </head>
 <body>
 	<div class="main" v-cloak>
+		<ul id='share'>
+			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
+			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
+			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
+			<div class='sharebuy' @click='hideshare'>购买</div>
+		</ul>
 		<!-- 主题内容 -->
 		<div class="mainContent">
 			<div class="aboutMeal"></div>
@@ -29,7 +36,7 @@
 						<p>{{mealSet.four}}</p>
 					</div>
 				</li>
-				<li><p class="confirmSelect" @click="confirmSelects">确定选择</p></li>
+				<li><p class="confirmSelect" @click='confirmSelects'>确定选择</p></li>
 			</ul>
 		</div>
 
@@ -46,8 +53,70 @@
 		</div>
 	</div>	
 </body>
-<script src="../../Public/js/jquery.min.js"></script>
-<script src="../../Public/js/public.js"></script>
-<script src="../../Public/js/vue.min.js"></script>
-<script src="../../Public/js/lease/lease.js"></script>
+<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script src="__PUBLIC__/Home/js/public.js"></script>
+<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+<!-- <script src="__PUBLIC__/Home/js/Pay/lease.js"></script> -->
+<script>
+
+	window.onload = function() {
+		// 窗口高度
+		var clientHeight = document.documentElement.clientHeight + 'px';
+		// body高度为窗口高度
+		document.getElementsByTagName("body")[0].style.height = clientHeight;
+		var vm = new Vue({
+			el: '.main',
+			data: {
+				meal:'',
+				mealSet: {one: "100元/1个月", two: "200元/3个月", three: "300元/5个月", four: "600元/1年"}
+			},
+			mounted(){
+				var href = location.href;
+				if(href.indexOf('buy') > -1){
+					$('#share').hide();
+					$('.mainContent').show();
+					$(".monikuan").css({display:'flex'});
+				}else{
+					$('#share').show();
+				}
+				this.meal = this.mealSet['one'];
+			},
+			methods: {
+				// 点击购买隐藏介绍界面
+				hideshare: function(e){
+					location.href = location.href + '?buy';
+				},
+				// 点击同意时模拟框消失
+				accepts: function() {
+					$(".monikuan").css("display", "none");
+				},
+				// 确认选择 提交内容
+				confirmSelects: function() {
+					location.href = '{:U("Home/Users/info")}' + '?meal=' + this.meal;
+					// $.ajax({
+					// 	url: "",
+					// 	type: "post",
+					// 	data: {}.
+					// 	success: function(res) {
+
+					// 	}
+					// })
+				}
+			},
+			computed: {}
+
+		});
+
+		// 页面载入显示协议
+		var mealContent = $(".mealDetail>div").eq(0).children().eq(0).html();
+		// 默认选中第一个套餐
+		$(".mealDetail>div").eq(0).children().eq(0).attr('class','mealselect');
+		$(".mealDetail>div>p").on("touchstart", function() {
+			$(this).attr('class','mealselect').siblings().attr('class','').parent().siblings().children().attr('class','');
+			mealContent = $(this).html();
+			vm.meal = $(this).html();
+		})
+		
+	}
+</script>
 </html>
