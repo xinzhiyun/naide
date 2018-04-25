@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>服务记录</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/Service_Log/css/service_log.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<style>
+		#navbar {
+			color: #fff;
+			border: none;
+			background: linear-gradient(to right, #3b90e1, #76f5e4);
+		}
+		#navbar>span, 
+		#navbar>a {
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="service_log_bg" id="service_log_vue">
+		<div class="service_log_content_top_bg">
+			<div class="service_log_content_top">
+				<div class="all_page" @click='showModule($event)'>服务记录</div>
+				<div>
+					<p class="install" @click='showModule($event)'><span>累计：</span>安装{{num[0]}}</p>
+					<p class="repair" @click='showModule($event)'>报修{{num[1]}}</p>
+					<p class="maintenance" @click='showModule($event)'>维护{{num[2]}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="install_user">
+			<div class="install_user_title bottom_line_h">
+				<span>工单号</span>
+				<span>状态</span>
+				<span>绑定时间</span>
+			</div>
+			<!-- 服务记录 -->
+			<div class="install_user_content">
+				<!-- 安装 -->
+				<ul class="install_ul">
+					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install)">
+						<span>{{each_install.order_number}}</span>
+						<span class="status">{{each_install.status}}</span>
+						<span>{{each_install.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
+					</li>
+				</ul>
+				<!-- 维修 -->
+				<ul class="repair_ul">
+					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair)">
+						<span>{{each_repair.order_number}}</span>
+						<span class="status">{{each_repair.status}}</span>
+						<span>{{each_repair.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
+					</li>
+				</ul>
+				<!-- 维护 -->
+				<ul class="maintenance_ul" @click='showModule($event)'>
+					<li v-for="(each_maintenance,index_install) in maintenance" @click="service_details_page(each_maintenance)">
+						<span>{{each_maintenance.order_number}}</span>
+						<span class="status">{{each_maintenance.status}}</span>
+						<span>{{each_maintenance.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<!-- 服务详情页面部分开始 -->
+		<div id="service_details_bg">
+			<!-- 用户信息 -->
+			<div class="service_details_public">
+				<div class="service_div_one_public">用户信息</div>
+				<div class="service_div_two_public div_2">
+					<ul>
+						<li class="bottom_line_h">
+							<p class="left">工单号：</p>
+							<p class="right">{{service_details_info.order_number}}</p>
+						</li>
+						<li class="bottom_line_h">
+							<p class="left">安装人员：</p>
+							<p class="right">{{service_details_info.install_personnel}}</p>
+						</li>
+						<li class="bottom_line_h">
+							<p class="left">手机号码：</p>
+							<p class="right">{{service_details_info.phone_number}}</p>
+						</li>
+						<li class="bottom_line_h">
+							<p class="left">服务类型：</p>
+							<p class="right">{{service_details_info.service_type}}</p>
+						</li>
+						<li class="bottom_line_h">
+							<p class="left">服务内容：</p>
+							<p class="right">{{service_details_info.service_content}}</p>
+						</li>
+						<li class="bottom_line_h">
+							<p class="left">上门内容：</p>
+							<p class="right">{{service_details_info.service_date}}</p>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+		<!-- 服务详情页面部分结束 -->
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/AmazeUI/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Users/Service_Log/service_log.js"></script>
+	<script>
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+	</script>
+</body>
+</html>
