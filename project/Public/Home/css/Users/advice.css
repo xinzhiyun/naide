@@ -65,6 +65,7 @@ body {
 	background: #039CE9;
 }
 #advice-container textarea {
+	padding: 0 4px;
 	border-radius: 5px;
 	border: 1px dashed #039CE9;
 }

@@ -63,6 +63,8 @@ body {
 	display: inline-block;
 	position: relative;
 	top: -1px;
+	margin: 0;
+	padding: 0;
 	text-align: center;
 	float: left;
 }
@@ -74,7 +76,7 @@ body {
 }
 #navbar>span,
 #navbar>a {
-	width: 23%;
+	width: 25%;
 	color: #000;
 }
 #navbar>span{

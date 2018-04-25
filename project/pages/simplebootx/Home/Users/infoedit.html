@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+		<title>个人信息 </title>
+		<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+		<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/userinfo.css">
+		<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+		<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+		<style>
+			body {
+				font-size: .7rem;
+				background: #fff;
+			}
+			.container>h3 {
+				margin: 4vmin 4vmin;
+			}
+			.container .item {
+				width: 82%;
+				position: relative;
+				padding: 2vmin 0 2vmin 0;
+				margin: 4vmin 0 2vmin 14%;
+				border-bottom: 1px dashed #aaa;
+			}
+			
+			.container .item>input {
+				border: none;
+			}
+			.container .item>.iconfont {
+				width: 10%;
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: -7%;
+				font-size: 1.2rem;
+				transform: translate(-54%,-50%);
+			}
+			.container .item>.icon-addr {
+				transform: translate(-54%,-136%);
+			}
+			.address {
+				padding: 0 4px;
+			}
+			.save {
+				width: 90%;
+				position: relative;
+				padding: 2vmin 0;
+				left: 50%;
+				margin: 20vmin 0 4vmin;
+				margin-left: -45%;
+				text-align: center;
+				border-radius: 4px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form id='form' action="{{:U('Home/Users/userinfo')}}" method="post" >
+			<div class="container">
+				<h3>个人信息</h3>
+				<div>
+					<div class='item am-g'>
+						<i class="iconfont icon-user fblue"></i>
+						<span class='am-u-sm-4'>姓&emsp;名：</span>
+						<input class="name am-u-sm-8" type="text" placeholder="请输入姓名" name="name" value=""> 
+					</div>
+					<div class='item am-g'>
+						<i class="iconfont icon-xingbie fblue"></i>
+						<span class='am-u-sm-4'>性别：</span>
+						<select class="phone am-u-sm-8" id="" name='sex'>
+							<option value="man" >男</option>
+							<option value="woman" >女</option>
+						</select>
+					</div>
+					<div class='item am-g'>
+						<i class="iconfont icon-phone fblue"></i>
+						<span class='am-u-sm-4'>手机号码：</span>
+						<input class="phone am-u-sm-8" type="text" placeholder="请输入手机号码" name="phone" value="">
+					</div>
+					<div class='item am-g'>
+						<i class="iconfont icon-addr fblue"></i>  
+						<span class='am-u-sm-4'>安装地址：</span>
+						<textarea class='am-u-sm-8 address' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
+					</div>
+				</div>
+				<div class="save bgblue" style="z-index:9999;">保存</div>
+			</div>
+		</form>
+		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+		<script src="__PUBLIC__/Home/js/public.js"></script>
+		<script>
+			window.onload = function(){
+			
+				var back2home = document.getElementsByClassName('back2home');
+				back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+			}
+		</script>
+	</body>
+
+</html>                                                                                                                                 

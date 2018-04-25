@@ -15,7 +15,7 @@
 			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
-			<div class='sharebuy' @click='hideshare'>购买</div>
+			<div class='sharebuy' @click='hideshare'>立即<br/>购买</div>
 		</ul>
 		<!-- 主题内容 -->
 		<div class="mainContent">
@@ -84,7 +84,7 @@
 			methods: {
 				// 点击购买隐藏介绍界面
 				hideshare: function(e){
-					location.href = '{:U("Home/Users/info")}';
+					location.href = '{:U("Home/Users/buyinfo")}';
 				},
 				// 点击同意时模拟框消失
 				accepts: function() {

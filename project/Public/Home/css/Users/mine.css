@@ -16,7 +16,7 @@ h3 {
 	font-weight: 400;
 }
 #navbar {
-	border: none;
+	border: transparent;
 	background: url('../../images/mine02.jpg') top/100%;;
 }
 #mTop {
@@ -95,10 +95,20 @@ h3 {
 	display: inline-block;
 }
 
+.am-g a:active::before {
+	content: '';
+	width: 110%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	left: -5%;
+	top: 0;
+	background: rgba(0,0,0,.05);
+}
 #mTop .arrow {
 	text-align: center;
 }
-.iconfont {
+#mine .iconfont {
 	font-size: 1.2rem;
 	margin: 0 4px;
 }
@@ -107,6 +117,6 @@ h3 {
 	border-radius: 50%;
 	background: rgba(0,0,0,.1);
 }
-.iconfont.fright {
-	font-size: 1rem;
+#mine .iconfont.fright {
+	font-size: .8rem;
 }

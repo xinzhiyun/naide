@@ -17,16 +17,16 @@ body {
   margin-top: -1px;
 }
 .sharebuy {
-  width: 12vmin;
-  height: 12vmin;
   position: fixed;
+  padding: 0 6px;
   bottom: 6vmin;
   right: 6vmin;
-  border-radius: 50%;
+  border-radius: 6px;
   text-align: center;
-  line-height: 12vmin;
   background: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,.4);
+  box-shadow: 0 0 10px rgba(200,200,200,.4), 
+  4px 4px 10px rgba(200,200,200,.4), 
+  8px 8px 10px rgba(200,200,200,.4);
 }
 .sharebuy:active {
   background: #ddd;
