@@ -33,9 +33,6 @@ window.onload = function(){
             }
         });
     }
-    var script = document.createElement('script');
-    document.body.appendChild(script);
-    script.innerHTML = 'var back2home = document.getElementsByClassName("back2home");back2home[0].setAttribute("href","{:U(\'Index/index\')}")';
 }   
 
 // 顶部导航栏、下拉刷新

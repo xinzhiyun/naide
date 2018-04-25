@@ -4,6 +4,7 @@
 	<meta http-equiv="X-UA-Compatible" content="text/html;utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1" >
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/waterrecord.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<title>净水记录</title>
@@ -35,6 +36,13 @@
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/js/echarts.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+	</script>
 	<script>
 	var yAxisData = [[400],[2000]];	//设置y轴最大值
 	$(function(){

@@ -130,9 +130,12 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/Repair/repair.js"></script>
-	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script>
-
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
 	</script>
 </body>
 </html>

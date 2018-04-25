@@ -75,6 +75,8 @@
 	<script src="__PUBLIC__/Home/js/Users/userinfo.js"></script>
 	<script>
 		$(function(){
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].innerHTML = '';
 			// 提交
 			$('.confirm').click(function(){
 				var uname = trimFn($('.uname').val()),
