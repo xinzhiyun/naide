@@ -95,6 +95,32 @@ var trimFn = function(str){
     return str.replace(/^(\s)|(\s*)/g,'');
 }
 
+// 数字千位分割 默认以逗号，千位分割
+function splitStr(str,zifu=",", num=3){
+    var iNum = str.length % num; 
+    var prev = ''; 
+    var iNow = 0; 
+    var temp = ''; 
+    var arr = []; 
+    if (iNum != 0){ 
+        prev = str.substring(0, iNum); 
+        arr.push(prev); 
+    } 
+    str = str.substring(iNum); 
+    for (var i = 0; i < str.length; i++){ 
+        iNow++; 
+        temp += str[i]; 
+        if (iNow == num && temp){ 
+            arr.push(temp); 
+            temp = ''; 
+            iNow = 0; 
+        } 
+    } 
+    return arr.join(zifu); 
+}
+// 使用  splitStr("1230215", "-", 5) //分别对应字符串， 分割符， 位数
+
+
 //时间戳转换
 var getLocalTime = function (_time) {
     /*
