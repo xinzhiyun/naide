@@ -26,7 +26,7 @@ var wait_task = new Vue({
 				task_cell_phone:"13526452877",
 				task_date:"2018-03-31"
 			},
-			{
+			{ 
 				task_name:"咔咔",
 				task_cell_phone:"13526452877",
 				task_date:"2018-03-31"
