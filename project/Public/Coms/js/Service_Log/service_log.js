@@ -15,7 +15,7 @@ var service_log_vue = new Vue({
 
 			}
 		],
-		// 维修
+		// 报修
 		repair:[
 			{
 				order_number:"2018040225652",

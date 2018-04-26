@@ -49,7 +49,7 @@
 						<span>{{each_install.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
-				<!-- 维修 -->
+				<!-- 报修 -->
 				<ul class="repair_ul">
 					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair,each_repair.order_number)" @click="diao">
 						<span>{{each_repair.order_number}}</span>
@@ -112,7 +112,7 @@
 	<script src="__PUBLIC__/Home/js/Users/Service_Log/service_log.js"></script>
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 
 		// 页面加载时判断url,刷新页面为当前页
 		var get = {};
@@ -132,8 +132,8 @@
 				return {};
 			}
 		})();
-		console.log($_GET.index);
-		if($_GET.index == undefined){
+		var url = window.document.location.href.toString();
+		if($_GET.index == undefined || url.indexOf("?") == -1){
 			$(".install_user").show();
 			$("#service_details_bg").hide();
 		}else if($_GET.index == "1"){
@@ -142,10 +142,10 @@
 		}
 
 		// 获取选中工单，从离线数据库中将数据赋值vue
-		var url = window.document.location.href.toString();
+		
+		console.log(url);
 		var num = url.split("&");
 		num = num[num.length-1];
-		console.log(typeof Number(parseInt(num)));//NAN  number
 		if(typeof Number(parseInt(num)) != "NAN"){
 			// localStorage
 			if(!window.localStorage){
