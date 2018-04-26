@@ -13,9 +13,9 @@
 <body>
 <div id="wait_payment_vue">
 
-	<!-- 查找设备页面部分开始 -->
+<!-- 查找设备页面部分开始 -->
 	<div id="form_div">
-		<form action="" method="post" id="form">
+		<form action="" method="post" id="form" v-cloak>
 			<div class="bottom_line">
 				<i class="am-u-sm-1 iconfont icon-search"></i>
 				<input type="text" name="text" placeholder="请输入手机号码/设备编码" id="Generation_payment_inp" value="">
@@ -37,9 +37,9 @@
 			<input type="button" value="确定" id="Generation_payment_btn" class="bgblue" @touchstart="device_number()">
 		</form>
 	</div>
-	<!-- 查找设备页面部分结束 -->
+<!-- 查找设备页面部分结束 -->
 
-	<!-- 设备匹配用户信息部分开始 -->
+<!-- 设备匹配用户信息部分开始 -->
 	<div id="user_info">
 		<!-- 用户信息 -->
 		<div class="user_info">
@@ -77,7 +77,7 @@
 			<div class="botton_right" @touchstart="pay()">立即支付</div>
 		</div>
 	</div>
-	<!-- 设备匹配用户信息部分结束 -->
+<!-- 设备匹配用户信息部分结束 -->
 
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
@@ -88,6 +88,33 @@
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+
+		// 页面加载时判断url,刷新页面为当前页
+		var get = {};
+		var $_GET = (function() {
+			var url = window.document.location.href.toString();
+			var u = url.split("?");
+			if (typeof(u[1]) == "string") {
+				u = u[1].split("&");//["index=3"]
+				//遍历
+				for (var i in u) {
+					var j = u[i].split("=");
+					get[j[0]] = j[1];
+				}
+				return get;
+			} else {
+				// 如何传入的参数只有1对键值对则直接return返回出去
+				return {};
+			}
+		})();
+		var url = window.document.location.href.toString();
+		if($_GET.index == undefined || url.indexOf("?") == -1){
+			$("#form_div").show();//第一页 
+			$("#user_info").hide();//第二页 
+		}else if($_GET.index == "1"){
+			$("#form_div").hide();//第一页 
+			$("#user_info").show();//第二页 
+		}
 	</script>
 </body>
 </html>

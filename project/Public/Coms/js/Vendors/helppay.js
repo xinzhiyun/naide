@@ -47,6 +47,12 @@ var payment = new Vue({
     pay_price : "0"
   },
   methods:{
+    // 跳转页面改变url
+    url_public:function(num){
+      var url = window.document.location.href.toString();
+      var href = url.split("?")[0];
+      location.href = href+"?index="+num;
+    },
     // 第一次点击确认，判单手机号码与设备编码
     device_number:function(event){
       var e = event || window.event;
@@ -94,6 +100,7 @@ var payment = new Vue({
         // 当再次点击确认之后
         $("#Generation_payment_btn").bind("touchstart",function(e){
           e.preventDefault();
+          payment.url_public(1);//页面闪烁问题未解决
           $("#user_info").show();
           // 获取到选中的设备编码，通过编码查找到数据库中相应的用户信息赋值给vue
               // $.ajax({

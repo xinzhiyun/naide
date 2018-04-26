@@ -22,7 +22,7 @@
 	</style>
 </head>
 <body>
-	<div class="service_log_bg" id="service_log_vue">
+	<div class="service_log_bg" id="service_log_vue" v-cloak>
 		<div class="service_log_content_top_bg">
 			<div class="service_log_content_top">
 				<div class="all_page" @click='showModule($event)'>服务记录</div>
@@ -143,7 +143,7 @@
 
 		// 获取选中工单，从离线数据库中将数据赋值vue
 		
-		console.log(url);
+		// console.log(url);
 		var num = url.split("&");
 		num = num[num.length-1];
 		if(typeof Number(parseInt(num)) != "NAN"){

@@ -10,25 +10,25 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body>
-
-	<!-- 头部导航栏部分开始 -->
+<div id="app" v-cloak>
+<!-- 头部导航栏部分开始 -->
 	<div class="obligation_nav_bg">
 		<div class="obligation_nav_content">
 			<ul class="line">
-				<li data-name="all">全部</li>
-				<li data-name="pay">待付款<div></div></li>
-				<li data-name="send">待发货<div></div></li>
-				<li data-name="take">待收货<div></div></li>
+				<li data-name="all" @click="all_page">全部</li>
+				<li data-name="pay" @click="pay_page">待付款<div></div></li>
+				<li data-name="send" @click="send_page">待发货<div></div></li>
+				<li data-name="take" @click="take_page">待收货<div></div></li>
 				<div class="line_check"></div>
 			</ul>
 		</div>
 	</div>
-	<!-- 头部导航栏部分结束 -->
+<!-- 头部导航栏部分结束 -->
 
-	<!--  产品详情部分开始 -->
-	<div id="app" class="obligation_container" v-cloak>
+<!--  产品详情部分开始 -->
+	<div class="obligation_container">
 
-		<!-- 待收货部分开始(交易完成) -->
+	<!-- 待收货部分开始(交易完成) -->
 		<div class="obligation_content take_page" v-for="(order_take_info,index_all) in all_take" style=>
 
 			<!-- 订单时间 -->
@@ -77,7 +77,7 @@
 		</div>
 	<!-- 待收货部分结束(交易完成) -->
 
-		<!-- 待付款部分开始(未支付) -->
+	<!-- 待付款部分开始(未支付) -->
 		<div class="obligation_content pay_page" v-for="(order_pay_info,index_all) in all_pay">
 			<!-- <div class="obligation_content pay_page" v-for="order_pay_info of all_pay"> -->
 			<!-- 订单时间 -->
@@ -125,7 +125,7 @@
 				<p class="pay" @click="pay_show(index_all)" :num="index_all">支付订单</p>
 
 			</div>
-			<!-- 确定支付弹框部分开始 -->
+		<!-- 确定支付弹框部分开始 -->
 			<div class="pay_bg">
 				<div class="pay_content">
 					<div class="pay_1">
@@ -150,9 +150,9 @@
 			</div>
 		<!-- 确定支付弹框部分结束 -->
 		</div>
-		<!-- 待付款部分结束(未支付) -->
+	<!-- 待付款部分结束(未支付) -->
 	
-		<!-- 待发货产品部分开始(待发货) -->
+	<!-- 待发货产品部分开始(待发货) -->
 		<div class="obligation_content send_page" v-for="(order_send_info,index_all) in all_send">
 			<!-- 订单时间 -->
 			<p id="replace_send">订单编号：{{order_send_info.order_number}}</p>
@@ -198,12 +198,12 @@
 			</div>
 			<!-- <div class="hid_line">&nbsp;</div> -->
 		</div>
-		<!-- 待发货产品部分结束(待发货) -->
+	<!-- 待发货产品部分结束(待发货) -->
 
 	</div>
-	<!--  产品详情部分开始 -->
+<!--  产品详情部分开始 -->
 
-	<!-- 取消订单确认弹框部分开始 -->
+<!-- 取消订单确认弹框部分开始 -->
 	<div class="cancel_bg">
 		<div class="cancel_content">
 			<div>
@@ -219,7 +219,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- 取消订单确认弹框部分结束 -->
+<!-- 取消订单确认弹框部分结束 -->
+
+</div>
 
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>

@@ -14,7 +14,7 @@
 <div id="wait_task_vue">
 
 <!-- 待办任务页面部分开始 -->
-	<div class="wait_task_bg" id="wait_task">
+	<div class="wait_task_bg" id="wait_task" v-cloak>
 		<ul class="wait_task_content">
 			<li v-for="(each_task,index) in task" @click="task_one(index)">
 				<!-- 待办任务 -->
