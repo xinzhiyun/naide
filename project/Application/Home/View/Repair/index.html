@@ -62,34 +62,25 @@
 					<li class="l_z"><p class="fblue">信息确认</p></li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系人：</div>
-						<div class="am-u-sm-5">&nbsp;</div>
-						<div class="am-u-sm-3 fs-r" id="contact">{{info_confirm.linkman}}</div>
-						<i class="am-u-sm-1"></i>
+						<input type="text" :value="info_confirm.linkman" class="text_inp">
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系电话：</div>
-						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r" id="contact_number">{{info_confirm.contact_number}}</div>
-						<i class="am-u-sm-1"></i>
+						<input type="text" :value="info_confirm.contact_number" class="text_inp">
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">设备编码：</div>
-						<div class="am-u-sm-2">&nbsp;</div>
-						<div class="am-u-sm-6 fs-r" id="repair_device">{{info_confirm.device_code}}</div>
-						<i class="am-u-sm-1"></i>
+						<input type="text" :value="info_confirm.device_code" class="text_inp">
 					</li>
 					<li>
-						<!-- <span class="fs-l">详细地址：</span> -->
-						<!-- <textarea name="a" style="width:200px;height:70px;" class="fs-r" placeholder=""></textarea>  -->
 						<div class="am-u-sm-3 fs-l">详细地址：</div>
-						<div class="am-u-sm-8 fs-r" id="address">{{info_confirm.detailed_add}}</div>
-						<i class="am-u-sm-1"></i>
+						<input type="text" :value="info_confirm.detailed_add" class="text_inp">
 					</li>
 				</ul>
 			</div>
 		<!-- 信息确认部分结束 -->
-
-			<input type="button" value="提交" id="repair-sub" class="bgblue">
+		
+			<input type="button" value="提交" id="repair-sub" class="bgblue" @click="submit_text()">
 		
 		</div>
 	</form>

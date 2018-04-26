@@ -1,3 +1,8 @@
+var obj = {};
+obj.a = 1;
+obj.b = 2;
+console.log(obj);
+
 var repair_bg_vue = new Vue({
 	el:"#repair_vue",
 	data:{
@@ -8,10 +13,28 @@ var repair_bg_vue = new Vue({
 			detailed_add:"广东广州番禺区，钟村文化广场"//详细地址
 		},
 	},
+	methods:{
+		submit_text:function(){
+			var num = $(".text_inp");
+			var $num = $(num);
+			var info_key = ["linkman","contact_number","device_code","detailed_add"];
+			var arr = [];
+			var obj = {};
+			for(var i = 0;i<$num.length;i++){
+				arr.push(info_key[i]+":"+$num[i].value);
+			}
+			// console.log(arr);
+			for(var x in arr){
+				obj[x] = arr[x];
+			}
+			// console.log(obj);
+		},
+	}
 });
 $(function(){
 //预约时段
 	$("#repair_time").bind("touchstart",function(e){
+		// 初始化文本
 		$("#repair_time").html("");
 		event.preventDefault();
 		var $this = $(this);
@@ -35,6 +58,7 @@ $(function(){
 
 //服务类型
 	$("#repair_t").bind("touchstart",function(e){
+		// 初始化文本
 		$("#repair_t").html("");
 		event.preventDefault();
 		var $this = $(this);
