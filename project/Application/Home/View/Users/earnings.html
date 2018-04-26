@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
+	<title>我的收益</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/earnings.css">
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+</head>
+<body>
+	<div id="earnings" >
+		<h3 class='account tcenter'>
+			<p>
+				<i class='iconfont icon-account'></i>
+				<span>&emsp;&emsp;我的账户:</span> 
+				<span v-text='account'></span>
+			</p>
+		</h3>
+		<div class='head'>
+			<span>来源</span>
+			<span>收入</span>
+			<span>渠道</span>
+		</div>
+		<ul id='main'>
+			<li v-for='e in eList'>
+				<span v-text='e.name'></span>
+				<span v-text='e.inmoney'></span>
+				<span v-text='e.way'></span>
+			</li>
+		</ul>
+		<ul id='footer'>
+			<li>甲级成员：<span v-text='levelJ'></span></li>
+			<li>乙级成员：<span v-text='levelY'></span></li>
+			<li>累计：<span v-text='totalscore'></span>分</li>
+		</ul>
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+	</script>
+	<script>
+		var earnings = new Vue({
+			el: '#earnings',
+			data() {
+				return {	
+					account: '--',		// 账户名
+					eList: [
+						{name: '雷神',inmoney: '100元现金',way: '推广'},
+						{name: '猪八戒',inmoney: '100天租赁',way: '推广'},
+						{name: '钢铁侠',inmoney: '100天租赁',way: '推广'},
+						{name: '一拳超人',inmoney: '100元现金',way: '推广'},
+						{name: '孙悟饭',inmoney: '100天租赁',way: '推广'},
+						{name: '杰诺斯',inmoney: '100天租赁',way: '推广'},
+						{name: '第一',inmoney: '100元现金',way: '推广'},
+						{name: '风云雄霸天下',inmoney: '100天租赁',way: '推广'},
+						{name: '电饭锅',inmoney: '100天租赁',way: '推广'},
+						{name: '小花',inmoney: '100元现金',way: '推广'},
+						{name: '小名',inmoney: '100天租赁',way: '推广'},
+						{name: '虾条',inmoney: '100天租赁',way: '推广'},
+					],
+					levelJ: 0,			// 甲级成员
+					levelY: 0,			// 乙级成员
+					totalscore: 0		// 累计分
+				}
+			},
+			mounted() {
+				this.account = '嗯嗯';
+				this.levelJ = '2';
+				this.levelY = '1';
+				this.totalscore = '250';
+			},
+			methods: {}
+		})
+	</script>
+</body>
+</html>

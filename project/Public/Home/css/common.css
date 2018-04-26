@@ -27,7 +27,6 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 body {
 	width: 100vw;
 	height: 100vh;
-	padding-top: 12vmin;
 	min-height: 500px;
 	font-size: .7rem;
 	background: #edeef2;
@@ -40,13 +39,12 @@ body {
 	width: 100vw;
 	height: 12vmin;
 	display: block;
-	position: fixed;
+	position: relative;
 	top: 0;
 	line-height: 12vmin;
 	border-bottom: 1px solid #eee;
     color: #000;
     background: #fff;
-    -webkit-transition: .2s linear;
     transition: .2s linear;
     z-index: 999;
 }
@@ -100,23 +98,36 @@ body {
 #navbar>span:active::after {
 	left: 40%;
 }
-body .nav-hide {
-	-webkit-transition: .3s linear;
-	transition: .3s linear;
+body .nav-move {
+	position: fixed !important;
+	-webkit-animation: navmove .3s linear forwards;
+	        animation: navmove .3s linear forwards;
+}
+@-webkit-keyframes navmove {
+	from {
 		-webkit-transform: translateY(-100%);
 		        transform: translateY(-100%);
-}
-body .nav-show {
-	-webkit-transition: .3s linear;
-	transition: .3s linear;
+	}
+	to {
 		-webkit-transform: translateY(0);
 		        transform: translateY(0);
+	}
 }
-
+@keyframes navmove {
+	from {
+		-webkit-transform: translateY(-100%);
+		        transform: translateY(-100%);
+	}
+	to {
+		-webkit-transform: translateY(0);
+		        transform: translateY(0);
+	}
+}
 /* 导航栏--结束 */
 
 /* 去除amazeui样式--开始 */
-.am-datepicker tr.am-datepicker-header {font-size: .7rem;}
+.am-datepicker tr.am-datepicker-header {font-size: .7rem;
+}
 .am-datepicker td {font-size: .7rem;}
 label {margin-bottom: 0;}
 
@@ -137,13 +148,13 @@ p {margin: 0;}
 .tright {
 	text-align: right;
 }
-/*清除浮动*/
-.cfix::after {content: '';display: block;visibility: hidden;clear: both;zoom: 1;}
-
 /*左浮动*/
 .fleft {float: left;}
 /*右浮动*/
 .fright {float: right;}
+
+/*清除浮动*/
+.cfix::after {content: '';display: block;visibility: hidden;clear: both;zoom: 1;}
 
 /*不换行*/
 .nowrap {white-space: nowrap;}

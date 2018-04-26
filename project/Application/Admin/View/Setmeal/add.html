@@ -1,0 +1,108 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+    <style type="text/css">
+        .textarea{width: 215px; min-height: 110px; border: 1px solid #ccc;}
+        .textarea p{
+            padding: 0 10px;
+            margin: 5px;
+        }
+        .control-group{position: relative;}
+        .control-group .elected{position: absolute; top: 0;left: 0;}
+        .control-group .textarea{margin-left: 190px;}
+        .btn-groups .btns{
+            margin: 50px 0 50px 90px;
+            padding: 8px 35px;
+            border-radius: 7px;
+        }
+    </style>
+        <div class="tableBox">
+            <div class="titleBar">套餐管理/<span>套餐设置</span></div>
+            <div class="formBox">
+                <form class="" action="__URL__/add" method="post" id="_formTable">
+                    <div class="control-group">
+                        <span>产品类型</span>
+                        <select name="tid" id="">
+                            <foreach name="list" item="vo">
+                                <option value="{{$vo.id}}">{{$vo.typename}}</option>
+                            </foreach>
+                        </select>                        
+                    </div>
+
+                    <div class="control-group">
+                        <span>充值模式</span>
+                        <input type="radio" class="control model_radio" _tip="(流量)" name="remodel" value="0" style='width:15px;height:15px;vertical-align:middle; margin-top:-2px; margin-bottom:1px;  ' disabled="">&nbsp;&nbsp;流量&nbsp;&nbsp;
+                        <input checked type="radio" class="control model_radio" _tip="(天数)" name="remodel" id='remodel_2' value="1" style='width:15px;height:15px;vertical-align:middle; margin-top:-2px; margin-bottom:1px;  '>&nbsp;&nbsp;时长
+                    </div>
+                    <div class="control-group">
+                        <span>套餐金额<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <input type="text" class="control" name="money" placeholder="请输入套餐金额..." style="width:210px;">
+                    </div>
+                    <div class="control-group">
+                        <span>套餐量<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <!-- 输入框太短 -->
+                        <input type="text" class="control" name="flow" placeholder="输入数字即可" style="width:210px;"><span id="flow_tip" style="width: 50px;">(天)</span>
+                    </div>
+                    <div class="control-group">
+                        <span>套餐名称<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <input type="text" class="control" name="describe" placeholder="请输入套餐名称..." style="width:210px;">
+                    </div>
+                    <div class="control-group">
+                        <span>是否首充</span>
+                        <!-- <input type="text" class="control" name="describe" placeholder="请输入套餐名称..." style="width:210px;"> -->
+                        <select name="status" id="">
+                            <option value="0" selected>否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+
+                    <div class="btn-groups">
+                        <button class="btns reset btn-primary" type="reset">重置</button>
+                        <button class="subbtn btns btn-primary" type="submit">提交</button>
+                    </div>
+                    
+
+                </form>
+                <script type="text/javascript">
+                    $(".model_radio").click(function(){
+                        $("#flow_tip").html($(this).attr('_tip'))
+                    });
+                    $('#_formTable').submit(function(){
+                        var describe = $('input[name=describe]').val().trim()
+                        var money = $('input[name=money]').val().trim()
+                        var flow = $('input[name=flow]').val().trim()
+                        if(money){
+                            if(flow){
+                                if( /^[1-9]\d*$/.test(flow)){
+                                    if(describe){
+                                        if(/\s/.test(describe)){
+                                            layuiHint("套餐名称不能有空格")
+                                        }else{
+                                            return true
+                                        }
+                                    }else{
+                                        layuiHint("套餐名称不能为空")
+                                    }
+                                }else{
+                                    layuiHint("套餐量请输入整数")
+                                }
+                            }else{
+                                layuiHint("套餐量不能为空")
+                            }
+                        }else{
+                            layuiHint("套餐金额不能为空")
+                        }
+                        return false
+                    })
+                </script>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer"/>
+    </div>
+</div>

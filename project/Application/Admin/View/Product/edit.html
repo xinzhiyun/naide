@@ -1,0 +1,133 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">产品管理/<span>编辑产品类型</span></div>
+            <div class="formBox">
+                <form class="form-horizontal " action="" method="post" id="_formTable">
+                    <input type="hidden" name="id" value="{{$data.id}}">
+                    <div class="groupBox control-group">
+                        <span>产品类型名称<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <input type="text" value="{{$data.typename}}" class="control" name="typename" placeholder="请输入类型名称" style="width:210px;">
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>一级滤芯</span>
+                        <select name="filter1">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter1'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>二级滤芯</span>
+                        <select name="filter2">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter2'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>三级滤芯</span>
+                        <select name="filter3">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter3'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>四级滤芯</span>
+                        <select name="filter4">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter4'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>五级滤芯</span>
+                        <select name="filter5">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter5'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>六级滤芯</span>
+                        <select name="filter6">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter6'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>七级滤芯</span>
+                        <select name="filter7">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter7'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+                    <div class="groupBox control-group">
+                        <span>八级滤芯</span>
+                        <select name="filter8">
+                                    <option value=""></option>
+                            <foreach name="list" item="vo">                                   
+                                <if condition="$data['filter8'] eq $vo['filtername'].'-'.$vo['alias'] ">
+                                    <option selected="" value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                    <else />
+                                    <option value="{{$vo.filtername}}-{{$vo.alias}}">{{$vo.filtername}}-{{$vo.alias}}</option>
+                                </if>
+                            </foreach>
+                        </select>
+                    </div>
+
+                    <div class=" btn-groups">
+                        <button class="btns reset btn-primary" type="reset">重置</button>
+                        <button class="subbtn btns btn-primary" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer"/>
+    </div>
+</div>  

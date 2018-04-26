@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
+	<title>我的团队</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/team.css">
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+</head>
+<body>
+	<div id="team" >
+		<div class='head cfix'>
+			<span class='fleft'>团队成员</span>
+			<span class='fright'>加入时间</span>
+		</div>
+		<ul id='main'>
+			<li v-for='t in tList' class='cfix'>
+				<span class='fleft'>{{t.name}}</span>
+				<span class='fright'>{{t.addtime}}</span>
+			</li>
+		</ul>
+		<ul id='footer'>
+			<li>团队成员：<span v-text='teamNum'></span>人</li>
+		</ul>
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+	</script>
+	<script>
+		var team = new Vue({
+			el: '#team',
+			data() {
+				return {	
+					account: '--',		// 账户名
+					tList: [
+						{name: '小李飞刀',addtime: '1523936714'},
+						{name: '雷神',addtime: '1523933714'},
+						{name: '葫芦娃',addtime: '1523932714'},
+						{name: '猪八戒',addtime: '1523931714'},
+						{name: '一拳超人',addtime: '1523906714'},
+						{name: '杰诺斯',addtime: '1523936714'},
+						{name: '小花',addtime: '1523936714'},
+						{name: '小明',addtime: '1523933714'},
+						{name: '虾条',addtime: '1523932714'},
+						{name: '火腿',addtime: '1523931714'},
+						{name: '炸弹',addtime: '1523906714'},
+						{name: '小明',addtime: '1523933714'},
+						{name: '虾条',addtime: '1523932714'},
+						{name: '火腿',addtime: '1523931714'},
+						{name: '炸弹',addtime: '1523906714'},
+						{name: '小李飞刀',addtime: '1523936714'},
+					],
+					teamNum: 0,			// 团队成员
+				}
+			},
+			mounted() {
+				this.teamNum = '3';
+				for(var i=0; i<this.tList.length; i++){
+					// 转换时间
+					this.tList[i].addtime = getLocalTime(this.tList[i].addtime);
+				}
+			},
+			methods: {}
+		})
+	</script>
+</body>
+</html>

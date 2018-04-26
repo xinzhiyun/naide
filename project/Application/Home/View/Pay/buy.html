@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>购买</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Pay/css/buy.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+	<div class="main" v-cloak>
+		<!-- 页面显示 -->
+		<div class="mainContent">
+			<h1>选择套餐</h1>
+			<ul class="am-avg-sm-2 am-thumbnails" @click="selectMeals">
+				<li class="am-thumbnail">
+					<p>{{selectMeal.one}}</p>
+				</li>
+				<li class="am-thumbnail">
+					<p>{{selectMeal.two}}</p>
+				</li>
+				<li class="am-thumbnail">
+					<p>{{selectMeal.three}}</p>
+				</li>
+				<li class="am-thumbnail">
+					<p>{{selectMeal.four}}</p>
+				</li>
+				<li class="am-thumbnail">
+					<p>{{selectMeal.five}}</p>
+				</li>
+				<li class="am-thumbnail">
+					<p>{{selectMeal.six}}</p>
+				</li>
+			</ul>
+			<p class="quikBuy" @click="quikBuys">立即购买</p>
+		</div>
+		<!-- 支付面板 -->
+		<div class="payKuan">
+			<div class="kuanBan">
+				<p>
+					<!-- 叉叉 -->
+					<span class="iconfont icon-chacha" @click="displayNone"></span>
+					<span>确认支付</span>
+				</p>
+				<ul>
+					<li>￥{{displayMeal}}.00</li>
+					<li>支付方式</li>
+					<li>
+						<span><i class="iconfont icon-weixin"></i>微信支付</span>
+						<span class="iconfont icon-circleyuanquan"></span>
+					</li>
+					<li>
+						<p>立即付款</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Pay/buy.js"></script>
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>订单确认</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/shop-bill.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/sure-bill.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/fonts/iconfont.css">
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_495581_6iecu6ga3j46lxr.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/iconfontHome.css">
+	<style>
+			#sure-head {
+				width: 100%;
+				border-bottom: 8px solid #efefef;
+			}
+			#sure-head>input {
+				text-align: center;
+				border-radius: 0 6px 6px 0;
+				border: 1px solid #039CE9;
+			    background: #039CE9;
+			}
+			#information {
+				width: 98%;
+				height: auto;
+			    display: flex;
+			    flex-flow: column;
+			    justify-content: center;
+				position: relative;
+				left: 50%;
+				margin-left: -49%;
+			}
+			#information>p {
+				display: flex;
+				position: relative !important;
+				padding: 0px 2vw;
+			}
+			#information>p>label {
+				width: 28%;
+				position: relative !important;
+				top: auto;
+				font-size: 0.4rem;
+				color: #353659;
+			}
+			#information>p>label>i {
+				top: 0;
+				color: #039CE9;
+			}
+			#information>p>input {
+				width: 68%;
+				padding: 1%;
+			    border: 1px dashed rgba(12, 93, 134, 1);
+			    border-radius: 3px;
+			}
+			#information>p>textarea {
+			    width: 68%;
+			    position: relative;
+			    padding: 1%;
+			    border: 1px dashed rgba(12, 93, 134, 1);
+			    border-radius: 3px;
+			}
+			#ro-right .bott {
+				display: flex;
+				align-items: center;
+			}
+			.bott b {
+				width: 65%;
+				display: inline-block;
+				text-align: right;
+			}
+
+			.bott p {
+				width: 35%;
+				position: relative;
+				text-align: right;
+			}
+			#mo-right {
+				width: 83%;
+				display: inline-flex;
+			    align-items: center;
+			    position: relative;
+			}
+			#mo-right>b {
+				width: 80%;
+			}
+			#mo-right>p {
+				float: right;
+			}
+			#mo2>.bill {
+				width: 18%;
+				height: auto;
+			}
+			#mo-right2>p {
+				font-size: 0.473333rem;
+				font-weight: bold;
+			}
+			#foot b:first-child {
+			    color: #039CE9;
+			}
+			#foot input:last-child {
+			    background: #039CE9;
+			}
+		</style>
+</head>
+	<body> 
+	<div id="contain">
+		<div id="sure-head">
+			<input type="buttom" value="快递信息确认" readonly="readonly">
+			<div id="information">	
+				<p>	
+					<label for="mainer"><i class="iconfont icon-iconzhenghe31"></i>收货人：</label>
+					<input id="mainer" type="text" placeholder="请输入姓名" value="{{$expressInfo['name']}}">
+				</p>
+				<p>
+					
+					<label for="tel"><i class="iconfont icon-dianhuahaoma"></i>电&nbsp;&nbsp;&nbsp;话：</label>
+					<input id="tel" type="text" placeholder="请输入电话号码" value="{{$expressInfo['phone']}}">
+				</p>
+				<p>
+					
+					<label for="address"><i class="iconfont iconfont icon-dizhi"></i>地&nbsp;&nbsp;&nbsp;址：</label>
+					<textarea id="address" name="" id="" cols="30" rows="2" placeholder="请输入详细地址">{{$expressInfo['addres']}}</textarea>
+				</p>
+				
+			</div>
+
+		</div>
+		
+		<!-- 滤芯开始 -->
+		<div id="mo">
+			<foreach name="filters" item="v" key="k">
+			<div class="item">
+				<div id="ro1" class="ro1">
+					<div id="ro-left"><img src="__PUBLIC__/{{$v['picpath']}}" alt=""></div>
+					<div id="ro-right">
+						<div class="top">
+							<h3>{{$v['filtername']}}</h3>
+							<p>{{$v['introduce']|msubstr=0,45,'utf-8'}}</p>
+						</div>
+						<div class="bott">
+						 <b>￥{{$v['price']/100}}</b>
+						 <p class="">X{{$v['num']}}</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+			</div>
+			</foreach>
+			<foreach name="setmeal" item="vo" key="ke">
+			<div class="item">
+				<div id="mo2">
+					<div id="mo-right">
+						<b>{{$vo['describe']}}</b><p>￥{{$vo['money']/100}}</p>
+					</div>
+					<p class="bill">X{{$vo['num']}}</p>
+				</div>
+				<hr>
+			</div>
+			</foreach>
+			<div id="mo2" class="res">
+				<div id="mo-right2">
+					<b>共{{$totalNum}}件商品：小计：</b><p>￥{{$totalAmount/100}}</p>
+				</div>
+			</div>
+			<p class="franking">（含邮费¥0.00) </p>	
+		</div>
+			
+		<!-- 滤芯结束 -->
+        <div id="foot">
+			<b>合计金额：</b><b class="chang">￥{{$totalAmount/100}}</b>
+			<input class="pinBtn" type="submit" value="去结算">
+		</div>	
+	</div>
+	<script src="__PUBLIC__/Home/js/flexible.js"></script>
+	<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css"> 
+   <script src="__PUBLIC__/Admin/layui/layui.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery-1.11.1.min.js"></script>
+	<!-- 微信支付支持JS部分代码 -->
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+		//layuiHint弹框提示封装
+		function layuiHint(text){
+		    layui.use('layer', function(){
+		        var layer = layui.layer;
+		        layer.msg(text);
+		    });  
+		}
+		//微信接口
+		wx.config({
+		    debug: false,
+		    appId: '{{$info["appId"]}}',
+		    timestamp: '{{$info["timestamp"]}}',
+		    nonceStr: '{{$info["nonceStr"]}}',
+		    signature: '{{$info["signature"]}}',
+		    jsApiList: [
+		      // 所有要调用的 API 都要加到这个列表中
+		      'chooseWXPay'
+		    ]
+		});
+		
+		// 获取结算按钮
+		$('#foot>input[type=submit]').click(function(){
+								
+			var mainer = /^([a-zA-Z0-9_\u4e00-\u9fa5]){2,30}$/.test($('#mainer').val());//姓名
+			var tel = /^(1[3|4|5|7|8])\d{9}$/.test($('#tel').val());//电话
+			var address = /^(?=.*?[\u4E00-\u9FA5])[\dA-Za-z\u4E00-\u9FA5]{8,}/.test($('#address').val());//地址
+			// console.log(tel)
+			//alert(address);
+			if(mainer && tel && address){
+				var name = $('#mainer').val();
+				var phone = $('#tel').val();
+				var address = $('#address').val();
+				// console.log(name, phone, address)
+				$.post('{{:U("ExpressInformation/add")}}',{'name':name,'phone':phone,'addres':address},function(res){
+					// 后端正则匹配错误信息
+					// console.dir(res);
+					// if(res.name==-1){
+					// 	// 用户名错误
+					// 	console.dir('请输入正确的用户名');
+					// 	layuiHint('请输入有效收件人姓名！');
+					// }else if(res.phone==-1){
+					// 	// 手机号码错误
+					// 	console.dir('请输入正确的手机号码');
+					// 	layuiHint('请输入有效手机号码！');
+					// }else if(res.address==-1){
+					// 	// 收货地址错误
+					// 	console.dir('请输入正确的收货地址');
+					// 	layuiHint('请输入有效地址！');
+					// }
+					if(res.expressId){
+						// AJAX请求支付接口去付款
+						$.post('{{:U("PaymentSystem/sureBillPay")}}',{ 'express_id':res.expressId }, function(res){
+							weixinPay(res);
+						});	
+					}
+				});
+			}else if(!mainer){
+				layuiHint('请输入有效收件人姓名！');
+
+			}else if(!tel){
+				layuiHint('请输入有效手机号码！');
+
+			}else if(!address){
+				layuiHint('请输入有效地址！');
+			}
+	
+		});
+
+		// 微信支付方法
+		function weixinPay(res){
+		    WeixinJSBridge.invoke(
+		        'getBrandWCPayRequest',
+		        JSON.parse(res),
+		        function(res){
+		            if (res.err_msg.substr(-2) == 'ok') {
+		                // 付款成功，跳转前台主页
+		                location.href = "{{:U('Home/PaymentSystem/paySuccess')}}";
+		            } else if (res.err_msg.substr(-6) == 'cancel') {
+		                    // 取消付款
+		                    // 跳转到待付款订单页面
+		                    location.href = "{{:U('Home/PaymentSystem/failureToPay')}}";
+		            }else{
+		                    // 付款失败
+		                    // 跳转到待付款订单页面
+		                    location.href = "{{:U('Home/PaymentSystem/failureToPay')}}";
+		            }
+		        }
+		    );
+		};
+	</script>
+	</body>
+</html>

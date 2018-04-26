@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装人员添加</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/install/css/installAdd.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <form action="" method="post" id="form1">
+            <div class="installAdd">
+                <p>新的安装人员：</p>
+                <ul>
+                    <li>
+                        <label for="">姓名：</label>
+                        <input type="text" placeholder="请输入姓名" name="userName">
+                    </li>
+                    <li>
+                        <label for="">手机号码：</label>
+                        <input type="text" placeholder="请输入手机号码" name="userPhone">
+                    </li>
+                    <li>
+                        <label for="">登录密码：</label>
+                        <input type="password" placeholder="请输入登录密码" name="userPass">
+                    </li>
+                    <li>
+                        <label for="">确认密码：</label>
+                        <input type="password" placeholder="请确认密码" name="confirmPass">
+                    </li>
+                    <li>
+                        <label for="">住址：</label>
+                        <input type="text" placeholder="选填" name="userAddr">
+                    </li>
+                </ul>
+            </div>
+            <div class="save">
+                <input type="submit" value="保存">
+            </div>
+        </form>
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/install/installAdd.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+        }
+    </script>
+    <script>
+        $("#form1").on("submit", function() {
+            // 表单验证
+            var username = $("input[name='userName']").val();// 用户名
+            var nameReg = /^[0-9a-zA-Z\u4e00-\u9fa5_]{2,16}$/;
+            var userphone = $("input[name='userPhone']").val();//手机号码
+            var phoneReg = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;
+            var userpass = $("input[name='userPass']").val();//密码
+            var passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+            var confirmpass = $("input[name='confirmPass']").val();//确认密码
+            var useraddr = $("input[name='userAddr']").val();//地址
+            var addrReg = /^(?=.*?[\u4E00-\u9FA5])[\d\u4E00-\u9FA5]+/;
+            console.log(userpass, confirmpass);
+            // return false;
+            
+            //用户名验证
+            if(username != '') {
+                if(!nameReg.test(username)) {
+                    noticeFn({text: '用户名格式有误!'});
+                    return false;
+                }
+            }else {
+                noticeFn({text: '请输入用户名'})
+                return false;
+            }
+            // 电话号码验证
+            if(userphone != '') {
+                if(!phoneReg.test(userphone)) {
+                    noticeFn({text: '手机号码格式有误!'});
+                    return false;
+                }
+            }else {
+                noticeFn({text: '请输入手机号码'})
+                return false;
+            }
+            // 密码验证
+            if(userpass != '') {
+                if(!passReg.test(userpass)) {
+                    noticeFn({text: "密码由6位以上的数字和字母组成"});
+                    return false;
+                }
+            }else {
+                noticeFn({text: "请输入密码!"});
+                return false;
+            }
+            
+            // 确认密码
+            if(confirmpass != userpass) {
+                noticeFn({text: "密码与确认密码不一致!"});
+                return false;
+            }
+            
+            // 地址验证
+            if(addrReg.test(useraddr)) {
+                noticeFn({text: "地址格式有误!"});
+                return false;
+            }
+            
+        })
+    </script>
+</body>
+</html>

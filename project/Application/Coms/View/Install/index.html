@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装人员列表</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/install/css/install.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <form action="" method="post" id="form1">
+            <div>
+                <span class="iconfont icon-search" @click="subClick()"></span>
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入姓名/手机号码">
+            </div>
+        </form>
+        <div class="userInfo">
+            <ul>
+                <!-- 头部 -->
+                <li class="userLi clearfix">
+                    <ol cass="am-g doc-am-g">
+                        <li class="am-u-sm-4">安装人员</li>
+                        <li class="am-u-sm-4">手机号码</li>
+                        <li class="am-u-sm-4">绑定时间</li>
+                    </ol>
+                </li>
+                <!-- 内容 -->
+                <li class="userLi">
+                    <a href="####" class="clearfix">
+                        <ol cass="am-g">
+                            <li class="am-u-sm-4">咕噜</li>
+                            <li class="am-u-sm-4">13554625389</li>
+                            <li class="am-u-sm-4 nextIcon">
+                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                            </li>
+                        </ol>
+                    </a>
+                </li>
+                <li class="userLi">
+                    <a href="####" class="clearfix">
+                        <ol cass="am-g">
+                            <li class="am-u-sm-4">卡卡</li>
+                            <li class="am-u-sm-4">13554625389</li>
+                            <li class="am-u-sm-4 nextIcon">
+                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                            </li>
+                        </ol>
+                    </a>
+                </li>
+                <li class="userLi">
+                    <a href="####" class="clearfix">
+                        <ol cass="am-g">
+                            <li class="am-u-sm-4">卡卡</li>
+                            <li class="am-u-sm-4">13554625389</li>
+                            <li class="am-u-sm-4 nextIcon">
+                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                            </li>
+                        </ol>
+                    </a>
+                </li>
+                <li class="userLi">
+                    <a href="####" class="clearfix">
+                        <ol cass="am-g">
+                            <li class="am-u-sm-4">卡卡</li>
+                            <li class="am-u-sm-4">13554625389</li>
+                            <li class="am-u-sm-4 nextIcon">
+                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                            </li>
+                        </ol>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/install/install.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/install/installAdd")}');
+        }
+    </script>
+</body>
+</html>

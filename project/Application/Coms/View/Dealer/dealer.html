@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>经销商收益</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/Dealer/css/dealer.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <!-- 顶部 用户信息 -->
+        <div class="serviceTop">
+            <div>
+                <img src="__PUBLIC__/Home/images/tx.png">
+            </div>
+            <div>
+                <p>
+                    <span>账号：<i>嗯嗯</i></span>
+                    <span></span>
+                </p>
+                <p>
+                    <span>{{splitStr("13562143591", "-", 4)}}</span>
+                </p>
+            </div>
+            <div><a href="{:U('Coms/Dealer/dealerSet')}">营销设置</a></div>
+        </div>
+        <!-- 金钱信息 -->
+        <div class="serviceCenter">
+            <div>
+                <p>
+                    <span>总收益 (元)</span>
+                    <span>{{splitStr("3456")}}</span>
+                </p>
+                <p>
+                    <span>库存量 (台)</span>
+                    <span>{{splitStr("3456")}}</span>
+                </p>
+            </div>
+            <div>
+                <p>
+                    <span>收入 (元)</span>
+                    <span>+4,567</span>
+                </p>
+                <p>
+                    <span>支出 (元)</span>
+                    <span>-4,567</span>
+                </p>
+            </div>
+        </div>
+        <!-- 金钱来源 -->
+        <div class="serviceBottom">
+            <ul class="am-g">
+                <li class="am-u-sm-3">时间</li>
+                <li class="am-u-sm-3">来源</li>
+                <li class="am-u-sm-3">类型</li>
+                <li class="am-u-sm-3">金额 (元)</li>
+            </ul>
+            <ul>
+                <li class="moneyInfo" v-for="moneySources in moneySource">
+                    <ol class="am-g">
+                        <li class="am-u-sm-3">
+                            <span>31</span>
+                            <span>2018-03</span>
+                        </li>
+                        <li class="am-u-sm-3">{{moneySources.source}}</li>
+                        <li class="am-u-sm-3">{{moneySources.type}}</li>
+                        <li class="am-u-sm-3">{{moneySources.money}}</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/Dealer/dealer.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+        }
+    </script>
+</body>
+</html>

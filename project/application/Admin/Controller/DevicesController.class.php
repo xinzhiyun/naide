@@ -1,20 +1,19 @@
 <?php
 namespace Admin\Controller;
+use Admin\Controller\CommonController;
+use Think\Controller;
 
-use Common\Controller\AdminbaseController;
-
-class DevicesController extends AdminbaseController
+/**
+ * Class DevicesController
+ * @package Admin\Controller
+ * @author 陈昌平 <chenchangping@foxmail.com>
+ */
+class DevicesController extends CommonController
 {
-    public $device_model;
-
-    public function _initialize() {
-        parent::_initialize();
-        $this->device_model = D("Devices");
-    }
     /**
      * 显示设备列表
      */
-    public function list()
+    public function devicesList()
     {
         //按设备码查询
         if(I('post.device_code')){
@@ -48,6 +47,7 @@ class DevicesController extends AdminbaseController
             $map['uid'] = array('exp','IS NUll');
         }
 
+        // $this->assign($_POST['is_bing']);
         //安装设备状态查询
         if(strlen(I('post.status'))) {
             if(I('post.status') == 0){
@@ -57,10 +57,14 @@ class DevicesController extends AdminbaseController
             }
         }
 
+        // dump($_POST);die;
+
+        
         //按时间段查询
         $minupdatetime = strtotime(trim(I('post.minupdatetime')))?:false;
         $maxupdatetime = strtotime(trim(I('post.maxupdatetime')))?:false;
 
+        /* 修改 处理时间区间搜索  2018年03月21日 李振东 */
         $updatetime_arr=[];
         if($maxupdatetime){
             $updatetime_arr[]=array('elt',$maxupdatetime);
@@ -72,6 +76,8 @@ class DevicesController extends AdminbaseController
             $map['statu.updatetime']=$updatetime_arr;
         }
 
+
+
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
@@ -80,78 +86,65 @@ class DevicesController extends AdminbaseController
             return false;
         });
 
-        //经销商检查
-
-
-        $devices_info = $this->device_model->getDevicesInfo($map);
-
+        if($this->get_level()){
+            $map['vendors.id'] = $_SESSION['adminuser']['id'];
+        }
+        $user = D('Devices');
         // PHPExcel 导出数据
         if (I('output') == 1) {
-            $data = $devices_info['data'];
-
-            $filename = '设备列表数据'.date('Y-m-d H:i:s',time());
+            $data = $user
+                ->where($map)
+                ->alias('d')
+                ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
+                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+                ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+                ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
+                ->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
+                ->order('d.id asc')
+                ->select();
+            foreach ($data as $key=>$val) {
+                array_unshift($data[$key],$key+1);
+            }
+            $arr = [
+                'leasingmode' => ['零售型','按流量计费','按时间计费','时长和流量套餐'],
+                'devicestause' => ['制水','冲洗','水满','缺水','漏水','检修','欠费停机','关机','开机'],
+                'netstause'=>['断开','连接中'],
+                'filtermode' => ['按时长','按流量','时长和流量'],
+                'updatetime'=>['date','Y-m-d H:i:s']               
+            ];
+            $data = replace_array_value($data,$arr);
+            $filename = '设备列表数据';
             $title = '设备列表';
             $cellName = ['编号','设备编号','经销商名称','ICCID','绑定的用户','电话','地址','计费模式','剩余天数','剩余流量','工作状态','网络状态','滤芯模式','设备类型(滤芯)','最近更新时间'];
+            // dump($data);
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
-            return $myexcel->output();
+            $myexcel->output();
+            return ;
         }
 
+        $devices = D('Devices')->getDevicesInfo($map);
+        
+
         $assign = [
-            'deviceInfo' => $devices_info,
+            'deviceInfo' => $devices,
         ];
         $this->assign($assign);
         $this->display('devicesList');
     }
 
-
-    // 设备绑定经销商方法
-    public function bind()
+    public function userBindDvice()
     {
-        $vendors = M('vendors')->field('id,name,leavel')->where(['status'=>7,'reviewed'=>3])->select();
-        $devices = M('devices')->where('vid IS NULL')->select();
-
-        $assign = [
-            'user' => $vendors,
-            'devices' => $devices,
-        ];
-        $this->assign($assign);
-        $this->display();
+        
     }
-
-    // 设备绑定经销商
-    public function bindAction()
-    {
-        try {
-            $where['id'] = I('post.id');
-            $data['vid'] = I('post.vid');
-            if($_POST['vid'] == '') E('请选择经销商',202);
-            if($_POST['id'] == '') E('请选择设备',203);
-            $data['bind_status'] = 1;
-            $res = M('devices')->where($where)->save($data);
-            if($res){
-                E('绑定成功',200);
-            } else {
-                E('绑定失败',201);
-            }
-        } catch (\Exception $e) {
-            $err = [
-                'status' => $e->getCode(),
-                'info' => $e->getMessage(),
-            ];
-            $this->ajaxReturn($err);
-        }
-
-    }
-
 
     /**
      * 显示设备添加页面
      */
-    public function add()
+    public function show_add_device()
     {
-        $type = M('DeviceType')->select();
-        $this->assign('type', $type);
-        $this->display('add');
+        $res = M('DeviceType')->select();
+        $this->assign('res', $res);
+        $this->display('show_add_device');
     }
 
     /**
@@ -159,62 +152,30 @@ class DevicesController extends AdminbaseController
      */
     public function add_device()
     {
-        try {
-            $type_id = I('type_id');
-            $device_code = trim(I('device_code'));
-            if($type_id == '') E('请选择滤芯',202);
-            if($device_code == '') E('请输入设备编码',202);
+        $data = I('post.');
+        $device_code = trim($data['device_code']);
 
-            //判断库里有没有这个设备编码
-            $devices =  $this->device_model->where('device_code = '.$device_code)->find();
+        $devices_model = M('Devices');
 
-            $data['type_id'] = $type_id;
-            $data['addtime'] = time();
+        //判断库里有没有这个设备编码
+        $devices = $devices_model->where('device_code = '.$device_code)->find();
 
-            //设备添加 或 更新
-            if(empty($devices)){
-                $data['device_code'] = $device_code;
-                $bool = $this->device_model->add($data);
-            }else{
-                $bool = $this->device_model->where('id = '.$devices['id'])->save($data);
+        //设备添加和更新
+        if(!empty($devices)){
+            $did = $devices['id'];
+            if ($_POST['type_id'] != $devices['type_id']) {
+                $bool=$devices_model->where('id = '.$did)->save(['type_id'=>$_POST['type_id'],
+                    'addtime'=>time()]);
             }
-
-            if($bool){
-                E('添加成功',200);
-            } else {
-                E('添加失败',201);
-            }
-
-        } catch (\Exception $e) {
-            $err = [
-                'status' => $e->getCode(),
-                'info' => $e->getMessage(),
-            ];
-            $this->ajaxReturn($err);
-        }
-    }
-
-    public function filterList()
-    {
-        $map = array('status'=>0);
-        if(!empty($_GET)){
-            if($_GET['filtername'] != null){
-                $map['filtername'] = array('like',"%{$_GET['filtername']}%");
-            }
+        }else{
+            $bool = $devices_model->add($data);
         }
 
-        $filters = D('Filters');
-        $count = $filters->where($map)->count();
-        $page  = new \Think\Page($count,8);
-        page_config($page);
-        $pageButton =$page->show();
-        $data = $filters->where($map)->limit($page->firstRow.','.$page->listRows)->order('updatetime desc')->select();
-        $assign = [
-            'data' => $data,
-            'page' =>bootstrap_page_style($pageButton)
-        ];
-        $this->assign($assign);
-        $this->display();
+        if(empty($bool)){
+            $this->error('添加失败', 'show_add_device');
+        } else {
+            $this->success('添加成功', 'show_add_device', 3);
+        }
     }
 
     // 设备详情

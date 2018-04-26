@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatable" content="text/html;utf-8">
+	<meta name='viewport' content='width=device-width,initial-scale=1.0,user-scalable=no'>
+	<title>录入信息</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/buyinfo.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.datetimepicker.css">
+</head>
+<body>
+	<form action='' id='form' method='POST' class='am-container'>
+		<div class='am-g am-text-middle'>
+			<label for="" class='am-u-sm-3 nowrap'>收&nbsp;&nbsp;货&nbsp;&nbsp;人</label>
+			<input type="text" class='am-u-sm-9 uname' name='uname' placeholder="请输入收货人">
+		</div>
+		<div class='am-g am-text-middle'>
+			<label for="" class='am-u-sm-3'>手机号码</label>
+			<input type="text" class='am-u-sm-9 uphone' name='uphone' placeholder="请输入手机号">
+		</div>
+		<div class='am-g am-text-middle'>
+			<label for="" class='am-u-sm-3'>设置密码</label>
+			<input type="password" class='am-u-sm-7 upwd' name='upwd' placeholder="请输入密码">
+			<span class='am-u-sm-2 am-icon-eye-slash' id='seepwd'></span>
+		</div>
+		<div class='am-g am-text-middle'>
+			<label for="" class='am-u-sm-3 label'>所在地区</label>
+			<span class='am-u-sm-9 areabtn am-text-left uaddress'></span>
+			<input type="hidden" name='uaddress' value=''>
+			<span class='areabtn choosebtn' >请选择 ></span>
+		</div>
+		<div class='am-g am-text-middle'>
+	      	<label for="" class='am-u-sm-3 label'>收货地址</label>
+	      	<textarea class="am-u-sm-9 uaddrdetail" name='uaddrdetail' rows="5" placeholder="请输入详细地址信息、如道路、门牌号、小区、楼栋号、单元室等"></textarea>
+	    </div>
+	    <div class='time'></div>
+	    <div class="confirm">
+		    <div class="am-u-sm-10 confirm bgblue">确定</div>
+		</div>
+	</form>
+	<div id="areaChoose" class="citys">
+		<div class="areaChoosebg">&emsp;</div>
+        <div class="areaDiv">
+        	<div class='atop'>
+        		<p>&emsp;</p>
+	        	<h2 class='am-h2 am-text-center'>所在地区</h2>
+	        	<button type="button" class="am-close close">&times;</button>
+			</div>
+			<div>
+				<div>
+					<p class='ptext ltext fblue'>请选择&nbsp;</p>
+					<div class='province areadiv' value="440000" data-code="440000"></div>
+				</div>
+				<div>
+					<p class='ctext ltext fblue'>&nbsp;</p>
+					<div class="city areadiv" value="440100" data-code="440100"></div>
+				</div>
+				<div>
+					<p class='atext ltext fblue'>&nbsp;</p>
+					<div class="area areadiv" value="440103" data-code="440103"></div>
+				</div>
+			</div>
+    	</div>
+    	<div id="confirmAreaChoose">
+    		<div>确定</div>
+    	</div>
+	</div>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
+	<script src="__PUBLIC__/Home/js/Users/userinfo.js"></script>
+	<script>
+		$(function(){
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].innerHTML = '';
+			// 提交
+			$('.confirm').click(function(){
+				var uname = trimFn($('.uname').val()),
+					uphone = trimFn($('.uphone').val()),
+					upwd = trimFn($('.upwd').val()),
+					uaddress = trimFn($('.uaddress').text()),
+					uaddrdetail = trimFn($('.uaddrdetail').val());
+
+				//验证收货人
+				if(!uname){
+					noticeFn({text:'请输入收货人！',time:1000});
+					return
+				}else if(!nameCheck(uname)){
+					noticeFn({text:'收货人只能是中文,英文,下划线组成',time:1000});
+					return
+				}
+
+				//验证手机号码
+				if(!uphone){
+					noticeFn({text:'请输入手机号码！',time:1000});
+					return
+				}else if(!phoneCheck(uphone)){
+					noticeFn({text:'请输入正确的手机号码！',time:1000});
+					return
+				}
+
+				//验证密码
+				if(!upwd){
+					noticeFn({text:'请输入密码！',time:1000});
+					return
+				}
+
+				//验证地区
+				if(!uaddress){
+					noticeFn({text:'请选择收货地区！',time:1000});
+					return
+				}
+
+				//验证详细地址
+				if(!uaddrdetail){
+					noticeFn({text:'请输入详细地址！',time:1000});
+					return
+				}else if(!nameCheck(uaddrdetail)){
+					noticeFn({text:'详细地址只能是中文、英文和下划线组成！',time:1000});
+					return
+				}
+				$('input[name="uaddress"]').val(uaddress);
+
+				var formdata = new FormData($('#form')[0]);
+				// 验证通过则 提交
+				// $.ajax({
+				// 	url: '{:U("Home/Users/info")}',
+				// 	data: formdata,
+				// 	contentType: false,
+				// 	success: function(res){
+				// 		console.log('请求成功: ',res);
+				// 		noticeFn({text:'提交成功!'});
+				// 		setTimeout(function(){
+				// 			// 调回租赁页
+				// 			location.href = '{:U("Home/Pay/lease")}' + '?buy';
+				// 		},500);
+				// 	},
+				// 	error: function(err){
+				// 		console.log('请求失败: ',err);
+				// 		noticeFn({text:'提交失败，请稍后再试!'});
+				// 	}
+				// })
+				
+				// 调回租赁页
+				location.href = '{:U("Home/Pay/lease")}' + '?buy';
+			})
+
+		})
+	</script>
+</body>
+</html>

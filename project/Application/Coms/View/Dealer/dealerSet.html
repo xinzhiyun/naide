@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>营销设置</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/Dealer/css/dealerSet.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <form method="post" id="form1" action="">
+            <ul>
+                <!-- 初装费金额 -->
+                <li>
+                    <p>初装费金额: <span>{{splitStr("2000")}}</span>元</p>
+                    <p>
+                        <label>初装费金额：</label>
+                        <input type="text" name="czfei" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+                <!-- 年服务费金额 -->
+                <li>
+                    <p>年服务费金额: <span>{{splitStr("12000")}}</span>元</p>
+                    <p>
+                        <label>年服务费金额：</label>
+                        <input type="text" name="nfwu" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+                <!-- 分享佣金金额 -->
+                <li>
+                    <p>分享佣金金额: <span>{{splitStr("600")}}</span>元</p>
+                    <p>
+                        <label>分享佣金金额：</label>
+                        <input type="text" name="fxyjin" placeholder="请输入金额" /> 
+                    </p>
+                </li>
+            </ul>
+            <!-- 提交 -->
+            <div>
+                <input type="submit" value="提交">
+            </div>
+        </form>
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/Dealer/dealerSet.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+        }
+    </script>
+</body>
+</html>

@@ -1,54 +1,68 @@
 <?php
-/**
- * 后台首页
- */
 namespace Admin\Controller;
+use Think\Controller;
+use Admin\Controller\CommonController;
+class IndexController extends CommonController {
+    public function index(){
+    	if (IS_AJAX) {
+    		// 充值数额统计数量 （本月列表显示）
+	    	$flows = D('Flow')->getTotalByEveryDay();
 
-use Common\Controller\AdminbaseController;
+			$devices = D('Devices')->getTotalByEveryDay();
+	    	// 滤芯订单数量（已发货及未发货数量->以发货及未发货列表）
+            if($_SESSION['adminuser']['leavel']>0){
+                $map['b.vid'] = $_SESSION['adminuser']['id'];
+                $order_filters = D('Orders')
+                    ->where($map)
+                    ->alias('o')
+                    ->join('pub_binding b on o.device_id = b.did','LEFT')
+                    ->field('distinct(order_id)')
+                    ->select();
+                $order_filter['total'] = count($order_filters);
 
-class IndexController extends AdminbaseController {
-	
-	public function _initialize() {
-	    empty($_GET['upw'])?"":session("__SP_UPW__",$_GET['upw']);//设置后台登录加密码	    
-		parent::_initialize();
-		$this->initMenu();
-	}
-	
-    /**
-     * 后台框架首页
-     */
-    public function index() {
-        $this->load_menu_lang();
-    	
-        $this->assign("menus", D("Common/Menu")->menu_json());
-       	$this->display();
+                // 保修数量统计->保修列表
+                $repairs['total'] = D('Repair')
+                    ->where($map)
+                    ->alias('r')
+                    ->join('__BINDING__ b on r.did = b.did','LEFT')
+                    ->count();
+
+                // 建议数量统计->建议列表
+                $feeds['total'] = D('Feeds')
+                    ->where($map)
+                    ->alias('f')
+                    ->join('__BINDING__ b on f.did = b.did','LEFT')
+                    ->count();
+            } else {
+                $order_filters = D('Orders')
+                    ->field('distinct(order_id)')
+                    ->select();
+
+                $order_filter['total'] = count($order_filters);
+
+                // 保修数量统计->保修列表
+                $repairs['total'] = D('Repair')->count();
+
+                // 建议数量统计->建议列表
+                $feeds['total'] = D('Feeds')->count();
+            }
+	    	$data = [
+				'flows' => $flows,
+				'devices'=> $devices,
+	    		'order_filters' => $order_filter,
+	    		'repairs' => $repairs,
+	    		'feeds' => $feeds
+	    	];
+	    	$this->ajaxReturn($data);
+    	}
+
+        $this->display('index');
+
     }
-    
-    private function load_menu_lang(){
-        $default_lang=C('DEFAULT_LANG');
-        
-        $langSet=C('ADMIN_LANG_SWITCH_ON',null,false)?LANG_SET:$default_lang;
-        
-	    $apps=sp_scan_dir(SPAPP."*",GLOB_ONLYDIR);
-	    $error_menus=array();
-	    foreach ($apps as $app){
-	        if(is_dir(SPAPP.$app)){
-	            if($default_lang!=$langSet){
-	                $admin_menu_lang_file=SPAPP.$app."/Lang/".$langSet."/admin_menu.php";
-	            }else{
-	                $admin_menu_lang_file=SITE_PATH."data/lang/$app/Lang/".$langSet."/admin_menu.php";
-	                if(!file_exists_case($admin_menu_lang_file)){
-	                    $admin_menu_lang_file=SPAPP.$app."/Lang/".$langSet."/admin_menu.php";
-	                }
-	            }
-	            
-	            if(is_file($admin_menu_lang_file)){
-	                $lang=include $admin_menu_lang_file;
-	                L($lang);
-	            }
-	        }
-	    }
-    }
 
+    public function welcome()
+    {
+        $this->show('<h1>欢迎回来！</h1>');
+    }
 }
 

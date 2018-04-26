@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>代缴费</title>
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/vendors/Generation_payment/css/Generation_payment.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+</head>
+<body>
+<div id="wait_payment_vue">
+
+	<!-- 查找设备页面部分开始 -->
+	<div id="form_div">
+		<form action="" method="post" id="form">
+			<div class="bottom_line">
+				<i class="am-u-sm-1 iconfont icon-search"></i>
+				<input type="text" name="text" placeholder="请输入手机号码/设备编码" id="Generation_payment_inp" value="">
+			</div>
+			<!-- 提示信息 -->
+			<div class="explain"></div>
+			<!-- vue -->
+			<div id="wait_payment">
+				<p><span class="line"></span>{{device_title}}</p>
+				<!-- 设备编码 -->
+				<div v-for="(each_device,index) in all_device" class="vue_all">
+					<p class="selected" @touchstart="select_number()">
+						<i class="iconfont icon-not_Selected-copy" id="selected_i"></i>
+						<!-- <i class="iconfont icon-selected-copy"></i> -->
+						<span class="device_code">{{each_device.device_coding}}</span>
+					</p> 
+				</div>
+			</div>
+			<input type="button" value="确定" id="Generation_payment_btn" class="bgblue" @touchstart="device_number()">
+		</form>
+	</div>
+	<!-- 查找设备页面部分结束 -->
+
+	<!-- 设备匹配用户信息部分开始 -->
+	<div id="user_info">
+		<!-- 用户信息 -->
+		<div class="user_info">
+			<ul>
+				<li><p>用户信息</p></li>
+				<li class="bottom_line_h">
+					<p>用户名：</p>
+					<p>{{all_user_info.user_name}}</p>
+				</li>
+				<li class="bottom_line_h">
+					<p>手机号码：</p>
+					<p>{{all_user_info.phone_number}}</p>
+				</li>
+				<li>
+					<p>设备编码：</p>
+					<p>{{all_user_info.device_code}}</p>
+				</li>
+			</ul>
+		</div>
+		<!-- 流量套餐 -->
+		<div class="flow_set_meal">
+			<div class="flow_div_one">选则充值套餐</div>
+			<div class="flow_div_two">
+				<ul class="float_clear">
+					<li v-for="(each_flow,index_flow) in all_user_info.flow_set_meal" class="flow_item" @touchstart="flow_item">{{each_flow.package_item}}</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 底部支付栏 -->
+		<div class="user_info_bottom">
+			<div class="botton_left">
+				支付金额：
+				<span class="total_price">{{pay_price}}.00元</span>
+			</div>
+			<div class="botton_right" @touchstart="pay()">立即支付</div>
+		</div>
+	</div>
+	<!-- 设备匹配用户信息部分结束 -->
+
+</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Coms/js/vendors/Generation_payment.js"></script>
+	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+		}
+	</script>
+</body>
+</html>

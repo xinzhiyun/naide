@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
+	<title>我的</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/mine.css">
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<style>
+		/*#refresh {
+			width: 100vw;height: 90px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);z-index: 9999;
+		}
+		#refresh>span {
+			width: 56px;height: 56px;display: inline-block;position: relative;margin: 0 auto;line-height: 56px;background: #fff;
+		}*/
+	</style>
+</head>
+<body>
+	<div id="mine" class="mine-first-all bgTop" >
+		<div style="display: none">
+			<img src="__PUBLIC__/Home/images/mine01.png" alt="">
+		</div>
+		<input type="hidden" id="refreshed" value="no">
+		<div id="mine-first-container">
+			<div id="mTop">
+				<div class="mine-pic">
+					<p>
+						<img class='userPic' src="__PUBLIC__/Home/images/icon.jpg" alt="">
+					</p>
+					<p>
+						<span v-text='uname'>&emsp;</span> 
+						<span class="infoedit" ><a href="{:U('Home/Users/infoedit')}">编辑</a></span></p>
+					<p class='oldmoney'>余额: <span v-text='umoney'></span> </p>
+				</div>
+				<div class="mDetail">
+			 		<p>余&emsp;&emsp;额: <span class="umoney" v-text='umoney'></span> </p>
+			 		<p>设备编码: <span class="device_code" v-text='device_code'></span> </p>
+			 		<p class="cfix">
+			 			<span>地&emsp;&emsp;址: </span>
+			 			<span class='uAddr' v-text='uAddress'></span>
+			 		</p>
+			 		<p>手机号码: <span class="uPhone" v-text='uPhone'></span> </p>
+				</div>
+				<div class="arrow" @click='showInfo($event)'>
+					<i class="iconfont icon-downdown" :index='arrowindex' id='arrowIcon' style='color:#276F99;'></i>
+				</div>
+			</div>
+			<div id="mBottom">
+				<div class="mbItem">
+					<h3>我的订单</h3>
+					<ul class='am-g' style='margin:1vh 0;'>
+						<li class='am-u-sm-3 am-text-center'>
+							<a href="{:U('Home/Pay/order')}" >
+								<i class="iconfont icon-order_all"></i><br>
+								<span>全部订单</span>
+							</a>
+						</li>
+						<li class='am-u-sm-3 am-text-center'>
+							<a href="{:U('Home/Pay/order')}?index=1">
+								<i class="iconfont icon-wait_pay"></i><br>
+								<span>待付款</span>
+							</a>
+						</li>
+						<li class='am-u-sm-3 am-text-center'>
+							<a href="{:U('Home/Pay/order')}?index=2">
+								<i class="iconfont icon-wait_send"></i><br>
+								<span>待发货</span>
+							</a>
+						</li>
+						<li class='am-u-sm-3 am-text-center'>
+							<a href="{:U('Home/Pay/order')}?index=3">
+								<i class="iconfont icon-wait_receive"></i><br>
+								<span>待收货</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="mbItem">
+					<ul>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Users/team')}">
+								<i class="iconfont icon-team fleft" style='color:#3548A4;'></i>
+								<span class='fleft'> 我的团队</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Users/earnings')}">
+								<i class="iconfont icon-indent fleft" style='color:#FFDA48;'></i>
+								<span class='fleft'> 我的收益</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Withdraw/index')}">
+								<i class="iconfont icon-package fleft" style='color:#FF8A42;'></i>
+								<span class='fleft'> 提现</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+					</ul>
+					<ul>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Device/index')}">
+								<i class="iconfont icon-device fleft" style='color:#308BE8;'></i>
+								<span class='fleft'> 设备管理</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+								<span class='fright' style='color:#999;font-size:.6rem;'>当前设备: <span v-text='device_now'></span>&nbsp;</span>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Users/waterrecord')}">
+								<i class="iconfont icon-record fleft" style='color:#54A8A8;'></i>
+								<span class='fleft'>净水记录</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Users/servicelog')}">
+								<i class="iconfont icon-record fleft" style='color:#308be8;'></i>
+								<span class='fleft'> 服务记录</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Repair/index')}">
+								<i class="iconfont icon-repair fleft" style='color:#5475A8;'></i>
+								<span class='fleft'> 报修</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+						<li class="am-g">
+							<a class='cfix' href="{:U('Home/Users/advice')}">
+								<i class="iconfont icon-suggest fleft" style='color:#7F55CF;'></i>
+								<span class='fleft'> 建议</span>
+								<i class="iconfont icon-xiangyou1 fright"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- <div id='refresh' style='width: 100vw;height: 90px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);z-index: 9999;'>
+			<span style='width: 56px;height: 56px;display: inline-block;position: relative;margin: 0 auto;line-height: 56px;background: #fff;'><i class="am-icon-spinner am-icon-pulse am-icon-lg"></i></span>
+		</div> -->
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script>
+		window.onload = function(){
+			
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
+		var mine = new Vue({
+			el: '#mine',
+			data() {
+				return {
+					uname: '--',
+					umoney: '--',
+					device_code: '--',
+					uAddress: '--',
+					uPhone: '--',
+					device_now: '--',
+					arrowindex: 'down'
+				}
+			},
+			mounted() {
+				this.uname = '哈哈';
+				this.umoney = '￥10000';
+				this.device_code = '121345sdf4sd';
+				this.uAddress = '水电费是多少大局观和高房价';
+				this.uPhone = '13265987456';
+				this.device_now = 'dfgdf54512135';
+				
+			},
+			methods: {
+				showInfo: function(e){
+					var arrowindex = e.target.getAttribute('index');
+					// console.log(e);
+					// console.log(arrowindex);
+					if(arrowindex == 'down'){
+						// 显示详情
+						this.arrowindex = 'up';
+
+						$('#arrowIcon').attr('class', 'iconfont icon-upup');
+						$('.infoedit').show();
+						$('.mDetail').show();
+						$('.oldmoney').hide();
+						$('#mTop').css({background: "url('__PUBLIC__/Home/images/mine01.png') 100% 100%/100%"});
+					}else if(arrowindex == 'up'){
+						// 隐藏详情
+						this.arrowindex = 'down';
+
+						$('#arrowIcon').attr('class', 'iconfont icon-downdown');
+						$('.infoedit').hide();
+						$('.mDetail').hide();
+						$('.oldmoney').show();
+						$('#mTop').css({background: "url('__PUBLIC__/Home/images/mine02.jpg') 100% 100%/100%"});
+
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

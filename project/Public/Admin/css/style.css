@@ -1,0 +1,442 @@
+/*public part css*/
+*{
+	padding: 0;
+	margin:0;
+	border: 0;
+}
+html, body {
+    font-family:'Open Sans',"微软雅黑","黑体";
+    height: 100%;
+}
+.fr{ 
+	float:right;
+}
+.fl{
+	float: left;
+}
+.bodyBg{
+	background: #fff;
+}
+ul li{
+	list-style: none;
+}
+/*order_detail css*/
+@media screen and (min-width: 1399px) {
+    ._float_left {
+        width:48%;
+        float:left;
+    }
+    ._float_right{
+        width: 48%;
+        float: right;
+    }
+}
+/*nav part css*/
+.navBox{
+	width: 15%; 
+	position: fixed;
+	padding: 0;
+	top: 0;
+	margin-top: 70px;
+}
+.navBox ul li ul{
+	display: none;
+}
+.navBox ul li.active ul{
+	display: block;
+	background: #333;
+}
+
+/*devices_detail css*/
+._four{
+	width:20%;
+	height:100px;
+	border-radius: 10px;
+	float: left
+}
+._DD4B39{
+	background-color:#DD4B39;
+}
+._337AB7{
+	background-color:#337AB7;
+}
+._05CE3E{
+	background-color:#05CE3E;
+}
+._77E1FB{
+	background-color:#77E1FB;
+}
+
+._margin-right{
+	margin-right:6%;
+}
+._text{
+	color:#ffffff;
+}
+._h1{
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+}
+._device{
+	background-color: #ffffff;
+	margin-top: 15px;
+	border-radius: 5px;
+	padding: 5px 10px;
+	border-top: 2px #D2D6DE solid;
+	border-bottom:  2px #D2D6DE solid
+}
+._user{
+	border-top: 4px #5ED0F4 solid;
+    border-bottom:  1px #CCCCCC solid;
+    margin-bottom: 0
+}
+._tb{
+	background-color: #ffffff;
+	margin-top: 15px;
+	border-radius: 5px;
+	padding: 5px 10px;
+	border-top: 2px #5ED0F4 solid;
+	border-bottom:  2px #5ED0F4 solid
+}
+._progress{
+	height: 10px;
+	background-color: #F5F5F5;
+	border-radius: 5px
+}
+._progress_{
+	height: 10px;
+	background-color: #005384;
+	border-radius: 5px
+}
+._start{
+	color:red;
+	margin-left:5px;
+}
+/*content part css*/
+.content{
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow-y: scroll;
+}
+.content .welcomePage{
+	width: 400px;
+	height: 50px;
+	margin: 200px auto;
+	font-size: 40px;
+}
+/*header part css*/
+#header{ 
+	height: 70px;
+    width: 100%;
+    position: fixed;
+    line-height: 70px;
+    background: #222;
+    font-size: 14px;
+    color: #fff;
+    z-index: 1000000;
+}
+#header .welcomeText .currentAccount{
+	font-size: 20px;
+}
+#header .headerLeft{
+	font-size: 25px;
+	margin-left: 70px;
+}
+#header .headerRight{
+	height: 70px;
+	line-height: 50px;
+}
+#header .headerRight div{
+	line-height: 48px;
+	float: left;
+	height: 70px;
+	line-height: 70px;
+}
+#header .headerRight .button{
+	width:100px;
+	text-align: center;
+	cursor: pointer;
+}
+
+
+
+/*form part css*/
+.content>#main{
+	width: 85%;
+	float: right;
+    top: 0;
+    margin-top: 70px;
+}
+.content #main .titleBar{font-family: "黑体"; font-size: 20px; padding: 15px 0;}
+.form-search{    
+	width: 100%;
+    display: table;
+    padding-bottom: 16px;
+}
+.content #main .titleBar span{ font-size: 16px;}
+.content .formBox{
+	width:500px;
+	margin-left: 300px;
+	font-size: 16px;
+}
+.content .formBox form div span{
+	width: 150px;
+	height: 100%;
+	text-align: right;
+	margin-right: 30px;
+	display:inline-block;
+	vertical-align: top;
+	color: #585858;
+}
+.content .tableBox{
+	width: 99%;
+	margin:0 auto;
+}
+/*footer part css*/
+.content #footer{ 
+	width: 85%;
+	background:#F5F5F5; 
+	border-top:1px solid #E5E5E5; 
+	color:#999999; 
+	text-align:center; 
+	position: fixed;
+	bottom: 0 ;left: 15%;  
+}
+.content #footer p{ padding:10px 20px;}
+ 
+.btn{
+	border: 0px;
+	border-radius: 5px;
+}
+.form-group{
+    margin-top: 100px;
+}
+.btn-groups .btns{
+    margin: 150px 0 50px 90px;
+    border-radius: 7px;
+}
+.btn-groups .oddbtn{
+	width: 150px;
+	height: 40px;
+    margin: 50px auto;
+    display: block;
+
+}
+
+.btn-groups .btnL{
+	width: 120px;
+	height: 40px;
+    
+}
+.btn-groups .btnR{
+	width: 120px;
+	height: 40px;
+    margin: 50px auto;
+    display: block;
+}
+.form-horizontal {
+	margin-top: 150px;
+}
+/*login part css*/
+#login{
+	width:1200px;
+	margin:0 auto;
+}
+
+.loginleft img{
+	position:absolute;
+	margin:auto;
+	left:0;
+	top:0;
+	bottom:0;
+	display:none
+}
+.textareaBox{width: 215px; min-height: 110px; border: 1px solid #ccc;}
+.textareaBox p{
+    width: 200px;
+    margin: 3px 4px 0 4px;
+}
+.groupBox{position: relative;}
+.groupBox .elected{position: absolute; top: 0;left: 0;}
+.groupBox .textareaBox{margin-left: 185px; width: 210px;}
+.btn-groups .btns{
+    /*margin: 150px 0 50px 90px;*/
+    padding: 8px 35px;
+    border-radius: 7px;
+} 
+.info{
+	width: 43%;
+	display: inline-block;
+}
+.info select{
+    display: block;
+}
+.formBox input[type='text'],.formBox input[type='file'],.formBox input[type='password'] {
+	width: 210px;
+	
+}
+.formBox input[type='text'],.formBox input[type='password'],.formBox input[type='url'] {
+	padding: 14px 5px !important;
+}
+.selects,
+select{
+    width: 210px;
+    position: relative;
+}
+.selectList{
+    width: 210px;
+    height: auto;
+    position: absolute;
+    top: 30px;
+    left: 185px;
+    border: 1px solid #ccc;
+    display: none;
+    z-index: 1000;
+    background: #fff;
+    cursor:pointer;
+}
+.selectList p:hover{
+	background: #007FCC;
+	cursor:pointer;
+	color: #fff;
+}
+.tableBox input[type="file"]{
+	line-height: 0;
+}
+.tableBox select.selectAgency{
+	padding: 5px 4px;
+	height: 32px;
+	width: 216px;
+	/*line-height: 35px;*/
+}
+.addBatch{
+	display: none;
+	margin: 100px 0 50px 100px;
+}
+a.addBtn{
+	display: inline-block;
+	background:#ccc;
+	border-radius: 5px;
+	padding: 0 5px;
+	margin-left: 20px;
+	text-decoration: none;
+	color: #585858;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*新添加样式*/
+.contentRight{
+	width: 95%;
+	margin: 0 auto;
+}
+#myTab li a{
+	display: inline-block;
+}
+.content a{
+	text-decoration: none;
+	color: #1963aa;
+	cursor: pointer;
+}
+.contentRight .tab-content table tr td{
+	vertical-align: center;
+}
+.tab-content table tr td input{
+	text-align: center;
+	display: inline-block;
+	margin: 0 auto;
+	width: 20px;
+	height: 20px;
+}
+.tableBox .inputIndex{
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	display:block;
+	margin: 1px auto;
+	padding: 0 ;
+}
+.tableBox{
+	padding-bottom: 80px;
+}
+.tableBox table tr td{
+	vertical-align:0;
+	height: 30px;
+	line-height: 30px;
+	max-width: 260px;
+    overflow: hidden;
+}
+.ruleTitle{
+	margin-top: 40px;
+	margin-bottom: 20px;
+	font-family:'Open Sans',"微软雅黑","黑体";
+}
+.nav >li>a{
+	font-size: 16px;
+}
+span.select-box{
+	display:inline-block;
+	height: auto;
+	margin-right:20px;
+}
+span.select-box select,span.select-box input{
+	padding:5px;
+	border-radius: 2px;
+}
+.submitBtn{
+	background-color: #e9e9e9;
+    border: 1px solid #d8d8d8;
+    height: 34px;
+    line-height: 34px;
+    margin-top: 15px;
+
+}
+.submitBtn button{
+	height: 28px;
+    margin-top:3px;
+    margin-right: 10px;
+        border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #f2f2f2 !important;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+    background: -moz-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+    background: -o-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+    background: -ms-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+    filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7, endcolorstr=#f2f2f2, gradientType=0);
+    height: 28px;
+    padding:0px 10px !important;
+    cursor: pointer;
+    line-height: 28px;
+    display: inline-block;
+    color: #8f0911 !important;
+    /* margin-right: 5px; */
+    white-space: nowrap;
+}
+.submitBtn button:hover{
+	background-color: #eee !important;
+	color:#555 !important;
+}
+body .mbtn {
+	color: #fff !important;
+	background-color: #0088cc !important;
+}
+body .mbtn:hover {
+	color: #fff !important;
+	background-color: #0f5994 !important;
+}
+.form-search .select-box {
+	margin: 6px 20px 6px 0;
+}

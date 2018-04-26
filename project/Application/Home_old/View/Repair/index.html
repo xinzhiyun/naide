@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>报修</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/fonts/iconfont.css">
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_495581_nl5nael9r049rudi.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/repair.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/iconfontHome.css">
+	<script src="__PUBLIC__/Home/js/flexible.js"></script>
+	<script src="__PUBLIC__/Home/js/laydate.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
+	<script src="__PUBLIC__/Admin/layui/layui.js"></script>
+	<style>
+		#repair-main>i {
+			color: #51bdf3;
+		}
+		#repair-container>input {
+			background: #039CE9;
+		}
+		.timer-set>div {
+			width: 5.18555rem;
+			display: flex;
+    		justify-content: space-between;
+    		align-items: center;
+		}
+		#chooseDate, #star, #end {
+			border: 1px dashed #ccc;
+			font-size: .4rem;
+			border-radius: 2px;
+		}
+		#repair-main {
+			height: auto;
+		}
+		.repair-sendpic {
+			width: 2.5rem;
+		    height: 2.5rem;
+		    position: absolute;
+		    left: 0;
+		    opacity: 0;
+		    margin-top: .2rem
+		}
+		#repair-link>p>input {
+			width: 6.6rem;
+			padding: 0 2%;
+		}
+		#picShow {
+			width: 100%;
+			display: inline;
+			position: relative;
+		}
+		#picShow>span {
+			width: 20vmin;
+			height: 20vmin;
+			display: inline-block;
+			position: relative;
+			margin: 2vmin 1vmin;
+		}
+		#picShow>span>img {
+			width: 100%;
+			height: 100%;
+			display: inline-block;
+			position: relative;
+		}
+		.delPic {
+			width: 5vmin;
+			height: 5vmin;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top: 0;
+			right: 0;
+			margin-top: -2vmin;
+			margin-right: -2vmin;
+			border-radius: 5vmin;
+			color: #fff;
+			background: red;
+		}
+		textarea {
+			font-size: .4rem;
+		}
+		.layui-laydate, .layui-laydate-main{
+			width: 98vw;
+			left: 50%;
+			/*transform: translateX(-49vw);*/
+		}
+		.laydate-footer-btns {
+			width: 50%;
+			display: flex;
+			position: relative;
+			right: 0;
+			top: 0;
+			align-items: center;
+		}
+		.laydate-btns-clear,
+		.laydate-btns-now,
+		.laydate-btns-confirm {
+			width: 33.33%;
+			display: inline-block;
+			padding: 10% !important;
+		}
+		.layui-laydate-content table {
+			width: 90%;
+			position: relative;
+			left: 50%;
+			margin-left: -45%;
+		}
+		.layui-laydate-footer {
+			display: flex;
+			justify-content: flex-end;
+			height: auto;
+		}
+		.laydate-footer-btns span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.laydate-time-list>li>ol {
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+<body>
+	<form action="{{:U('Home/Repair/index')}}" method="post" enctype="multipart/form-data" id="form">
+		<div id="repair-all">
+			<div id="repair-container">
+				<div id="repair-timer">
+					{{//$_SESSION['homeuser']|dump}}
+					<p>设备编码：{{$code['device_code']}}</p><br>
+					<p>服务时间：</p>
+					<div class="timer-set">
+						<input type="hidden" value="{{$code['device_code']}}" name="device_code">
+						<input name="date" type="button" class="in-first layui-input" id="chooseDate" value="" placeholder="yyyy年MM月dd日"><br>
+						<div>
+							<input name="begin_time" type="button" id="star" value="" placeholder="HH:mm:ss">
+							<b>~</b>
+							<input name="over_time" type="button" id="end" value="" placeholder="HH:mm:ss">
+						</div>
+					</div>
+				</div>
+				<div id="repair-main">
+					<h3>您所遇到的问题描述<b>*</b></h3>
+					<textarea name="content" id="QUesdec" cols="30" rows="10"></textarea>
+					<p>上传截图</p>
+					<i class="iconfont icon-plus"></i>
+					<input class="repair-sendpic sendpic" accept="image/*" type="button" />
+					<input type="hidden" name='pic'>
+					<div id="picShow"></div>
+				</div>
+				<div id="repair-link">
+					<p>联系方式</p>
+					<p>
+						<label for="name">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+						<!-- <input name="name" id="name" class="name" type="text" placeholder="请输入您的姓名"> -->
+                        <input name="name" id="name" class="name" type="text" value="{{$code['name']}}" placeholder="请输入您的姓名">
+
+					</p>
+					<p>
+						<label for="name">电&nbsp;&nbsp;&nbsp;&nbsp;话：</label>
+						<!-- <input name="phone" id="name" class="phone" type="text" placeholder="请输入手机号码"> -->
+                        <input name="phone" id="name" class="phone" type="text" value="{{$code['phone']}}" placeholder="请输入手机号码">
+
+					</p>
+					<p>
+						<label for="name">维修地址：</label>
+						<!-- <input name="address" id="name" class="address" type="text" placeholder="请输入您的详细地址"> -->
+                    	<input name="address" id="name" class="address" type="text" value="{{$code['address']}}" placeholder="请输入您的详细地址">
+
+					</p>
+					<p>	
+						<if condition="$phone['csphone']">
+						<label for="name" style="padding-top: 10px;">客服电话：<a href="tel:{{$phone['csphone']}}" class="telephone">{{$phone['csphone']}}</a></label>
+						<else />
+						<label for="name" style="padding-top: 10px;">客服电话：<a href="tel:{{$phone['phone']}}" class="telephone">{{$phone['phone']}}</a></label>
+						</if>
+						
+						
+					</p>
+				</div>
+				<input type="button" value="提交" id="re-commit">
+			</div>
+
+		</div>
+	</form>
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>	
+	<script>
+
+		//微信接口
+		wx.config({
+		    debug: false,
+		    appId: '{{$info["appId"]}}',
+		    timestamp: '{{$info["timestamp"]}}',
+		    nonceStr: '{{$info["nonceStr"]}}',
+		    signature: '{{$info["signature"]}}',
+		    jsApiList: [
+		      // 所有要调用的 API 都要加到这个列表中
+			    'chooseImage',
+		        'uploadImage',
+		        'getLocalImgData',
+		        'downloadImage'
+		    ]
+		});
+
+		$(function(){
+			function takePicture(nums) {  
+				
+			   	wx.chooseImage({  
+			       	count: 1,  
+			       	needResult: 1,  
+			       	sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有  
+			       	sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有  
+			       	success: function (data) {                  
+			           	localIds = data.localIds[0];   // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片        
+			           	                  
+			           	var num1 = nums;
+			           	wxuploadImage(localIds,num1);
+			           	wxgetLocalImgData(localIds,num1);
+			       	},  
+			       	fail: function (res) {  
+			       		console.log('失败：',JSON.stringify(res));
+		           	}    
+		       	});  
+			   
+		   	}
+		   	function wxuploadImage(e,num) {
+
+			    wx.uploadImage({  
+			        localId: e, // 需要上传的图片的本地ID，由chooseImage接口获得  
+			        isShowProgressTips: 1, // 默认为1，显示进度提示  
+			        success: function (res) {                                        
+			            mediaId = res.serverId;                     
+			            $('input[name="pic"]').val(mediaId);
+			        },  
+			        fail: function (error) {  
+			            picPath = '';  
+			            localIds = '';  
+			        }          
+			    });
+			}
+	        var $span = $("<span></span>");
+			var $span1 = $("<span>X</span>");
+			var $img = $('<img src="" alt="" />');
+			function wxgetLocalImgData(e,num){
+
+				$img[0].width = "100%";
+				$img[0].height = "90%";
+
+			    if(window.__wxjs_is_wkwebview){
+				    wx.getLocalImgData({
+				        localId: e, // 图片的localID
+				        success: function (res) {                    
+				            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+				            localData = localData.replace('jgp', 'jpeg');//iOS 系统里面得到的数据，类型为 image/jgp,因此需要替换一下                                            
+							$img[0].src = localData;
+
+				        },
+				        fail:function(res){
+				          	alert("显示失败");
+				        }
+				    });
+			    }else{
+			        $img[0].src = e;
+			        
+			    }
+
+				$span1.addClass("delPic");
+				$span1.css({zIndex: '999'});
+				$span.append($span1);
+				$span.append($img[0]);
+				$('#picShow').append($span);
+				
+			}
+
+			//layuiHint弹框提示封装
+			function layuiHint(text){
+			    layui.use('layer', function(){
+			        var layer = layui.layer;
+			        layer.msg(text);
+			    });  
+			}
+			var formData = new FormData($("#form")[0]);
+
+			$("#star").val('09:00:00');
+			var nowDate = new Date().getTime();
+			
+			$("#chooseDate").click(function(){
+
+			  	//选择服务日期，
+				laydate.render({
+					elem: '#chooseDate', //指定元素
+					show: true,
+					format: 'yyyy年MM月dd日',
+					btns: ['clear', 'confirm'],
+					min: 1
+				});
+			})
+
+			var startDate, endDate;
+			$("#star").click(function(){
+
+				// 选择服务起始时间
+				startDate = laydate.render({
+					elem: '#star', //指定元素
+					show: true,
+					type: 'time',
+					format: 'HH:mm:ss',
+					min: '09:00:00',
+					max: '18:00:00',   
+					done: function (value, dates) {  
+						// console.log(dates);
+					    endDate.config.min ={  
+				             year: dates.year,   
+				             month: dates.month-1, //关键  
+				             date: dates.date,   
+				             hours: dates.hours,   
+				             minutes: dates.minutes,   
+				             seconds : dates.seconds  
+					    };      
+					}
+				});
+			})
+
+			$("#end").click(function(){
+				// 选择服务结束时间
+				endDate= laydate.render({
+					elem: '#end', //指定元素
+					show: true,
+					type: 'time',
+					format: 'HH:mm:ss',
+					btns: ['clear', 'confirm'],
+					min: '09:00:00',
+					max: '18:00:00'
+				});
+			});
+			// 选择服务结束时间
+			endDate= laydate.render({
+				elem: '#end', //指定元素
+				type: 'time',
+				format: 'HH:mm:ss',
+				btns: ['clear', 'confirm'], 
+				min: '09:00:00',
+				max: '18:00:00'
+			});
+			
+			$('form>input').click(function(){
+				$('#repair-main>i').css('color','#6848F9');
+				$('form>input').mouseout(function(){
+					$('#repair-main>i').css('color','#D0D1FC');
+				})
+			});
+
+			// 点击上传图片
+			$(".sendpic").click(function(){
+				var len = $("#picShow>span").length;
+				if(len == 1){
+					layuiHint("暂时只支持一张图片！");
+					return
+				}
+				takePicture(1);
+			})
+
+			// 点击上传的图片右上角的" x "，删除这张图片
+			$(".delPic").live("click", ".delPic", function(){
+				// 清除删除的这条数据
+				$('input[name="pic"]').val('');
+				$(this).parent().remove();
+			})
+
+			// 验证姓名，手机号，地址的正则
+			var	nameReg = /^([a-zA-Z0-9_\u4e00-\u9fa5]){2,30}$/,
+				phoneReg = /^(1[3|4|5|7|8])\d{9}$/,
+				addressReg = /^(?=.*?[\u4E00-\u9FA5])[\dA-Za-z\u4E00-\u9FA5]{8,}/;
+			
+			// 点击‘提交’
+			$("#re-commit").click(function(){
+
+				if(!$("#chooseDate").val() || !$("#star").val() || !$("#end").val()){
+					layuiHint("请选择完整的服务时间！");
+					return
+				}
+				if(!$("#QUesdec").val()){
+					layuiHint("请描述您遇到的问题！");
+					return
+
+				}
+				if(!$("#picShow").html()){
+					layuiHint("请上传图片！");
+					return
+
+				}
+				if( !(nameReg.test($(".name").val())) ){
+					layuiHint("请输入正确的姓名！");
+					return
+
+				}
+				if( !(phoneReg.test($(".phone").val())) ){
+					layuiHint("请输入正确的手机号码！");
+					return
+
+				}
+				if( !(addressReg.test($(".address").val())) ){
+					layuiHint("请输入详细地址！");
+					return
+
+				}
+
+				$("#form").submit();
+
+				// console.log($("#picShow").html())
+				// console.log($("#QUesdec"))
+			})
+		})
+	
+	</script>
+	</body>
+</html>

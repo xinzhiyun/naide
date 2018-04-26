@@ -2,7 +2,12 @@
 namespace Admin\Model;
 use Think\Model;
 use Org\Util\Date;
-
+/**
+ * Class DevicesModel
+ * @package Admin\Model
+ * 设备添加操作
+ * @author 陈昌平 <chenchangping@foxmail.com>
+ */
 class DevicesModel extends Model
 {
     // 自动验证
@@ -31,58 +36,63 @@ class DevicesModel extends Model
     // 
     public function getDevicesInfo($map)
     {
-        $excel_output = I('output');
-        $m = $this
+        // dump($map);die;
+        // 分页
+        $count = $this
             ->where($map)
             ->alias('d')
             ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-            ->order('d.id asc');
-//        $data = $this
-//            ->where($map)
-//            ->alias('d')
-//            ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-//            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
-//            ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
-//            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-//            ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
-//            ->field("statu.*,bind.*,d.device_code,type.*,vendors.*,d.name dname,d.phone,d.address,d.id,d.uid,u.open_id")
-//            ->order('d.id asc');
+            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+            ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
+            ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
+            // ->field("statu.*,bind.*,d.id,d.device_code,type.*,vendors.*,d.name dname,d.phone,d.address,d.uid")
+            // ->order('d.id asc')
+            // ->limit($page->firstRow.','.$page->listRows)
+            ->count();
 
-        $arr = array(
-            'netstause'=>       ['0'=>'断开', '1'=>'连接中'],
-            'updatetime'=>      ['date','Y-m-d H:i:s'],
-            'leasingmode' =>    ['零售型','按流量计费','按时间计费','时长和流量套餐'],
-            'devicestause' =>   ['制水','冲洗','水满','缺水','漏水','检修','欠费停机','关机','开机'],
-            'filtermode' =>     ['按时长','按流量','时长和流量'],
-        );
+        // echo $count;
+        // echo M()->getLastSql();die;
 
-        if($excel_output == ''){
-            $page_data = page_style( $m->count() );
-            $page = $page_data['page'];
+        $page = new \Think\Page($count, 10);
 
-            $data = $m
-                ->limit($page->firstRow.','.$page->listRows)->select();
-            $data = replace_array_value($data,$arr);
+        $page->rollPage = 10;
+        $this->getPageConfig($page);
+        $show = $page->show();
 
-        } else {
-            $data = $m
-                //->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
-                ->select();
-            $data = replace_array_value($data,$arr);
 
-            foreach ($data as $key=>$val) {
-                array_unshift($data[$key],$key+1);
+        
 
-            }
-        }
+        // 查询数据
+        $data = $this
+            ->where($map)
+            ->alias('d')
+            ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
+            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+            ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
+            ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
+            ->field("statu.*,bind.*,d.device_code,type.*,vendors.*,d.name dname,d.phone,d.address,d.id,d.uid,u.open_id")
+            ->order('d.id asc')
+            ->limit($page->firstRow.','.$page->listRows)
+            ->select();
 
+        $arr = [
+//            'leasingmode' => ['零售型','按流量计费','按时间计费','时长和流量套餐'],
+//            'devicestause' => ['制水','冲洗','水满','缺水','漏水','检修','欠费停机','关机','开机'],
+            'netstause'=>['断开','连接中'],
+//            'filtermode' => ['按时长','按流量','时长和流量'],
+//            'updatetime'=>['date','Y-m-d H:i:s']
+        ];
+        $data = replace_array_value($data,$arr);
+
+        // echo M()->getLastSql();die;
+        // 分配返回数据
         $assign = [
-                'show' => $page_data['show']??'',
-                'data' => $data??[],
-            ];
-
+            'show' => $show,
+            'data' => $data,
+        ];
         return $assign;
-
     }
 
      // 获取当月充值数据

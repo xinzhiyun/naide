@@ -1,0 +1,148 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">建议及报修/<span>建议列表</span></div>
+            <form class="form-search" action="__URL__/feedslist" method="post">
+                <span class="select-box">用户昵称:
+                    <input type="text" class="input-medium name" name="name" placeholder="请输入用户昵称" style="width: 100px;"/ >
+                </span>
+                <span class="select-box">手机号:
+                    <input type="text" class="input-medium phone" name="phone" placeholder="请输入手机号" style="width: 100px;"/ >
+                </span>              
+                <span class="select-box" style="display: inline-block;position:relative">时间:
+                    <input type="text" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxcaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
+                </span>
+                <div class="submitBtn">
+                    <button type="submit" name="output" value="1" class="btn fr mbtn" style="float: left;color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe62f;</i> 导出</button>
+                    <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
+                    <button type="submit" name="search" value="1" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe615;</i> 查找</button>
+                </div>               
+            </form>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>建议ID</th>
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>手机号</th>
+                    <th>反馈内容</th>
+                    <th>反馈时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <notempty name="list">
+                    <foreach name="list" item="vo" key="key">
+                    <tr>
+                        <td>{{$vo.id}}</td>
+                        <td>{{$vo.uid}}</td>
+                        <td>{{$vo.name}}</td>
+                        <td>{{$vo.phone}}</td>
+                        <td>{{$vo.content}}</td>
+                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                        <td>
+                            <!-- <a href="javascript:void(0)" url="__URL__/feedsdel/id/{{$vo.id}}" class="_del">删除</a> -->
+                            <a href="javascript:;" class="_del">删除</a>
+                            <input type="hidden" value="{{$vo.id}}" />              
+                        </td>
+                    </tr>
+                    </foreach>
+                    <else />
+                    <tr>
+                        <td colspan="10">查无数据</td>
+                    </tr>
+                    </notempty>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <ul>
+                    {{$button}}
+                </ul>
+            </div>
+            <script>
+                $('.pagination ul a').unwrap('div').wrap('<li></li>');
+                $('.pagination ul span').wrap('<li class="active"></li>')
+                //提示
+                function tip(tip,title,fn){
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.confirm(tip, {icon: 3, title:title}, function(index){
+                            fn&&fn()                
+                        });
+                    });
+                }
+                $('._del').click(function(){
+                    var a=$(this).siblings().val();
+                    tip('确定删除？','提示',function(){
+                        window.location.href = "__URL__/feedsdel?id="+a;
+                    })
+                    return false;
+                })
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var fid, uid, name, phone, date_start, date_end;
+                    /**
+                     * fid: 建议id, uid：用户ID, 
+                     * name：姓名, phone：经销商手机, 
+                     * date_start：开始时间, date_end：结束时间
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        fid = $('.fid').val();
+                        uid = $('.uid').val();
+                        name = $('.name').val();
+                        phone = $('.phone').val();
+                        date_start = $('#date-start').val();
+                        date_end = $('#date-end').val();
+
+                        srearchInfo['fid'] = fid;
+                        srearchInfo['uid'] = uid;
+                        srearchInfo['name'] = name;
+                        srearchInfo['phone'] = phone;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+
+                            $('.fid').val(srearchInfo['fid']);
+                            $('.uid').val(srearchInfo['uid']);
+                            $('.name').val(srearchInfo['name']);
+                            $('.phone').val(srearchInfo['phone']);
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Feeds/feedslist")}}';
+
+                    })
+                    
+                /**************** 搜索关键字保留 -- 结束 ******************/
+
+            </script>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>
+

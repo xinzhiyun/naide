@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>租赁水机</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Pay/css/lease.css">
+</head>
+<body>
+	<div class="main" v-cloak>
+		<ul id='share'>
+			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
+			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
+			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
+			<div class='sharebuy' @click='hideshare'>立即<br/>购买</div>
+		</ul>
+		<!-- 主题内容 -->
+		<div class="mainContent">
+			<div class="aboutMeal"></div>
+			<!-- 选择套餐 -->
+			<ul class="selectMeal">
+				<li>
+					<span class="iconfont icon-taocan"></span>
+					<p>选择套餐</p>
+				</li>
+				<li class="mealDetail">
+					<div>
+						<p>{{mealSet.one}}</p>
+						<p>{{mealSet.two}}</p>
+					</div>
+					<div>
+						<p>{{mealSet.three}}</p>
+						<p>{{mealSet.four}}</p>
+					</div>
+				</li>
+				<li><p class="confirmSelect" @click='confirmSelects'>确定选择</p></li>
+			</ul>
+		</div>
+
+		<!-- 租赁协议 -->
+		<div class="monikuan">
+			<div class="buyProtocal">
+				<h1>购买协议</h1>
+				<div class="protocalContent"> 购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致</div>
+				<div class="behavior">
+					<p class="refuse">拒绝</p>
+					<p class="accept" @click="accepts">同意</p>
+				</div>
+			</div>
+		</div>
+	</div>	
+</body>
+<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script src="__PUBLIC__/Home/js/public.js"></script>
+<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+<!-- <script src="__PUBLIC__/Home/js/Pay/lease.js"></script> -->
+<script>
+
+	window.onload = function() {
+		// 窗口高度
+		var clientHeight = document.documentElement.clientHeight + 'px';
+		// body高度为窗口高度
+		document.getElementsByTagName("body")[0].style.height = clientHeight;
+		var vm = new Vue({
+			el: '.main',
+			data: {
+				meal:'',
+				mealSet: {one: "100元/1个月", two: "200元/3个月", three: "300元/5个月", four: "600元/1年"}
+			},
+			mounted(){
+				var href = location.href;
+				if(href.indexOf('buy') > -1){
+					$('#share').hide();
+					$('.mainContent').show();
+					$(".monikuan").css({display:'flex'});
+				}else{
+					$('#share').show();
+				}
+				this.meal = this.mealSet['one'];
+			},
+			methods: {
+				// 点击购买隐藏介绍界面
+				hideshare: function(e){
+					location.href = '{:U("Home/Users/buyinfo")}';
+				},
+				// 点击同意时模拟框消失
+				accepts: function() {
+					$(".monikuan").css("display", "none");
+				},
+				// 确认选择 提交内容
+				confirmSelects: function() {
+					location.href = '{:U("Home/Pay/firstHire")}' + '?meal=' + this.meal;
+					// $.ajax({
+					// 	url: "",
+					// 	type: "post",
+					// 	data: {}.
+					// 	success: function(res) {
+
+					// 	}
+					// })
+				}
+			},
+			computed: {}
+
+		});
+
+		// 页面载入显示协议
+		var mealContent = $(".mealDetail>div").eq(0).children().eq(0).html();
+		// 默认选中第一个套餐
+		$(".mealDetail>div").eq(0).children().eq(0).attr('class','mealselect');
+		$(".mealDetail>div>p").on("touchstart", function() {
+			$(this).attr('class','mealselect').siblings().attr('class','').parent().siblings().children().attr('class','');
+			mealContent = $(this).html();
+			vm.meal = $(this).html();
+		})
+		
+	}
+</script>
+</html>

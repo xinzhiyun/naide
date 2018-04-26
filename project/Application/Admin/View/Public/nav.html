@@ -1,0 +1,27 @@
+<div class="navBox sidebar-collapse fl" id="nav">
+    <ul class="nav nav-list">
+        <!-- 遍历菜单   开始 -->
+        <foreach name="nav_data" item="v">
+            <empty name="v['_data']">
+            <else />
+                <li>
+                    <a href="javascript:;" class="dropdown-toggle">
+                        <span class="menu-text">
+                            {{$v['name']}}
+                        </span>
+                    </a>
+                    <ul class="submenu">
+                        <foreach name="v['_data']" item="n">
+                            <li>
+                                <switch name="n.id">
+                                    <default /><a class="item" href="{{:U($n['mca'])}}" ><i class="icon-double-angle-right"></i>{{$n['name']}}</a>
+                                </switch>
+                            </li>
+                        </foreach>
+                    </ul>
+                </li>
+            </empty>
+        </foreach>
+        <!-- 遍历菜单   结束 -->
+    </ul>
+</div>

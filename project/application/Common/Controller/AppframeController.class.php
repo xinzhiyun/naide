@@ -4,15 +4,12 @@ use Think\Controller;
 
 class AppframeController extends Controller {
 
-    function _initialize() {
-        $this->assign("waitSecond", 3);
-       	$time=time();
-        $this->assign("js_debug",APP_DEBUG?"?v=$time":"");
-    }
-
     public function __call($a,$b)
     {
-        $this->display($a);
+        $args=['_initialize','__construct'];
+        if(!in_array($a,$args)){
+            $this->display($a);
+        }
     }
 
     /**
@@ -56,36 +53,6 @@ class AppframeController extends Controller {
         }
         
     }
-    
-    /**
-     * 
-     * @param number $totalSize 总数
-     * @param number $pageSize  总页数
-     * @param number $currentPage 当前页
-     * @param number $listRows 每页显示条数
-     * @param string $pageParam 分页参数
-     * @param string $pageLink 分页链接
-     * @param string $static 是否为静态链接
-     */
-    protected function page($totalSize = 1, $pageSize = 0, $currentPage = 1, $listRows = 6, $pageParam = '', $pageLink = '', $static = FALSE) {
-    	if ($pageSize == 0) {
-    		$pageSize = C("PAGE_LISTROWS");
-    	}
-    	if (empty($pageParam)) {
-    		$pageParam = C("VAR_PAGE");
-    	}
-    	
-    	$page = new \Page($totalSize, $pageSize, $currentPage, $listRows, $pageParam, $pageLink, $static);
-    	
-    	$page->setLinkWraper("li");
-    	if(sp_is_mobile()){
-    	    $page->SetPager('default', '{prev}&nbsp;{list}&nbsp;{next}', array("listlong" => "4", "prev" => "上一页", "next" => "下一页", "list" => "*", "disabledclass" => ""));
-    	}else{
-    	    $page->SetPager('default', '{first}{prev}&nbsp;{liststart}{list}{listend}&nbsp;{next}{last}', array("listlong" => "4", "first" => "首页", "last" => "尾页", "prev" => "上一页", "next" => "下一页", "list" => "*", "disabledclass" => ""));
-    	}
-	    
-    	return $page;
-    }
 
     //空操作
     public function _empty() {
@@ -114,16 +81,4 @@ class AppframeController extends Controller {
     		session('last_action.time',$time);
     	}
     }
-    
-    /**
-     * 模板主题设置
-     * @access protected
-     * @param string $theme 模版主题
-     * @return Action
-     */
-    public function theme($theme){
-        $this->theme=$theme;
-        return $this;
-    }
-
 }

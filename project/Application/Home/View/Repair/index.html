@@ -4,14 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<title>报装/报修</title>
-	<link rel="stylesheet" href="../../Public/frontEnd/css/Repair/css/repair.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/AmazeUI/assets/css/amazeui.min.css">
-	<link rel="stylesheet" href="../../Public/frontEnd/css/common.css">
-	<!-- <link rel="stylesheet" href="../../Public/frontEnd/css/laydate.css"> -->
-	<link rel="stylesheet" href="../../Public/frontEnd/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Repair/css/repair.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body style="overflow:auto">
-<div class="repair-all_bg">
+<div class="repair-all_bg" id="repair_vue">
 	<form action="" metho="post" enctype="multipart/form-data" id="form">
 		<div id="repair-all">
 		<!-- 服务内容部分开始 -->
@@ -63,26 +63,26 @@
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系人：</div>
 						<div class="am-u-sm-5">&nbsp;</div>
-						<div class="am-u-sm-3 fs-r" id="contact">恩恩</div>
+						<div class="am-u-sm-3 fs-r" id="contact">{{info_confirm.linkman}}</div>
 						<i class="am-u-sm-1"></i>
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系电话：</div>
 						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r" id="contact_number">135-1354-1354</div>
+						<div class="am-u-sm-4 fs-r" id="contact_number">{{info_confirm.contact_number}}</div>
 						<i class="am-u-sm-1"></i>
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">设备编码：</div>
 						<div class="am-u-sm-2">&nbsp;</div>
-						<div class="am-u-sm-6 fs-r" id="repair_device">123123123123123</div>
+						<div class="am-u-sm-6 fs-r" id="repair_device">{{info_confirm.device_code}}</div>
 						<i class="am-u-sm-1"></i>
 					</li>
 					<li>
 						<!-- <span class="fs-l">详细地址：</span> -->
 						<!-- <textarea name="a" style="width:200px;height:70px;" class="fs-r" placeholder=""></textarea>  -->
 						<div class="am-u-sm-3 fs-l">详细地址：</div>
-						<div class="am-u-sm-8 fs-r" id="address">广东广州番禺区，钟村文化广场</div>
+						<div class="am-u-sm-8 fs-r" id="address">{{info_confirm.detailed_add}}</div>
 						<i class="am-u-sm-1"></i>
 					</li>
 				</ul>
@@ -126,13 +126,17 @@
 	<!-- 维修蒙版结束部分 -->
 
 </div>
-	<script src="../../Public/frontEnd/js/jquery.min.js"></script>
-	<script src="../../Public/frontEnd/AmazeUI/assets/js/amazeui.min.js"></script>
-	<script src="../../Public/frontEnd/js/public.js"></script>
-	<script src="../../Public/frontEnd/js/Repair/repair.js"></script>
-	<!-- <script src="../../Public/frontEnd/js/laydate.js"></script> -->
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Repair/repair.js"></script>
 	<script>
-
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		}
 	</script>
 </body>
 </html>

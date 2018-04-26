@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+		<title>购物车</title>
+		<link rel="stylesheet" href="__PUBLIC__/Home/css/shop-bill.css">
+		<link rel="stylesheet" href="__PUBLIC__/Home/fonts/iconfont.css">
+    	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/iconfontHome.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			.bott {
+				display: inline-flex;
+			     align-items: center; 
+			    justify-content: flex-end;
+				text-align: right;
+			}
+			#ro-right .top {
+				position: relative;
+			}
+			#ro-right .bott i input {
+				position: relative;
+				color: #9E9E9E;
+			}
+			.bott>i {
+				width: 1.6rem;
+				display: inline-flex;
+			    /* align-items: center; */
+			    justify-content: flex-end;
+				position: relative !important;
+			}
+			.bott>b {
+				margin-right: 8px;
+			}
+
+			#mo-right {
+				width: 80%;    
+				display: inline-flex;
+    			align-items: center;
+				position: relative;
+			}
+			#mo2>.bill {
+				width: 18%;
+				height: auto;
+				text-align: center;
+				line-height: 0.666667rem;
+    			vertical-align: middle;
+			}
+			#mo-right>p {
+				position: absolute;
+				right: 0;
+			}
+			.minus {
+				font-size: .5rem;
+			}
+			input[type="number"] {
+				border: none;
+			}
+			i.num input {
+				width: 50%;
+				height: auto;
+				text-align: right;
+			}
+			#mo2 i {
+				width: 100%;
+				display: flex;
+				position: relative;
+				white-space: nowrap;
+    			right: 0;
+			}
+			#ro-right .bott i input {
+				flex: 1;
+				height: auto;
+				font-size: .5rem;
+				text-align: right;
+			}
+			#ro-right .bott i input:nth-child(2) {
+				text-align: center;
+			}
+			i.num input:nth-child(2) {
+			     width: 50%; 
+			     height: auto; 
+			     color: #9E9E9E; 
+			     font-size: .5rem;
+			     border: none; 
+			     text-align: center;
+			}
+			/*#back2Home {
+			    width: 8vh;
+			    height: 8vh;
+			    display: -webkit-flex;
+			    display: -moz-flex;
+			    display: -ms-flex;
+			    display: -o-flex;
+			    display: flex;
+			    justify-content: center;
+			    -ms-align-items: center;
+			    align-items: center;
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    z-index: 999;
+			}
+			#back2Home>i {
+			    width: 5vh;
+			    height: 5vh;
+			    text-align: center;
+			    line-height: 5vh;
+			    color: #fff;
+				font-weight: 600;
+			    border-radius: 5vh;
+			    background: #039CE9;
+			}*/
+			#foot {
+				color: #039CE9;
+			}
+			#foot input:last-child {
+			    background: #039CE9;
+			    color: #fff;
+			}
+			.item {
+				position:relative;
+			}
+			.bianji {
+				position:absolute;
+				top:2vh;
+				right:2vh;
+				z-index:1000000;
+			}
+		</style>
+	</head>
+	<body>
+
+	<div id="contain">
+		
+		<!-- <a id="back2Home" href="{{:U('Home/index/index')}}"><i class="iconfont icon-zhuye"></i></a> -->
+		<!-- 滤芯开始 -->
+		<div id="mo">
+			<foreach name="filters" item="v" key="k">
+				<div class="item">
+					<span class="iconfont icon-edit bianji" index="1"></span>
+					<div id="ro1" class="ro1">
+						<div id="ro-left"><i><input class="del" type="text" value="—" readonly></i><img src="__PUBLIC__{{$v['picpath']}}" alt=""></div>
+						<div id="ro-right" class="clicknone">
+							<div class="top">
+								<h3>{{$v['filtername']}}</h3>
+								<p>{{$v['introduce']|msubstr=0,45,'utf-8'}}</p>
+							</div>
+							<div class="bott">
+							 	<b>￥{{$v['price']/100}}</b>
+							 	<!-- <p class="">X{{$v['num']}}</p> -->
+							 	<i>
+									<input type="button" value="x" class="minus">
+									<input fid="{{$v['id']}}" class="num" type="button" value="{{$v['num']}}">
+									<!-- <input type="button" value="" class="plus"> -->
+								</i>
+							</div>
+						</div>
+						<div id="ro-right" class="intoCart" style="display:none">
+							<div class="tops">
+								<h3>{{$v['filtername']}}</h3>
+								<p>{{$v['introduce']|msubstr=0,45,'utf-8'}}</p>
+							</div>
+							<div class="bottomBtn">
+								<div class="numadd">
+									<div>
+										<span class="reduce">-</span>
+										<input type="text" fid="{{$v['id']}}" class="num" value="{{$v['num']}}">
+										<span class="adds">+</span>
+									</div>
+									
+								</div>
+								<div class="finish">完成</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</foreach>
+
+			<foreach name="setmeal" item="vo" key="ke">
+				<div class="item">
+					<div id="mo2">
+						<input class="del" type="text" value="—" readonly>
+						<div id="mo-right">
+							<b>{{$vo['describe']}}</b><p>￥{{$vo['money']/100}}</p>
+							
+						</div>
+						<p class="bill" style="position: relative;">
+							<i class="num">
+								<input type="button" value="x" class="minus">
+								<input sid="{{$vo['id']}}" class="num" type="number" value="{{$vo['num']}}">
+								<!-- <input type="button" value="" class="plus"> -->
+							</i>
+						</p>
+					</div>
+				</div>			
+			</foreach>
+			<p class="franking"> </p>
+		</div>
+			
+
+		<!-- 滤芯结束 -->
+        <div id="foot">
+			<b>合计金额:</b><b class="chang">￥{{$totalAmount/100}}</b>
+			<input type="submit" value="去结算">
+		</div>	
+	</div>
+	
+	</body>
+	<script src="__PUBLIC__/Home/js/flexible.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery-1.11.1.min.js"></script>
+	<!-- 微信支付支持JS部分代码 -->
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script src="__PUBLIC__/Admin/layui/layui.js"></script>
+<script>
+		/**
+		 * 初始化样式
+		 */
+		// 找对象
+		var shop = $('input.num');
+
+		// 循环遍历
+		for(var i=shop.length;i>=0;i--){
+			// 获取每个产品数量INPUT对象
+			var obj = $(shop[i]);
+			// 获取产品数量隐转数值类型
+			var n = obj.val()-0;
+			// 获取产品类型
+			var type = obj.attr('sid')?'sid':'fid';
+			// 初始化样式
+			if(n>0){	
+				// 找祖先元素.item设置样式
+				// obj.parents('.item').css({'background':'#F0F0F0'});
+				// 找祖先元素.item下面的子元素hr设置样式
+				obj.parents('.item').css({'border-bottom':'1px solid #D8D8D8'});
+				// 根据sid或fid判断是充值套餐还是滤芯产品，给被选中的产品添加class属性sid值或fid值
+				obj.addClass(type);
+			}
+		}
+		
+		// 编辑
+		$(".bianji").on("click", function(){
+			if($(this).attr("index")) {
+				$(this).siblings().children(".clicknone").css("display", "none").siblings(".intoCart").css("display", "block");
+				$(this).attr("index", "");
+				$(this).css("display", "none");
+			}
+		})
+		// 购物车产品数量
+		var numVal;
+		// 点击减号
+		$(".reduce").on("click", function() {
+			numVal = $(this).siblings(".num").val();
+			numVal--;
+			$(this).siblings(".num").val(numVal);
+			if(numVal < 1) {
+				layer.msg("数量超出范围");
+				$(this).siblings(".num").val("1");
+			}
+		})
+		// 点击加号
+		$(".adds").on("click", function() {
+			numVal = $(this).siblings(".num").val();
+			numVal++;
+			$(this).siblings(".num").val(numVal);
+			if(numVal > 10) {
+				layer.msg("数量超出范围");
+				$(this).siblings(".num").val(10);
+			}
+		})
+		// 点击完成
+		$(".finish").on("click", function() {
+			numVal = $(this).siblings(".numadd").children().children(".num").val();
+			$(this).parent().parent(".intoCart").css("display", "none").siblings(".clicknone").css("display", "block");
+			// 完成之后将改变的数量赋予原显示块
+			$(this).parent().parent(".intoCart").siblings(".clicknone").children(".bott").children().children(".num").val(numVal);
+			// 点击完成后编辑图标出现
+			$(this).parent().parent().parent().siblings("span").attr("index", 1).css("display", "block");
+			// 提交后台
+			var num = $(this).parent().parent().siblings(".clicknone").children(".bott").children("i").children(".num").val() - 0;
+			var type = $(this).parent().parent().siblings(".clicknone").children(".bott").children("i").children(".num").attr("sid") ? "sid" : "fid";
+			var typeValue = $(this).parent().parent().siblings(".clicknone").children(".bott").children("i").children(".num").attr(type);
+			console.log(num ,type ,typeValue);
+			$.ajax({
+				url: '{{:U("ShoppingCart/reviseCart")}}',
+				type: "post",
+				data : {data:{type:type,typeValue:typeValue,num:num}},
+				success: function(res) {
+					console.log("成功", res);
+					// 判断购物车是否添加成功
+					if(res==1){
+						// alert('修改成功');
+						// 刷新页面
+						location.reload();
+					}
+				},
+				error: function(res) {
+					console.log("错误", res);
+				}
+			})
+		})
+
+		// 输入数量时失焦判断数量是否超出
+		$(".num").on("blur", function() {
+			var inputNum = parseInt($(this).val());
+			console.log(inputNum)
+			if(inputNum < 1) {
+				layer.msg("数量超出范围");
+				$(this).val(1)
+				numVal = 1;
+			}else if(inputNum >10) {
+				layer.msg("数量超出范围");
+				$(this).val(10)
+				numVal = 10;
+			}
+			else{
+				numVal = inputNum;
+			}
+			
+		})
+		// 封装layer使用
+		layui.use("layer", function() {
+			var layer = layui.layer;
+		})
+		/**
+		 *  减号按钮让产品购买数量自减
+		 */
+		// $('.minus').click(function(){
+		// 	// 点击减号按钮获取当前产品的value值,隐式转数值型
+		// 	var num = $(this).next('input').val()-0;
+		// 	var type = $(this).next('input').attr('sid')?'sid':'fid';
+		// 	var typeValue = $(this).next('input').attr(type);
+		// 	// 判断产品数量大于0
+		// 	if(num>1){
+		// 		// 产品数量自减
+		// 		$(this).next('input').val(--num);
+
+		// 		// 异步请求，修改购物车
+		// 		$.post('{{:U("ShoppingCart/reviseCart")}}',{data:{type:type,typeValue:typeValue,num:num}}, function(res){
+		// 			// 判断购物车是否添加成功
+		// 			if(res==1){
+		// 				//alert('修改成功');
+		// 				// 刷新页面
+		// 				location.reload();
+		// 			}
+		// 		});
+
+		// 		// 如果产品数量等于0
+		// 		if(num==0){
+		// 			// 找祖先元素.item下面的子元素hr设置样式
+		// 			$(this).parents('.item').find("hr").css({'border':'1px solid #CCC'});
+		// 			// 找祖先元素.item设置样式
+		// 			$(this).parents('.item').css({'background':'#FFF'});
+		// 			// 清除class属性fid值或sid值
+		// 			$(this).next('input').removeClass(type);
+		// 		}
+		// 	}
+		// });
+
+		/**
+		 *  加号按钮让产品购买数量自增
+		 */
+		// $('.plus').click(function(){
+		// 	// 点击加号按钮获取当前产品的value值,隐式转数值型
+		// 	var num = $(this).prev('input').val()-0;
+		// 	var type = $(this).prev('input').attr('sid')?'sid':'fid';
+		// 	var typeValue = $(this).prev('input').attr(type);
+		// 	//alert(typeValue)
+		// 	// 判断产品数量小于库存
+		// 	if(true){
+		// 		// 产品数量自增
+		// 		$(this).prev('input').val(++num);
+
+		// 		// 异步请求，修改购物车
+		// 		$.post('{{:U("ShoppingCart/reviseCart")}}',{data:{type:type,typeValue:typeValue,num:num}}, function(res){
+		// 			// 判断购物车是否添加成功
+		// 			if(res==1){
+		// 				//alert('修改成功');
+		// 				// 刷新页面
+		// 				location.reload();
+		// 			}
+		// 		});
+		// 		// 找祖先元素.item设置样式
+		// 		$(this).parents('.item').css({'background':'#F0F0F0'});
+		// 		// 找祖先元素.item下面的子元素hr设置样式
+		// 		$(this).parents('.item').find("hr").css({'border':'1px solid #7D7FCE'});
+		// 		// 给被选中的产品添加class属性fid值
+		// 		$(this).prev('input').addClass(type);
+		// 	}
+		// });
+
+		/**
+		 *  失去焦点事件检测产品购买数量设置样式
+		 */
+		// $('.num').blur(function(){
+		// 	// 获取产品购买数量
+		// 	var num = $(this).val()-0;
+		// 	var type = $(this).attr('sid')?'sid':'fid';
+		// 	var typeValue = $(this).attr(type);
+
+		// 	if(num<=0){
+		// 		// 异常处理
+		// 		$(this).val(1);
+		// 		num = 1;
+		// 		// 找祖先元素.item下面的子元素hr设置样式
+		// 		$(this).parents('.item').find("hr").css({'border':'1px solid #CCC'});
+		// 		// 找祖先元素.item设置样式
+		// 		$(this).parents('.item').css({'background':'#FFF'});
+		// 		// 清除class属性fid值	
+		// 		$(this).removeClass(type);
+		// 	}else{
+		// 		// 找祖先元素.item设置样式
+		// 		$(this).parents('.item').css({'background':'#F0F0F0'});
+		// 		// 找祖先元素.item下面的子元素hr设置样式
+		// 		$(this).parents('.item').find("hr").css({'border':'1px solid #7D7FCE'});
+		// 		// 给被选中的产品添加class属性fid值
+		// 		$(this).addClass(type);
+		// 	}
+
+		// 	// 异步请求，修改购物车
+		// 	$.post('{{:U("ShoppingCart/reviseCart")}}',{data:{type:type,typeValue:typeValue,num:num}}, function(res){
+		// 		// 判断购物车是否添加成功
+		// 		if(res==1){
+		// 			//alert('修改成功');
+		// 			// 刷新页面
+		// 			location.reload();
+		// 		}
+		// 	});
+
+		// });
+
+		/**
+		 * 删除购物车中的某件产品
+		 */
+		$('.del').click(function(){
+			// 找祖先.item下的对象input.num
+			var obj = $(this).parents('.item').find("input.num");
+			// 获取产品类型
+			var type = obj.attr('sid')?'sid':'fid';
+			// 获取产品类型ID值
+			var typeValue = obj.attr(type);
+
+			// 异步请求，删除购物车一个产品
+			$.post('{{:U("ShoppingCart/cartDelOne")}}',{data:{type:type,typeValue:typeValue}}, function(res){
+				// 判断购物车是否添加成功
+				if(res==1){
+					//alert('修改成功');
+					// 刷新页面
+					location.reload();
+				}
+			});
+			// console.dir('产品类型是：'+type+'产品类型的值是：'+typeValue);
+		});
+
+
+		//微信接口
+		wx.config({
+		    debug: false,
+		    appId: '{{$info["appId"]}}',
+		    timestamp: '{{$info["timestamp"]}}',
+		    nonceStr: '{{$info["nonceStr"]}}',
+		    signature: '{{$info["signature"]}}',
+		    jsApiList: [
+		      // 所有要调用的 API 都要加到这个列表中
+		      'chooseWXPay'
+		    ]
+		});
+
+		// 获取结算按钮
+		$('#foot>input[type=submit]').click(function(){
+			// 异步提交请求支付系统
+			$.post('{{:U("PaymentSystem/action")}}',{ 'data':1 }, function(res){
+				if(res==2){
+					// 套餐确认
+					window.location.href='{{:U("ShoppingProcess/sureSetmeal")}}';
+				}else if(res==3){
+					// 快递确认
+					window.location.href='{{:U("ShoppingProcess/sureBill")}}';
+				}else{
+					// 立即付款
+					weixinPay(res);
+				}
+			});
+		});
+
+		// 微信支付方法
+		function weixinPay(res){
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				JSON.parse(res),
+				function(res){
+					if (res.err_msg.substr(-2) == 'ok') {
+						// 付款成功，跳转前台主页
+						location.href = "{{:U('Home/Index/index')}}";
+					} else if (res.err_msg.substr(-6) == 'cancel') {
+		    			    // 取消付款
+		    			    // 跳转到待付款订单页面
+							location.href = "{{:U('Home/Orders/orderPay')}}";
+					}else{
+							// 付款失败
+		    			    // 跳转到待付款订单页面
+							location.href = "{{:U('Home/Orders/orderPay')}}";
+					}
+				}
+			);
+		};
+</script>
+</html>

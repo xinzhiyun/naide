@@ -1,7 +1,12 @@
 <?php
 namespace Home\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\HomebaseController;
 
-class DeviceController extends HomebaseController {
+/**
+ * Class DeviceController
+ * @package Home\Controller
+ */
+class DeviceController extends HomebaseController
+{
 
 }

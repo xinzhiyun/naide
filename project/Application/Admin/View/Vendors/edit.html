@@ -1,0 +1,108 @@
+<!-- header part -->
+<include file="Public/header" />
+<style>
+    input[type='password'], input[type='email'] {
+        padding: 14px 5px !important;
+    }
+</style>
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">后台管理/<span>编辑经销商</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:history.go(-1)" class="btn btn-info">&lt;&lt;返回</a></div>
+            <div class="formBox">
+                <foreach name="info" item="vo" key="key">
+                <form id="form" action="__URL__/edit" method="post">
+                    <input type="hidden" name="id" value="{{$vo.id}}">
+                    <input type="hidden" name="user" value="{{$vo.user}}">
+                    <input type="hidden" name="name" value="{{$vo.name}}">
+                    <!-- <input type="hidden" name="password" value="{{$vo.password}}"> -->
+                    <div class="control-group">
+                        <span>您正在编辑的是</span>
+                        <span style="width:auto;font-size:30px;color:red;">{{$vo.name}}</span>
+                    </div>
+                    <div class="control-group">
+                        <span>手机</span>
+                        <input type="text" name="phone" value="{{$vo.phone}}">
+                    </div>
+                    <div class="control-group">
+                        <span>客服电话</span>
+                        <input type="text" name="csphone" value="{{$vo.csphone}}">
+                    </div>
+                    <div class="control-group">
+                        <span>密码</span>
+                        <input type="password" name="password" value="">
+                    </div>  
+                    <div class="control-group">
+                        <span>邮箱</span>
+                        <input type="email" name="email" value="{{$vo.email}}">
+                    </div>
+                    <div class="control-group">
+                        <span>地址</span>
+                        <div class="info">
+                            <select id="s_province" name="s_province"></select>
+                            <select id="s_city" name="s_city" ></select>
+                            <select id="s_county" name="s_county"></select>
+                            <!-- <input type="text" name="address" value="{{$vo.address}}"> -->
+                            <input class="addressValue" type="hidden" name="address" value="" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <span>详细地址地址</span>
+                        <div class="info">
+                            <textarea name="addr" id="" cols="30" rows="4"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <span>身份证号</span>
+                        <input type="text" name="idcard" value="{{$vo.idcard}}">
+                    </div>
+                    
+                    <div class="btn-groups">
+                        <button class="subbtn btns btn-primary oddbtn" type="button">确认</button>
+                    </div>
+                </form>
+                </foreach>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div> 
+<script>
+$(function(){
+    //城市三级联动
+    _init_area();
+    $(".oddbtn").click(function(ev){
+        var idcard = $('input[name="idcard"]').val().trim();
+        var addr = $('textarea[name="addr"]').val().trim();
+        if($('#s_province').val()==""||$('#s_city').val()==""||$('#s_county').val()==""){
+            layuiHint('请选择地址');
+            return
+        }else{
+            $(".addressValue").val($('#s_province').val() + " " + $('#s_city').val() + " " + $('#s_county').val());
+        }
+        if(!addr){
+            layuiHint('请输入详细地址！');
+            return
+
+        }else if(!/^[\w\-\u4e00-\u9fa5]{2,255}$/u.test(addr)){
+            layuiHint('地址只能由中文、英文、数字组成！');
+            return
+        }
+        if(!idcard){
+            layuiHint('请输入身份证号码');
+            return
+
+        }else if(!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/.test(idcard)){
+            layuiHint('请输入正确的身份证号码');
+            return
+        }
+        $('#form').submit();
+    });
+})
+</script>

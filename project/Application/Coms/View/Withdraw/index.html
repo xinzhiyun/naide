@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
+	<title>提现</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Withdraw/index.css">
+</head>
+<body>
+	<div class='am-container' id='withdraw'>
+		<div class='item' :style='{ display: !withNext ? "block" : "none" }'>
+			<span class='fblue f6'>&nbsp;&nbsp;提现方式</span>
+			<ul>
+				<!-- <li class='cfix typeitem' @click='chooseway($event)' index='0'>
+					<a>&emsp;提现到微信</a>
+					<i class='iconfont icon-weixin fleft'></i>
+					<span class='iconfont icon-empty fright'></span>
+				</li>
+				<li class='cfix typeitem' @click='chooseway($event)' index='1'>
+					<a>&emsp;提现到支付宝</a>
+					<i class='iconfont icon-alipay fleft'></i>
+					<span class='iconfont icon-empty fright'></span>
+				</li>
+				<li class='cfix typeitem' @click='chooseway($event)' index='2'>
+					<a>&emsp;提现到银行卡</a>
+					<i class='ylpng fleft'><img src="__PUBLIC__/Home/images/yl.png" alt=""></i>
+					<span class='iconfont icon-empty fright'></span>
+				</li> -->
+				<li class='cfix typeitem'>
+					<a>&emsp;提现到银行卡</a>
+					<i class='ylpng fleft'><img src="__PUBLIC__/Home/images/yl.png" alt=""></i>
+				</li>
+			</ul>
+		</div>
+		<div class='item' :style='{ display: !withNext ? "block" : "none" }'>
+			<span class='fblue f6'>&nbsp;&nbsp;提现金额</span>
+			<ul>
+				<li class='inmoney'>
+					<i class='iconfont icon-rmb'></i>
+					<input class='money' type="text" v-model='inmoney'>
+				</li>
+				<li class='f6'>
+					可提现 <span v-text='enmoney'></span>元,
+					<a href="javascript:;" @click='withall' class='fblue'>全部提现</a>
+				</li>
+			</ul>
+			<p class='desc fblue' @click='showdesc'><i class="am-icon-question-circle-o"></i>&nbsp;提现说明&nbsp;&nbsp;</p>
+		</div>
+		<button id='sure' @click='sure' v-if='!withNext'>确定</button>
+		<div class='withNext'>
+			<p class='tcenter pTop'><i :class='payclass'></i></p>
+			<div id='wxali'>
+				<form action="" id='form'>
+					<ul class='withpic'>
+						<li>请上传&nbsp;<span style='color:#ff6666;'>收款二维码图片</span></li>
+						<li>
+							<i class='iconfont icon-add picadd'><span class='fblue'>添加</span></i>
+							<div class="picUpload">
+							    <div id="fileList" class="uploader-list"></div>
+							    <div id="filePicker">
+							    	<i class='iconfont icon-add picadd'>
+							    	<span class='fblue'>添加</span></i>
+							    </div>
+							</div>
+							<div id='picShow'>
+								<div>
+									<img class='codeimg' alt="">
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div>
+						<p>如何添加，收款二维码？</p>
+						<div class='f6'>
+							<p>1、首先打开
+								<span :class='paycolor' v-text='paytext1'></span>，存储二维码图片
+							</p>
+							<p>2、首页点击
+								<span :class='paycolor' v-text='paytext2'></span>
+							</p>
+							<p>3、点击
+								<span class='fblue'>"+"</span>，在相册中选取保存的二维码图片上传
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id='unionpay'>
+				<div id='filter' :style='filterstyle'></div>
+				<p class='uniontitle cfix' @click='selectunion' index='0'>
+					<b>使用旧账号:</b>
+					<span class='fright cfix'>
+						<a style='color:#888;'>
+							<span v-text='oldcard'></span>
+							<span v-if='!oldcard' class='f6'>无历史账号记录</span>&nbsp;
+						</a>
+						<i class='iconfont icon-empty fright'></i>
+					</span>
+				</p>
+				<ul>
+					<li class='uniontitle cfix' @click='selectunion' index='1'>
+						<b>添加新账号:</b>
+						<i v-if='oldcard' class='iconfont icon-empty fright'></i>
+						<i v-if='!oldcard' class='iconfont icon-select fright'></i>
+					</li>
+					<li class='unionitem cfix'>
+						<span>开户名:</span>
+						<input class='fright' type="text" placeholder="请输入开户名" v-model='uName'>
+					</li>
+					<li class='unionitem cfix' @click='showbank'>
+						<a>选择银行:</a>
+						<span class='bankName' v-text='bankName'></span>
+						<span class='iconfont icon-xiangyou1 fright'></span>
+						<ul class="bankList fright" >
+							<li v-for='value,index in bankList' @click='selectBank'>{{ value }}</li>
+							<!-- <li>国家开发银行</li>
+							<li>中国进出口银行</li>
+							<li>中国农业发展银行</li>
+							<li>中国银行</li>
+							<li>中国工商银行</li>
+							<li>中国建设银行</li>
+							<li>中国农业银行</li>
+							<li>中国光大银行</li>
+							<li>中国民生银行</li>
+							<li>中信银行</li>
+							<li>交通银行</li>
+							<li>华夏银行</li>
+							<li>招商银行</li>
+							<li>兴业银行</li>
+							<li>广发银行</li>
+							<li>平安银行</li>
+							<li>上海浦东发展银行</li>
+							<li>恒丰银行</li>
+							<li>浙商银行</li>
+							<li>渤海银行</li>
+							<li>中国邮政储蓄银行</li>
+							<li>城市商业银行</li>
+							<li>北京银行</li>
+							<li>天津银行</li>
+							<li>河北银行</li>
+							<li>沧州银行</li>
+							<li>唐山市商业银行</li>
+							<li>承德银行</li>
+							<li>张家口市商业银行</li>
+							<li>秦皇岛银行</li>
+							<li>邢台银行</li>
+							<li>廊坊银行</li>
+							<li>保定银行</li>
+							<li>邯郸银行</li>
+							<li>衡水银行</li>
+							<li>晋商银行</li>
+							<li>大同市商业银行</li>
+							<li>长治银行</li>
+							<li>其他</li> -->
+						</ul>
+					</li>
+					<li class='unionitem cfix'>
+						<a>开户支行:</a>
+						<input class='fright' type="text" placeholder="请输入开户支行" v-model='subBranch'>
+					</li>
+					<li class='unionitem cfix'>
+						<span>银行卡号:</span>
+						<input class='fright' type="text" placeholder="请输入银行卡号" v-model='cardNumber' @keyup='cardkeyup'>
+					</li>
+				</ul>
+			</div>
+			<button id='nextSure' @click='nextSure'>提交</button>
+		</div>
+		<!-- 提现说明 -->
+		<div id='withdesc' :style='showDesc'>
+			<h3>提现说明:</h3>
+			<p class='f6' v-for='(value,index) in wDesc' v-html='value'></p>
+			<a class='fblue' :href="tel"><span v-text='returnTel'></span></a>
+		</div>
+	</div>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/webuploader.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+		}
+	</script>
+	<script>
+		var withdraw = new Vue({
+			el: '#withdraw',
+			data() {
+				return {
+					inmoney: '',			// 提现的金额
+					enmoney: '',			// 全部提现的金额
+					wDesc: ['1、如果提现银行卡信息有误将会导致提现不成功；提现不成功后提现金额将立即返回店铺转让账户（若提现申请时已收取服务费，提现不成功退回资金时服务费不予退回）。', 
+					'2、提现限额：单笔提现金额大于2元，单笔提现最大金额50000元，单日提现金额上限为150000元。每日最多三笔。', 
+					'3、不支持提现信用卡。', 
+					'4、提现预计到账时间<br />&emsp;&emsp;快速到账：正常时间提现可快速到账。但夜间快速提现到账支持的银行由于系统维护，到账时间会有延迟。详情可查看帮助中心。<br />&emsp;&emsp;当日或次日（工作日）：提现提交后当日或下午1工作日内到账，节假日顺延1-3个工作日；提现提交后的1-3个工作日之内到账。节假日顺延以上时间为提现银行处理无任何意外的预计时间。若您的提现超过时间未到账，请致电店铺转让客服'],
+					tel: '',	// 客服电话
+					showDesc: '',
+					withNext: '',		
+					payway: '',				// 支付方式
+					payclass: '',
+					paycolor: '',
+					paytext1: '',
+					paytext2: '',
+					hasPic: '',				// 上传图片标志
+					selectCard: '',			// 选择银行卡标志
+					filterstyle: '',		// 是否禁用旧账号
+					oldcard: null,			// 旧银行卡号
+					uName: '',				// 开户名
+					bankName: '',			// 银行
+					bankList: ['国家开发银行',
+							'中国进出口银行',
+							'中国农业发展银行',
+							'中国银行',
+							'中国工商银行',
+							'中国建设银行',
+							'中国农业银行',
+							'中国光大银行',
+							'中国民生银行',
+							'中信银行',
+							'交通银行',
+							'华夏银行',
+							'招商银行',
+							'兴业银行',
+							'广发银行',
+							'平安银行',
+							'上海浦东发展银行',
+							'恒丰银行',
+							'浙商银行',
+							'渤海银行',
+							'中国邮政储蓄银行',
+							'城市商业银行',
+							'北京银行',
+							'天津银行',
+							'河北银行',
+							'沧州银行',
+							'唐山市商业银行',
+							'承德银行',
+							'张家口市商业银行',
+							'秦皇岛银行',
+							'邢台银行',
+							'廊坊银行',
+							'保定银行',
+							'邯郸银行',
+							'衡水银行',
+							'晋商银行',
+							'大同市商业银行',
+							'长治银行',
+							'其他'],			
+					subBranch: '',			// 开户支行
+					cardNumber: ''			// 银行卡号
+				}
+			},
+			computed: {
+				returnTel: function(){
+					return this.tel.substr(this.tel.indexOf(':')+1);
+				}
+			},
+			mounted() {
+				this.payway = 'unionpay';	// 提现到银行卡
+				this.tel = 'tel:400-888-1139';
+				// 初始化Web Uploader
+				var uploader = WebUploader.create({
+
+				    // 选择文件的按钮。可选。
+				    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+				    pick: '#filePicker',
+
+				    // 只允许选择图片文件。
+				    accept: {
+				        title: 'Images',
+				        extensions: 'gif,jpg,jpeg,bmp,png,webp',
+				        mimeTypes: 'image/*'
+				    }
+				});
+				// 当有文件添加进来的时候
+				uploader.on( 'fileQueued', function( file ) {
+					console.log(file);
+
+				    // 创建缩略图
+				    // 如果为非图片文件，可以不用调用此方法。
+				    // thumbnailWidth x thumbnailHeight 为 100 x 100
+				    uploader.makeThumb( file, function( error, src ) {
+				        if ( error ) {
+				            $img.replaceWith('<span>不能预览</span>');
+				            return;
+				        }
+				        withdraw.hasPic = true;		// 图片已添加
+				        // $('.codeimg').attr( 'src', src ).show();
+				        $('.codeimg').attr( 'src', '__PUBLIC__/Home/images/icon.jpg' ).show();
+				    }, 'auto', '100%' );
+				});
+				this.enmoney = '510.00';
+				// this.oldcard = '3453463546456487';
+				if(!this.oldcard){
+					// 无旧银行卡时候使用
+					this.filterstyle = 'display:block;';
+					this.selectCard = 'new';	
+				}
+				// 获取提现方式，提现金额
+				var href = location.href;
+				var payway = '';
+				var money = 0;
+				if(href.indexOf('payway') > -1){
+					this.withNext = true;
+					payway = href.substring(href.indexOf('payway')+7, href.indexOf('&money'));
+					money = href.substring(href.indexOf('&money=')+7);
+					// 显示具体提现页面
+					fadeFn({elem: $('.withNext')[0]});
+
+					if(payway.indexOf('weixin') > -1){
+						// 微信提现
+						this.payway = 'weixin';
+						this.payclass = 'iconfont icon-weixin';
+						this.paycolor = 'fgreen';
+						this.paytext1 = '\n微信';
+						this.paytext2 = '"+" -- 收付款 -- 二维码收款 -- 保存收款码';
+						document.title = '微信提现';
+						$('#navbar>h2').text('微信提现');
+						$('#wxali').show();
+
+					}else if(payway.indexOf('alipay') > -1){
+						// 支付宝提现
+						this.payway = 'alipay';
+						this.payclass = 'iconfont icon-alipay';
+						this.paycolor = 'fblue';
+						this.paytext1 = '\n支付宝';
+						this.paytext2 = '"+" -- 收钱 -- 保存图片';
+						document.title = '支付宝提现';
+						$('#navbar>h2').text('支付宝提现');
+						$('#wxali').show();
+
+					}else if(payway.indexOf('unionpay') > -1){
+						// 银行卡提现
+						this.payway = 'unionpay';
+						this.payclass = 'ylpng';
+						$('.withNext>p>i').html('<img src="__PUBLIC__/Home/images/yl.png" alt="">');
+						document.title = '银行卡提现';
+						$('#navbar>h2').text('银行卡提现');
+						$('#unionpay').show();
+					}
+
+				}
+				if(href.indexOf('showDesc') > -1){
+					this.showDesc = 'display:block;';
+					document.title = '提现说明';
+					$('#navbar>h2').text('提现说明');
+				}else{
+					this.showDesc = 'display:none;';
+				}
+				// console.log(payway, money);
+				
+			},
+			watch: {
+				// 提现金额
+				inmoney: function(val){
+					if(this.payway && moneyCheck(trimFn(val)) && Number(trimFn(this.inmoney)) <= this.enmoney){
+						// 可以提交
+						$('#sure').css({background: '#039CE9'});
+
+					}else{
+						$('#sure').css({background: 'rgba(3,156,233,.6)'});
+					}
+					
+				}
+			},
+			methods: {
+				// 点击全部提现
+				withall: function(){
+					this.inmoney = this.enmoney;
+				},
+				// 点击选择提现方式
+				chooseway: function(e){
+					for(var i=0; i<$('.typeitem').length; i++){
+						$('.typeitem').eq(i)
+						.find('span').attr('class','iconfont icon-empty fright');
+					}
+					this.payway = e.currentTarget.getAttribute('index');	//保存当前选择方式
+					if(this.payway == 0){
+						this.payway = 'weixin';	// 微信
+
+					}else if(this.payway == 1){
+						this.payway = 'alipay';	// 支付宝
+
+					}else if(this.payway == 2){
+						this.payway = 'unionpay';	// 银联
+						
+					}
+					var span = e.currentTarget.getElementsByTagName('span');
+					var _class = 'iconfont icon-select fright';
+
+					span[0].setAttribute('class',_class);
+					if(moneyCheck(trimFn(this.inmoney))){
+						$('#sure').css({background: '#039CE9'});
+					}
+
+				},
+				// 显示提现说明
+				showdesc: function(){
+					var href = location.href + '?showDesc=true';
+					location.href = href;
+				},
+				// 点击确定
+				sure: function(){
+					// var chooseway = $('.item .icon-select');
+					// if(!chooseway.length){
+					// 	noticeFn({text: '请选择提现方式！'});
+					// 	return 
+					// }
+					if(!trimFn(this.inmoney)){
+						noticeFn({text: '请输入提现金额！'});
+						return
+
+					}else if(!moneyCheck(trimFn(this.inmoney))){
+						noticeFn({text: '请输入阿拉伯数字（0-9）金额！'});
+						return
+
+					}else if(Number(trimFn(this.inmoney)) < 2){
+						noticeFn({text: '提现金额最小2元！'});
+						return
+						
+					}else if(Number(trimFn(this.inmoney)) > this.enmoney){
+						noticeFn({text: '提现金额超出最大值！'});
+						return
+
+					}else if(Number(trimFn(this.inmoney)) > 50000){
+						noticeFn({text: '提现金额超出单笔最大限额！'});
+						return
+					}
+					// 跳转到下一个页面 (弹出相关方式)
+					var locahref = location.href;
+					//清除url查询字
+					if(locahref.indexOf('?') > -1){
+						locahref = locahref.substring(0, locahref.indexOf('?'));
+					}
+					var href = locahref + '?payway=' + this.payway + '&money=' + this.inmoney;
+					location.href = href;
+					// console.log(this.payway, money);
+				},
+				// 点击上传图片
+				picadd: function(){},
+				// 选择旧账号或添加银行卡
+				selectunion: function(e){
+					var index = e.currentTarget.getAttribute('index');
+					var card = $('.uniontitle').find('i');
+					var check = e.currentTarget.getElementsByTagName('i');
+					check[0].setAttribute('class','iconfont icon-select fright');
+
+					if(index == 0){
+						// 旧账号
+						this.selectCard = 'old';
+						card[1].setAttribute('class','iconfont icon-empty fright');
+
+					}else if(index == 1){
+						// 添加新账号
+						this.selectCard = 'new';
+						card[0].setAttribute('class','iconfont icon-empty fright');
+						
+					}
+				},
+				// 显示银行列表
+				showbank: function(){
+					fadeFn({elem: $('.bankList')[0]});
+				},
+				// 选择银行
+				selectBank: function(e){
+					console.log(e);
+					this.bankName = e.currentTarget.innerText;
+					fadeFn({elem: $('.bankList')[0], handle: 'hide',time: 10});
+				},
+				// 银行卡号每四个加空格
+				cardkeyup: function(e){
+					// 不是删除键
+					if(e.keyCode != 8){
+						this.cardNumber = this.cardNumber.replace(/(\d{3})+(\d)$/g, '$1$2 ');
+					}
+				},
+				// 点击提交
+				nextSure: function(){
+					console.log(this.hasPic);
+					switch(this.payway){
+						case 'weixin':
+							// 微信支付
+							if(!this.hasPic){
+								noticeFn({text:'请添加微信收款二维码!'})
+								return
+							}
+							break;
+
+						case 'alipay':
+							// 支付宝
+							if(!this.hasPic){
+								noticeFn({text:'请添加支付宝收款二维码!'})
+								return
+							}
+							break;
+
+						case 'unionpay':
+							// 银行卡
+							if(!this.selectCard){
+								noticeFn({text:'请选择账户!'})
+								return
+							}
+							if(this.selectCard == 'new'){
+								//添加新银行卡
+								if(!this.uName){
+									noticeFn({text:'请输入开户名!'})
+									return
+
+								}else if(!chineseCheck(trimFn(this.uName))){
+									noticeFn({text:'请输入中文姓名!'});
+									return
+								}
+								if(!this.bankName){
+									noticeFn({text:'请选择银行!'});
+									return
+								}
+								if(!this.subBranch){
+									noticeFn({text:'请输入开户支行!'});
+									return
+
+								}else if(!chineseCheck(trimFn(this.subBranch))){
+									noticeFn({text:'请输入中文名开户支行!'});
+									return
+
+								}
+								if(!this.cardNumber){
+									noticeFn({text:'请输入银行卡号!'});
+									return
+
+								}else if(!bankCheck(trimFn(this.cardNumber))){
+									noticeFn({text:'请输入正确的银行卡号!'});
+									return
+								}
+								
+								console.log(bankCheck(trimFn(this.cardNumber)));
+
+							}else if(this.selectCard == 'old'){
+								// 使用旧账户
+								
+							}
+
+							break;
+
+						default:
+							console.log('错误');
+							break;
+					}
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

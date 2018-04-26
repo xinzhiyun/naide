@@ -62,15 +62,6 @@ class AdminbaseController extends AppframeController {
 		return $Menu;
 	}
 
-	/**
-	 * 消息提示
-	 * @param type $message
-	 * @param type $jumpUrl
-	 * @param type $ajax
-	 */
-	public function success($message = '', $jumpUrl = '', $ajax = false) {
-		parent::success($message, $jumpUrl, $ajax);
-	}
 
 	/**
 	 * 模板显示

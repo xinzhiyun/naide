@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>待办任务</title>
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/vendors/Wait_task/css/Wait_task.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+</head>
+<body>
+<div id="wait_task_vue">
+
+	<!-- 待办任务页面部分开始 -->
+	<div class="wait_task_bg" id="wait_task">
+		<ul class="wait_task_content">
+			<li v-for="(each_task,index) in task" @click="task_one(index)">
+				<!-- 待办任务 -->
+				<div class="left task_text">{{each_task.task_text}}</div>
+				<div>
+					<span :id="each_task.task_id" class="task_pub">{{each_task.task_number}}</span>
+					<i class="iconfont icon-xiangyou1 right"></i>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<!-- 待办任务页面部分结束 -->
+
+	<!-- 待安装页面部分开始 -->
+	<div class="wait_pub_bg" id="wait_install">
+		<!-- 输入框 -->
+		<div class="install_input">
+			<i class="am-u-sm-1 iconfont icon-search"></i>
+			<input type="text" name="text" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
+		</div>
+		<!-- 待安装用户 -->
+		<div class="install_user">
+			<div class="install_user_title bottom_line_h">
+				<span>用户名</span>
+				<span>手机号码</span>
+				<span>请求时间</span>
+			</div>
+			<div class="install_user_content">
+				<ul>
+					<li v-for="(each_task_user,index) in task_user" @click="service_details(index)">
+						<span>{{each_task_user.task_name}}</span>
+						<span>{{each_task_user.task_cell_phone}}</span>
+						<span>{{each_task_user.task_date}}<i class="iconfont icon-xiangyou1"></i></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 待安装页面部分结束 -->
+
+	<!-- 服务详情页面部分开始 -->
+	<div id="service_details_bg">
+		<!-- 用户信息 -->
+		<div class="service_details_public">
+			<div class="service_div_one_public">用户信息</div>
+			<div class="service_div_two_public">
+				<ul>
+					<li class="bottom_line_h">
+						<p class="left">用户名：</p>
+						<p class="right">{{service_details_info.user_name}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">手机号码：</p>
+						<p class="right">{{service_details_info.user_phone_number}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">设备编码：</p>
+						<p class="right">{{service_details_info.user_device_code}}</p>
+					</li>
+				</ul>
+			</div>
+			<div class="service_div_three_public">
+				<p class="left">维护地址：</p>
+				<p class="right">{{service_details_info.user_maintenance_add}}</p>
+			</div>
+		</div>
+		<!-- 请求内容 -->
+		<div class="service_details_public margin_bottom_public">
+			<div class="service_div_one_public">请求内容</div>
+			<div class="service_div_two_public">
+				<ul>
+					<li class="bottom_line_h">
+						<p class="left">请求时间：</p>
+						<p class="right">{{service_details_info.user_request_date}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">类型：</p>
+						<p class="right">{{service_details_info.user_type}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">内容：</p>
+						<p class="right">{{service_details_info.user_content}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">来源：</p>
+						<p class="right">{{service_details_info.user_origin}}</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="plan_personnel_inp_bg input_bg_public">
+			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
+		</div>
+	</div>
+	<!-- 服务详情页面部分结束 -->
+
+	<!-- 派工信息页面部分开始 -->
+	<div id="plan_personnel_info_bg" class="all_div_bg">
+		<div class="all_div_content">
+			<ul>
+				<li class="bottom_line_h">
+					<p class="left">新的工单：</p>
+					<p class="right-b">{{plan_personnel_info_bg.new_work_order}}</p>
+				</li>
+				<li class="bottom_line_h">
+					<p class="left">安装人员：</p>
+					<p class="right_font" @click="select_masking()" id="select_personnel">选择</p>
+					<i class="iconfont icon-xiangxia2 position_i" @click="select_masking()"></i>
+				</li>
+				<li class="bottom_line_h">
+					<p class="left">联系电话：</p>
+					<p class="right_font" id="select_cell"></p>
+				</li>
+			</ul>
+		</div>
+		<div class="input_bg_public">
+			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
+		</div>
+	</div>
+	<!-- 派工信息页面部分结束 -->
+
+	<!-- 蒙版部分开始 -->
+	<div class="mask_bg_public" id="plan_personnel_mask_bg">
+		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
+		<div class="mask_bottom">
+			<ul id='repair_ul'>
+				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.install_personnel}}</li>
+			</ul>
+		</div>
+	</div>
+	<!-- 蒙版部分结束 -->
+</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
+	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
+	<script>
+		window.onload = function(){
+				
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+		}
+	</script>
+</body>
+</html>

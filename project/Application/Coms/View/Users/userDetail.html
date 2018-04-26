@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户详情</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/AmazeUI/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/users/css/userDetail.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <!-- 用户信息 -->
+        <div class="userInfos">
+            <p>用户信息</p>
+            <ul>
+                <li>
+                    <span>用户名：</span> 
+                    <span>嗯呢</span>
+                </li>
+                <li>
+                    <span>手机号码：</span> 
+                    <span>135-2564-8952</span>
+                </li>
+                <li class="userAddr">
+                    <span>住址：</span> 
+                    <span>广东广州番禺区，钟村文化广场5巷21号(七天超市)</span>
+                </li>
+            </ul>
+        </div>
+        <!-- 设备信息 -->
+        <div class="deviceInfo">
+            <div>
+                <p>设备-1</p>
+                <ul>
+                    <li>
+                        <span>设备编码：</span><span>868575025659808</span>
+                    </li>
+                    <li>
+                        <span>绑定时间：</span><span>2018-03-31</span>
+                    </li>
+                    <li>
+                        <span>原水TDS值：</span><span>65285ppm</span>
+                    </li>
+                    <li>
+                        <span>纯水TDS值：</span><span>365ppm</span>
+                    </li>
+                    
+                </ul>
+                <div class="serviceStatus">
+                    <span class="serviceTitle">滤芯详情：</span>
+                    <ul class="am-avg-sm-3 am-thumbnails clearfix">
+                        <li class="am-thumbnail">
+                            <p id="container1">
+                            </p>
+                            <span>RO膜</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container2">
+                            </p>
+                            <span>后置活性炭</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container3">
+                            </p>
+                            <span>滤芯3</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container4">
+                            </p>
+                            <span>滤芯4</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container5">
+                            </p>
+                            <span>滤芯5</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="deviceInfo">
+            <div>
+                <p>设备-2</p>
+                <ul>
+                    <li>
+                        <span>设备编码：</span><span>868575025659808</span>
+                    </li>
+                    <li>
+                        <span>绑定时间：</span><span>2018-03-31</span>
+                    </li>
+                    <li>
+                        <span>原水TDS值：</span><span>65285ppm</span>
+                    </li>
+                    <li>
+                        <span>纯水TDS值：</span><span>365ppm</span>
+                    </li>
+                    
+                </ul>
+                <div class="serviceStatus">
+                    <span class="serviceTitle">滤芯详情：</span>
+                    <ul class="am-avg-sm-3 am-thumbnails clearfix">
+                        <li class="am-thumbnail">
+                            <p id="container6">
+                            </p>
+                            <span>RO膜</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container7">
+                            </p>
+                            <span>后置活性炭</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container8">
+                            </p>
+                            <span>滤芯3</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container9">
+                            </p>
+                            <span>滤芯4</span>
+                        </li>
+                        <li class="am-thumbnail">
+                            <p id="container10">
+                            </p>
+                            <span>滤芯5</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Home/js/progressbar.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/users/userDetail.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+        }
+    </script>
+</body>
+</html>

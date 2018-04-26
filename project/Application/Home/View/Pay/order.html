@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+	<title>我的订单</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Pay/css/order.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+</head>
+<body>
+
+<!-- 头部导航栏部分开始 -->
+	<div class="obligation_nav_bg">
+		<div class="obligation_nav_content">
+			<ul class="line">
+				<li data-name="all">全部</li>
+				<li data-name="pay">待付款<div></div></li>
+				<li data-name="send">待发货<div></div></li>
+				<li data-name="take">待收货<div></div></li>
+				<div class="line_check"></div>
+			</ul>
+		</div>
+	</div>
+<!-- 头部导航栏部分结束 -->
+
+<!--  产品详情部分开始 -->
+	<div id="app" class="obligation_container">
+
+	<!-- 待收货部分开始(交易完成) -->
+		<div class="obligation_content take_page" v-for="(order_take_info,index_all) in all_take" style=>
+
+			<!-- 订单时间 -->
+			<!-- <p id="replace_success">订单编号：{{order_take_info.order_number}}</p> -->
+			<p id="replace_success">订单编号：{{order_take_info.order_number}}</p>
+
+			<p>订单时间：{{order_take_info.order_time}}</p>
+			<p class="border_line">
+				<!-- 订单编号 -->
+				<span>顺丰快递单：{{order_take_info.courier_number}}</span>
+				<span>卖家已发货</span>
+			</p>
+			<div class="product_box" v-for="(take_info,index) in order_take_info.product_take_info">
+				<div class="am-u-sm-4">
+					<img :src="take_info.product_pic" alt="">
+				</div>
+				<div class="am-u-sm-8">
+					<!-- 产品名 -->
+					<h4>{{take_info.product_name}}</h4>
+					<!-- 产品描述 -->
+					<div class="product_div1">{{take_info.product_describe}}</div>
+					<p>
+						<!-- 产品单价 -->
+						<span>￥{{take_info.product_price}}</span>
+						<!-- 产品个数 -->
+						<span style="color:#f00;">X{{take_info.product_count}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_take_info.flow_take_info">
+				<span>{{flow_info.flow_name}}</span>
+				<span>￥{{flow_info.flow_price}}</span>
+				<span>X{{flow_info.flow_count}}</span>
+			</div>
+			<div class="product_total">
+				<div>
+					<p class="am-u-sm-3">&nbsp;</p>
+					<!-- 产品个数 -->
+					<p class="am-u-sm-4" class="chang_1">共{{totalCount_take}}{{order_take_info.order_count}}件商品</p>
+					<!-- 总价钱 -->
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_take}}{{order_take_info.order_total}}</span></p>
+				</div>
+				<div><span>(含邮费：<span class="express_fee_text">{{order_take_info.franking}}</span>元)</span></div>
+			</div>
+			<!-- <div class="sign_take">交易完成</div> -->
+		</div>
+	<!-- 待收货部分结束(交易完成) -->
+
+	<!-- 待付款部分开始(未支付) -->
+		<div class="obligation_content pay_page" v-for="(order_pay_info,index_all) in all_pay">
+			<!-- <div class="obligation_content pay_page" v-for="order_pay_info of all_pay"> -->
+			<!-- 订单时间 -->
+			<p id="replace_pay">订单编号：{{order_pay_info.order_number}}</p>
+			<p class="border_line">
+				<!-- 订单编号 -->
+				<span>订单时间：{{order_pay_info.order_time}}</span>
+				<span>等待买家付款</span>
+			</p>
+			<div class="product_box" v-for="(pay_info,index) in order_pay_info.product_pay_info">
+				<div class="am-u-sm-4">
+					<img :src="pay_info.product_pic" alt="">
+				</div>
+				<div class="am-u-sm-8">
+					<!-- 产品名 -->
+					<h4>{{pay_info.product_name}}</h4>
+					<!-- 产品描述 -->
+					<div class="product_div1">{{pay_info.product_describe}}</div>
+					<p>
+						<!-- 产品单价 -->
+						<span>￥{{pay_info.product_price}}</span>
+						<!-- 产品个数 -->
+						<span style="color:#f00;">X{{pay_info.product_count}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_pay_info.flow_pay_info">
+				<span>{{flow_info.flow_name}}</span>
+				<span>￥{{flow_info.flow_price}}</span>
+				<span class="jiage">X{{flow_info.flow_count}}</span>
+			</div>
+			<div class="product_total">
+				<div>
+					<p class="am-u-sm-3">&nbsp;</p>
+					<!-- 产品个数 -->
+					<p class="am-u-sm-4 chang_1" :num="index_all" id="total_pay">共{{totalCount}}{{order_pay_info.order_count}}件商品</p>
+					<!-- 总价钱 -->
+					<p class="am-u-sm-5" style="text-align:right;">合计：<span>￥{{totalPrice}}{{order_pay_info.order_total}}</span></p>
+				</div>
+				<div><span>(含邮费：<span class="express_fee_text">{{order_pay_info.franking}}</span>元)</span></div>
+			</div>
+
+			<div class="product_btn">
+				<p class="cancel" @click="cancel_show(index_all)" style="lineHeight:0.9rem;">取消订单</p>
+				<p class="pay" @click="pay_show(index_all)" :num="index_all">支付订单</p>
+
+			</div>
+		<!-- 确定支付弹框部分开始 -->
+			<div class="pay_bg">
+				<div class="pay_content">
+					<div class="pay_1">
+						<p>确定支付</p>
+						<i class="iconfont icon-chacha pay_hide" id="pay_i_chacha"></i>
+					</div>
+					<div class="pay_2">
+						￥<span class="pay_totalPrice">{{confirm_pay}}</span>
+					</div>
+					<div class="pay_3">支付方式</div>
+					<div class="pay_4" @click="weixin()">
+						<div>
+							<i class="iconfont icon-weixin pay_i_wx" style="color:#149E23;fontSize:1.06666667rem;"></i>
+							<span>微信支付</span>
+							<i class="iconfont icon-not_Selected-copy select-copy"></i>
+						</div>
+					</div>
+					<div class="pay_5">
+						<button class="pay_btn bgblue" @click="immediate_pay()">立即付款</button>
+					</div>
+				</div>
+			</div>
+		<!-- 确定支付弹框部分结束 -->
+		</div>
+	<!-- 待付款部分结束(未支付) -->
+	
+	<!-- 待发货产品部分开始(待发货) -->
+		<div class="obligation_content send_page" v-for="(order_send_info,index_all) in all_send">
+			<!-- 订单时间 -->
+			<p id="replace_send">订单编号：{{order_send_info.order_number}}</p>
+			<p class="border_line">
+				<!-- 订单编号 -->
+				<span>订单时间：{{order_send_info.order_time}}</span>
+				<span>买家已付款</span>
+			</p>
+			<div class="product_box" v-for="(send_info,index) in order_send_info.product_send_info">
+				<div class="am-u-sm-4">
+					<img :src="send_info.product_pic" alt="">
+				</div>
+				<div class="am-u-sm-8">
+					<!-- 产品名 -->
+					<h4>{{send_info.product_name}}</h4>
+					<!-- 产品描述 -->
+					<div class="product_div1">{{send_info.product_describe}}</div>
+					<p>
+						<!-- 产品单价 -->
+						<span>￥{{send_info.product_price}}</span>
+						<!-- 产品个数 -->
+						<span style="color:#f00;">X{{send_info.product_count}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_send_info.flow_send_info">
+				<span>{{flow_info.flow_name}}</span>
+				<span>￥{{flow_info.flow_price}}</span>
+				<span>X{{flow_info.flow_count}}</span>
+			</div>
+			<div class="product_total">
+				<div>
+					<p class="am-u-sm-3">&nbsp;</p>
+					<!-- 产品个数 -->
+					<p class="am-u-sm-4" class="chang_1">共{{totalCount_send}}{{order_send_info.order_count}}件商品</p>
+					<!-- 总价钱 -->
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_send}}{{order_send_info.order_total}}</span></p>
+				</div>
+				<div><span>(含邮费：<span class="express_fee_text">{{order_send_info.franking}}</span>元)</span></div>
+			</div>
+			<div class="warn_send_btn">
+				<p id="warn_send" style="lineHeight:0.9rem;">提醒发货</p>
+			</div>
+			<!-- <div class="hid_line">&nbsp;</div> -->
+		</div>
+	<!-- 待发货产品部分结束(待发货) -->
+
+	</div>
+<!--  产品详情部分开始 -->
+
+<!-- 取消订单确认弹框部分开始 -->
+	<div class="cancel_bg">
+		<div class="cancel_content">
+			<div>
+				<p>信息</p>
+				<p><i class="iconfont icon-chacha cancel_hide"></i></p>
+			</div>
+			<div>
+				<p>确定取消订单吗？</p>
+				<p>
+					<span class="confirm_y bgblue">确定</span>
+					<span class="cancel_hide">取消</span>
+				</p>
+			</div>
+		</div>
+	</div>
+<!-- 取消订单确认弹框部分结束 -->
+
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/Pay/order.js"></script>
+	<script>
+
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+	</script>
+</body>
+</html>
+<!-- icon-selected-copy -->

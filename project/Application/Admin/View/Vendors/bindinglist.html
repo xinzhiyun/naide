@@ -1,0 +1,148 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">后台管理/<span>设备归属列表</span></div>
+            <form class="form-search" action="__URL__/bindinglist" method="post">
+                <span class="select-box">设备编码:
+                    <input type="text" class="input-medium device_code" name="device_code" placeholder="请输入设备编码" style="width: 100px;"/ >
+                </span>
+                <span class="select-box">经销商姓名:
+                    <input type="text" class="input-medium name" name="name" placeholder="请输入经销商姓名" style="width: 100px;"/ >
+                </span>
+                <span class="select-box">经销商手机:
+                    <input type="text" class="input-medium phone" name="phone" placeholder="请输入经销商手机" style="width: 100px;"/ >
+                </span>
+                <span class="select-box" style="display: inline-block;position:relative">时间:
+                    <input type="text" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
+                </span>
+                <div class="submitBtn">
+                    <button type="submit" name="output" value="1" class="btn fr mbtn" style="float: left;color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe62f;</i> 导出</button>
+                    <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
+                    <button type="submit" name="search" value="1" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe615;</i> 查找</button>
+                </div>
+            </form>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>绑定编号</th>
+                    <th>经销商ID</th>
+                    <th>设备ID</th>
+                    <th>设备编码</th>
+                    <th>经销商姓名</th>
+                    <th>经销商手机</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <notempty name="list">
+                        <foreach name="list" item="vo" key="key">
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>{{$vo.vid}}</td>
+                            <td>{{$vo.did}}</td>
+                            <td>{{$vo.device_code}}</td>
+                            <td>{{$vo.name}}</td>
+                            <td>{{$vo.phone}}</td>
+                            <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                            <td>
+                                <a class="remove" device_id="{{$vo.id}}" device_did="{{$vo.did}}">解除绑定</a>
+                            </td>
+                        </tr>
+                        </foreach>
+                    <else />
+                        <tr>
+                            <td colspan="10">查无数据</td>
+                        </tr>
+                    </notempty>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <ul>
+                    {{$button}}
+                </ul>
+            </div>
+            <script>
+                $('.pagination ul a').unwrap('div').wrap('<li></li>');
+                $('.pagination ul span').wrap('<li class="active"></li>');
+
+                $('.remove').click(function(){
+                    var id=$(this).attr('device_id');
+                    var did=$(this).attr('device_did');
+                    console.log(id);
+                    console.log(did);
+                    tip('确定解除绑定？','提示',function(){
+                        window.location.href = "{{:U('bindingdel')}}"+"?id="+id+"&did="+did;
+                    })
+                    return false;
+                })
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var vid, did, device_code, name, phone, 
+                    date_start, date_end;
+                    /**
+                     * vid: 经销商ID, did：设备ID, 
+                     * device_code：设备编码, name：经销商姓名, 
+                     * phone：经销商手机, 
+                     * date_start：开始时间, date_end：结束时间
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        vid = $('.vid').val(),
+                        did = $('.did').val(),
+                        device_code = $('.device_code').val(),
+                        name = $('.name').val(),
+                        phone = $('.phone').val(),
+                        date_start = $('#date-start').val(),
+                        date_end = $('#date-end').val();
+
+                        srearchInfo['vid'] = vid;
+                        srearchInfo['did'] = did;
+                        srearchInfo['device_code'] = device_code;
+                        srearchInfo['name'] = name;
+                        srearchInfo['phone'] = phone;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+
+                            $('.vid').val(srearchInfo['vid']);
+                            $('.did').val(srearchInfo['did']);
+                            $('.device_code').val(srearchInfo['device_code']);
+                            $('.name').val(srearchInfo['name']);
+                            $('.phone').val(srearchInfo['phone']);
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Vendors/bindinglist")}}';
+
+                    })
+                    
+                /**************** 搜索关键字保留 -- 结束 ******************/
+
+            </script>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>

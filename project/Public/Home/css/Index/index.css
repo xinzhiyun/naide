@@ -616,10 +616,6 @@ body {
 	-webkit-transform: translate(-10%,-50%);
 	        transform: translate(-10%,-50%);
 	font-size: 1.2rem;
-	transition: .1s linear;
-}
-.filteritem>.icon-selectcircle {
-	font-size: 1.3rem;
 }
 .reset {
 	width: 96%;

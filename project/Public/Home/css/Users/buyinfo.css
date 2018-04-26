@@ -17,7 +17,6 @@ label {
 .am-g input,
 .am-g textarea {
 	border: none;
-	padding: 2px 4px;
 }
 /*确定按钮*/
 .confirm {
