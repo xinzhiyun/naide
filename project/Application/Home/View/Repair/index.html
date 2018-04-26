@@ -23,26 +23,26 @@
 					<li>	
 						<div class="am-u-sm-3 fs-l">预约时间：</div>
 						<div class="am-u-sm-5">&nbsp;</div>
-						<div class="am-u-sm-3 fs-r" id="appointment">2018-03-30</div>
+						<div class="am-u-sm-3 fs-r text_top" id="appointment">2018-03-30</div>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 					<li>
 						<div class="am-u-sm-3 fs-l">预约时段：</div>
 						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r" id="repair_time">&nbsp;</div>
+						<div class="am-u-sm-4 fs-r text_top" id="repair_time">&nbsp;</div>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 					<li>
 						<div class="am-u-sm-3 fs-l">服务类型：</div>
 						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r" id="repair_t">&nbsp;</div>
+						<div class="am-u-sm-4 fs-r text_top" id="repair_t">&nbsp;</div>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 				</ul>
 				<ul>
 					<li>
 						<span>备注信息：</span>
-						<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(客不填)" id="comments"></textarea>
+						<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(客不填)" id="comments" class="text_middle"></textarea>
 					</li>
 					<li class="file_li">
 						<div class="repairPic am-u-sm-4" id="Pic_file">
@@ -62,19 +62,19 @@
 					<li class="l_z"><p class="fblue">信息确认</p></li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系人：</div>
-						<input type="text" :value="info_confirm.linkman" class="text_inp">
+						<input type="text" :value="info_confirm.linkman" class="text_bottom">
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">联系电话：</div>
-						<input type="text" :value="info_confirm.contact_number" class="text_inp">
+						<input type="text" :value="info_confirm.contact_number" class="text_bottom">
 					</li>
 					<li class="l_z">
 						<div class="am-u-sm-3 fs-l">设备编码：</div>
-						<input type="text" :value="info_confirm.device_code" class="text_inp">
+						<input type="text" :value="info_confirm.device_code" class="text_bottom">
 					</li>
 					<li>
 						<div class="am-u-sm-3 fs-l">详细地址：</div>
-						<input type="text" :value="info_confirm.detailed_add" class="text_inp">
+						<input type="text" :value="info_confirm.detailed_add" class="text_bottom">
 					</li>
 				</ul>
 			</div>

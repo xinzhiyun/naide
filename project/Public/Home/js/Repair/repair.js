@@ -14,23 +14,58 @@ var repair_bg_vue = new Vue({
 		},
 	},
 	methods:{
-		submit_text:function(){
-			var num = $(".text_inp");
-			var $num = $(num);
-			var info_key = ["linkman","contact_number","device_code","detailed_add"];
-			var arr = [];
-			var obj = {};
-			for(var i = 0;i<$num.length;i++){
-				arr.push(info_key[i]+":"+$num[i].value);
+		// 两组数据合并为一个数组对象
+		json_public:function(name,arr,q){
+			var info_key = arr;
+			var info_value = [];
+			var info_page={};//页面数据
+			if(q == "value"){
+				for(var i = 0;i<name.length;i++){
+					info_value.push(name[i].value);
+				}
+			}else if(q == "innerHTML"){
+				for(var i = 0;i<name.length;i++){
+					info_value.push(name[i].innerHTML);
+				}
 			}
-			// console.log(arr);
-			for(var x in arr){
-				obj[x] = arr[x];
+			for(var i = 0;i<info_value.length;i++){
+				info_page[info_key[i]] = info_value[i];
 			}
-			// console.log(obj);
+			return info_page;
 		},
+		// 提交获取页面数据
+		submit_text:function(){
+			// 判断信息填写完整后才执行ajax
+			if($("#repair_time").html() == "&nbsp;" && $("#repair_t").html() == "&nbsp;"){
+				$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
+				$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
+				return;
+			};
+			if($("#repair_time").html() == "&nbsp;" || $("#repair_time").html() == "未选择预约时间"){
+				$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
+				return;
+			};
+			if($("#repair_t").html() == "&nbsp;" || $("#repair_t").html() == "未选择服务类型"){
+				$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
+				return;
+			};
+			var a = $(".text_top");
+			var b = ["bespeak_time","time_interval","serve_type"];//预约时间 预约时段 服务类型
+			var c = $(".text_bottom");
+			var d = ["linkman","contact_number","device_code","detailed_add"];//联系人 联系电话 设备编码 详细地址
+			var e = $(".text_middle");
+			var f= ["备注"];
+			var info_top = repair_bg_vue.json_public(a,b,"innerHTML");
+			var info_middle = repair_bg_vue.json_public(e,f,"val()");
+			var info_bottom = repair_bg_vue.json_public(c,d,"value");
+			console.log(info_bottom);
+			console.log(info_middle);
+			console.log(info_top);
+			console.log($(".text_middle").val());
+		},	
 	}
 });
+// console.log($(".text_to").innerHTML);
 $(function(){
 //预约时段
 	$("#repair_time").bind("touchstart",function(e){
@@ -159,7 +194,7 @@ $(function(){
 			$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
 			return;
 		};
-
+		console.log("通过ajax数据发送到后台");
 		// 通过ajax数据发送到后台
 		// console.log("执行ajax代码");
 		// $.ajax{
