@@ -40,6 +40,7 @@ html, body {
 	z-index: 1001;
 	text-align: center;
 	cursor: pointer;
+	font-size: .8rem;
 	background: rgba(0,0,0,0);
 }
 
@@ -99,7 +100,10 @@ html, body {
 .eChartTitle>span {
 	font-size: 16px;
 }
-
+body .am-datepicker {
+	width: 98%;
+	margin-left: 1%;
+}
 @media screen and (max-width: 500px){
 	html, body {
 		width: 100% !important;
@@ -120,62 +124,3 @@ html, body {
 		height: 30vh;
 	}
 }
-.layui-laydate, .layui-laydate-main{
-	width: 98vw !important;
-	position: relative;
-}
-.laydate-footer-btns {
-	width: 50%;
-	display: flex;
-	position: relative !important;
-	right: 0 !important;
-	top: 0 !important;
-	align-items: center;
-}
-.laydate-btns-clear,
-.laydate-btns-now,
-.laydate-btns-confirm {
-	width: 33.33%;
-	display: inline-block;
-	padding: 10% !important;
-}
-.layui-laydate-footer {
-	display: flex;
-	justify-content: flex-end;
-	height: auto;
-}
-.laydate-footer-btns span {
-	display: flex !important;
-	align-items: center;
-	justify-content: center;
-}
-.laydate-footer-btns span:nth-child(1){
-	background-color:#02CBB7;
-	color:white;
-	border:1px solid #02CBB7;
-
-}
-.laydate-footer-btns span:nth-child(2){
-	background-color:#02ACCB;
-	color:white;
-	border:1px solid #02ACCB;
-	margin-left:2px;
-}
-.laydate-footer-btns span:nth-child(3){
-	background-color:#09BEC5;
-	color:white;
-	border:1px solid #09BEC5;
-	margin-left:2px;
-}
-/*.laydate-btns-clear {
-	background-color:#02CBB7;
-	color:white;
-}
-.laydate-btns-now {
-	background-color:#02ACCB;
-	color:white;
-}
-.laydate-btns-confirm {
-	background-color:#09BEC5;
-	color:white;
-}*/

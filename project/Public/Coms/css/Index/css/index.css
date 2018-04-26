@@ -7,6 +7,9 @@ body {padding-top:0;}
 #navbar {
   display: none !important;
 }
+.mainNav a:active {
+  background: rgba(0,0,0,.05);
+}
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\000038}}
 .icon {
   width: 1em;
