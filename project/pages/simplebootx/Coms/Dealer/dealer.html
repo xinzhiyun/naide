@@ -25,7 +25,7 @@
                     <span>{{splitStr("13562143591", "-", 4)}}</span>
                 </p>
             </div>
-            <div><a href="{:U('Coms/Dealer/dealerSet')}">营销设置</a></div>
+            <div><a href="{{:U('Coms/Dealer/dealerSet')}}">营销设置</a></div>
         </div>
         <!-- 金钱信息 -->
         <div class="serviceCenter">
@@ -77,12 +77,9 @@
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/Dealer/dealer.js"></script>
-    <script>
-        window.onload = function(){
-                
-            var back2home = document.getElementsByClassName('back2home');
-            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
-        }
+    <script defer>
+        var back2home = document.getElementsByClassName('back2home');
+        back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
     </script>
 </body>
 </html>
