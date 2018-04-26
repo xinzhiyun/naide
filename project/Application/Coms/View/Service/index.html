@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<title>服务记录</title>
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/Service_Log/css/service_log.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
-	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Coms/css/Service_Log/css/service_log.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<style>
 		#navbar {
 			color: #fff;
@@ -43,7 +43,7 @@
 			<div class="install_user_content">
 				<!-- 安装 -->
 				<ul class="install_ul">
-					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install)">
+					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install,each_install.order_number)">
 						<span>{{each_install.order_number}}</span>
 						<span class="status">{{each_install.status}}</span>
 						<span>{{each_install.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
@@ -51,7 +51,7 @@
 				</ul>
 				<!-- 维修 -->
 				<ul class="repair_ul">
-					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair)">
+					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair,each_repair.order_number)" @click="diao">
 						<span>{{each_repair.order_number}}</span>
 						<span class="status">{{each_repair.status}}</span>
 						<span>{{each_repair.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
@@ -59,7 +59,7 @@
 				</ul>
 				<!-- 维护 -->
 				<ul class="maintenance_ul" @click='showModule($event)'>
-					<li v-for="(each_maintenance,index_install) in maintenance" @click="service_details_page(each_maintenance)">
+					<li v-for="(each_maintenance,index_install) in maintenance" @click="service_details_page(each_maintenance,each_maintenance.order_number)" @click="diao">
 						<span>{{each_maintenance.order_number}}</span>
 						<span class="status">{{each_maintenance.status}}</span>
 						<span>{{each_maintenance.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 	<!-- 服务详情页面部分开始 -->
-		<div id="service_details_bg">
+		<div id="service_details_bg" style="display:none;">
 			<!-- 用户信息 -->
 			<div class="service_details_public">
 				<div class="service_div_one_public">用户信息</div>
@@ -110,9 +110,58 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/Users/Service_Log/service_log.js"></script>
-	<script defer>
+	<script>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+
+		// 页面加载时判断url,刷新页面为当前页
+		var get = {};
+		var $_GET = (function() {
+			var url = window.document.location.href.toString();
+			var u = url.split("?");
+			if (typeof(u[1]) == "string") {
+				u = u[1].split("&");//["index=3"]
+				//遍历
+				for (var i in u) {
+					var j = u[i].split("=");
+					get[j[0]] = j[1];
+				}
+				return get;
+			} else {
+				// 如何传入的参数只有1对键值对则直接return返回出去
+				return {};
+			}
+		})();
+		console.log($_GET.index);
+		if($_GET.index == undefined){
+			$(".install_user").show();
+			$("#service_details_bg").hide();
+		}else if($_GET.index == "1"){
+			$(".install_user").hide();
+			$("#service_details_bg").show();
+		}
+
+		// 获取选中工单，从离线数据库中将数据赋值vue
+		var url = window.document.location.href.toString();
+		var num = url.split("&");
+		num = num[num.length-1];
+		console.log(typeof Number(parseInt(num)));//NAN  number
+		if(typeof Number(parseInt(num)) != "NAN"){
+			// localStorage
+			if(!window.localStorage){
+				alert("浏览器支持localStorage！");
+			}else{
+				var storage = window.localStorage;
+				for(var i = 0;i<localStorage.length;i++){
+					// 库中所有的键
+			        var storage_value_all = localStorage.key(i);
+			        var number_all = storage_value_all.split("_")[2];
+			        if(number_all == num){
+			        	service_log_vue.service_details_info = JSON.parse(storage.getItem(localStorage.key(i)));
+			        }
+				}
+			}
+		}
 	</script>
 </body>
 </html>
