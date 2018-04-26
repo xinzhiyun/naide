@@ -1,0 +1,134 @@
+@Rem:46.875rem;
+@color-b:rgb(67,152,240);
+@font-size-s:28/@Rem;
+.left{
+	font-size:32/@Rem;
+	color:rgb(84,84,84);
+}
+.right{
+	font-size:28/@Rem;
+	color:rgb(179,179,179);
+}
+.bottom_line_h{
+	border-bottom:1/@Rem solid #e0e0e0;
+}
+.service_log_bg{
+	width:100%;
+	.service_log_content_top_bg{
+		width:100%;
+		background: linear-gradient(to right, #3B90E1, #76F5E4); 
+	}
+	.service_log_content_top{
+		width:90%;
+		margin:0 auto;
+		color:#fff;
+		div{
+			width:100%;
+			height:110/@Rem;
+			line-height:110/@Rem;
+		}
+		div:nth-child(2){
+			display: flex;
+			display: -webkit-flex;
+			p{
+				margin-right:100/@Rem;
+			}
+		}
+	}
+	.install_user{
+		width:100%;
+		.install_user_title{
+			width:100%;
+			height:88/@Rem;
+			line-height:88/@Rem;
+			display:flex;
+			display:-webkit-flex;
+			justify-content:space-around;
+			color:rgb(67,152,240);
+			background:#fff;
+			font-size:32/@Rem;
+			padding-left:20/@Rem;
+			span:nth-child(2){
+				padding-left:40/@Rem;
+			}
+		}
+	}
+	.install_user_content{
+		width:100%;
+		ul{
+			li{
+				width:100%;
+				height:88/@Rem;
+				line-height:88/@Rem;
+				background:#fff;
+				display:flex;
+				display:-webkit-flex;
+				justify-content:space-around;
+				color:rgb(84,84,84);
+				font-size:28/@Rem;
+				border-bottom:1/@Rem solid #e0e0e0;
+				span:first-child{
+					margin-left:-15/@Rem;
+				}
+				span:last-child{
+					position:relative;
+					i{
+						position:absolute;
+						right:-40/@Rem;
+						top:0;
+						color:rgb(179,179,179);
+					}
+				}
+			}
+		}
+	}
+
+}
+#service_details_bg{
+	width:100%;
+	.service_details_public{
+		width:100%;
+		margin:0 auto;
+		.service_div_one_public{
+			font-size:@font-size-s;
+			color:@color-b;
+			padding:0 20/@Rem;
+			width:100%;
+			height:88/@Rem;
+			line-height:88/@Rem;
+			padding:0 40/@Rem;
+		}
+		.div_2{
+			background:#fff;
+			padding:0 20/@Rem;
+		}
+		.service_div_two_public{
+			ul{
+				margin:0;
+				li{
+					width:100%;
+					height:88/@Rem;
+					line-height:88/@Rem;
+					display:flex;
+					display:-webkit-flex;
+					justify-content:space-between;
+					background:#fff;
+					padding:0 20/@Rem;
+				}
+			}
+		}
+		.service_div_three_public{
+			display:flex;
+			display:-webkit-flex;
+			justify-content:space-between;
+			background:#fff;
+			padding:20/@Rem 20/@Rem;
+			p:nth-child(1){
+				width:20%;
+			}
+			p:nth-child(1){
+				width:80%;
+			}
+		}
+	}
+}

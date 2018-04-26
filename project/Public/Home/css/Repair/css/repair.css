@@ -139,6 +139,13 @@ textarea {
 #repair-infoconfirm ul li div:nth-child(3) {
   text-align: right;
 }
+#repair-infoconfirm ul li input {
+  width: 70%;
+  height: 1.49333333rem;
+  border: none;
+  outline: none;
+  text-align: right;
+}
 #repair-infoconfirm ul li:first-child p {
   font-size: 34 46.875rem;
 }

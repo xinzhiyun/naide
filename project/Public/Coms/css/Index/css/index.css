@@ -3,6 +3,7 @@
   display: none;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\000035}}
+body {padding-top:0;}
 #navbar {
   display: none !important;
 }
