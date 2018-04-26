@@ -83,7 +83,7 @@ var service_log_vue = new Vue({
 			var href = url.split("?")[0];
 			console.log(href);
 			// location.href = u;
-			console.log(location.href = href+"?index=1"+"&"+number);
+			// console.log(location.href = href+"?index=1"+"&"+number);
 			location.href = href+"?index=1"+"&"+number;
 			var that = this;
 			$(".install_user").hide();

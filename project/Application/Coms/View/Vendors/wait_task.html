@@ -13,7 +13,7 @@
 <body>
 <div id="wait_task_vue">
 
-	<!-- 待办任务页面部分开始 -->
+<!-- 待办任务页面部分开始 -->
 	<div class="wait_task_bg" id="wait_task">
 		<ul class="wait_task_content">
 			<li v-for="(each_task,index) in task" @click="task_one(index)">
@@ -26,9 +26,9 @@
 			</li>
 		</ul>
 	</div>
-	<!-- 待办任务页面部分结束 -->
+<!-- 待办任务页面部分结束 -->
 
-	<!-- 待安装页面部分开始 -->
+<!-- 待安装页面部分开始 -->
 	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
 		<div class="install_input">
@@ -53,9 +53,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- 待安装页面部分结束 -->
+<!-- 待安装页面部分结束 -->
 
-	<!-- 服务详情页面部分开始 -->
+<!-- 服务详情页面部分开始 -->
 	<div id="service_details_bg">
 		<!-- 用户信息 -->
 		<div class="service_details_public">
@@ -109,9 +109,9 @@
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
 	</div>
-	<!-- 服务详情页面部分结束 -->
+<!-- 服务详情页面部分结束 -->
 
-	<!-- 派工信息页面部分开始 -->
+<!-- 派工信息页面部分开始 -->
 	<div id="plan_personnel_info_bg" class="all_div_bg">
 		<div class="all_div_content">
 			<ul>
@@ -134,9 +134,9 @@
 			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
 		</div>
 	</div>
-	<!-- 派工信息页面部分结束 -->
+<!-- 派工信息页面部分结束 -->
 
-	<!-- 蒙版部分开始 -->
+<!-- 蒙版部分开始 -->
 	<div class="mask_bg_public" id="plan_personnel_mask_bg">
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
@@ -145,7 +145,7 @@
 			</ul>
 		</div>
 	</div>
-	<!-- 蒙版部分结束 -->
+<!-- 蒙版部分结束 -->
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
@@ -156,6 +156,38 @@
 	<script defer>	
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+
+		// 页面加载时判断url,刷新页面为当前页
+		var get = {};
+		var $_GET = (function() {
+			var url = window.document.location.href.toString();
+			var u = url.split("?");
+			if (typeof(u[1]) == "string") {
+				u = u[1].split("&");//["index=3"]
+				//遍历
+				for (var i in u) {
+					var j = u[i].split("=");
+					get[j[0]] = j[1];
+				}
+				return get;
+			} else {
+				// 如何传入的参数只有1对键值对则直接return返回出去
+				return {};
+			}
+		})();
+		var url = window.document.location.href.toString();
+		if($_GET.index == undefined || url.indexOf("?") == -1){
+			$(".wait_task_bg").show();//第一页 待办任务页面
+			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+			$("#service_details_bg").hide();//第三页
+		}else if($_GET.index == "1"){
+			$(".wait_task_bg").hide();
+			$("#wait_install").show();
+		}else if($_GET.index == "2"){
+			$(".wait_task_bg").hide();
+			$("#wait_install").hide();
+			$("#service_details_bg").show();
+		}
 	</script>
 </body>
 </html>
