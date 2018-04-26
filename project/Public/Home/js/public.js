@@ -17,11 +17,13 @@
 // 下拉刷新效果
 window.onload = function(){
     var elem = document.documentElement;
+    var _from = window.innerWidth*12/100;
+    // console.log(_from);
     var fresh;
     if(window.downFresh){
-        fresh = new downFresh(elem, function(res){
+        fresh = new downFresh(elem, _from, function(res){
             // 到顶部
-            if(res.offTop > 0){
+            if(res.offTop > _from){
                 console.log(res);
             }
             // 可以刷新了
@@ -46,7 +48,7 @@ window.onload = function(){
         '<a class="back2home">首页</a>';
     var fc = document.body.firstChild;
     fresh.setAttribute('id','refresh');
-    fresh.setAttribute('style','width: 100vw;height: 76px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);z-index: 9999;');
+    fresh.setAttribute('style','width: 100vw;height: 76px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);background:#fff;z-index: 9999;');
     fresh.innerHTML = '<span style="height: 50px;display: inline-block;position: relative;margin: 0 auto;line-height: 0;"><i class="am-icon-spinner am-icon-pulse"></i><span class="refresh_text" style="line-height: 0;">&nbsp;加载中...</span></span>';
     // 添加到页面body下最前面
     document.body.insertBefore(navbar,fc);
@@ -365,11 +367,11 @@ window.onscroll = function(){
     }
     if(scrollTop - scTop > 0){
         // console.log('手指下滑');
-        navbar.setAttribute('class','nav-move');
+        navbar.setAttribute('class','nav-show');
 
     }else if(scrollTop - scTop < 0){
         // console.log('手指上滑');
-        navbar.setAttribute('class','');
+        navbar.setAttribute('class','nav-hide');
 
     }
     // 初始化

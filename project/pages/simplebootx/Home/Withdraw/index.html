@@ -183,12 +183,9 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/webuploader.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
-	<script>
-		window.onload = function(){
-				
-			var back2home = document.getElementsByClassName('back2home');
-			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
-		}
+	<script defer>
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
 		var withdraw = new Vue({

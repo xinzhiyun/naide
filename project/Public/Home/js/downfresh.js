@@ -8,6 +8,7 @@ var startY, moveY, endY;
 var startTime = 0;		// 触摸开始的时间
 var moveTime = 0;		// 触摸滑动的时间
 var len = 0;
+var _from = 0;			// 起始值
 var _callback;
 // 加载的提示文字
 var text = document.getElementsByClassName('refresh_text');
@@ -35,10 +36,11 @@ var text = document.getElementsByClassName('refresh_text');
 	    }
 	}
  */
-var downFresh = function(elem, callback){
+var downFresh = function(elem, _from, callback){
 	this.elem = elem;				// 需要下拉刷新的容器
 	_callback = callback;		// 回调函数
 	_elem = this.elem;
+	_from = _from;
 	this.init();					// 初始化
 }
 
@@ -61,7 +63,7 @@ downFresh.prototype = {
 		var that = downFresh.prototype;
 		startY = e.changedTouches[0].pageY;
 		// console.log('_elem.scrollTop: ',_elem.scrollTop);
-		if(_elem.scrollTop == 0){
+		if(_elem.scrollTop == _from){
 			// console.log('到顶部了: ',e);
 		}
 		
@@ -76,7 +78,7 @@ downFresh.prototype = {
 		len = moveY - startY;
 		// 最大260/3的距离
 		len = len >= 260 ? 260 : len;
-		if(len >= 200 && _elem.scrollTop == 0 && moveTime - startTime >= 200){
+		if(len >= 200 && _elem.scrollTop == _from && moveTime - startTime >= 200){
 			_elem.setAttribute('style',
 				_elemStyle + 'transition:.3s ease;;margin-top:'+ len/3 +'px;'
 			);
@@ -85,7 +87,7 @@ downFresh.prototype = {
 		// console.log(_elem.scrollTop + _elem.clientHeight == _elem.scrollHeight);
 		if(startY > moveY){
 			// 手指上滑
-			len = 0;
+			len = _from;
 			
 		}
 	},
@@ -95,8 +97,8 @@ downFresh.prototype = {
 		// 指定that指向
 		var that = downFresh.prototype;
 		// endY = e.changedTouches[0].pageY;
-		if(len >= 200 && moveTime - startTime >= 200){
-			len = 180;
+		if(len >= 200+_from && moveTime - startTime >= 200){
+			len = 180+_from;
 			_elem.setAttribute('style',
 				_elemStyle + 'transition:.3s ease;margin-top:'+ len/3 +'px;'
 			);
@@ -105,18 +107,18 @@ downFresh.prototype = {
 		}else{
 
 			_elem.setAttribute('style',
-				_elemStyle + 'transition:.3s ease;;margin-top:0;'
+				_elemStyle + 'transition:.3s ease;;margin-top:'+ _from +'px;'
 			);
 		}
 		// 手指上滑
 		if(startY > moveY){
 			len = 0;
 			
-		}else if(startY <= moveY && _elem.scrollTop != 0){
+		}else if(startY <= moveY && _elem.scrollTop != _from){
 			// 手指下滑但未到达顶部
 			len = 0;
 			_elem.setAttribute('style',
-				_elemStyle + 'transition:.3s ease;margin-top:0;'
+				_elemStyle + 'transition:.3s ease;margin-top:'+ _from +'px;'
 			);
 		}
 		// 回调

@@ -131,12 +131,9 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/Repair/repair.js"></script>
-	<script>
-		window.onload = function(){
-				
-			var back2home = document.getElementsByClassName('back2home');
-			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
-		}
+	<script defer>
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 </body>
 </html>

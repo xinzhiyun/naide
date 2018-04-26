@@ -15,7 +15,7 @@
 			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
-			<div class='sharebuy' @click='hideshare'>立即<br/>购买</div>
+			<a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a>
 		</ul>
 		<!-- 主题内容 -->
 		<div class="mainContent">
@@ -82,17 +82,13 @@
 				this.meal = this.mealSet['one'];
 			},
 			methods: {
-				// 点击购买隐藏介绍界面
-				hideshare: function(e){
-					location.href = '{:U("Home/Users/buyinfo")}';
-				},
 				// 点击同意时模拟框消失
 				accepts: function() {
 					$(".monikuan").css("display", "none");
 				},
 				// 确认选择 提交内容
 				confirmSelects: function() {
-					location.href = '{:U("Home/Pay/firstHire")}' + '?meal=' + this.meal;
+					location.href = '{{:U("Home/Pay/firstHire")}}' + '?meal=' + this.meal;
 					// $.ajax({
 					// 	url: "",
 					// 	type: "post",
