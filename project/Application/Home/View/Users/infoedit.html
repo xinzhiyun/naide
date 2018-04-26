@@ -25,6 +25,7 @@
 			}
 			
 			.container .item>input {
+				padding: 2px 4px;
 				border: none;
 			}
 			.container .item>.iconfont {
@@ -93,7 +94,7 @@
 			window.onload = function(){
 			
 				var back2home = document.getElementsByClassName('back2home');
-				back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+				back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 			}
 		</script>
 	</body>

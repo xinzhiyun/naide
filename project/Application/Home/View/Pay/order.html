@@ -26,7 +26,7 @@
 <!-- 头部导航栏部分结束 -->
 
 <!--  产品详情部分开始 -->
-	<div id="app" class="obligation_container">
+	<div id="app" class="obligation_container" v-cloak>
 
 	<!-- 待收货部分开始(交易完成) -->
 		<div class="obligation_content take_page" v-for="(order_take_info,index_all) in all_take" style=>
@@ -226,10 +226,9 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/Pay/order.js"></script>
-	<script>
-
+	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{:U("Home/Index/index")}');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 </body>
 </html>
