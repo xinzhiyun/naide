@@ -57,14 +57,14 @@
 			getData(month, function(res){
 				if(res.code == 200){
 					if(!res.data){
-						noticeFn({text: "本月无数据"});
+						noticeFn({text: "本月无数据",time: '1000'});
 						return
 					}
 					// 显示折线图
 					getAvg(res.data, res.data.length);
 
 				}else{
-					noticeFn({text: "系统遇到问题, 请稍后再试！"});
+					noticeFn({text: "系统遇到问题, 请稍后再试！",time: '1000'});
 
 				}
 			})
@@ -91,14 +91,15 @@
 							getAvg(res.data, res.data.length);
 
 						}else if(res.code == -1){
-							noticeFn({text: '请求出错，请稍后再试！'});
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+							
 						}else{
-							noticeFn({text: '请求出错，请稍后再试！'});
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
 						}
 					});
 				}else{
 					
-					noticeFn({text: '请选择当月之前的月份'});
+					noticeFn({text: '请选择当月之前的月份',time: '1000'});
 				}
 			})
 		})
