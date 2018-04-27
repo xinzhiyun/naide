@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="text/html;utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1" >
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/waterrecord.css">
-	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.datetimepicker.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/waterrecord.css">
 	<title>净水记录</title>
 </head>
 <body>
-	<div id="dateSelect">
-		<input name="date" type="button" class="in-first layui-input" id="chooseMonth" value="">
-	</div>
+	<div id="dateSelect" class='am-datepicker-date'>
+		<input name="date" type="button" class="am-datepicker-add-on month" value="">
 	</div>
 	<div class="echartDiv">
 		<h3 class="eChartTitle">纯水 <span class="rawMean"></span></h3><br />
@@ -35,115 +35,169 @@
 	<div id="console"></div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/js/echarts.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script>
-		window.onload = function(){
-				
-			var back2home = document.getElementsByClassName('back2home');
-			back2home[0].setAttribute('href','{:U("Home/Index/index")}');
-		}
+	<script defer>
+		var back2home = document.getElementsByClassName('back2home');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
-	var yAxisData = [[400],[2000]];	//设置y轴最大值
-	$(function(){
-		var year = new Date().getFullYear();//年份
-		var month = ((new Date().getMonth()+1)+'').length == 1
-					? '0' + (new Date().getMonth()+1)
-					: (new Date().getMonth()+1);//获取月份
-	 	var mustDateb = new Date(year, month, 0).getDate();//获取月份天数
-		var dataList = [];//数据集
-		console.log(dataList);
-		if(!dataList.length) {
-			noticeFn({text: "本月无数据"});
-		}
-		console.log(1)
-		$("#dateSelect").text(year+'-'+month);//显示当前年月
-		// 页面加载就给月份赋值
-		getAvg(dataList,mustDateb);
-		// 选中月份获取净水记录
-		$("#dateSelect").click(function(){
-			
-		})
-	})
-	function getAvg(datalist,mustDates){
-		var rawArray = [];	//原水数据集
-		var pureArray = [];	//净水数据集
-		var rawSum = 0, pureSum = 0;
-		for(var i=0; i<datalist.length; i++){//遍历原水值与净水值的数据
-			rawArray[i] = parseInt(datalist[i].raw);
-			pureArray[i] = parseInt(datalist[i].pure);
-			rawSum += rawArray[i];
-			pureSum += pureArray[i];
-		}
-		// 求平均值
-		if(datalist.length !== 0) {
-			// 求平均值
-			$(".rawMean").html("(平均值："+ (rawSum/rawArray.length).toFixed(2) +"ppm)");
-			$(".pureMean").html("(平均值："+ (pureSum/pureArray.length).toFixed(2) +"ppm)");
-		}else{
-			$(".rawMean").html("(平均值："+ 0 +"ppm)");
-			$(".pureMean").html("(平均值："+ 0 +"ppm)");
-		}
-		var lineChart1 = echarts.init(getId('#lineChart1'));
-		lineChart1.setOption(getOption('line', yAxisData[0], rawArray, '#74c2ad',mustDates));
+		var yAxisData = [[400],[2000]];	//设置y轴最大值
+		$(function(){
+			var year = new Date().getFullYear();//年份
+			var month = ((new Date().getMonth()+1)+'').length == 1
+						? '0' + (new Date().getMonth()+1)
+						: (new Date().getMonth()+1);//获取月份
+		 	var mustDateb = new Date(year, month, 0).getDate();//获取月份天数
+			$(".month").val(year+'-'+month);	//显示当前年月
 
-		var lineChart2 = echarts.init(getId('#lineChart2'));
-		lineChart2.setOption(getOption('line', yAxisData[1], pureArray, '#f75151',mustDates));
-	}
-	var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {
-		var chartOption = {
-			grid: {
-				x: 30,
-				x2: 10,
-				y: 30,
-				y2: 25
-			},
-			calculable: false,
-			xAxis: [{
-				type: 'category',
-				splitNumber: 29,
-				axisTick: {
-					interval: 0
-				},	
-				data: ['1','','','','','','','','','', '15','','','','','','','','','',mustDate]
-			}],
-			yAxis: {
-				type: 'value',
-				splitNumber: 4,	
-				min: 0,
-				max: _yAxisData,
-				splitLine: {
-                    show: false
-                },
-				splitArea: {
-					show: false
-				},
-				axisTick: {
-					inside: true
-				},
-				axisLabel: {
-					margin: 2,
-					fontSize: 10
+			var dataList = [];	//数据集
+			// 请求净水记录数据
+			getData(month, function(res){
+				if(res.code == 200){
+					if(!res.data){
+						noticeFn({text: "本月无数据",time: '1000'});
+						return
+					}
+					// 显示折线图
+					getAvg(res.data, res.data.length);
+
+				}else{
+					noticeFn({text: "系统遇到问题, 请稍后再试！",time: '1000'});
+
 				}
-			},
-			series: [{
-				type: _chartType,
-				data: _seriesData,
-				symbol: 'none',
-				lineStyle:{
-		            normal:{
-		                width: 2,  //连线粗细
-		                color: lineColor  //连线颜色
-		            }
-		        }
-			}]
-		};
-		return chartOption;
-	};
+			})
 
-	var getId = function(ele){
-		return document.querySelector(ele);
-	}
+			// 设置日期插件参数
+			$('.am-datepicker-date').datepicker({format: 'yyyy-mm', viewMode: 'years', minViewMode: 'months'});
+			$('#dateSelect').click(function(){
+
+				// 显示日期插件
+				$('.am-datepicker-date').datepicker('open');
+			})
+			// 选中月份获取净水记录
+			$('.am-datepicker').on('click', '.am-datepicker-month', function(){
+				var month = $(this).parent().children().index($(this));
+				var now = new Date().getMonth();
+				// console.log(month);
+				if(month <= now){
+					// 隐藏日期插件
+					$('.am-datepicker-date').datepicker('close');
+					// 请求数据
+					getData(month, function(res){
+						if(res.code == 200){
+							// 显示折线图
+							getAvg(res.data, res.data.length);
+
+						}else if(res.code == -1){
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+							
+						}else{
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+						}
+					});
+				}else{
+					
+					noticeFn({text: '请选择当月之前的月份',time: '1000'});
+				}
+			})
+		})
+		function getAvg(datalist,mustDates){
+			var rawArray = [];	//原水数据集
+			var pureArray = [];	//净水数据集
+			var rawSum = 0, pureSum = 0;
+			for(var i=0; i<datalist.length; i++){	//遍历原水值与净水值的数据
+				rawArray[i] = parseInt(datalist[i].raw);
+				pureArray[i] = parseInt(datalist[i].pure);
+				rawSum += rawArray[i];
+				pureSum += pureArray[i];
+			}
+			// 求平均值
+			if(datalist.length !== 0) {
+				// 求平均值
+				$(".rawMean").html("(平均值："+ (rawSum/rawArray.length).toFixed(2) +"ppm)");
+				$(".pureMean").html("(平均值："+ (pureSum/pureArray.length).toFixed(2) +"ppm)");
+			}else{
+				$(".rawMean").html("(平均值："+ 0 +"ppm)");
+				$(".pureMean").html("(平均值："+ 0 +"ppm)");
+			}
+			var lineChart1 = echarts.init(getId('#lineChart1'));
+			lineChart1.setOption(getOption('line', yAxisData[0], rawArray, '#74c2ad',mustDates));
+
+			var lineChart2 = echarts.init(getId('#lineChart2'));
+			lineChart2.setOption(getOption('line', yAxisData[1], pureArray, '#f75151',mustDates));
+		}
+		var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {
+			var chartOption = {
+				grid: {
+					x: 30,
+					x2: 10,
+					y: 30,
+					y2: 25
+				},
+				calculable: false,
+				xAxis: [{
+					type: 'category',
+					splitNumber: 29,
+					axisTick: {
+						interval: 0
+					},	
+					data: ['1','','','','','','','','','', '15','','','','','','','','','',mustDate]
+				}],
+				yAxis: {
+					type: 'value',
+					splitNumber: 4,	
+					min: 0,
+					max: _yAxisData,
+					splitLine: {
+	                    show: false
+	                },
+					splitArea: {
+						show: false
+					},
+					axisTick: {
+						inside: true
+					},
+					axisLabel: {
+						margin: 2,
+						fontSize: 10
+					}
+				},
+				series: [{
+					type: _chartType,
+					data: _seriesData,
+					symbol: 'none',
+					lineStyle:{
+			            normal:{
+			                width: 2,  //连线粗细
+			                color: lineColor  //连线颜色
+			            }
+			        }
+				}]
+			};
+			return chartOption;
+		};
+
+		var getId = function(ele){
+			return document.querySelector(ele);
+		}
+		// 请求净水记录数据
+		function getData(_month, fallback){
+			$.ajax({
+				url: '{:U("Home/Users/waterrecord")}',
+				type: 'get',
+				data: {month: _month},
+				success: function(res){
+					console.log('请求成功！',res);
+					fallback(res);
+				},
+				error: function(err){
+					console.log('请求失败！',err);
+					fallback(err);
+				}
+			})
+		}
 	</script>
 </body>
 </html>

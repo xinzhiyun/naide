@@ -10,15 +10,15 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body>
-
+<div id="app" v-cloak>
 <!-- 头部导航栏部分开始 -->
 	<div class="obligation_nav_bg">
 		<div class="obligation_nav_content">
 			<ul class="line">
-				<li data-name="all">全部</li>
-				<li data-name="pay">待付款<div></div></li>
-				<li data-name="send">待发货<div></div></li>
-				<li data-name="take">待收货<div></div></li>
+				<li data-name="all" @click="all_page">全部</li>
+				<li data-name="pay" @click="pay_page">待付款<div></div></li>
+				<li data-name="send" @click="send_page">待发货<div></div></li>
+				<li data-name="take" @click="take_page">待收货<div></div></li>
 				<div class="line_check"></div>
 			</ul>
 		</div>
@@ -26,7 +26,7 @@
 <!-- 头部导航栏部分结束 -->
 
 <!--  产品详情部分开始 -->
-	<div id="app" class="obligation_container" v-cloak>
+	<div class="obligation_container">
 
 	<!-- 待收货部分开始(交易完成) -->
 		<div class="obligation_content take_page" v-for="(order_take_info,index_all) in all_take" style=>
@@ -221,11 +221,14 @@
 	</div>
 <!-- 取消订单确认弹框部分结束 -->
 
+</div>
+
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/Pay/order.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');

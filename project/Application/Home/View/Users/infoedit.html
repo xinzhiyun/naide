@@ -5,71 +5,25 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 		<title>个人信息 </title>
 		<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
-		<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/userinfo.css">
 		<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 		<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
-		<style>
-			body {
-				font-size: .7rem;
-				background: #fff;
-			}
-			.container>h3 {
-				margin: 4vmin 4vmin;
-			}
-			.container .item {
-				width: 82%;
-				position: relative;
-				padding: 2vmin 0 2vmin 0;
-				margin: 4vmin 0 2vmin 14%;
-				border-bottom: 1px dashed #aaa;
-			}
-			
-			.container .item>input {
-				padding: 2px 4px;
-				border: none;
-			}
-			.container .item>.iconfont {
-				width: 10%;
-				display: block;
-				position: absolute;
-				top: 50%;
-				left: -7%;
-				font-size: 1.2rem;
-				transform: translate(-54%,-50%);
-			}
-			.container .item>.icon-addr {
-				transform: translate(-54%,-136%);
-			}
-			.address {
-				padding: 0 4px;
-			}
-			.save {
-				width: 90%;
-				position: relative;
-				padding: 2vmin 0;
-				left: 50%;
-				margin: 20vmin 0 4vmin;
-				margin-left: -45%;
-				text-align: center;
-				border-radius: 4px;
-			}
-		</style>
+		<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/infoedit.css">
 	</head>
-
 	<body>
-		<form id='form' action="{{:U('Home/Users/userinfo')}}" method="post" >
+		<form id='form' action="" method="post" >
 			<div class="container">
 				<h3>个人信息</h3>
 				<div>
 					<div class='item am-g'>
 						<i class="iconfont icon-user fblue"></i>
-						<span class='am-u-sm-4'>姓&emsp;名：</span>
+						<span class='am-u-sm-4'>姓&emsp;&emsp;名：</span>
 						<input class="name am-u-sm-8" type="text" placeholder="请输入姓名" name="name" value=""> 
 					</div>
 					<div class='item am-g'>
 						<i class="iconfont icon-xingbie fblue"></i>
-						<span class='am-u-sm-4'>性别：</span>
-						<select class="phone am-u-sm-8" id="" name='sex'>
+						<span class='am-u-sm-4'>性&emsp;&emsp;别：</span>
+						<input type="hidden" name='sex'>
+						<select class="sex am-u-sm-8">
 							<option value="man" >男</option>
 							<option value="woman" >女</option>
 						</select>
@@ -82,7 +36,7 @@
 					<div class='item am-g'>
 						<i class="iconfont icon-addr fblue"></i>  
 						<span class='am-u-sm-4'>安装地址：</span>
-						<textarea class='am-u-sm-8 address' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
+						<textarea class='am-u-sm-8 addr' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
 					</div>
 				</div>
 				<div class="save bgblue" style="z-index:9999;">保存</div>
@@ -90,12 +44,65 @@
 		</form>
 		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 		<script src="__PUBLIC__/Home/js/public.js"></script>
+		<script defer>
+			var back2home = document.getElementsByClassName('back2home');
+			back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		</script>
 		<script>
-			window.onload = function(){
-			
-				var back2home = document.getElementsByClassName('back2home');
-				back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-			}
+			var name = '', sex = '', phone = '', addr = '';
+
+			// 点击保存
+			$('.save').click(function(){
+				name = trimFn($('.name').val());
+				sex = $('.sex>option:selected')[0].innerText;
+				phone = trimFn($('.phone').val());
+				addr = trimFn($('.addr').val());
+
+				if(!name){
+					noticeFn({text: '请输入姓名'});
+					return
+				}else if(!nameCheck(name)){
+					noticeFn({text: '请输入正确的姓名'});
+					return
+				}
+
+				if(!phone){
+					noticeFn({text: '请输入手机号码'});
+					return
+				}else if(!phoneCheck(phone)){
+					noticeFn({text: '请输入正确的手机号码'});
+					return
+				}
+
+				if(!addr){
+					noticeFn({text: '请输入地址'});
+					return
+				}else if(specailCheck(addr)){
+					noticeFn({text: '请输入正确的地址，不含有特殊字符'});
+					return
+				}
+
+				// console.log(name, sex, phone, addr);
+				$('input[name="sex"]').val(sex);
+
+				// console.log($('input[name="name"]').val(),
+				// $('input[name="sex"]').val(),
+				// $('input[name="phone"]').val(),
+				// $('textarea[name="addr"]').val())
+				// 提交数据
+				var formdata = new FormData($('#form')[0]);
+				$.ajax({
+					url: "{{:U('Home/Users/infoedit')}}",
+					type: 'post',
+					data: formdata,
+					success: function(res){
+						console.log('成功！', res);
+					},
+					error: function(err){
+						console.log('失败！', err);
+					}
+				})
+			})
 		</script>
 	</body>
 

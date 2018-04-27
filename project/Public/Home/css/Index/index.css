@@ -127,6 +127,10 @@ body {
 	font-size:1.6rem;
 }
 
+.indexBottom>ul>li:active {
+	border-radius: 4px;
+	background: rgba(0,0,0,.05);
+}
 .statusZhishui > p > i {
 	font-size:1.6rem;
 	color:#039CE9!important;
@@ -627,7 +631,7 @@ body {
     position: absolute;
     padding: 2vmin 0;
     left: 50%;
-    bottom: 0;
+    bottom: 5vmin;
     -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
     text-align: center;

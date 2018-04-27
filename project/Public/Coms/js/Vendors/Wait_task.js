@@ -26,7 +26,7 @@ var wait_task = new Vue({
 				task_cell_phone:"13526452877",
 				task_date:"2018-03-31"
 			},
-			{
+			{ 
 				task_name:"咔咔",
 				task_cell_phone:"13526452877",
 				task_date:"2018-03-31"
@@ -77,13 +77,19 @@ var wait_task = new Vue({
 		}
 	},
 	methods:{
+		// 跳转页面改变url
+		url_public:function(num){
+			var url = window.document.location.href.toString();
+			var href = url.split("?")[0];
+			location.href = href+"?index="+num;
+		},
 		//在待办任务页面中点击选中项目
 		task_one:function(index_name){
-			// 隐藏待办任务页面
-			$(".wait_task_bg").hide();
 			var $this = this;
-			var data_info = $this.task[index_name].task_text;//待安装、待维修、待维护
-
+			// 页面跳转
+			wait_task.url_public(1);
+			//待安装、待维修、待维护,将某数据发送给后台，将待安装的数据信息传到前台赋值给‘task_user’进行渲染页面，后将待办任务页面隐藏
+			var data_info = $this.task[index_name].task_text;
 			// $(".task_text").html();
 			// console.log($(".task_text").html());
 			// $.ajax({
@@ -91,19 +97,15 @@ var wait_task = new Vue({
 	        //   url:"",
 	        //   data:{},
 	        //   Type:"json",
-	        //   success:function(resData){
-	        //     console.log("将某数据发送给后台，将待安装的数据信息传到前台赋值给‘task_user’进行渲染页面，后将待办任务页面隐藏");
-	        //   }
+	        //   success:function(resData){ }
 	        // });
-	         //显示待安装、待维修、待维护页面
-			$("#wait_install").show();
 			$("#title_title").html(data_info);
 		},
 		//在待安装、待维修、待维护页面中点击选中用户
 		service_details:function(index_task_user){
-			//待安装、待维修、待维护页面
-			$("#wait_install").hide();
 			var $this = this;
+			// 页面跳转
+			wait_task.url_public(2);
 			// 在用户列表中将选中的用户信息中的用户名传给后台，后台通过"用户名select_user"在数据库中查找相应的“服务详情内容”传给前台，前台赋值给"service_details_info",最后渲染在页面上
 			var select_user = $this.task_user[index_task_user].task_name;
 			// $.ajax({
@@ -111,11 +113,8 @@ var wait_task = new Vue({
 	        //   url:"",
 	        //   data:{},
 	        //   Type:"json",
-	        //   success:function(resData){
-	        //     console.log("在用户列表中将选中的用户信息中的用户名传给后台，后台通过"用户名select_user"在数据库中查找相应的“服务详情内容”传给前台，前台赋值给"service_details_info",最后渲染在页面上");
-	        //   }
+	        //   success:function(resData){}
 	        // });
-			$("#service_details_bg").show();
 			$("#title_title").html("服务详情");
 		},
 		// 在服务详情页面中，点击派工按钮
@@ -127,9 +126,7 @@ var wait_task = new Vue({
 	        //   url:"",
 	        //   data:{},
 	        //   Type:"json",
-	        //   success:function(resData){
-	        //     console.log("点击派工，隐藏服务详情页面，并跳转到派工信息页面，将“派工”传给后台");
-	        //   }
+	        //   success:function(resData){}
 	        // });
 			$("#plan_personnel_info_bg").show();
 			$("#title_title").html("派工信息");

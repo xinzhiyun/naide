@@ -79,7 +79,12 @@ var service_log_vue = new Vue({
 	methods:{
 		// 服务详情页面，点击将选中的“整条信息”以实参的方式传入，赋值给“service_details_bg”服务详情页面
 		service_details_page:function(info,number){
-			location.href = location.href+"?index=1"+"&"+number;
+			var url = window.document.location.href.toString();
+			var href = url.split("?")[0];
+			console.log(href);
+			// location.href = u;
+			// console.log(location.href = href+"?index=1"+"&"+number);
+			location.href = href+"?index=1"+"&"+number;
 			var that = this;
 			$(".install_user").hide();
 			$("#service_details_bg").show();

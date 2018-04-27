@@ -483,6 +483,26 @@ var product_pay = new Vue({
 		}
 	},
 	methods:{
+		// 跳转页面改变url
+		url_public:function(num){
+			var url = window.document.location.href.toString();
+			var href = url.split("?")[0];
+			location.href = href+"?index="+num;
+		},
+		all_page:function(){
+			var url = window.document.location.href.toString();
+			var href = url.split("?")[0];
+			location.href = href;
+		},
+		pay_page:function(){
+			product_pay.url_public(1);
+		},
+		send_page:function(){
+			product_pay.url_public(2);
+		},
+		take_page:function(){
+			product_pay.url_public(3);
+		},
 		// 取消订单
 		cancel_show:function(index){
 			// alert(index); 
@@ -531,49 +551,49 @@ var product_pay = new Vue({
 			}else{
 				$(".select-copy").attr("class",b).css({"color":"#000"});
 			}
-		}
+		},
+		// product_pay.url_public(1);
 	},
 });
-
 $(function(){
 	var data_li = $(".obligation_nav_content>ul li");
 	var replace_Suc = $("#replace_success").html();//交易成功 订单编号
 	var replace_Pay = $("#replace_pay").html();//未支付 订单编号
 	var replace_Send = $("#replace_send").html();//待发货 订单编号
-	for(var i = 0;i<data_li.length;i++){
-		$(data_li[i]).bind("touchstart",function(e){
-			event.preventDefault();
-			// 点击将改变选中字体样式
-			$(this).css("color","#0d94f3").siblings().css("color","#000");
-			var class_value = $(this).attr("data-name");
-			switch(class_value){
-				case "all":
-					$(".line_check").css("left"," 0.42666667rem");
-					$(".pay_page").css("display","block");
-					$(".send_page").css("display","block");
-					$(".take_page").css("display","block");
-					break;
-				case "pay":
-					$(".line_check").css("left"," 3.94666667rem");
-					$(".pay_page").css("display","block");
-					$(".send_page").css("display","none");
-					$(".take_page").css("display","none");
-					// $("#replace_pay").html('订单编号：{{order_pay_info.order_number}}');//未支付
-					break;
-				case "send":
-					$(".line_check").css("left"," 7.57333333rem");
-					$(".send_page").css("display","block");
-					$(".pay_page").css("display","none");
-					$(".take_page").css("display","none");
-					break;
-				case "take":
-					$(".line_check").css("left"," 11.41333333rem");
-					$(".take_page").css("display","block");
-					$(".pay_page").css("display","none");
-					$(".send_page").css("display","none");
-					break;
-			}
-		});
-	}
+	// for(var i = 0;i<data_li.length;i++){
+	// 	$(data_li[i]).bind("touchstart",function(e){
+	// 		event.preventDefault();
+	// 		// 点击将改变选中字体样式
+	// 		$(this).css("color","#0d94f3").siblings().css("color","#000");
+	// 		var class_value = $(this).attr("data-name");
+	// 		switch(class_value){
+	// 			case "all":
+	// 				$(".line_check").css("left"," 0.42666667rem");
+	// 				$(".pay_page").css("display","block");
+	// 				$(".send_page").css("display","block");
+	// 				$(".take_page").css("display","block");
+	// 				break;
+	// 			case "pay":
+	// 				$(".line_check").css("left"," 3.94666667rem");
+	// 				$(".pay_page").css("display","block");
+	// 				$(".send_page").css("display","none");
+	// 				$(".take_page").css("display","none");
+	// 				// $("#replace_pay").html('订单编号：{{order_pay_info.order_number}}');//未支付
+	// 				break;
+	// 			case "send":
+	// 				$(".line_check").css("left"," 7.57333333rem");
+	// 				$(".send_page").css("display","block");
+	// 				$(".pay_page").css("display","none");
+	// 				$(".take_page").css("display","none");
+	// 				break;
+	// 			case "take":
+	// 				$(".line_check").css("left"," 11.41333333rem");
+	// 				$(".take_page").css("display","block");
+	// 				$(".pay_page").css("display","none");
+	// 				$(".send_page").css("display","none");
+	// 				break;
+	// 		}
+	// 	});
+	// }
 	
 });

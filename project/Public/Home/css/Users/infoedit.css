@@ -1,0 +1,44 @@
+body {
+	font-size: .7rem;
+	background: #fff;
+}
+.container>h3 {
+	margin: 4vmin 4vmin;
+}
+.container .item {
+	width: 82%;
+	position: relative;
+	padding: 2vmin 0 2vmin 0;
+	margin: 4vmin 0 2vmin 14%;
+	border-bottom: 1px dashed #aaa;
+}
+
+.container .item>input {
+	padding: 2px 4px;
+	border: none;
+}
+.container .item>.iconfont {
+	width: 10%;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: -7%;
+	font-size: 1.2rem;
+	transform: translate(-54%,-50%);
+}
+.container .item>.icon-addr {
+	transform: translate(-54%,-136%);
+}
+.address {
+	padding: 0 4px;
+}
+.save {
+	width: 90%;
+	position: relative;
+	padding: 2vmin 0;
+	left: 50%;
+	margin: 20vmin 0 4vmin;
+	margin-left: -45%;
+	text-align: center;
+	border-radius: 4px;
+}

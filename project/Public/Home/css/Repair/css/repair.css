@@ -26,6 +26,7 @@
   line-height: 1.87733333rem;
   margin: 0 auto;
   border-bottom: 0.02133333rem solid #e0e0e0;
+  text-align: right;
 }
 #repair-all #repair-container ul:nth-child(2) li {
   width: 95%;
@@ -62,10 +63,6 @@
 #repair-all #repair-container ul:nth-child(2) li:last-child div img {
   width: 3.2rem;
   height: 3.2rem;
-}
-#repair_t {
-  width: 1.70666667rem;
-  margin-left: 3.2rem;
 }
 textarea {
   width: 10.88rem;
@@ -145,6 +142,8 @@ textarea {
   border: none;
   outline: none;
   text-align: right;
+  color: #8b8b8b;
+  font-size: 0.64rem;
 }
 #repair-infoconfirm ul li:first-child p {
   font-size: 34 46.875rem;
