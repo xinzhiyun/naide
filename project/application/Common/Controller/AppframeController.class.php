@@ -12,6 +12,15 @@ class AppframeController extends Controller {
         }
     }
 
+    public function json($e)
+    {
+        $err = [
+            'status' => $e->getCode(),
+            'info' =>   $e->getMessage(),
+        ];
+        $this->ajaxReturn($err,'JSON');
+    }
+
     /**
      * Ajax方式返回数据到客户端
      * @access protected
