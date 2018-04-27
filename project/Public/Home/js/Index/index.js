@@ -9,7 +9,7 @@ var home = new Vue({
 			statusText: '',		// 水机状态
 			devicestause: '',	// 设备状态
 			leasingmode: '',	// 租赁模式
-			filtermode: '',	// 滤芯模式
+			filtermode: '',		// 滤芯模式
 			// 设备状态集合
 			dstauseList: {'0':'制水','1':'冲洗','2':'水满','3':'缺水','4':'漏水','5':'检修','6':'欠费停机','7':'关机','8':'开机(仅命令)'},
 			// 租赁模式集合
@@ -24,27 +24,26 @@ var home = new Vue({
 			},
 			statusIconName: '',								// 状态图标
 			statusIconClass: {
-				makeWater: 'iconfont icon-makeWater',			// 制水
-				waterFull: 'iconfont icon-waterFull',			// 水满
-				checking: 'iconfont icon-checking',			// 检修
-				lacking: 'iconfont icon-lacking',			// 缺水
-				washing: 'iconfont icon-washing',			// 冲洗
-				leaking: 'iconfont icon-leaking',			// 漏水
-				poweroff: 'iconfont icon-poweroff',			// 已关机
-				arrears: 'iconfont icon-arrears',			// 已欠费
-				offline: 'iconfont icon-offline'			// 已离线
+				'0': 'iconfont icon-makewater glint',		// 制水
+				'1': 'iconfont icon-washing glint',			// 冲洗
+				'2': 'iconfont icon-fullwater',				// 水满
+				'3': 'iconfont icon-lacking glint',			// 缺水
+				'4': 'iconfont icon-leaking glint',			// 漏水
+				'5': 'iconfont icon-check glint',			// 检修
+				'6': '',		// 已关机
+				'7': '',		// 已欠费
+				'8': ''			// 已离线
 			},
 			reday: '',			//剩余天数
 			usedday: '',		//已用天数
 			reflow: '',			//剩余流量
 			usedflow: '',		//已用流量
-			statusList: ['制水','水满','检修','缺水','冲洗','漏水','已关机','已欠费','已离线'],							// 水机状态集合
-			powerStatus: '开机',							// 开关机状态
-			filterstyle: 'display:none;',					// 滤芯部分
+			powerStatus: '开机',						// 开关机状态
+			filterstyle: 'display:none;',				// 滤芯部分
 			lineStyle: '',								//横线
 			filmainStyle: '',							// 滤芯详情，滤芯复位
 			filterList: [],								// 滤芯详情数据集合
-			resetFilter: '',			// 滤芯复位
+			resetFilter: '',							// 滤芯复位
 		}
 	},
 	computed: {},

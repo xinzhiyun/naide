@@ -372,6 +372,7 @@ body {
 	    -ms-flex-align:center;
 	        align-items:center;
 	padding:0 .5rem;
+	margin-top: 2vh;
 }
 @keyframes shuibolang {
 	0%{-webkit-transform: translateX(0);transform: translateX(0);}
@@ -392,13 +393,45 @@ body {
 .allStatus > div {
 	position: relative;
 }
-.allStatus > div > span{
-	position: absolute;
-	top: 1.6rem;
-	left:.4rem;
+
+.allStatus {
+	padding: 0 4vw;
 }
-.allStatus > div > p > i {
-	font-size: 2rem;
+.status {
+	display: inline-flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: -2vh;
+}
+.status>span {
+	flex: 1;
+}
+.icon-makewater,
+.icon-fullwater, 
+.icon-check, 
+.icon-lacking, 
+.icon-washing, 
+.icon-leaking {
+	font-size: 1.4rem;
+	color: #039CE9;
+}
+
+.icon-lacking,
+.icon-check, 
+.icon-leaking {
+	color: red;
+}
+.glint {
+	animation: glint 1.6s linear infinite alternate;
+}
+@keyframes glint {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 /*分享*/
 .share {

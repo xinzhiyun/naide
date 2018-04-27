@@ -41,45 +41,36 @@
 			<!-- 水波浪 -->
 			<div class="waterLiu">
 				<div id="statusBox" class="allStatus">
-					<div class="status addwater left">
-						<p><i :class="statusIconName"></i></p>
+					<!-- 制水 -->
+					<span class="status" v-if='statusIconName == "iconfont icon-makewater glint"'>
+						<span><i :class="statusIconName"></i></span>
 						<span v-text='statusText'></span>
-					</div>
-					<!-- <div class="statusZhishui addwater left">
-						<p><i class="iconfont icon-zhishui"></i></p><span>制水</span>
-					</div>
-					<div class="fullWaters left">
-						<p><i class="iconfont icon-shuiman"></i></p>
-						<span>水满</span>
-					</div>
-					<div class="statusShuiman service right">
-						<p><i class="iconfont icon-jianxiu"></i></p>
-						<span>检修</span>
-					</div>
-					<div class="statusShuiman lessWaters right">
-						<p><i class="iconfont icon-queshui"></i></p>
-						<span>缺水</span>
-					</div>
-					<div class="statusShuiman wash right">
-						<p><i class="iconfont icon-chongxi"></i></p>
-						<span>冲洗</span>
-					</div>
-					<div class="statusShuiman showDown right">
-						<p><i class="iconfont "></i></p>
-						<span>已关机</span>
-					</div>
-					<div class="statusShuiman arrearage right">
-						<p><i class="iconfont "></i></p>
-						<span>已欠费</span>
-					</div>
-					<div class="statusShuiman outLine right">
-						<p><i class="iconfont "></i></p>
-						<span>已离线</span>
-					</div>
-					<div class="statusShuiman leaking right">
-						<p><i class="iconfont icon-leaking"></i></p>
-						<span>漏水</span>
-					</div> -->
+					</span>
+					<!-- 冲洗 -->
+					<span class="status" v-else-if='statusIconName == "iconfont icon-washing glint"'>
+						<span><i :class="statusIconName"></i></span>
+						<span v-text='statusText'></span>
+					</span>
+					<!-- 水满 -->
+					<span class="status" v-else-if='statusIconName == "iconfont icon-fullwater"'>
+						<span><i :class="statusIconName"></i></span>
+						<span v-text='statusText'></span>
+					</span>
+					<!-- 检修 -->
+					<span class="status fright" v-else-if='statusIconName == "iconfont icon-check glint"'>
+						<span><i :class="statusIconName"></i></span>
+						<span v-text='statusText'></span>
+					</span>
+					<!-- 缺水 -->
+					<span class="status fright" v-else-if='statusIconName == "iconfont icon-lacking glint"'>
+						<span><i :class="statusIconName"></i></span>
+						<span v-text='statusText'></span>
+					</span>
+					<!-- 漏水 -->
+					<span class="status fright" v-else-if='statusIconName == "iconfont icon-leaking glint"'>
+						<span><i :class="statusIconName"></i></span>
+						<span v-text='statusText'></span>
+					</span>
 				</div>
 				<!-- 时长 -->
 				<div class='fwhite' v-if='leasingmode == 0'>
@@ -282,7 +273,7 @@
 		}else{
 			home.homeStyle = 'opacity:1;';
 		}
-		window.onload = function(){
+		document.onready = function(){
 			var wsurl = "ws://localhost:8181";
 			// wsFun(wsurl, function(str, res){
 			// 	// str: 数据类型（接收，关闭， 错误），
@@ -311,11 +302,11 @@
 
 			home.tdsPure = 100;		// 纯水值
 			home.tdsRaw = 99;		// 原水值
-			home.statusText = home.statusList[0];	// 水机状态
-			home.statusIconName = home.statusIconClass.makeWater;	// 水机状态图标
+			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
+			home.statusText = home.dstauseList[0];	// 水机状态
 			
 			// 加载结束，隐藏loading
-			fadeFn({elem: $('.loadingdiv')[0],handle:'hide'});
+			fadeFn({elem: loaddiv[0],handle:'hide'});
 		}
 	</script>
 </body>
