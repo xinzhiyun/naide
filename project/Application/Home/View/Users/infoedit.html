@@ -85,23 +85,23 @@
 				// console.log(name, sex, phone, addr);
 				$('input[name="sex"]').val(sex);
 
-				// console.log($('input[name="name"]').val(),
-				// $('input[name="sex"]').val(),
-				// $('input[name="phone"]').val(),
-				// $('textarea[name="addr"]').val())
+				console.log($('input[name="name"]').val(),
+				$('input[name="sex"]').val(),
+				$('input[name="phone"]').val(),
+				$('textarea[name="addr"]').val())
 				// 提交数据
 				var formdata = new FormData($('#form')[0]);
-				$.ajax({
-					url: "{{:U('Home/Users/infoedit')}}",
-					type: 'post',
-					data: formdata,
-					success: function(res){
-						console.log('成功！', res);
-					},
-					error: function(err){
-						console.log('失败！', err);
-					}
-				})
+				// $.ajax({
+				// 	url: "{{:U('Home/Users/infoedit')}}",
+				// 	type: 'post',
+				// 	data: formdata,
+				// 	success: function(res){
+				// 		console.log('res: ', res);
+				// 	},
+				// 	error: function(err){
+				// 		console.log('err: ', err);
+				// 	}
+				// })
 			})
 		</script>
 	</body>
