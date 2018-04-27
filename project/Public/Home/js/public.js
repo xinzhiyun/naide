@@ -14,7 +14,7 @@
   	doc.addEventListener('DOMContentLoaded', recalc, false);
 }(document, window);
 
-
+ 
 // 顶部导航栏、下拉刷新
 !function(){
     var navbar = document.createElement('div');
@@ -26,7 +26,7 @@
         '<a class="back2home">首页</a>';
     var fc = document.body.firstChild;
     fresh.setAttribute('id','refresh');
-    fresh.setAttribute('style','width: 50px;height: 50px;line-height: 40px;position: fixed;font-size:1rem;top: 0;left:50%;padding:4px;border-radius:50%;text-align: center;transition: .3s ease-in;transform: translate(-50%,-120%);background:#f6f6f6;box-shadow:0 0 10px rgba(0,0,0,.2);z-index: 9999;');
+    fresh.setAttribute('style','width: 50px;height: 50px;line-height: 40px;position: fixed;font-size:1rem;top: 0;left:50%;padding:4px;border-radius:50%;text-align: center;transition: .3s ease-in;transform: translate(-50%,-120%);background:#f6f6f6;box-shadow:0 0 10px rgba(0,0,0,.2);z-index: 99999;');
     fresh.innerHTML = '<span style="height: 50px;display: inline-block;position: relative;margin: 0 auto;line-height: 0;"><i class="am-icon-spinner am-icon-pulse"></i><span class="refresh_text" style="line-height: 0;"></span></span>';
     // 添加到页面body下最前面
     document.body.insertBefore(navbar,fc);
