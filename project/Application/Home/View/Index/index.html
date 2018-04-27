@@ -118,10 +118,10 @@
 			</ul>
 		</div>
 		<!-- 分享 -->
-		<div class="share" :style='homeStyle'>分享</div>
+		<div class="share" :style='homeStyle' @click='sharePanel'>分享</div>
 		<!-- 分享面板 -->
-		<div class="shareContent" style="display:none;">
-			<ul class="shareContents">
+		<div class="shareContent">
+			<ul class="shareContents" :id="share">
 				<li>
 					<div class="shweixin"><span class="iconfont icon-weixin1" style="color: rgb(11,202,52)"></span><span>微信</span></div>
 					<div class="shweibo"><span class="iconfont icon-weibo" style="color: rgb(251,96,90)"></span><span>微博</span></div>
@@ -133,7 +133,7 @@
 					<div class="shkjian"><span class="iconfont icon-kongjian00" style="color: rgb(251,176,52)"></span><span>空间</span></div>
 					<div class="shscang"><span class="iconfont icon-xingxing" style="color: rgb(125,174,207)"></span><span>收藏</span></div>
 				</li>
-				<li class="cancel">
+				<li class="cancel" @click='cancelShare'>
 					<p>取消</p>
 				</li>
 			</ul>
@@ -302,8 +302,8 @@
 
 			home.tdsPure = 100;		// 纯水值
 			home.tdsRaw = 99;		// 原水值
-			home.statusIconName = home.statusIconClass[2];	// 水机状态图标
-			home.statusText = home.dstauseList[2];	// 水机状态
+			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
+			home.statusText = home.dstauseList[0];	// 水机状态
 			
 			// 加载结束，隐藏loading
 			fadeFn({elem: loaddiv[0],handle:'hide'});

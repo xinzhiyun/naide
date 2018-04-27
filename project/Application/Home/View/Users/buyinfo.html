@@ -167,6 +167,12 @@
 		$(function(){
 			// 提交
 			$('.confirm').click(function(){
+				var nameEle = $('.uname'), 
+				phoneEle = $('.uphone'), 
+				addrEle = $('.uaddress'), 
+				addrdetEle = $('.uaddrdetail'), 
+				pwdEle = $('.upwd');
+
 				var uname = trimFn($('.uname').val()),
 					uphone = trimFn($('.uphone').val()),
 					upwd = trimFn($('.upwd').val()),
@@ -175,41 +181,56 @@
 
 				//验证收货人
 				if(!uname){
-					noticeFn({text:'请输入收货人！',time:1000});
+					noticeFn({text:'请输入收货人！'});
+					nameEle.css({border: '1px solid red'});
 					return
 				}else if(!nameCheck(uname)){
-					noticeFn({text:'收货人只能是中文,英文,下划线组成',time:1000});
-					return
+					noticeFn({text:'收货人只能是中文,英文,下划线组成'});
+					nameEle.css({border: '1px solid red'});
+					return	
+				}else{
+					nameEle.css({border: 'none'});
 				}
 
 				//验证手机号码
 				if(!uphone){
-					noticeFn({text:'请输入手机号码！',time:1000});
+					noticeFn({text:'请输入手机号码！'});
+					phoneEle.css({border: '1px solid red'});
 					return
 				}else if(!phoneCheck(uphone)){
-					noticeFn({text:'请输入正确的手机号码！',time:1000});
+					noticeFn({text:'请输入正确的手机号码！'});
+					phoneEle.css({border: '1px solid red'});
 					return
+				}else{
+					phoneEle.css({border: 'none'});
 				}
 
 				//验证密码
 				if(!upwd){
-					noticeFn({text:'请输入密码！',time:1000});
+					noticeFn({text:'请输入密码！'});
+					pwdEle.css({border: '1px solid red'});
 					return
+				}else{
+					pwdEle.css({border: 'none'});
 				}
 
 				//验证地区
 				if(!uaddress){
-					noticeFn({text:'请选择收货地区！',time:1000});
+					noticeFn({text:'请选择收货地区！'});
 					return
 				}
 
 				//验证详细地址
 				if(!uaddrdetail){
-					noticeFn({text:'请输入详细地址！',time:1000});
+					noticeFn({text:'请输入详细地址！'});
+					addrdetEle.css({border: '1px solid red'});
 					return
 				}else if(!nameCheck(uaddrdetail)){
-					noticeFn({text:'详细地址只能是中文、英文和下划线组成！',time:1000});
+					noticeFn({text:'详细地址只能是中文、英文和下划线组成！'});
+					addrdetEle.css({border: '1px solid red'});
 					return
+				}else{
+					addrdetEle.css({border: 'none'});
 				}
 				$('input[name="uaddress"]').val(uaddress);
 

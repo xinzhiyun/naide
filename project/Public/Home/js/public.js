@@ -61,7 +61,7 @@ var chineseCheck = function(val){
 }
 //验证昵称
 var nameCheck = function(val){
-    return /^[\w\-_\u4e00-\u9fa5]{2,255}$/.test(val);
+    return /^[\w\-_\u4e00-\u9fa5]{1,255}$/.test(val);
 }
 //验证银行卡号
 var bankCheck = function(val){
@@ -233,7 +233,7 @@ var noticeFn = function(obj){
     //设置背景颜色
     obj.bgcolor = obj.bgcolor || 'rgba(70,70,70,.9)';
     // 消失时间
-    obj.time = obj.time || 1800;
+    obj.time = obj.time || 1000;
     // console.log(obj.time);
     var notice = document.getElementById('noticeDiv');
     var noticeSpan = notice.getElementsByTagName('span')[0];

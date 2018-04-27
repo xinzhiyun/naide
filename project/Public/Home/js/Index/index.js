@@ -44,6 +44,7 @@ var home = new Vue({
 			filmainStyle: '',							// 滤芯详情，滤芯复位
 			filterList: [],								// 滤芯详情数据集合
 			resetFilter: '',							// 滤芯复位
+			share: ''
 		}
 	},
 	computed: {},
@@ -87,6 +88,18 @@ var home = new Vue({
 		wash: function(){
 			var that = this;
 			that.sendMessage('冲洗');
+		},
+		// 显示分享面板
+		sharePanel: function(){
+			$('.shareContent').show();
+			this.share = 'shareShow';
+		},
+		// 隐藏分享面板
+		cancelShare: function(){
+			this.share = '';
+			setTimeout(function(){
+				$('.shareContent').hide();
+			},300);
 		},
 		// 显示滤芯页面
 		filterShow: function(){

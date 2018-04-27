@@ -398,14 +398,25 @@ body {
 	padding: 0 4vw;
 }
 .status {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
 	display: inline-flex;
-	flex-flow: column;
-	align-items: center;
-	justify-content: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-flow: column;
+	        flex-flow: column;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
 	margin-top: -2vh;
 }
 .status>span {
-	flex: 1;
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
 }
 .icon-makewater,
 .icon-fullwater, 
@@ -423,7 +434,16 @@ body {
 	color: red;
 }
 .glint {
-	animation: glint 1.6s linear infinite alternate;
+	-webkit-animation: glint 1.6s linear infinite alternate;
+	        animation: glint 1.6s linear infinite alternate;
+}
+@-webkit-keyframes glint {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 @keyframes glint {
 	from {
@@ -447,18 +467,23 @@ body {
 .shareContent {
 	height: 100%;
 	width: 100%;
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, .3);
 	z-index:999;
 }
+#shareShow {
+	display: block;
+	margin-bottom: 0;
+}
 .shareContents {
 	width: 100%;
+	height: 36%;
 	position: fixed;
 	bottom: 0;
-	height: 30%;
-	background-color: white;
+	margin-bottom: -100%;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -469,6 +494,9 @@ body {
 	-webkit-box-align: center;
 	    -ms-flex-align: center;
 	        align-items: center;
+	background-color: white;
+	-webkit-transition: .3s linear;
+	transition: .3s linear;
 }
 .shareContents > li {
 	width: 100%;
@@ -480,6 +508,7 @@ body {
 	        align-items: center;
 	-ms-flex-pack: distribute;
 	    justify-content: space-around;
+	padding: 1vh 0;
 
 }
 .shareContents > li:nth-child(1) {
@@ -502,6 +531,7 @@ body {
 }
 
 .shareContents > li > div {
+	width: 33%;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -514,10 +544,15 @@ body {
 	        align-items: center;
 	
 }
-.shareContents > li > div > span:first-child {
-	font-size:1rem;
+.shareContents > li > div:active {
+	background: rgba(0,0,0,.05);
 }
-
+.shareContents > li > div > span:first-child {
+	font-size:1.6rem;
+}
+.cancel:active {
+	background: rgba(0,0,0,.05);
+}
 /*滤芯部分*/
 
 #filter {
@@ -653,6 +688,7 @@ body {
 	-webkit-transform: translate(-10%,-50%);
 	        transform: translate(-10%,-50%);
 	font-size: 1.2rem;
+	-webkit-transition: .1s linear;
 	transition: .1s linear;
 }
 .filteritem>.icon-selectcircle {
