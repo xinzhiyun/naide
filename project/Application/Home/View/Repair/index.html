@@ -18,7 +18,7 @@
 			<div id="repair-container">
 				<ul>
 					<li>
-						<p class="fblue">服务内容</p>
+						<p class="fblue" style="textAlign:center;">服务内容</p>
 					</li>
 					<li>	
 						<div class="am-u-sm-3 fs-l">预约时间：</div>
@@ -29,13 +29,13 @@
 					<li>
 						<div class="am-u-sm-3 fs-l">预约时段：</div>
 						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r text_top" id="repair_time">&nbsp;</div>
+						<div class="am-u-sm-4 fs-r text_top" id="repair_time" @touchend="bespeak_time">&nbsp;</div>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 					<li>
 						<div class="am-u-sm-3 fs-l">服务类型：</div>
 						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r text_top" id="repair_t">&nbsp;</div>
+						<div class="am-u-sm-4 fs-r text_top" id="repair_t" @touchend="serve_type">&nbsp;</div>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 				</ul>

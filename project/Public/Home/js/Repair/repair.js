@@ -1,8 +1,3 @@
-var obj = {};
-obj.a = 1;
-obj.b = 2;
-console.log(obj);
-
 var repair_bg_vue = new Vue({
 	el:"#repair_vue",
 	data:{
@@ -27,6 +22,8 @@ var repair_bg_vue = new Vue({
 				for(var i = 0;i<name.length;i++){
 					info_value.push(name[i].innerHTML);
 				}
+			}else if(q == "val"){
+				info_value.push(name.val());
 			}
 			for(var i = 0;i<info_value.length;i++){
 				info_page[info_key[i]] = info_value[i];
@@ -51,86 +48,61 @@ var repair_bg_vue = new Vue({
 			};
 			var a = $(".text_top");
 			var b = ["bespeak_time","time_interval","serve_type"];//预约时间 预约时段 服务类型
+			var e = $(".text_middle");
+			var f= ["beizhu"];	//备注
 			var c = $(".text_bottom");
 			var d = ["linkman","contact_number","device_code","detailed_add"];//联系人 联系电话 设备编码 详细地址
-			var e = $(".text_middle");
-			var f= ["备注"];
 			var info_top = repair_bg_vue.json_public(a,b,"innerHTML");
-			var info_middle = repair_bg_vue.json_public(e,f,"val()");
+			var info_middle = repair_bg_vue.json_public(e,f,"val");
 			var info_bottom = repair_bg_vue.json_public(c,d,"value");
-			console.log(info_bottom);
-			console.log(info_middle);
-			console.log(info_top);
-			console.log($(".text_middle").val());
+			var Obj = Object.assign(info_top,info_middle,info_bottom);
+			console.log(Obj);
+			$.ajax({
+                url: "",
+                data: {datas:""},
+                type: "post",
+                success: function(res) {
+                    
+                },
+                error: function(res) {
+                    
+                }
+            })
 		},	
+		e:function(ev){
+			var e = ev || event;
+            e.preventDefault();
+            el = e.currenTarget || e.srcElement;
+            return $el = $(el);
+		},
+		// 选项公共部分
+		select_public:function(obj,mask,ev){
+			repair_bg_vue.e(ev);
+            $el.html("");//清空文本
+            mask.show();
+            $("body").attr("style","overflow:hidden");
+            // this 指向委托的对象 li
+            obj.delegate('li', 'click', function(ev){
+		        $el.html($(this).html()).css({"color":"#8b8b8b","fontSize":"0.64rem"});
+		        $(this).css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
+				mask.hide();
+		    });
+		},
+		// 预约时段
+		bespeak_time:function(){
+			var time_ul = $("#time_ul");
+			var mask = $(".time_bg");
+			repair_bg_vue.select_public(time_ul,mask);
+		},
+		// 服务类型
+		serve_type:function(ev){
+			var repair_ul = $("#repair_ul");
+			var mask = $(".repair_bg");
+			repair_bg_vue.select_public(repair_ul,mask);
+		}
 	}
 });
-// console.log($(".text_to").innerHTML);
 $(function(){
-//预约时段
-	$("#repair_time").bind("touchstart",function(e){
-		// 初始化文本
-		$("#repair_time").html("");
-		event.preventDefault();
-		var $this = $(this);
-		$(".time_bg").show();
-		// $('body').setAttribute("style","overflow:hidden;height:100%;");
-		$("body").attr("style","overflow:hidden");
-		$this.html($("#time_selected").html());
-			// $this.html($("#time_selected").html().css({"color":"#8b8b8b","fontSize":"0.64rem"}));
-		// $this.html();
-		for(var i = 0;i<$("#time_ul>li").length;i++){
-			$("#time_ul>li").bind("touchstart",function(e){
-				event.preventDefault();
-				// 选中时段
-				$this.html($(this).html()).css({"color":"#8b8b8b","fontSize":"0.64rem"});
-				$(this).css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
-				$(".time_bg").hide();
-				$("body").attr("style","overflow:auto");
-			});
-		}
-	});
-
-//服务类型
-	$("#repair_t").bind("touchstart",function(e){
-		// 初始化文本
-		$("#repair_t").html("");
-		event.preventDefault();
-		var $this = $(this);
-		$(".repair_bg").show();
-		$("body").attr("style","overflow:hidden");
-		// $this.html($("#repai_selected").html());
-		for(var i = 0;i<$("#repair_ul>li").length;i++){
-			$("#repair_ul>li").bind("touchstart",function(e){
-				event.preventDefault();
-				// 选中服务类型
-				$this.html($(this).html()).css({"color":"#8b8b8b","fontSize":"0.64rem"});
-				$(this).css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
-				$(".repair_bg").hide();
-				$("body").attr("style","overflow:auto");
-			});
-		}
-	});
-
-// 设备编码
-	$("#repair_device").bind("touchstart",function(e){
-		event.preventDefault();
-		var $this = $(this);
-		$(".device_bg").show();
-		$("body").attr("style","overflow:hidden");
-		$this.html($("#device_selected").html());
-		for(var i = 0;i<$("#repair_ul>li").length;i++){
-			$("#device_ul>li").bind("touchstart",function(e){
-				event.preventDefault();
-				// 选中设备编码
-				$this.html($(this).html());
-				$(this).css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
-				$(".device_bg").hide();
-				$("body").attr("style","overflow:auto");
-			});
-		}
-	});
-
 // 上传图片
     var input = document.getElementById("file_input");   
     var result,div;   
@@ -168,53 +140,4 @@ $(function(){
     	alert(111);
     	console.log(111);
     });
-
-// 点击提交按钮
-	// var appointment = $("#appointment").html();//预约时间
-	// var repair_time = $("#repair_time").html();//预约时段
-	// var repair_t = $("#repair_t").html();//服务类型
-	// var comments = $("#comments").html();//备注(可不填)
-	// var contact = $("#contact").html();//联系人
-	// var contact_number = $("#contact_number").html();//联系电话
-	// var repair_device = $("#repair_device").html();//设备编码
-	// var address = $("#address").html();//详细地址
-
-	$("#repair-sub").bind("touchstart",function(){
-		// 判断信息填写完整后才执行ajax
-		if($("#repair_time").html() == "&nbsp;" && $("#repair_t").html() == "&nbsp;"){
-			$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
-			$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
-			return;
-		};
-		if($("#repair_time").html() == "&nbsp;" || $("#repair_time").html() == "未选择预约时间"){
-			$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
-			return;
-		};
-		if($("#repair_t").html() == "&nbsp;" || $("#repair_t").html() == "未选择服务类型"){
-			$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
-			return;
-		};
-		console.log("通过ajax数据发送到后台");
-		// 通过ajax数据发送到后台
-		// console.log("执行ajax代码");
-		// $.ajax{
-		// 	url:"",
-		// 	type:"post",
-		// 	data:{
-		// 		appointment : $("#appointment").html();//预约时间
-		// 		repair_time: $("#repair_time").html();//预约时段
-		// 		repair_t : $("#repair_t").html();//服务类型
-		// 		comments : $("#comments").html();//备注(可不填)
-		// 		contact : $("#contact").html();//联系人
-		// 		contact_number : $("#contact_number").html();//联系电话
-		// 		repair_device : $("#repair_device").html();//设备编码
-		// 		address : $("#address").html();//详细地址
-		// 	},
-		// 	Type:"json",
-		// 	success:function(res){
-				
-		// 	}
-		// }
-		
-	});
 });
