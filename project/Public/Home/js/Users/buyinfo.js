@@ -62,6 +62,7 @@ window.onload = function(){
 		$('.uaddress').text(province + ' ' + city + ' ' + area);
 		$("#areaChoose").fadeOut('fast');	//关闭地区选择面板
 		$('.choosebtn').hide();	// 隐藏请选择
+
 	})
 	// 点击 xx 关闭地区选择面板
 	$(".close").on('click',function(){
@@ -86,32 +87,25 @@ window.onload = function(){
 			noticeFn({text:'请选择一个有有效的地址！'});
 		}
 	})
-	// 地区选择
-	var script = $("<script/>");
-	var scriptCode = `
-		// 选择地区
-		$(".areabtn").on("click", function(){
-			$("#areaChoose").fadeIn('fast');
-		});
-
-		// 关闭地区选择，并显示到对应区域
-		$(".area").on("click", 'p', function(){
-			
-			var province = $('.ptext').text(),
-				city = $('.ctext').text(),
-				area = $(this).text();
-			
-			$(".uaddress").text( (!province && !city && !area) ? '请选择' : province + ' ' + city + ' ' + area);
-			// console.log($(this).text().indexOf('请选择'));
-			if($(this).text().indexOf('请选择') == -1){
-				setTimeout(function(){
-					$("#areaChoose").fadeOut('fast');
-					$('.choosebtn').hide();
-				},300);
-			}
-
-		});`;
-	script.html(scriptCode);
-	$("body").append(script);
-
+	// 显示服务站列表
+	$('.service_stop').click(function(){
+		var text = $(this).children('span').text();
+		console.log(text);
+		if(text.indexOf('无') > -1){
+			noticeFn({text: '当前位置附近无服务站数据！'});
+			return
+		}
+		$('#serviceChoose').fadeIn('fast');
+	})
+	// 关闭服务站选择
+	$('.icon-quxiao').click(function(){
+		$('#serviceChoose').fadeOut('fast');
+	})
+	// 选择服务站
+	$('.serviceul').on('click', 'li', function(){
+		var text = $(this).text();
+		$('.serviceul>li').removeClass('fblue');
+		$(this).toggleClass('fblue');
+		$('.service_stop>span').text(text);
+	})
 }
