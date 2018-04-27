@@ -14,7 +14,7 @@
   	doc.addEventListener('DOMContentLoaded', recalc, false);
 }(document, window);
 
-
+ 
 // 顶部导航栏、下拉刷新
 !function(){
     var navbar = document.createElement('div');
