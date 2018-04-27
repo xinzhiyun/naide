@@ -15,7 +15,6 @@ var $_GET = (function() {
 		return {};
 	}
 })();
-console.log(typeof $_GET.index);
 if($_GET.index == undefined){
 	$(".line_check").css("left"," 0.42666667rem");
 	$(".pay_page").show().siblings().show();
@@ -39,7 +38,7 @@ var product_pay = new Vue({
 			{
 				product_pay_info:[
 					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
+						product_pic : "../../Public//images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
 						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
 						product_price :  "120.00",//产品单价
@@ -332,8 +331,6 @@ var product_pay = new Vue({
 
 		num:"",
 	},
-
-
 	computed:{
 		// 订单总件数(待付款)
 		totalCount:function(){
@@ -483,31 +480,52 @@ var product_pay = new Vue({
 		}
 	},
 	methods:{
-		// 跳转页面改变url
-		url_public:function(num){
+		// 事件对象（公共）
+		e:function(ev){
+			var e = ev || event;
+		    e.preventDefault();
+		    el = e.currenTarget || e.srcElement;
+		    return $(el);
+		},
+		// 跳转页面改变url（公共）
+		url:function(num){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
-			location.href = href+"?index="+num;
+			if(num == ""){
+				history.replaceState({}, null, href);
+			}else{
+				history.replaceState({}, null, href +"?index="+ num);
+			}
 		},
-		all_page:function(){
-			var url = window.document.location.href.toString();
-			var href = url.split("?")[0];
-			location.href = href;
-		},
-		pay_page:function(){
-			product_pay.url_public(1);
-		},
-		send_page:function(){
-			product_pay.url_public(2);
-		},
-		take_page:function(){
-			product_pay.url_public(3);
+		touchStart:function(ev){
+			product_pay.e(ev);
+			var num = $(el).attr("num");
+			product_pay.url(num);
+			if(num == ""){
+				$(".line_check").css("left"," 0.42666667rem");
+				$(".pay_page").css("display","block");
+				$(".send_page").css("display","block");
+				$(".take_page").css("display","block");
+			}else if(num == "1"){
+				$(".line_check").css("left"," 3.94666667rem");
+				$(".pay_page").css("display","block");
+				$(".send_page").css("display","none");
+				$(".take_page").css("display","none");
+			}else if(num == "2"){
+				$(".line_check").css("left"," 7.57333333rem");
+				$(".send_page").css("display","block");
+				$(".pay_page").css("display","none");
+				$(".take_page").css("display","none");
+			}else if(num == "3"){
+				$(".line_check").css("left"," 11.41333333rem");
+				$(".take_page").css("display","block");
+				$(".pay_page").css("display","none");
+				$(".send_page").css("display","none");
+			}
 		},
 		// 取消订单
 		cancel_show:function(index){
-			// alert(index); 
 			var $_this = this;
-			// this.num = index;
 			$(".cancel_bg").show();
 			// 取消
 			$(".cancel_hide").bind("touchstart",function(e){
@@ -525,6 +543,7 @@ var product_pay = new Vue({
 		// 支付订单
 		pay_show:function(pay_index){
 			$(".pay_bg").show();
+			$("body").css({"overflow":"hidden"});
 			$(".pay_hide").bind("touchstart",function(e){
 				event.preventDefault();
 				$(".pay_bg").hide();
@@ -535,14 +554,19 @@ var product_pay = new Vue({
 		},
 		//立即支付
 		immediate_pay:function(){
-			// alert(this.num);
-			// 点击立即支付，获取指定支付的产品信息
-			var pay_product_info = this.all_pay[this.num];//支付产品信息
-			var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
-			console.log(pay_product_info);	
-			$(".pay_bg").hide();
+			if($("#select_i").attr("class") !="iconfont icon-not_Selected-copy select-copy"){
+					// 点击立即支付，获取指定支付的产品信息
+				var pay_product_info = this.all_pay[this.num];//支付产品信息
+				var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
+				console.log(pay_product_info);	
+				$(".pay_bg").hide();
+				$("body").css({"overflow":"auto"});
+				noticeFn({text: '支付成功！',time: '1500'});
+			}else{
+				noticeFn({text: '未选择付款方式！',time: '1500'});
+			}
 		},
-		// 微信支付方式
+		// 微信支付方式（select字体图标）
 		weixin:function(){
 			var a = "iconfont icon-selected-copy select-copy";//选中
 			var b = "iconfont icon-not_Selected-copy select-copy";//未选中
@@ -552,48 +576,18 @@ var product_pay = new Vue({
 				$(".select-copy").attr("class",b).css({"color":"#000"});
 			}
 		},
-		// product_pay.url_public(1);
+		// 提醒发货
+		remind:function(ev){
+			product_pay.e(ev);
+			// $(el).css("color","#f00");
+			// 点击提醒发货，发送后台成功后，在页面提醒用户
+			noticeFn({text: '已提醒卖家发货',time: '1500'});
+		}
 	},
 });
 $(function(){
 	var data_li = $(".obligation_nav_content>ul li");
 	var replace_Suc = $("#replace_success").html();//交易成功 订单编号
 	var replace_Pay = $("#replace_pay").html();//未支付 订单编号
-	var replace_Send = $("#replace_send").html();//待发货 订单编号
-	// for(var i = 0;i<data_li.length;i++){
-	// 	$(data_li[i]).bind("touchstart",function(e){
-	// 		event.preventDefault();
-	// 		// 点击将改变选中字体样式
-	// 		$(this).css("color","#0d94f3").siblings().css("color","#000");
-	// 		var class_value = $(this).attr("data-name");
-	// 		switch(class_value){
-	// 			case "all":
-	// 				$(".line_check").css("left"," 0.42666667rem");
-	// 				$(".pay_page").css("display","block");
-	// 				$(".send_page").css("display","block");
-	// 				$(".take_page").css("display","block");
-	// 				break;
-	// 			case "pay":
-	// 				$(".line_check").css("left"," 3.94666667rem");
-	// 				$(".pay_page").css("display","block");
-	// 				$(".send_page").css("display","none");
-	// 				$(".take_page").css("display","none");
-	// 				// $("#replace_pay").html('订单编号：{{order_pay_info.order_number}}');//未支付
-	// 				break;
-	// 			case "send":
-	// 				$(".line_check").css("left"," 7.57333333rem");
-	// 				$(".send_page").css("display","block");
-	// 				$(".pay_page").css("display","none");
-	// 				$(".take_page").css("display","none");
-	// 				break;
-	// 			case "take":
-	// 				$(".line_check").css("left"," 11.41333333rem");
-	// 				$(".take_page").css("display","block");
-	// 				$(".pay_page").css("display","none");
-	// 				$(".send_page").css("display","none");
-	// 				break;
-	// 		}
-	// 	});
-	// }
-	
+	var replace_Send = $("#replace_send").html();//待发货 订单编号	
 });

@@ -77,20 +77,24 @@ var service_log_vue = new Vue({
 		num: [1, 2, 3],//安装，维修，维护信息数量
 	},
 	methods:{
-		// 服务详情页面，点击将选中的“整条信息”以实参的方式传入，赋值给“service_details_bg”服务详情页面
-		service_details_page:function(info,number){
+		// 跳转页面改变url（公共）
+		url:function(num,number){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
-			console.log(href);
-			// location.href = u;
-			// console.log(location.href = href+"?index=1"+"&"+number);
-			location.href = href+"?index=1"+"&"+number;
+			if(num == ""){
+				history.replaceState({}, null, href);
+			}else{
+				history.replaceState({}, null, href +"?index="+ num + "&" + number);
+			}
+		},
+		// 服务详情页面，点击将选中的“整条信息”以实参的方式传入，赋值给“service_details_bg”服务详情页面
+		service_details_page:function(info,number){
+			service_log_vue.url("1",number);
 			var that = this;
 			$(".install_user").hide();
 			$("#service_details_bg").show();
 			that.service_details_info =  info;
-
-			// localStorage
+			// 将获取数据存入localStorage，避免页面刷新后数据为空
 			var info_all = JSON.stringify(info);
 			if(!window.localStorage){
 				alert("浏览器支持localStorage！");
@@ -105,7 +109,6 @@ var service_log_vue = new Vue({
 			        }
 				}
 				storage.setItem("order_number_"+number,info_all);
-				// that.service_details_info =  JSON.parse(storage.getItem("order_number_"+number));
 			}
 		},
 		showModule:function(event){

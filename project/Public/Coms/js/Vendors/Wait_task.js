@@ -119,6 +119,7 @@ var wait_task = new Vue({
 		},
 		// 在服务详情页面中，点击派工按钮
 		plan_personnel_inp:function(){
+			wait_task.url_public(3);
 			// 点击派工按钮，隐藏服务详情页面，并跳转到派工信息页面，将“派工”传给后台
 			$("#service_details_bg").hide();
 			// $.ajax({
@@ -154,11 +155,21 @@ var wait_task = new Vue({
 		// 提交按钮
 		plan_personnel_submit:function(){
 			if($("#select_personnel").html() == "选择" && $("#select_cell").html() == ""){
-
-				$("#select_personnel").html("未选择安装人员,不能提交").css({"color":"#f00","fontSize":"0.68rem"});
-				$("#select_cell").html("未选择联系电话,不能提交").css({"color":"#f00","fontSize":"0.68rem"});
+				noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
+				return;
 			}
-			
+			noticeFn({text: '提交成功',time: '1500'});
+			$.ajax({
+		        url: "",
+		        data: {datas:""},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
 		}
 
 	}

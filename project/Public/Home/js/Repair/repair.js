@@ -34,16 +34,15 @@ var repair_bg_vue = new Vue({
 		submit_text:function(){
 			// 判断信息填写完整后才执行ajax
 			if($("#repair_time").html() == "&nbsp;" && $("#repair_t").html() == "&nbsp;"){
-				$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
-				$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
+				noticeFn({text: '未选择预约时间和服务类型',time: '1500'});
 				return;
 			};
 			if($("#repair_time").html() == "&nbsp;" || $("#repair_time").html() == "未选择预约时间"){
-				$("#repair_time").html("未选择预约时间").css({"color":"#f00","fontSize":"0.512rem"});
+				noticeFn({text: '未选择预约时间',time: '1500'});
 				return;
 			};
 			if($("#repair_t").html() == "&nbsp;" || $("#repair_t").html() == "未选择服务类型"){
-				$("#repair_t").html("未选择服务类型").css({"color":"#f00","fontSize":"0.512rem"});
+				noticeFn({text: '未选择服务类型',time: '1500'});
 				return;
 			};
 			var a = $(".text_top");
@@ -83,9 +82,10 @@ var repair_bg_vue = new Vue({
             $("body").attr("style","overflow:hidden");
             // this 指向委托的对象 li
             obj.delegate('li', 'click', function(ev){
-		        $el.html($(this).html()).css({"color":"#8b8b8b","fontSize":"0.64rem"});
+		        $el.html($(this).html());
 		        $(this).css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
 				mask.hide();
+				$("body").attr("style","overflow:auto");
 		    });
 		},
 		// 预约时段
