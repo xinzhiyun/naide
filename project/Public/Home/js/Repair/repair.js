@@ -8,6 +8,20 @@ var repair_bg_vue = new Vue({
 			detailed_add:"广东广州番禺区，钟村文化广场"//详细地址
 		},
 	},
+	computed:{
+		// 当前日期
+		now:function(){
+			function p(s) {
+			    return s < 10 ? '0' + s: s;
+			}
+		    var myDate = new Date();
+		    var year=myDate.getFullYear();
+		    var month=myDate.getMonth()+1;
+		    var date=myDate.getDate(); 
+			var now=year+'-'+p(month)+"-"+p(date);
+			return now;
+		}
+	},
 	methods:{
 		// 两组数据合并为一个数组对象
 		json_public:function(name,arr,q){
@@ -46,16 +60,17 @@ var repair_bg_vue = new Vue({
 				return;
 			};
 			var a = $(".text_top");
-			var b = ["bespeak_time","time_interval","serve_type","device_code"];//预约时间 预约时段 服务类型 设备编码
+			var b = ["time_interval","serve_type","device_code"];//预约时段 服务类型 设备编码
 			var e = $(".text_middle");
 			var f= ["beizhu"];	//备注
 			var c = $(".text_bottom");
-			var d = ["linkman","contact_number","detailed_add"];//联系人 联系电话 详细地址
+			var d = ["bespeak_time","linkman","contact_number","detailed_add"];//预约时间 联系人 联系电话 详细地址
 			var info_top = repair_bg_vue.json_public(a,b,"innerHTML");
 			var info_middle = repair_bg_vue.json_public(e,f,"val");
 			var info_bottom = repair_bg_vue.json_public(c,d,"value");
 			var Obj = Object.assign(info_top,info_middle,info_bottom);
 			console.log(Obj);
+			noticeFn({text: '提交成功',time: '1500'});//提交成功
 			$.ajax({
                 url: "",
                 data: {datas:""},
@@ -114,7 +129,6 @@ $(function(){
     	if($(".file_li").children("div").length != 3){
 			input.addEventListener('change',readFile,false);
     	}
-          
     }　　　　　   
     function readFile(){   
         for(var i=0;i<this.files.length;i++){  

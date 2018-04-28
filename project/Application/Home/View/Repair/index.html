@@ -22,8 +22,8 @@
 					</li>
 					<li>	
 						<div class="am-u-sm-3 fs-l">预约时间：</div>
-						<div class="am-u-sm-5">&nbsp;</div>
-						<div class="am-u-sm-3 fs-r text_top" id="appointment">2018-03-30</div>
+						<div class="am-u-sm-3">&nbsp;</div>
+						<input type="text" class="am-u-sm-5 text_bottom" :value="now" id="my-start-2"/>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 					<li>
@@ -92,8 +92,8 @@
 				<p class="fblue">预约时段</p>
 				<ul id="time_ul">
 					<li class="no_selected"></li>
-					<li id="check time_selected">上午&nbsp;09:00-11:00</li>
-					<li class="no_selected">下午&nbsp;14:00-17:00</li>
+					<li id="check time_selected">上午 09:00-11:00</li>
+					<li class="no_selected">下午 14:00-17:00</li>
 				</ul>
 				<ul>
 					<li></li>
@@ -117,7 +117,6 @@
 			</div>
 		</div>
 	<!-- 维修蒙版结束部分 -->
-
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
@@ -127,6 +126,31 @@
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		// 日历插件
+		$(function(){
+		    var nowTemp = new Date();
+		    var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+		    var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+		    var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+		    var $myStart2 = $('#my-start-2');
+		    var checkin = $myStart2.datepicker({
+		        onRender: function(date, viewMode) {
+		        // 默认 days 视图，与当前日期比较
+		        var viewDate = nowDay;
+		        switch (viewMode) {
+		          // moths 视图，与当前月份比较
+		          case 1:
+		            viewDate = nowMoth;
+		            break;
+		          // years 视图，与当前年份比较
+		          case 2:
+		            viewDate = nowYear;
+		            break;
+		        }
+		        return date.valueOf() < viewDate ? 'am-disabled' : '';
+		      }
+		    })
+		})
 	</script>
 </body>
 </html>
