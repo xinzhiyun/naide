@@ -28,7 +28,6 @@ if($_GET.index == undefined){
 	$(".line_check").css("left"," 11.41333333rem");
 	$(".take_page").show().siblings().hide();
 }
-
 var product_pay = new Vue({
 	el:"#app",
 	data:{
@@ -36,7 +35,7 @@ var product_pay = new Vue({
 	//待付款   
 		all_pay:[
 			{
-				product_pay_info:[
+				product_info:[
 					{
 						product_pic : "../../Public//images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -55,7 +54,7 @@ var product_pay = new Vue({
 						
 					},
 				],
-				flow_pay_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -73,11 +72,12 @@ var product_pay = new Vue({
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 20.00,//邮费
 				num:""
 			},
 			{
-				product_pay_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -95,7 +95,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					}
 					],
-				flow_pay_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -113,11 +113,12 @@ var product_pay = new Vue({
 				order_count:"",//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 30.00,//邮费
 				num:""
 			},
 			{
-				product_pay_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -135,7 +136,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					}
 					],
-				flow_pay_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -153,6 +154,7 @@ var product_pay = new Vue({
 				order_count:"",//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 40.00,//邮费
 				num:""
 			}
@@ -161,7 +163,7 @@ var product_pay = new Vue({
 	//待发货
 		all_send:[
 			{
-				product_send_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -179,7 +181,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 				],
-				flow_send_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -198,11 +200,12 @@ var product_pay = new Vue({
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 20.00,//邮费
 				// num:""
 			},
 			{
-				product_send_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -220,7 +223,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					}
 					],
-				flow_send_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -238,6 +241,7 @@ var product_pay = new Vue({
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 20.00,//邮费
 				// num:""
 			}
@@ -246,7 +250,7 @@ var product_pay = new Vue({
 	//待收货
 		all_take:[
 			{
-				product_take_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -264,7 +268,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 				],
-				flow_take_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -283,11 +287,12 @@ var product_pay = new Vue({
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 20.00,//邮费
 				// num:""
 			},
 			{
-				product_take_info:[
+				product_info:[
 					{
 						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
 						product_name : "RO膜",//产品名
@@ -305,7 +310,7 @@ var product_pay = new Vue({
 						each_product_total : ""//单品总价
 					},
 				],
-				flow_take_info:[
+				flow_info:[
 					{
 						flow_name : "200元套餐含2000L流量",
 						flow_price :  "120.00",//流量包单价
@@ -324,6 +329,7 @@ var product_pay = new Vue({
 				order_count:0,//订单总件数
 				order_total : 0,//订单总价
 				product_total:0,//产品总价
+				flow_total:0,//流量总价
 				franking : 30.00,//邮费
 				// num:""
 			},
@@ -332,154 +338,46 @@ var product_pay = new Vue({
 		num:"",
 	},
 	computed:{
-		// 订单总件数(待付款)
-		totalCount:function(){
-			for(var x = 0;x<this.all_pay.length;x++){
-				var each_product_Count = 0;//产品总件数
-				for(var i = 0;i<this.all_pay[x].product_pay_info.length;i++){
-					each_product_Count += Number(this.all_pay[x].product_pay_info[i].product_count);
-					// console.log(each_product_Count);
-				}
-				var each_flow_Count = 0;//流量包总件数
-				for(var i = 0;i<this.all_pay[x].flow_pay_info.length;i++){
-					each_flow_Count += Number(this.all_pay[x].flow_pay_info[i].flow_count);
-				}
-				var zongjia = 0;
-				zongjia = each_product_Count + each_flow_Count;
-				this.all_pay[x].order_count = zongjia;
-			}
-		},
-		// 订单总件数(待发货)
-		totalCount_send:function(){
-			for(var x = 0;x<this.all_send.length;x++){
-				var each_product_Count = 0;//产品总件数
-				for(var i = 0;i<this.all_send[x].product_send_info.length;i++){
-					each_product_Count += Number(this.all_send[x].product_send_info[i].product_count);
-					// console.log(each_product_Count);
-				}
-				var each_flow_Count = 0;//流量包总件数
-				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
-					each_flow_Count += Number(this.all_send[x].flow_send_info[i].flow_count);
-				}
-				var zongjia = 0;
-				zongjia = each_product_Count + each_flow_Count;
-				this.all_send[x].order_count = zongjia;
-			}
-		},
-		// 订单总件数(待收货)
-		totalCount_take:function(){
-			for(var x = 0;x<this.all_take.length;x++){
-				var each_product_Count = 0;//产品总件数
-				for(var i = 0;i<this.all_take[x].product_take_info.length;i++){
-					each_product_Count += Number(this.all_take[x].product_take_info[i].product_count);
-					// console.log(each_product_Count);
-				}
-				var each_flow_Count = 0;//流量包总件数
-				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
-					each_flow_Count += Number(this.all_take[x].flow_take_info[i].flow_count);
-				}
-				var zongjia = 0;
-				zongjia = each_product_Count + each_flow_Count;
-				this.all_take[x].order_count = zongjia;
-			}
-		},
-		// 总价
-		totalPrice:function(){
-			for(var x = 0;x<this.all_pay.length;x++){
-				for(var i = 0;i<this.all_pay[x].product_pay_info.length;i++){
-					var each_product_total = "";//每件产品总价钱
-					var sum = 0;
-					each_product_total = Number(each_product_total);
-					this.all_pay[x].product_pay_info[i].each_product_total += this.all_pay[x].product_pay_info[i].product_count *  this.all_pay[x].product_pay_info[i].product_price;//产品总价钱
-					// console.log(this.all_pay[x].product_pay_info[i].each_product_total);
-				}
-
-				// console.log(this.all_pay[x].product_total);
-				for(var i = 0;i<this.all_pay[x].flow_pay_info.length;i++){
-					var each_flow_total = "";//每件流量包总价钱
-					each_flow_total = Number(each_flow_total);
-					this.all_pay[x].flow_pay_info[i].each_flow_total += this.all_pay[x].flow_pay_info[i].flow_count * this.all_pay[x].flow_pay_info[i].flow_price;//流量包总价钱
-
-				}
-				for(var i = 0;i<this.all_pay[x].flow_pay_info.length;i++){
-					var a = 0;
-					var b = 0;
-					a = this.all_pay[x].product_pay_info[i].each_product_total;
-					b = this.all_pay[x].flow_pay_info[i].each_flow_total;
-					this.all_pay[x].order_total += Number(a) + Number(b);
-				}
-				// 加邮费
-				var c = this.all_pay[x].franking;
-				this.all_pay[x].order_total  += Number(c);
-			}
-		},
-		// 总价(待发货)
-		totalPrice_send:function(){
-			for(var x = 0;x<this.all_send.length;x++){
-				for(var i = 0;i<this.all_send[x].product_send_info.length;i++){
-					var each_product_total = "";//每件产品总价钱
-					var sum = 0;
-					each_product_total = Number(each_product_total);
-					this.all_send[x].product_send_info[i].each_product_total += this.all_send[x].product_send_info[i].product_count *  this.all_send[x].product_send_info[i].product_price;//产品总价钱
-				}
-
-				// console.log(this.all_pay[x].product_total);
-				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
-					var each_flow_total = "";//每件流量包总价钱
-					each_flow_total = Number(each_flow_total);
-					this.all_send[x].flow_send_info[i].each_flow_total += this.all_send[x].flow_send_info[i].flow_count * this.all_send[x].flow_send_info[i].flow_price;//流量包总价钱
-
-				}
-				for(var i = 0;i<this.all_send[x].flow_send_info.length;i++){
-					var a = 0;
-					var b = 0;
-					a = this.all_send[x].product_send_info[i].each_product_total;
-					b = this.all_send[x].flow_send_info[i].each_flow_total;
-					this.all_send[x].order_total += Number(a) + Number(b);
-				}
-				// 加邮费
-				var c = this.all_send[x].franking;
-				this.all_send[x].order_total  += Number(c);
-				// console.log(this.all_send[x].order_total);
-			}
-		},
-		// 总价(待收货)
-		totalPrice_take:function(){
-			for(var x = 0;x<this.all_take.length;x++){
-				for(var i = 0;i<this.all_take[x].product_take_info.length;i++){
-					var each_product_total = "";//每件产品总价钱
-					var sum = 0;
-					each_product_total = Number(each_product_total);
-					this.all_take[x].product_take_info[i].each_product_total += this.all_take[x].product_take_info[i].product_count *  this.all_take[x].product_take_info[i].product_price;//产品总价钱
-					// console.log(this.all_take[x].product_take_info[i].each_product_total);
-				}
-
-				// console.log(this.all_take[x].product_total);
-				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
-					var each_flow_total = "";//每件流量包总价钱
-					each_flow_total = Number(each_flow_total);
-					this.all_take[x].flow_take_info[i].each_flow_total += this.all_take[x].flow_take_info[i].flow_count * this.all_take[x].flow_take_info[i].flow_price;//流量包总价钱
-					// console.log(this.all_take[x].flow_take_info[i].each_flow_total);
-				}
-				for(var i = 0;i<this.all_take[x].flow_take_info.length;i++){
-					var a = 0;
-					var b = 0;
-					a = this.all_take[x].product_take_info[i].each_product_total;
-					b = this.all_take[x].flow_take_info[i].each_flow_total;
-					this.all_take[x].order_total += Number(a) + Number(b);
-					console.log(this.all_take[x].order_total);
-				}
-				// // 加邮费
-				var c = this.all_take[x].franking;
-				this.all_take[x].order_total  += Number(c);
-			}
-		},
 		// 确认支付总金额
 		confirm_pay:function(){
 			return this.end_price;
-		}
+		},
 	},
 	methods:{
+		// 订单总件数(公共)
+		totalCount_f:function(all){
+			var each_product_Count = 0;//产品总件数
+			for(var i = 0;i<all.product_info.length;i++){
+				each_product_Count += Number(all.product_info[i].product_count);
+			}
+			var each_flow_Count = 0;//流量包总件数
+			for(var i = 0;i<all.flow_info.length;i++){
+				each_flow_Count += Number(all.flow_info[i].flow_count);
+			}
+			var zongjia = 0;
+			zongjia = each_product_Count + each_flow_Count;
+			all.order_count = zongjia;
+		},
+		// 订单总金额（公共）
+		totalPrice_f:function(name,product,flow){
+			for(var i = 0;i<product.length;i++){
+				name.product_total += product[i].product_count *  product[i].product_price;//产品总价钱
+			}
+			for(var i = 0;i<flow.length;i++){
+				name.flow_total += flow[i].flow_count *  flow[i].flow_price;//产品总价钱
+			}
+			name.order_total = name.product_total + name.flow_total;
+			// 加邮费
+			var c = name.franking;
+			name.order_total  += Number(c);
+		},
+		// 调用订单总件数，总金额
+		totalCount:function(name){
+			for(var i=0; i<name.length; i++){
+				this.totalCount_f(name[i]);//订单总件数
+				this.totalPrice_f(name[i],name[i].product_info,name[i].flow_info);//订单总金额
+			}
+		},
 		// 事件对象（公共）
 		e:function(ev){
 			var e = ev || event;
@@ -531,6 +429,7 @@ var product_pay = new Vue({
 			$(".cancel_hide").bind("touchstart",function(e){
 				event.preventDefault();
 				$(".cancel_bg").hide();
+				$("body").css({"overflow":"auto"});
 			});
 			// 确定
 			$(".confirm_y").bind("touchstart",function(e){
@@ -538,6 +437,7 @@ var product_pay = new Vue({
 				// $_this.all_pay.splice(index,1);
 				// console.log($_this.all_pay[index]);
 				$(".cancel_bg").hide();
+
 			});
 		},
 		// 支付订单
@@ -547,6 +447,7 @@ var product_pay = new Vue({
 			$(".pay_hide").bind("touchstart",function(e){
 				event.preventDefault();
 				$(".pay_bg").hide();
+				$("body").css({"overflow":"auto"});
 			});
 			this.num = pay_index;
 			// 点击哪条订单，将获取指定订单总金额
@@ -558,7 +459,6 @@ var product_pay = new Vue({
 					// 点击立即支付，获取指定支付的产品信息
 				var pay_product_info = this.all_pay[this.num];//支付产品信息
 				var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
-				console.log(pay_product_info);	
 				$(".pay_bg").hide();
 				$("body").css({"overflow":"auto"});
 				noticeFn({text: '支付成功！',time: '1500'});
@@ -584,6 +484,13 @@ var product_pay = new Vue({
 			noticeFn({text: '已提醒卖家发货',time: '1500'});
 		}
 	},
+	mounted(){
+		// 循环3个页面
+		var info = [this.all_pay,this.all_send,this.all_take];
+		for(var i = 0;i<info.length;i++){
+			this.totalCount(info[i]);
+		}
+	}
 });
 $(function(){
 	var data_li = $(".obligation_nav_content>ul li");
