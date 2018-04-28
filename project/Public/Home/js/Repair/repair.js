@@ -46,11 +46,11 @@ var repair_bg_vue = new Vue({
 				return;
 			};
 			var a = $(".text_top");
-			var b = ["bespeak_time","time_interval","serve_type"];//预约时间 预约时段 服务类型
+			var b = ["bespeak_time","time_interval","serve_type","device_code"];//预约时间 预约时段 服务类型 设备编码
 			var e = $(".text_middle");
 			var f= ["beizhu"];	//备注
 			var c = $(".text_bottom");
-			var d = ["linkman","contact_number","device_code","detailed_add"];//联系人 联系电话 设备编码 详细地址
+			var d = ["linkman","contact_number","detailed_add"];//联系人 联系电话 详细地址
 			var info_top = repair_bg_vue.json_public(a,b,"innerHTML");
 			var info_middle = repair_bg_vue.json_public(e,f,"val");
 			var info_bottom = repair_bg_vue.json_public(c,d,"value");

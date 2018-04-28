@@ -69,8 +69,11 @@
 						<input type="text" :value="info_confirm.contact_number" class="text_bottom">
 					</li>
 					<li class="l_z">
+						<!-- <div class="am-u-sm-3 fs-l">设备编码：</div>
+						<input type="text" :value="info_confirm.device_code" class="text_bottom"> -->
 						<div class="am-u-sm-3 fs-l">设备编码：</div>
-						<input type="text" :value="info_confirm.device_code" class="text_bottom">
+						<div class="am-u-sm-2">&nbsp;</div>
+						<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}&nbsp;</div>
 					</li>
 					<li>
 						<div class="am-u-sm-3 fs-l">详细地址：</div>

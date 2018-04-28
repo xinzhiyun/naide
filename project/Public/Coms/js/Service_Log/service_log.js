@@ -81,8 +81,10 @@ var service_log_vue = new Vue({
 		url:function(num,number){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
-			if(num == ""){
-				history.replaceState({}, null, href);
+			var href2 = url.split("&")[1];
+			// 判断第一次点击有没有刷新，
+			if(href2 == undefined){
+				location.href = location.href + "?index="+ num + "&" + number;
 			}else{
 				history.replaceState({}, null, href +"?index="+ num + "&" + number);
 			}
