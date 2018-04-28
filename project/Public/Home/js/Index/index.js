@@ -2,6 +2,8 @@ var home = new Vue({
 	el: '#home',
 	data() {
 		return {
+			dataList: '',		//websocket接收的数据
+			deviceId: '',		// 设备编码
 			tdsPure: '',		// 纯水tds
 			tdsRaw: '',			// 原水tds
 			homeStyle: '',		// 首页部分
@@ -30,9 +32,9 @@ var home = new Vue({
 				'3': 'iconfont icon-lacking glint',			// 缺水
 				'4': 'iconfont icon-leaking glint',			// 漏水
 				'5': 'iconfont icon-check glint',			// 检修
-				'6': '',		// 已关机
-				'7': '',		// 已欠费
-				'8': ''			// 已离线
+				'6': 'iconfont icon-leaking',			// 已关机
+				'7': 'iconfont icon-leaking',			// 已欠费
+				'8': 'iconfont icon-leaking'			// 已离线
 			},
 			reday: '',			//剩余天数
 			usedday: '',		//已用天数
@@ -50,10 +52,6 @@ var home = new Vue({
 	computed: {},
 	mounted() {},
 	methods: {
-		// websocket发送数据
-		sendMessage: function(text){
-			sendmsg(text);
-		},
 		// 开关机
 		power: function(){
 			var that = this;
@@ -61,6 +59,7 @@ var home = new Vue({
 			if(that.powerStatus == '开机'){
 				console.log('关机');
 				text = '关机';
+
 			}else if(that.powerStatus == '关机'){
 				console.log('开机');
 				text = '开机';
@@ -69,25 +68,53 @@ var home = new Vue({
 			// 确认取消框
 			confirmFn(text, function(res){
 				if(res){
+					// 设置数据包配置
+					home.ajson['DeviceID'] = home.deviceId;
+					home.ajson['PackType'] = 'SetData';
+					home.ajson['curTime'] = 0;
+
 					// 点击确定
 					if(that.powerStatus == '开机'){
+	                    home.ajson['DeviceStause'] = 8;
+	                    home.ajson['type'] = '开机中';
 						that.powerStatus = '关机';
-						that.sendMessage('关机');
+
 					}else if(that.powerStatus == '关机'){
+	                    home.ajson['DeviceStause'] = 7;
+	                    home.ajson['type'] = '关机中';
 						that.powerStatus = '开机';
-						that.sendMessage('开机');
 
 					}
+					// 发送数据包
+					wsSend(JSON.stringify(home.ajson));
+					
+					// 设置水机状态
+					// home.statusIconName = home.statusIconClass[home.ajson['DeviceStause']];	// 水机状态图标
+					// home.statusText = home.dstauseList[home.ajson['DeviceStause']];	// 水机状态
+
 				}else{
 					// 点击取消
-					noticeFn({text:'取消！'});
+					noticeFn({text:'取消！',time:800});
 				}
 			})
 		},
 		// 冲洗
 		wash: function(){
 			var that = this;
-			that.sendMessage('冲洗');
+			if(home.statusText == '欠费停机' || home.statusText == '关机' || home.statusText == '检修'){
+				noticeFn({text: '当前设备状态不能冲洗!'});
+				return
+			}
+			home.ajson['PackType'] = 'SetData';
+			home.ajson['DeviceStause'] = '1';
+			home.ajson['type'] = '冲洗中';
+			home.ajson['curTime'] = '0';
+			// 发送数据包
+			wsSend(JSON.stringify(home.ajson));
+
+			// 设置水机状态
+			// home.statusIconName = home.statusIconClass[1];	// 水机状态图标
+			// home.statusText = home.dstauseList[1];	// 水机状态
 		},
 		// 显示分享面板
 		sharePanel: function(){
@@ -146,15 +173,25 @@ var home = new Vue({
 		filterReset: function(){
 			var that = this;
 			var text = '复位';
+			var filter = this.resetFilter;
 			if(!this.resetFilter){
 				noticeFn({text:'请选择需要复位的滤芯！'});
 				return
 			}
 			// 确认取消框
-			confirmFn(text + this.resetFilter, function(res){
+			confirmFn(text + "滤芯" + this.resetFilter, function(res){
 				if(res){
+					home.ajson['DeviceID'] = home.deviceId;
+					home.ajson['PackType'] = 'SetData';
+					home.ajson['type'] = '复位中';
+					
+                    home.ajson['ReFlowFilter'+ filter ] = home.filterList[filter].flowlife;
+                    home.ajson['ReDayFilter'+ filter ] = home.filterList[filter].timelife;
+                    home.ajson['FlowLifeFilter'+ filter ] = home.filterList[filter].flowlife;
+                    home.ajson['DayLifeFiter'+ filter ] = home.filterList[filter].timelife;
 					// 点击确定
-					that.sendMessage(text + that.resetFilter);
+					// 发送数据包
+					wsSend(JSON.stringify(home.ajson));
 				}else{
 					// 点击取消
 					noticeFn({text:'取消！'});

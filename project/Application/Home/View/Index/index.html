@@ -71,6 +71,10 @@
 						<span><i :class="statusIconName"></i></span>
 						<span v-text='statusText'></span>
 					</span>
+					<span class="status fright" v-else>
+						<span><i :class="statusIconName" style='opacity:0;'></i></span>
+						<span v-text='statusText'></span>
+					</span>
 				</div>
 				<!-- 时长 -->
 				<div class='fwhite' v-if='leasingmode == 0'>
@@ -209,7 +213,7 @@
 				<ul class='mRight'>
 					<ul>
 						<!-- 时长 -->
-						<li class='filteritem' v-for='f in filterList' @click.prevent='resetSelect($event)' :fname='f.fName' v-if='filtermode == 0'>
+						<li class='filteritem' v-for='(f,index) in filterList' @click.prevent='resetSelect($event)' :fname='index' v-if='filtermode == 0'>
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
@@ -218,7 +222,7 @@
 							<div class='percent'><span class='bgblue' :style='"width:"+(f.reday/f.allLife)*100+"%"'></span></div>
 						</li>
 						<!-- 流量 -->
-						<li class='filteritem' v-for='f in filterList' @click.prevent='resetSelect($event)' :fname='f.fName' v-if='filtermode == 1'>
+						<li class='filteritem' v-for='(f,index) in filterList' @click.prevent='resetSelect($event)' :fname='index' v-if='filtermode == 1'>
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
@@ -227,7 +231,7 @@
 							<div class='percent'><span class='bgblue' :style='"width:"+(f.reflow/f.allFlow)*100+"%"'></span></div>
 						</li>
 						<!-- 时长 和 流量 -->
-						<li class='filteritem' v-for='f in filterList' @click.prevent='resetSelect($event)' :fname='f.fName' v-if='filtermode == 2'>
+						<li class='filteritem' v-for='(f,index) in filterList' @click.prevent='resetSelect($event)' :fname='index' v-if='filtermode == 2'>
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
@@ -259,7 +263,6 @@
 		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
-
 		var href = location.href;
 		// 显示滤芯页面
 		if(href.indexOf('filter') > -1){
@@ -274,17 +277,99 @@
 			home.homeStyle = 'opacity:1;';
 		}
 		document.onready = function(){
+			// 请求当前设备数据
+			$.ajax({
+				url: '{{:U("Home/Index/index")}}',
+				type: 'get',
+				async: false,
+				success: function(res){
+					console.log('res: ',res);
+					home.filterList = res.data;				// 滤芯数据
+					home.filtermode = res.filtermode;		// 滤芯模式
+					home.deviceId = res.deviceId;
+
+					home.usedflow = home.dataList.SumFlow;	// 已用流量
+					home.usedday = home.dataList.SumDay;	// 已用天数
+					home.reflow = home.dataList.ReFlow;		// 剩余流量
+					home.reday = home.dataList.Reday;		// 剩余天数
+					home.tdsPure = home.dataList.PureTDS;	// 纯水值
+					home.tdsRaw = home.dataList.RawTDS;		// 原水值
+				},
+				error: function(err){
+					console.log('err: ',err);
+				}
+			});
 			var wsurl = "ws://localhost:8181";
-			// wsFun(wsurl, function(str, res){
-			// 	// str: 数据类型（接收，关闭， 错误），
-			// 	// 在websocket.js中给出，不需要传
-			// 	console.log(str, res);
-			// 	// 接收数据更新到页面
-			// 	if(str == 'message'){
-			// 		home.tdsPure = res;
-			// 		home.tdsRaw = (res/2);
-			// 	}
-			// });
+			// websocket 连接
+			wsFun(wsurl, function(str, res){
+				// str: 数据类型（接收，关闭， 错误），
+				// 在websocket.js中给出，不需要传
+				console.log(str, res);
+				/**
+				 * 连接成功发送登录包
+				 */
+				if(str == 'open'){
+					//home.deviceId;	页面加载时候需要后台提供
+					home.ajson.DeviceID = home.deviceId;
+			        home.ajson.PackType = "login";
+					wsSend(JSON.stringify(home.ajson));
+
+					setTimeout(function(){
+			            home.ajson.PackType = "Select";
+			            wsSend(JSON.stringify(home.ajson));
+			            // 每个10秒钟发送一个查询包
+			            setInterval(function(){
+			                wsSend(JSON.stringify(home.ajson));
+			            },10000);
+			        },1000);
+
+				}else if(str == 'message'){
+					/**
+					 * 接收数据更新到页面
+					 */
+        			home.dataList = JSON.parse(data.data);//读取websoket数据，转换为json对象
+
+        			// 水机状态图标
+        			home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];	
+        			// 水机状态描述
+					home.statusText = home.dstauseList[home.dataList.DeviceStause];	
+					
+					switch(home.dataList.PackType){
+						case 'Select': 	//查询包
+							// 租赁模式
+							home.leasingmode = home.dataList.LeasingMode;	
+							home.usedflow = home.dataList.SumFlow;	// 已用流量
+							home.usedday = home.dataList.SumDay;	// 已用天数
+							home.reflow = home.dataList.ReFlow;		// 剩余流量
+							home.reday = home.dataList.Reday;		// 剩余天数
+							home.tdsPure = home.dataList.PureTDS;	// 纯水值
+							home.tdsRaw = home.dataList.RawTDS;		// 原水值
+							break;	
+
+						case 'SetData': //设置包
+							// 租赁模式
+							home.leasingmode = home.dataList.LeasingMode;	
+							home.usedflow = home.dataList.SumFlow;	// 已用流量
+							home.usedday = home.dataList.SumDay;	// 已用天数
+							home.reflow = home.dataList.ReFlow;		// 剩余流量
+							home.reday = home.dataList.Reday;		// 剩余天数
+							home.tdsPure = home.dataList.PureTDS;	// 纯水值
+							home.tdsRaw = home.dataList.RawTDS;		// 原水值
+							break;
+
+						default:
+							console.log('不知道什么包');
+							break;
+					}
+
+				}else if(str == 'error'){
+					noticeFn({text: '数据连接断开'});
+
+				}
+			});
+			/*
+				以下是模拟数据
+			 */
 			home.leasingmode = 2;		// 租赁模式
 			home.filtermode = 1;		// 滤芯模式
 			home.reday = 66;			// 剩余天数
@@ -302,8 +387,8 @@
 
 			home.tdsPure = 100;		// 纯水值
 			home.tdsRaw = 99;		// 原水值
-			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
-			home.statusText = home.dstauseList[0];	// 水机状态
+			home.statusIconName = home.statusIconClass[6];	// 水机状态图标
+			home.statusText = home.dstauseList[6];	// 水机状态
 			
 			// 加载结束，隐藏loading
 			fadeFn({elem: loaddiv[0],handle:'hide'});
