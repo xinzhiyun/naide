@@ -30,10 +30,12 @@
 <!-- 待安装页面部分开始 -->
 	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
-		<div class="install_input">
-			<i class="am-u-sm-1 iconfont icon-search"></i>
-			<input type="text" name="text" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
-		</div>
+		<form action="" method="post" id="form1">
+			<div class="install_input">
+				<i class="am-u-sm-1 iconfont icon-search"  @click="subClick()"></i>
+				<input type="text" name="Info" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
+			</div>
+		</form>
 		<!-- 待安装用户 -->
 		<div class="install_user">
 			<div class="install_user_title bottom_line_h">
@@ -192,6 +194,27 @@
 			$("#wait_install").hide();
 			$("#service_details_bg").hide();
 		}
+
+		$(function(){
+			// 手机默认回车按钮提交表单并接受返回值
+			$("#form1").on("submit", function(e) {
+			    // 阻止表单默认跳转
+			    e.preventDefault(); 
+			    console.log($("input[name='Info']").val());
+			    // 将用户输入的信息发送后台搜索
+			    $.ajax({
+			        url: "",
+			        data: {datas: $("input[name='Info']").val()},
+			        type: "post",
+			        success: function(res) {
+			            
+			        },
+			        error: function(res) {
+			            
+			        }
+			    })
+			})
+		});
 	</script>
 </body>
 </html>

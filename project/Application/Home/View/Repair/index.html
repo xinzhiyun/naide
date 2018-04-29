@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 </head>
 <body style="overflow:auto">
-<div class="repair-all_bg" id="repair_vue">
+<div class="repair-all_bg" id="repair_vue" v-cloak>
 	<form action="" metho="post" enctype="multipart/form-data" id="form">
 		<div id="repair-all">
 		<!-- 服务内容部分开始 --> 
@@ -45,6 +45,7 @@
 						<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(可不填)" id="comments" class="text_middle"></textarea>
 					</li>
 					<li class="file_li">
+						
 						<div class="repairPic am-u-sm-4" id="Pic_file">
 				            <i class="iconfont icon-ai-up-img"></i>
 				            <span>添加问题图片</span>
@@ -122,12 +123,14 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<!-- <script src="__PUBLIC__/Home/js/upFile.js"></script> -->
 	<script src="__PUBLIC__/Home/js/Repair/repair.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-		// 日历插件
+
 		$(function(){
+			// 日历插件
 		    var nowTemp = new Date();
 		    var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
 		    var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
@@ -150,7 +153,43 @@
 		        return date.valueOf() < viewDate ? 'am-disabled' : '';
 		      }
 		    })
+
+		    // 上传图片
+		    var input = document.getElementById("file_input");   
+		    var result,div;   
+		    if(typeof FileReader==='undefined'){   
+		        result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
+		        input.setAttribute('disabled','disabled');  
+		    }else{   
+
+				input.addEventListener('change',readFile,false);
+		    }　　　　　   
+		    function readFile(){   
+		    	if($(".file_li").children("div").length == 3){
+				   noticeFn({text: '限制最多只能上传2张图片',time: '1500'});
+		    	}else{
+		    		for(var i=0;i<this.files.length;i++){  
+			            // match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。 
+			            if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
+			                return alert("上传的图片格式不正确，请重新选择")
+			            　　　　　　　　　}   
+				            var reader = new FileReader();
+				            reader.readAsDataURL(this.files[i]);   
+				            reader.onload = function(e){   
+				                result = '<div id="result" class="am-u-sm-4" style="position:relative;"><img src="'+this.result+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>';   
+				                div = document.createElement('div');   
+				                div.innerHTML = result;   
+				                document.getElementById('Pic_file').after(div);  　
+				                console.log(this.result);　　　　　　
+			            }   
+			        }   
+		    	}
+		    } 
+		    $(".file_li").on("click","#chacha",function(){
+		    	$(this).parent("#result").parent().remove();
+		    });
 		})
+
 	</script>
 </body>
 </html>
