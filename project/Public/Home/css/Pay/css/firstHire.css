@@ -67,7 +67,6 @@ body .main .mainContent .payBtn p {
   background-color: #0090ff;
 }
 body .main .payKuan {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
