@@ -23,7 +23,7 @@
 					<li>	
 						<div class="am-u-sm-3 fs-l">预约时间：</div>
 						<div class="am-u-sm-3">&nbsp;</div>
-						<input type="text" class="am-u-sm-5 text_bottom" :value="now" id="my-start-2"/>
+						<input type="text" class="am-u-sm-5 bespeak_time" :placeholder="time_now" id="my-start-2" value=""/>
 						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
 					</li>
 					<li>
@@ -41,7 +41,7 @@
 				</ul>
 				<ul>
 					<li>
-						<span>备注信息：</span>
+						<span @click="dian">备注信息：</span>
 						<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(可不填)" id="comments" class="text_middle"></textarea>
 					</li>
 					<li class="file_li">

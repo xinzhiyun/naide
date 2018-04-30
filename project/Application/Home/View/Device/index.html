@@ -10,33 +10,78 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/device/css/device.css">
 </head>
 <body>
-	<div class="device_administrate_bg" id="device_administrate_vue">
+	<div class="device_administrate_bg" id="device_administrate_vue" v-cloak>
 		<div>所有设备</div>
 		<div>
 			<ul>
-				<li v-for="(device_number,index_number) in all_device_number" @click="tick()">
+				<li v-for="(each_code,index_number) in device_code" @click="tick()" class="li_code">
 					<div></div>
 					<div>
-						<span>设备号：{{device_number.device_number}}</span>
-						<p :class="tick_i"></p>
+						设备号：
+						<span v-cloak>{{each_code.code}}</span>
+						<p class="tick_i"><i class="iconfont icon-dagouwuquan" v-if="default_code == each_code.code"></i></p>
 					</div>
 				</li>
+				<li><h1 v-if="false">Yes</h1></li>
 			</ul>
 		</div>
-		<div class="device_administrate_bottom">
-			<i class="iconfont icon-add"></i>
-			<span>添加设备</span>
+		<div class="device_administrate_bottom" id="devices-add">
+			<p>
+				<i class="iconfont icon-add"></i>
+				<span>添加设备</span>
+			</p>
 		</div>
 	</div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
-	<script src="__PUBLIC__/Home/js/echarts.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>	
 	<script src="__PUBLIC__/Home/js/device/device.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+
+		//微信接口
+		wx.config({
+		    debug: false,
+		    appId: '',    //企业号
+		    timestamp: '',//生成签名的时间戳
+		    nonceStr: '',//生成签名的随机串
+		    signature: '',//签名，见附录1	
+		    jsApiList: ''// 所有要调用的 API 都要加到这个列表中
+		});	
+		// 扫码绑定设备
+		// 扫码绑定设备
+		$("#devices-add").on('click','p',function(){
+			wx.scanQRCode({
+			    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			    success: function (res) {
+			    	// alert(res.resultStr);
+			    	if (res.errMsg === "scanQRCode:ok"){
+				    	// 当needResult 为 1 时，扫码返回的结果
+					    $.ajax({
+					    	url:"",
+					    	type:"post",
+					    	// data:{device_code:res.resultStr},
+					    	data:"",
+					    	dataType:'json',
+					    	success:function(data){
+								// alert(data.msg);
+								// location.href="{{:U('Home/VipCenter/personalInformation')}}";		
+					    	},
+					    	error:function(jqXHR, textStatus, errorThrown){
+
+			    				alert("绑定失败" + jqXHR.status + textStatus + errorThrown);
+					    		//console.log(jqXHR.status);
+					    	}
+					    });
+					    // alert(res.resultStr);
+				    }
+				}
+			});
+		});
 	</script>
 </body>
 </html>

@@ -7,22 +7,12 @@ var repair_bg_vue = new Vue({
 			device_code:"123123123123123",//设备编码
 			detailed_add:"广东广州番禺区，钟村文化广场"//详细地址
 		},
-	},
-	computed:{
-		// 当前日期
-		now:function(){
-			function p(s) {
-			    return s < 10 ? '0' + s: s;
-			}
-		    var myDate = new Date();
-		    var year=myDate.getFullYear();
-		    var month=myDate.getMonth()+1;
-		    var date=myDate.getDate(); 
-			var now=year+'-'+p(month)+"-"+p(date);
-			return now;
-		}
+		time_now:''
 	},
 	methods:{
+		dian:function(){
+			console.log($(".text_text").val());
+		},
 		// 两组数据合并为一个数组对象
 		json_public:function(name,arr,q){
 			var info_key = arr;
@@ -38,6 +28,13 @@ var repair_bg_vue = new Vue({
 				}
 			}else if(q == "val"){
 				info_value.push(name.val());
+			}else if(q == "bespeak_time"){
+				// 时间
+				if(name.val() == ""){
+					info_value.push(this.time_now);
+				}else{
+					info_value.push(name.val());
+				}
 			}
 			for(var i = 0;i<info_value.length;i++){
 				info_page[info_key[i]] = info_value[i];
@@ -64,16 +61,19 @@ var repair_bg_vue = new Vue({
 			var e = $(".text_middle");
 			var f= ["beizhu"];	//备注
 			var c = $(".text_bottom");
-			var d = ["bespeak_time","linkman","contact_number","detailed_add"];//预约时间 联系人 联系电话 详细地址
+			var d = ["linkman","contact_number","detailed_add"];//联系人 联系电话 详细地址
+			var g = $(".bespeak_time");
+			var  h = ["bespeak_time"];//预约时间
 			var info_top = repair_bg_vue.json_public(a,b,"innerHTML");
 			var info_middle = repair_bg_vue.json_public(e,f,"val");
 			var info_bottom = repair_bg_vue.json_public(c,d,"value");
-			var Obj = Object.assign(info_top,info_middle,info_bottom);
+			var time = 	repair_bg_vue.json_public(g,h,"bespeak_time");
+			var Obj = Object.assign(info_top,info_middle,info_bottom,time);
 			console.log(Obj);
 			noticeFn({text: '提交成功',time: '1500'});//提交成功
 			$.ajax({
                 url: "",
-                data: {datas:""},
+                data: {datas:Obj},//页面所有需要传后台的数据
                 type: "post",
                 success: function(res) {
                     
@@ -115,5 +115,16 @@ var repair_bg_vue = new Vue({
 			var mask = $(".repair_bg");
 			repair_bg_vue.select_public(repair_ul,mask);
 		}
+	},
+	mounted(){
+		function p(s) {
+		    return s < 10 ? '0' + s: s;
+		}
+	    var myDate = new Date();
+	    var year=myDate.getFullYear();
+	    var month=myDate.getMonth()+1;
+	    var date=myDate.getDate(); 
+		var now=year+'-'+p(month)+"-"+p(date);
+		this.time_now = now;
 	}
 });
