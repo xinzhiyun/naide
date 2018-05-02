@@ -20,11 +20,15 @@ a {
 
 .account>p {
 	position: relative;
+	text-align: center;
 }
-.account>p>.iconfont {
+.account>p>span {
+	position: relative;
+}
+.account>p .iconfont {
 	position: absolute;
 	font-size: 1.4rem;
-	left: 30%;
+	left: -4%;
 	color: rgb(255,79,79);
 }
 .head {

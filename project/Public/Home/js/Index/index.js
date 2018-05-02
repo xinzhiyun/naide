@@ -4,12 +4,12 @@ var home = new Vue({
 		return {
 			dataList: '',		//websocket接收的数据
 			deviceId: '',		// 设备编码
-			tdsPure: '',		// 纯水tds
-			tdsRaw: '',			// 原水tds
+			tdsPure: '--',		// 纯水tds
+			tdsRaw: '--',		// 原水tds
 			homeStyle: '',		// 首页部分
 			leasingmode: '',	// 滤芯模式
-			statusText: '',		// 水机状态
-			devicestause: '',	// 设备状态
+			statusText: '--',	// 水机状态
+			devicestause: '--',	// 设备状态
 			leasingmode: '',	// 租赁模式
 			filtermode: '',		// 滤芯模式
 			// 设备状态集合
@@ -36,10 +36,10 @@ var home = new Vue({
 				'7': 'iconfont icon-leaking',			// 已欠费
 				'8': 'iconfont icon-leaking'			// 已离线
 			},
-			reday: '',			//剩余天数
-			usedday: '',		//已用天数
-			reflow: '',			//剩余流量
-			usedflow: '',		//已用流量
+			reday: '--',			//剩余天数
+			usedday: '--',			//已用天数
+			reflow: '--',			//剩余流量
+			usedflow: '--',			//已用流量
 			powerStatus: '开机',						// 开关机状态
 			filterstyle: 'display:none;',				// 滤芯部分
 			lineStyle: '',								//横线

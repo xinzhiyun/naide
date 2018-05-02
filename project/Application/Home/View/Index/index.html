@@ -260,7 +260,7 @@
 	<script src="__PUBLIC__/Home/js/websocket.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
 		var href = location.href;
@@ -284,16 +284,18 @@
 				async: false,
 				success: function(res){
 					console.log('res: ',res);
-					home.filterList = res.data;				// 滤芯数据
-					home.filtermode = res.filtermode;		// 滤芯模式
-					home.deviceId = res.deviceId;
+					if(res.code == 200){
+						home.filterList = res.data;				// 滤芯数据
+						home.filtermode = res.filtermode;		// 滤芯模式
+						home.deviceId = res.deviceId;
 
-					home.usedflow = home.dataList.SumFlow;	// 已用流量
-					home.usedday = home.dataList.SumDay;	// 已用天数
-					home.reflow = home.dataList.ReFlow;		// 剩余流量
-					home.reday = home.dataList.Reday;		// 剩余天数
-					home.tdsPure = home.dataList.PureTDS;	// 纯水值
-					home.tdsRaw = home.dataList.RawTDS;		// 原水值
+						home.usedflow = home.dataList.SumFlow;	// 已用流量
+						home.usedday = home.dataList.SumDay;	// 已用天数
+						home.reflow = home.dataList.ReFlow;		// 剩余流量
+						home.reday = home.dataList.Reday;		// 剩余天数
+						home.tdsPure = home.dataList.PureTDS;	// 纯水值
+						home.tdsRaw = home.dataList.RawTDS;		// 原水值
+					}
 				},
 				error: function(err){
 					console.log('err: ',err);
@@ -370,8 +372,8 @@
 			/*
 				以下是模拟数据
 			 */
-			home.leasingmode = 2;		// 租赁模式
-			home.filtermode = 1;		// 滤芯模式
+			home.leasingmode = 1;		// 租赁模式
+			home.filtermode = 2;		// 滤芯模式
 			home.reday = 66;			// 剩余天数
 			home.usedday = 101;			// 已用天数
 			home.reflow = 99;			// 剩余流量
@@ -387,8 +389,8 @@
 
 			home.tdsPure = 100;		// 纯水值
 			home.tdsRaw = 99;		// 原水值
-			home.statusIconName = home.statusIconClass[6];	// 水机状态图标
-			home.statusText = home.dstauseList[6];	// 水机状态
+			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
+			home.statusText = home.dstauseList[0];	// 水机状态
 			
 			// 加载结束，隐藏loading
 			fadeFn({elem: loaddiv[0],handle:'hide'});

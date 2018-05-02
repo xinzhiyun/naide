@@ -15,9 +15,11 @@
 	<div id="earnings" >
 		<h3 class='account tcenter'>
 			<p>
-				<i class='iconfont icon-account'></i>
-				<span>&emsp;&emsp;我的账户:</span> 
-				<span v-text='account'></span>
+				<span>
+					<i class='iconfont icon-account'></i>
+					<span>&emsp;&emsp;我的账户:</span> 
+					<span v-text='account'></span>
+				</span>
 			</p>
 		</h3>
 		<div class='head'>
@@ -44,7 +46,7 @@
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
 		var earnings = new Vue({
