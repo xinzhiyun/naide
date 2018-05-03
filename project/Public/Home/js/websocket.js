@@ -34,6 +34,7 @@ var wsFun = function(_url, callback){
 	ws.addEventListener("open", function(res){
 
 		time = new Date().toLocaleString();
+		callback('open');
 		console.log('websocket已连接！', res);
 	});
 
@@ -73,6 +74,6 @@ var wsFun = function(_url, callback){
 }
 
 // 发送数据的函数
-function sendmsg(msg){
+function wsSend(msg){
 	ws.send(msg);
 }

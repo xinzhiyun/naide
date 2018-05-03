@@ -13,7 +13,8 @@ body {
 	border-bottom: 1px dashed #aaa;
 }
 
-.container .item>input {
+.container .item>input,
+textarea {
 	padding: 2px 4px;
 	border: none;
 }

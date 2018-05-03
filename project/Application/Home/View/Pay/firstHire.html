@@ -16,9 +16,9 @@
 			<div class="goods am-g">
 				<p class="am-u-sm-4 am-u-md-4 am-u-lg-4"><img src="__PUBLIC__/Home/images/bj.png" alt=""></p>
 				<ul class="am-u-sm-8 am-u-md-8 am-u-lg-8">
-					<li>{{goodsInfo.goodsTitle}}</li>
-					<li>{{goodsInfo.goodsDetail}}</li>
-					<li class="am-text-bottom"><span>{{goodsInfo.goodsPrice}}</span>X<span>{{goodsInfo.goodsNum}}</span></li>
+					<li v-text='goodsInfo.goodsTitle'></li>
+					<li v-text='goodsInfo.goodsDetail'></li>
+					<li class="am-text-bottom"><span v-text='goodsInfo.goodsPrice'></span>X<span v-text='goodsInfo.goodsNum'></span></li>
 				</ul>
 			</div>
 			<!-- 货物地址 -->
@@ -27,8 +27,8 @@
 					<span class="iconfont icon-shouhuodizhi"></span>
 				</div>
 				<ul class="am-u-sm-10">
-					<li><span>收货人： <i>{{userAddr.username}}</i></span><span>{{userAddr.userPhone}}</span></li>
-					<li>收货地址：<span>{{userAddr.userAddress}}</span></li>
+					<li><span>收货人： <i><span v-text='userAddr.username'></span></i></span><span v-text='userAddr.userPhone'></span></li>
+					<li>收货地址：<span v-text='userAddr.userAddress'></span></li>
 				</ul>
 			</div>
 			<!-- 确认付款 -->

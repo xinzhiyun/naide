@@ -87,6 +87,7 @@ html, body {
 	/*left: 0;*/
 	float: left;
 	padding: 1% 2%;
+	margin: 0;
 	color: #fff;
 	font-weight: 400;
 	border-radius: 0 0.33333rem 0.33333rem 0;

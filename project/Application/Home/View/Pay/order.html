@@ -15,10 +15,10 @@
 	<div class="obligation_nav_bg">
 		<div class="obligation_nav_content">
 			<ul class="line">
-				<li data-name="all" @click="all_page">全部</li>
-				<li data-name="pay" @click="pay_page">待付款<div></div></li>
-				<li data-name="send" @click="send_page">待发货<div></div></li>
-				<li data-name="take" @click="take_page">待收货<div></div></li>
+				<li data-name="all" num="" @touchstart='touchStart'>全部</li>
+				<li data-name="pay" num="1" @touchstart='touchStart'>待付款<div></div></li>
+				<li data-name="send" num="2" @touchstart='touchStart'>待发货<div></div></li>
+				<li data-name="take" num="3" @touchstart='touchStart'>待收货<div></div></li>
 				<div class="line_check"></div>
 			</ul>
 		</div>
@@ -41,7 +41,7 @@
 				<span>顺丰快递单：{{order_take_info.courier_number}}</span>
 				<span>卖家已发货</span>
 			</p>
-			<div class="product_box" v-for="(take_info,index) in order_take_info.product_take_info">
+			<div class="product_box" v-for="(take_info,index) in order_take_info.product_info">
 				<div class="am-u-sm-4">
 					<img :src="take_info.product_pic" alt="">
 				</div>
@@ -52,24 +52,24 @@
 					<div class="product_div1">{{take_info.product_describe}}</div>
 					<p>
 						<!-- 产品单价 -->
-						<span>￥{{take_info.product_price}}</span>
+						<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{take_info.product_price}}</span>
 						<!-- 产品个数 -->
 						<span style="color:#f00;">X{{take_info.product_count}}</span>
 					</p>
 				</div>
 			</div>
-			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_take_info.flow_take_info">
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_take_info.flow_info">
 				<span>{{flow_info.flow_name}}</span>
-				<span>￥{{flow_info.flow_price}}</span>
+				<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{flow_info.flow_price}}</span>
 				<span>X{{flow_info.flow_count}}</span>
 			</div>
 			<div class="product_total">
 				<div>
 					<p class="am-u-sm-3">&nbsp;</p>
 					<!-- 产品个数 -->
-					<p class="am-u-sm-4" class="chang_1">共{{totalCount_take}}{{order_take_info.order_count}}件商品</p>
+					<p class="am-u-sm-4" class="chang_1">共{{order_take_info.order_count}}件商品</p>
 					<!-- 总价钱 -->
-					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_take}}{{order_take_info.order_total}}</span></p>
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{order_take_info.order_total}}</span></p>
 				</div>
 				<div><span>(含邮费：<span class="express_fee_text">{{order_take_info.franking}}</span>元)</span></div>
 			</div>
@@ -87,7 +87,7 @@
 				<span>订单时间：{{order_pay_info.order_time}}</span>
 				<span>等待买家付款</span>
 			</p>
-			<div class="product_box" v-for="(pay_info,index) in order_pay_info.product_pay_info">
+			<div class="product_box" v-for="(pay_info,index) in order_pay_info.product_info">
 				<div class="am-u-sm-4">
 					<img :src="pay_info.product_pic" alt="">
 				</div>
@@ -98,24 +98,24 @@
 					<div class="product_div1">{{pay_info.product_describe}}</div>
 					<p>
 						<!-- 产品单价 -->
-						<span>￥{{pay_info.product_price}}</span>
+						<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{pay_info.product_price}}</span>
 						<!-- 产品个数 -->
 						<span style="color:#f00;">X{{pay_info.product_count}}</span>
 					</p>
 				</div>
 			</div>
-			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_pay_info.flow_pay_info">
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_pay_info.flow_info">
 				<span>{{flow_info.flow_name}}</span>
-				<span>￥{{flow_info.flow_price}}</span>
+				<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{flow_info.flow_price}}</span>
 				<span class="jiage">X{{flow_info.flow_count}}</span>
 			</div>
 			<div class="product_total">
 				<div>
 					<p class="am-u-sm-3">&nbsp;</p>
 					<!-- 产品个数 -->
-					<p class="am-u-sm-4 chang_1" :num="index_all" id="total_pay">共{{totalCount}}{{order_pay_info.order_count}}件商品</p>
+					<p class="am-u-sm-4 chang_1" :num="index_all" id="total_pay">共{{order_pay_info.order_count}}件商品</p>
 					<!-- 总价钱 -->
-					<p class="am-u-sm-5" style="text-align:right;">合计：<span>￥{{totalPrice}}{{order_pay_info.order_total}}</span></p>
+					<p class="am-u-sm-5" style="text-align:right;">合计：<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{order_pay_info.order_total}}</span></p>
 				</div>
 				<div><span>(含邮费：<span class="express_fee_text">{{order_pay_info.franking}}</span>元)</span></div>
 			</div>
@@ -133,14 +133,14 @@
 						<i class="iconfont icon-chacha pay_hide" id="pay_i_chacha"></i>
 					</div>
 					<div class="pay_2">
-						￥<span class="pay_totalPrice">{{confirm_pay}}</span>
+						<i class="iconfont icon-rmb" style="fontSize:1.25rem;"></i><span class="pay_totalPrice">{{confirm_pay}}</span>
 					</div>
 					<div class="pay_3">支付方式</div>
 					<div class="pay_4" @click="weixin()">
 						<div>
 							<i class="iconfont icon-weixin pay_i_wx" style="color:#149E23;fontSize:1.06666667rem;"></i>
 							<span>微信支付</span>
-							<i class="iconfont icon-not_Selected-copy select-copy"></i>
+							<i class="iconfont icon-not_Selected-copy select-copy" id="select_i"></i>
 						</div>
 					</div>
 					<div class="pay_5">
@@ -161,7 +161,7 @@
 				<span>订单时间：{{order_send_info.order_time}}</span>
 				<span>买家已付款</span>
 			</p>
-			<div class="product_box" v-for="(send_info,index) in order_send_info.product_send_info">
+			<div class="product_box" v-for="(send_info,index) in order_send_info.product_info">
 				<div class="am-u-sm-4">
 					<img :src="send_info.product_pic" alt="">
 				</div>
@@ -172,31 +172,30 @@
 					<div class="product_div1">{{send_info.product_describe}}</div>
 					<p>
 						<!-- 产品单价 -->
-						<span>￥{{send_info.product_price}}</span>
+						<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{send_info.product_price}}</span>
 						<!-- 产品个数 -->
 						<span style="color:#f00;">X{{send_info.product_count}}</span>
 					</p>
 				</div>
 			</div>
-			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_send_info.flow_send_info">
+			<div class="flow_box border_line" v-for="(flow_info,index_flow) in order_send_info.flow_info">
 				<span>{{flow_info.flow_name}}</span>
-				<span>￥{{flow_info.flow_price}}</span>
+				<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{flow_info.flow_price}}</span>
 				<span>X{{flow_info.flow_count}}</span>
 			</div>
 			<div class="product_total">
 				<div>
 					<p class="am-u-sm-3">&nbsp;</p>
 					<!-- 产品个数 -->
-					<p class="am-u-sm-4" class="chang_1">共{{totalCount_send}}{{order_send_info.order_count}}件商品</p>
+					<p class="am-u-sm-4" class="chang_1">共{{order_send_info.order_count}}件商品</p>
 					<!-- 总价钱 -->
-					<p class="am-u-sm-5" style="text-align:right;">小计：<span>￥{{totalPrice_send}}{{order_send_info.order_total}}</span></p>
+					<p class="am-u-sm-5" style="text-align:right;">小计：<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{order_send_info.order_total}}</span></p>
 				</div>
 				<div><span>(含邮费：<span class="express_fee_text">{{order_send_info.franking}}</span>元)</span></div>
 			</div>
 			<div class="warn_send_btn">
-				<p id="warn_send" style="lineHeight:0.9rem;">提醒发货</p>
+				<p class="warn_send" style="lineHeight:0.9rem;" @touchend="remind">提醒发货</p>
 			</div>
-			<!-- <div class="hid_line">&nbsp;</div> -->
 		</div>
 	<!-- 待发货产品部分结束(待发货) -->
 
@@ -231,8 +230,7 @@
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 </body>
 </html>
-<!-- icon-selected-copy -->

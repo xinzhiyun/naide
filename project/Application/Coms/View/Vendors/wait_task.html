@@ -30,10 +30,12 @@
 <!-- 待安装页面部分开始 -->
 	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
-		<div class="install_input">
-			<i class="am-u-sm-1 iconfont icon-search"></i>
-			<input type="text" name="text" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
-		</div>
+		<form action="" method="post" id="form1">
+			<div class="install_input">
+				<i class="am-u-sm-1 iconfont icon-search"  @click="subClick()"></i>
+				<input type="text" name="Info" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
+			</div>
+		</form>
 		<!-- 待安装用户 -->
 		<div class="install_user">
 			<div class="install_user_title bottom_line_h">
@@ -154,7 +156,7 @@
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
 		// 页面加载时判断url,刷新页面为当前页
 		var get = {};
@@ -186,7 +188,33 @@
 			$(".wait_task_bg").hide();
 			$("#wait_install").hide();
 			$("#service_details_bg").show();
+		}else if($_GET.index == "3"){
+			$("#plan_personnel_info_bg").show();
+			$(".wait_task_bg").hide();
+			$("#wait_install").hide();
+			$("#service_details_bg").hide();
 		}
+
+		$(function(){
+			// 手机默认回车按钮提交表单并接受返回值
+			$("#form1").on("submit", function(e) {
+			    // 阻止表单默认跳转
+			    e.preventDefault(); 
+			    console.log($("input[name='Info']").val());
+			    // 将用户输入的信息发送后台搜索
+			    $.ajax({
+			        url: "",
+			        data: {datas: $("input[name='Info']").val()},
+			        type: "post",
+			        success: function(res) {
+			            
+			        },
+			        error: function(res) {
+			            
+			        }
+			    })
+			})
+		});
 	</script>
 </body>
 </html>

@@ -111,7 +111,7 @@
 	<script src="__PUBLIC__/Coms/js/service_Log/service_log.js"></script>
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
 		// 页面加载时判断url,刷新页面为当前页
 		var get = {};
@@ -140,9 +140,7 @@
 			$("#service_details_bg").show();
 		}
 
-		// 获取选中工单，从离线数据库中将数据赋值vue
-		
-		// console.log(url);
+		// 获取选中工单，从离线数据库中将数据赋值vue,避免页面刷新后数据为空
 		var num = url.split("&");
 		num = num[num.length-1];
 		if(typeof Number(parseInt(num)) != "NAN"){

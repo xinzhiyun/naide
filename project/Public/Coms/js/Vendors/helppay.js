@@ -51,7 +51,7 @@ var payment = new Vue({
     url_public:function(num){
       var url = window.document.location.href.toString();
       var href = url.split("?")[0];
-      location.href = href+"?index="+num;
+      history.replaceState({}, null, href +"?index="+ num);
     },
     // 第一次点击确认，判单手机号码与设备编码
     device_number:function(event){
@@ -60,10 +60,10 @@ var payment = new Vue({
       var inp_val = $("#Generation_payment_inp").val();
       var reg = /^(1[35789]\d{9}|\d{15})$/;
       if(inp_val == ""){
-        $(".explain").html("未输入需要搜索的手机号码或编码号！");
+        noticeFn({text: '请输入需要搜索的手机号码或编码号！',time: '1500'});
         $("#wait_payment").hide();
       }else if(!reg.test(inp_val)){
-        $(".explain").html("格式不符合！");
+        noticeFn({text: '格式不正确！',time: '1500'});
         $("#wait_payment").hide();
       }else{
         $(".explain").html("");
@@ -136,9 +136,11 @@ var payment = new Vue({
       var el = e.currentTarget;
       if(this.pay_price == 0){
         console.log("不能支付");
+        noticeFn({text: '未选择套餐，无法支付',time: '1500'});
       }else{
         // 需要支付的金额
         console.log(this.pay_price);
+        noticeFn({text: '支付成功',time: '1500'});
       }
     }
 

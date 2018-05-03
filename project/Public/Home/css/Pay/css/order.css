@@ -1,3 +1,6 @@
+[v-cloak] {
+  display: none;
+}
 #shouye1 {
   width: 1.38666667rem;
   height: 1.38666667rem;
@@ -316,7 +319,7 @@
   display: -webkit-flex;
   justify-content: flex-end;
 }
-.warn_send_btn #warn_send {
+.warn_send_btn .warn_send {
   width: 4.69333333rem;
   height: 1.28rem;
   line-height: 1.28rem;

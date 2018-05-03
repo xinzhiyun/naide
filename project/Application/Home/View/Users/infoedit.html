@@ -46,62 +46,77 @@
 		<script src="__PUBLIC__/Home/js/public.js"></script>
 		<script defer>
 			var back2home = document.getElementsByClassName('back2home');
-			back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+			// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 		</script>
 		<script>
 			var name = '', sex = '', phone = '', addr = '';
 
 			// 点击保存
 			$('.save').click(function(){
-				name = trimFn($('.name').val());
+				var nameEle = $('.name');
+				var phoneEle = $('.phone');
+				var addrEle = $('.addr');
+				name = trimFn(nameEle.val());
 				sex = $('.sex>option:selected')[0].innerText;
 				phone = trimFn($('.phone').val());
 				addr = trimFn($('.addr').val());
 
 				if(!name){
 					noticeFn({text: '请输入姓名'});
+					nameEle.css({border: '1px solid red'});
 					return
 				}else if(!nameCheck(name)){
-					noticeFn({text: '请输入正确的姓名'});
+					noticeFn({text: '姓名只能由中文、英文、数字、下划线组成'});
+					nameEle.css({border: '1px solid red'});
 					return
+				}else{
+					nameEle.css({border: 'none'});
 				}
 
 				if(!phone){
 					noticeFn({text: '请输入手机号码'});
+					phoneEle.css({border: '1px solid red'});
 					return
 				}else if(!phoneCheck(phone)){
 					noticeFn({text: '请输入正确的手机号码'});
+					phoneEle.css({border: '1px solid red'});
 					return
+				}else{
+					phoneEle.css({border: 'none'});
 				}
 
 				if(!addr){
 					noticeFn({text: '请输入地址'});
+					addrEle.css({border: '1px solid red'});
 					return
-				}else if(specailCheck(addr)){
-					noticeFn({text: '请输入正确的地址，不含有特殊字符'});
+				}else if(!nameCheck(addr)){
+					noticeFn({text: '地址只能由中文、英文、数字、下划线组成'});
+					addrEle.css({border: '1px solid red'});
 					return
+				}else{
+					addrEle.css({border: 'none'});
 				}
 
 				// console.log(name, sex, phone, addr);
 				$('input[name="sex"]').val(sex);
 
-				// console.log($('input[name="name"]').val(),
-				// $('input[name="sex"]').val(),
-				// $('input[name="phone"]').val(),
-				// $('textarea[name="addr"]').val())
+				console.log($('input[name="name"]').val(),
+				$('input[name="sex"]').val(),
+				$('input[name="phone"]').val(),
+				$('textarea[name="addr"]').val())
 				// 提交数据
 				var formdata = new FormData($('#form')[0]);
-				$.ajax({
-					url: "{{:U('Home/Users/infoedit')}}",
-					type: 'post',
-					data: formdata,
-					success: function(res){
-						console.log('成功！', res);
-					},
-					error: function(err){
-						console.log('失败！', err);
-					}
-				})
+				// $.ajax({
+				// 	url: "{{:U('Home/Users/infoedit')}}",
+				// 	type: 'post',
+				// 	data: formdata,
+				// 	success: function(res){
+				// 		console.log('res: ', res);
+				// 	},
+				// 	error: function(err){
+				// 		console.log('err: ', err);
+				// 	}
+				// })
 			})
 		</script>
 	</body>

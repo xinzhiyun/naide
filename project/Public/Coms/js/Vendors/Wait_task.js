@@ -77,48 +77,69 @@ var wait_task = new Vue({
 		}
 	},
 	methods:{
-		// 跳转页面改变url
+		// 跳转页面改变url（公共）
 		url_public:function(num){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
 			location.href = href+"?index="+num;
 		},
-		//在待办任务页面中点击选中项目
+		//在待办任务（首页）
 		task_one:function(index_name){
 			var $this = this;
-			// 页面跳转
-			wait_task.url_public(1);
+			wait_task.url_public(1);// 页面跳转
 			//待安装、待维修、待维护,将某数据发送给后台，将待安装的数据信息传到前台赋值给‘task_user’进行渲染页面，后将待办任务页面隐藏
 			var data_info = $this.task[index_name].task_text;
-			// $(".task_text").html();
-			// console.log($(".task_text").html());
-			// $.ajax({
-	        //   type:"post",
-	        //   url:"",
-	        //   data:{},
-	        //   Type:"json",
-	        //   success:function(resData){ }
-	        // });
-			$("#title_title").html(data_info);
+			console.log($(".task_text").html());
+			$.ajax({
+		        url: "",
+		        data: {datas: $(".task_text").html()},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
+			$("#title_title").html(data_info);//页面title
 		},
-		//在待安装、待维修、待维护页面中点击选中用户
+		//搜索用户页面（第二页）
 		service_details:function(index_task_user){
 			var $this = this;
-			// 页面跳转
-			wait_task.url_public(2);
+			wait_task.url_public(2);// 页面跳转
 			// 在用户列表中将选中的用户信息中的用户名传给后台，后台通过"用户名select_user"在数据库中查找相应的“服务详情内容”传给前台，前台赋值给"service_details_info",最后渲染在页面上
 			var select_user = $this.task_user[index_task_user].task_name;
-			// $.ajax({
-	        //   type:"post",
-	        //   url:"",
-	        //   data:{},
-	        //   Type:"json",
-	        //   success:function(resData){}
-	        // });
+			$.ajax({
+		        url: "",
+		        data: {datas: select_user},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
 			$("#title_title").html("服务详情");
 		},
-		// 在服务详情页面中，点击派工按钮
+		// 点击搜索小图标提交表单
+        subClick:function(){
+        	console.log($("input[name='Info']").val());
+            $.ajax({
+		        url: "",
+		        data: {datas: $("input[name='Info']").val()},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
+        },
+		// 派工按钮  服务详情页面（第三页）
 		plan_personnel_inp:function(){
+			wait_task.url_public(3);
 			// 点击派工按钮，隐藏服务详情页面，并跳转到派工信息页面，将“派工”传给后台
 			$("#service_details_bg").hide();
 			// $.ajax({
@@ -154,11 +175,21 @@ var wait_task = new Vue({
 		// 提交按钮
 		plan_personnel_submit:function(){
 			if($("#select_personnel").html() == "选择" && $("#select_cell").html() == ""){
-
-				$("#select_personnel").html("未选择安装人员,不能提交").css({"color":"#f00","fontSize":"0.68rem"});
-				$("#select_cell").html("未选择联系电话,不能提交").css({"color":"#f00","fontSize":"0.68rem"});
+				noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
+				return;
 			}
-			
+			noticeFn({text: '提交成功',time: '1500'});
+			$.ajax({
+		        url: "",
+		        data: {datas:""},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
 		}
 
 	}

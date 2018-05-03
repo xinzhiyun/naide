@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1" >
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
-	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.datetimepicker.css">
+	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.datetimepicker.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/waterrecord.css">
 	<title>净水记录</title>
@@ -36,14 +36,17 @@
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/js/echarts.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
-	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.min.js"></script>
+	<!-- <script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.min.js"></script> -->
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
-		var yAxisData = [[400],[2000]];	//设置y轴最大值
+		// loading
+		var loaddiv = document.querySelector('.loadingdiv');
+		fadeFn({elem: loaddiv});
+
 		$(function(){
 			var year = new Date().getFullYear();//年份
 			var month = ((new Date().getMonth()+1)+'').length == 1
@@ -113,6 +116,7 @@
 				rawSum += rawArray[i];
 				pureSum += pureArray[i];
 			}
+			// console.log(rawArray, pureArray);
 			// 求平均值
 			if(datalist.length !== 0) {
 				// 求平均值
@@ -123,12 +127,17 @@
 				$(".pureMean").html("(平均值："+ 0 +"ppm)");
 			}
 			var lineChart1 = echarts.init(getId('#lineChart1'));
-			lineChart1.setOption(getOption('line', yAxisData[0], rawArray, '#74c2ad',mustDates));
+			lineChart1.setOption(getOption('line', pureArray, rawArray, '#74c2ad',mustDates));
 
 			var lineChart2 = echarts.init(getId('#lineChart2'));
-			lineChart2.setOption(getOption('line', yAxisData[1], pureArray, '#f75151',mustDates));
+			lineChart2.setOption(getOption('line', rawArray, pureArray, '#f75151',mustDates));
+
+			// 隐藏loading
+			fadeFn({elem: loaddiv, handle:'hide'});
 		}
+		// echarts 配置
 		var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {
+			mustDate = mustDate < 28 ? 30 : mustDate;
 			var chartOption = {
 				grid: {
 					x: 30,
@@ -146,24 +155,14 @@
 					data: ['1','','','','','','','','','', '15','','','','','','','','','',mustDate]
 				}],
 				yAxis: {
-					type: 'value',
-					splitNumber: 4,	
-					min: 0,
-					max: _yAxisData,
-					splitLine: {
-	                    show: false
-	                },
-					splitArea: {
-						show: false
-					},
-					axisTick: {
-						inside: true
-					},
-					axisLabel: {
-						margin: 2,
-						fontSize: 10
-					}
-				},
+			        type: 'value',
+			        offset: 1,
+			        boundaryGap: false,
+			        data: _yAxisData,	//y轴坐标数据
+			        axisPointer: {
+			            snap: true
+			        }
+			    },
 				series: [{
 					type: _chartType,
 					data: _seriesData,
@@ -184,19 +183,25 @@
 		}
 		// 请求净水记录数据
 		function getData(_month, fallback){
-			$.ajax({
-				url: '{:U("Home/Users/waterrecord")}',
-				type: 'get',
-				data: {month: _month},
-				success: function(res){
-					console.log('请求成功！',res);
-					fallback(res);
-				},
-				error: function(err){
-					console.log('请求失败！',err);
-					fallback(err);
-				}
-			})
+			// 模拟数据
+			var res = {};
+			res.code = 200;
+			res.data = [{raw:'10',pure:'20'},{raw:'60',pure:'70'},{raw:'20',pure:'30'},{raw:'50',pure:'60'},{raw:'30',pure:'45'},{raw:'90',pure:'220'},{raw:'20',pure:'620'},{raw:'120',pure:'50'},{raw:'70',pure:'20'},{raw:'10',pure:'320'},{raw:'50',pure:'70'},{raw:'60',pure:'30'},{raw:'70',pure:'20'}];
+			// console.log(res);
+			fallback(res);
+			// $.ajax({
+			// 	url: '{:U("Home/Users/waterrecord")}',
+			// 	type: 'get',
+			// 	data: {month: _month},
+			// 	success: function(res){
+			// 		console.log('请求成功！',res);
+			// 		fallback(res);
+			// 	},
+			// 	error: function(err){
+			// 		console.log('请求失败！',err);
+			// 		fallback(err);
+			// 	}
+			// })
 		}
 	</script>
 </body>

@@ -1,30 +1,52 @@
 var device_administrate = new Vue({
 	el:"#device_administrate_vue",
 	data:{
-		all_device_number:[
+		device_code:[
 			{
-				device_number : "KD57463"
+				code : "KD574632342"
 			},
 			{
-				device_number : "LD57463"
+				code : "LD57463erwfd"
 			},
 			{
-				device_number : "FD57463"
+				code : "dfgdf54512135"
 			},
 			{
-				device_number : "JD57443"
+				code : "JD57443fdsfsd"
 			},
 		],
-		tick_i : "tick_i"//添加的类名
+		default_code:"",//默认设备
+		tick_i : "tick_i",//添加的类名
 	},
 	methods:{
-		// 打勾
+		// 选中打勾
 		tick:function(event){
 			var e = event || window.event;
 			e.preventDefault();
 			var el = e.currentTarget;
-			var $el = $(el);
-			$el.children().children("p").html('<i class="iconfont icon-dagouwuquan"></i>').parents("li").siblings().children().children("p").html('<i></i>');
-		}
+			var data = $(el).children().children("span").html();
+			this.default_code = data;
+			console.log(data);
+			// 将选中的设备号发送后台
+		    $.ajax({
+		        url: "",
+		        data: {datas: data},
+		        type: "post",
+		        success: function(res) {
+		            
+		        },
+		        error: function(res) {
+		            
+		        }
+		    })
+		},
+	},
+	// 获取默认设备号
+	created:function(){
+		var data = "dfgdf54512135";
+		this.default_code = data;
+	},
+	mounted(){
+		var that = this;
 	}
 });
