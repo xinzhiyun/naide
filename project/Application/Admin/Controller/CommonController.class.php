@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
+use Common\Controller\AdminbaseController;
 use Think\Auth;
 
 /**
@@ -9,7 +9,7 @@ use Think\Auth;
  * @author 潘宏钢 <619328391@qq.com>
  */
 
-class CommonController extends Controller 
+class CommonController extends AdminbaseController
 {
 	/**
      * 初始化
@@ -54,6 +54,7 @@ class CommonController extends Controller
     // 经销商权限 
     public function get_level()
     {
+
         if($_SESSION['adminuser']['leavel'] > 0){
             return true;
         }

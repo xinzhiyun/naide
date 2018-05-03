@@ -25,6 +25,14 @@
                         <span style="width:auto;font-size:30px;color:red;">{{$vo.name}}</span>
                     </div>
                     <div class="control-group">
+                        <span>账户类型<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <input class="reg_type" type="checkbox" style="display: inline-block;vertical-align: top;" value="1"
+                               name="is_vendors" <if condition="$vo.is_vendors eq 1 ">checked</if> > 经销商
+                        <input class="reg_type" type="checkbox"
+                               style="display: inline-block;vertical-align: top;margin-left:
+                        30px;" value="1" name="is_service" <if condition="$vo.is_service eq 1 ">checked</if> > 服务站
+                    </div>
+                    <div class="control-group">
                         <span>手机</span>
                         <input type="text" name="phone" value="{{$vo.phone}}">
                     </div>

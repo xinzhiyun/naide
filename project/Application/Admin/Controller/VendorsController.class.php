@@ -64,17 +64,39 @@ class VendorsController extends CommonController
         }
 
 
-
         $total = $user->where($map)->count();
-        $page  = new \Think\Page($total,8);
+        $page  = new \Think\Page($total,10);
         D('devices')->getPageConfig($page);
         $pageButton =$page->show();
 
         $userlist = $user->where($map)->limit($page->firstRow.','.$page->listRows)->order('addtime desc')->getAll();
+        $arr=[
+            'status'=>['禁用','正常','待审核','null'=>'未知'],
+        ];
+        $userlist = replace_array_value($userlist,$arr);
 
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
         $this->display();
+    }
+
+    /**
+     * 详情
+     */
+    public function show_detail()
+    {
+        $id = I('id');
+        if($id){
+            $data = D('vendors')->getdetail($id);
+
+            $tpl_title = ($data['info']['is_service'] =='1' and $data['info']['is_vendors'] =='0')? '服务站' : '经销商';
+
+            $this->assign('data',$data);
+            $this->assign('tpl_title',$tpl_title);
+            $this->display();
+        }else{
+            $this->error('数据错误,请联系管理员');
+        }
     }
 
     /**
@@ -85,7 +107,13 @@ class VendorsController extends CommonController
     {
         if(IS_POST){
 
-            
+            //注册类型
+            $is_vendors = I('is_vendors');
+            $is_service = I('is_service');
+            if(empty($is_vendors) && empty($is_service)){
+                $this->error('请选择注册类型');
+            }
+
             //将三级联动地址拼接具体地址再写入数据库
             $_POST['address'] = $_POST['address'].$_POST['detail'];
             
@@ -96,9 +124,9 @@ class VendorsController extends CommonController
 
                 $res = $user->add();
                 if ($res) {
-                    $this->success('添加经销商成功啦！！！',U('Vendors/index'));
+                    $this->success('添加成功！！！',U('Vendors/index'));
                 } else {
-                    $this->error('添加经销商失败啦！');
+                    $this->error('添加失败！');
                 }
             
             } else {
@@ -109,6 +137,7 @@ class VendorsController extends CommonController
             $this->display();
         }
     }
+
 
     /**
      * 编辑经销商方法
@@ -545,5 +574,63 @@ class VendorsController extends CommonController
             }
         }
         $this->save_import($data);
+    }
+
+    /**
+     * 查询是否需要交接分公司
+     * @return [type] [description]
+     */
+    public function take_over()
+    {
+        $vendors = M('vendors');
+
+        $vid = I('post.id');
+        $showData['id'] = $vid;
+        $office = $vendors->where($showData)->find();
+
+        $showOffice['vid'] = $vid;
+
+        $vendor = M('binding')->where($showOffice)->find();
+        if(!empty($vendor)){
+            $showLeavel['id'] = ['neq',$vid];
+            $officeLeavel = $vendors->where($showLeavel)->select();
+
+            $officeNum = count($officeLeavel);
+            if($officeNum>1){
+                // 提示信息
+                $message                    = ['code' => 200, 'message' => '请选择交接的经销商'];
+                $message['office']          = $office;
+                $message['officeLeavel']    = $officeLeavel;
+            }else{
+                $message                    = ['code' => 403, 'message' => '无可选经销商交接'];
+            }
+        }else{
+            // 不需要交接
+            $message                        = ['code' => 403, 'message' => '经销商名下没有和设备，不需要交接！'];
+        }
+
+        // 返回JSON格式数据
+        $this->ajaxReturn($message);
+    }
+
+    // 执行交接操作
+    public function company_over()
+    {
+
+        $oldid = I('post.oldid');
+        $newid = I('post.newid');
+
+        // 准备修改条件
+        $whereData['vid'] = $oldid;
+        // 准备修改数据
+        $saveData['vid']  = $newid;
+        $vendors = M('binding')->where($whereData)->save($saveData);
+        if($vendors){
+            $message     = ['code' => 200, 'message' => '分公司交接成功'];
+        }else{
+            $message     = ['code' => 403, 'message' => '分公司交接失败'];
+        }
+
+        $this->ajaxReturn($message);
     }
 }

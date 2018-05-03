@@ -1,0 +1,107 @@
+<include file="Public/header" />
+<div class="content" style="background-color: #ECF0F5">
+    <include file="Public/nav" />
+        <div class="row-fluid fl" id="main" style="margin-bottom: 50px">
+            <div style="padding: 0 15px;">
+                 <div class="titleBar">经销商/<span>经销商管理/账户详情</span>&nbsp;&nbsp;&nbsp;&nbsp;<a
+                         href="javascript:history.go(-1)" class="btn btn-info">&lt;&lt;返回</a></div>
+                <h1 class="text-center _dev">当前{{$tpl_title}}：{{$data.info.name}}</h1>
+                <div class="clearfix">
+                    <div class="_float_left">
+                        <div class="_device">
+                                <h3>统计</h3>
+                            <table class="table _table btnBox" style="margin-bottom: 0">
+                                <tr>
+                                    <td >待安装</td>
+                                    <td >123</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;">待维修</td>
+                                    <td style="width:70%"></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="_float_right">
+                        <div style="padding: 5px 10px;" class="_device">
+                            <div>
+                                <h3>站点信息</h3>
+                            </div>
+                            <table class="table _table2">
+                                <tr>
+                                    <td>账户类型</td>
+                                    <td>
+                                        <php>if( $data['info']['is_vendors'] == '1' ) echo  '经销商' ;</php>
+                                        <php>if( $data['info']['is_service'] == '1' ) echo  '服务站' ;</php>
+                                </tr>
+                                <tr>
+                                    <td>站点ID</td>
+                                    <td>{{$data.info.id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>登录账号</td>
+                                    <td>{{$data.info.user}}</td>
+                                </tr>
+                                <tr>
+                                    <td>联系电话</td>
+                                    <td>{{$data.info.phone}}</td>
+                                </tr>
+                                <tr>
+                                    <td>客户服务电话</td>
+                                    <td>{{$data.info.csphone}}</td>
+                                </tr>
+                                <tr>
+                                    <td>电子邮箱</td>
+                                    <td>{{$data.info.email}}</td>
+                                </tr>
+                                <tr>
+                                    <td>经销商地址</td>
+                                    <td>{{$data.info.address}}</td>
+                                </tr>
+                                <tr>
+                                    <td>注册时间</td>
+                                    <td>{{$data.info.addtime|date='Y-m-d H:i:s',###}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="_tb">
+                    <h2>服务站安装人员列表 : {{$data.info.usernum}}人</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>员工ID</td>
+                                <td>员工姓名</td>
+                                <td>手机号码(账号)</td>
+                                <td>注册时间</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody class="_vendor">
+                        <foreach name="data.userlist" item="vo" key="key">
+                            <tr>
+                                <td>{{$vo.id}}</td>
+                                <td>{{$vo.name}}</td>
+                                <td>{{$vo.phone}}</td>
+                                <td>{{$vo.create_time}}</td>
+                                <td>
+                                    <a >编辑</a>
+                                    <a href="javascript:void(0)" url="__URL__/del/id/{{$vo.id}}" class="_del">删除</a>
+                                </td>
+                            </tr>
+                        </foreach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <include file="Public/footer" />
+</div>
+
+<script>
+
+
+</script>

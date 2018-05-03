@@ -370,7 +370,11 @@ a.addBtn{
 	padding: 0 ;
 }
 .tableBox{
-	padding-bottom: 80px;
+	padding-bottom: 40px;
+}
+.tableBox .table{
+	padding-bottom: 0px;
+	margin-bottom: 0px;
 }
 .tableBox table tr td{
 	vertical-align:0;

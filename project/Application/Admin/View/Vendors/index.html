@@ -1,4 +1,19 @@
 <include file="Public/header" />
+<style>
+    #move_box{
+        padding:20px;
+    }
+    #move_box .sel{
+        width:300px;
+        margin: 30px auto;
+    }
+    #move_box .btn{
+        display: block;
+        width:100px;
+        margin: 0px auto;
+    }
+
+</style>
 <div class="content">
     <include file="Public/nav" />
     <div class="row-fluid fl" id="main">
@@ -26,14 +41,6 @@
                 <span class="select-box" style="display: inline-block;position:relative">时间:
                     <input type="text" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
                 </span>
-                <span class="select-box">管理级别:
-                    <select class="select mglevel" size="1" name="leavel" style="width: 100px;">
-                        <option value="" selected>- 管理级别 -</option>
-                        <option value="0">超级管理员</option>
-                        <option value="1">一级经销商</option>
-                        <option value="2">二级经销商</option>
-                    </select>
-                </span>
                 <div class="submitBtn">
                     <button type="submit" name="output" value="1" class="btn fr mbtn" style="float: left;color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe62f;</i> 导出</button>
                     <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
@@ -50,28 +57,29 @@
                     <th>手机号</th>
                     <th>邮箱</th>
                     <th>地址</th>
-                    <th>身份证号</th>
-                    <th>最新添加时间</th>
-                    <th>管理级别</th>
+                    <!--<th>身份证号</th>-->
+                    <th>账户状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                     <notempty name="list">
                     <foreach name="list" item="vo" key="key">
-                    <tr>
+                    <tr data-id="{{$vo.id}}">
                         <td>{{$vo.id}}</td>
                         <td>{{$vo.user}}</td>
                         <td>{{$vo.name}}</td>
                         <td>{{$vo.phone}}</td>
                         <td>{{$vo.email}}</td>
                         <td>{{$vo.address}}</td>
-                        <td>{{$vo.idcard}}</td>
-                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
-                        <td>{{$vo.leavel}}</td>
+                        <!--<td>{{$vo.idcard}}</td>-->
+                        <td>{{$vo.status}}</td>
+                        <!--<td>{{$vo.is_vendors}}</td>-->
                         <td>
+                            <a href="__URL__/show_detail/id/{{$vo.id}}">详情</a>
                             <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
                             <a href="javascript:void(0)" url="__URL__/del/id/{{$vo.id}}" class="_del">删除</a>
+                            <a href="javascript:void(0)" class="_move">迁移</a>
                         </td>
                     </tr>
                     </foreach>
@@ -87,7 +95,21 @@
                     {{$button}}
                 </ul>
             </div>
+            <div style="width:0px;height:0px;overflow: hidden;padding: 0px;margin: 0px;">
+                <div id="move_box" >
+                    <input type="hidden" id="old_id" />
+                    <div class="sel">
+                        迁移至:
+                        <select id="move_sel">
+
+                        </select>
+                    </div>
+                    <button class="btn mbtn">保存</button>
+                </div>
+            </div>
             <script src="__PUBLIC__/Admin/js/public.js"></script>
+
+
             <script>
 
                 
@@ -97,7 +119,7 @@
                 if(window.location.search){
                     $('input[name=name]').val(decodeURI(window.location.search.slice(6)))
                 }
-                //del
+
                 //提示
                 function tip(tip,title,fn){
                     layui.use('layer', function(){
@@ -107,6 +129,73 @@
                         });
                     });
                 }
+
+                $("#move_box .mbtn").click(function(){
+                    var newid = $("#move_sel option:selected").val();
+                    var oldid = $("#old_id").val();
+                    $.ajax({
+                        url:'{{:U("company_over")}}',
+                        type:'post',
+                        dataType:'json',
+                        data:{oldid:oldid,newid:newid},
+                        success:function(res){
+                            if(res.code == 200){
+                                layer.closeAll();
+                                layer.msg(res.message);
+                            } else {
+                                layer.closeAll();
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                });
+
+                $('._move').click(function(){
+                    var This = this
+                    tip('确定将数据迁移到其他经销商？','提示',function(){
+                        tip('交接后将无法恢复，请谨慎操作！','提示',function () {
+                            tip('确认，我要交接！','提示',function () {
+                                layer.closeAll();
+
+                                var id = $(This).parents('tr').attr('data-id');
+                                if(id){
+                                    $("#old_id").val(id);
+                                    $.ajax({
+                                        url:'{{:U("take_over")}}',
+                                        type:'post',
+                                        dataType:'json',
+                                        data:{'id':id},
+                                        success:function(res){
+                                            if(res.code == 200){
+                                                var html = '';
+                                                $.each(res.officeLeavel,function (i,val) {
+                                                    html += '<option value="'+val.id+'">'+val.name+'</option>';
+                                                });
+                                                $("#move_sel").html(html);
+
+                                                layer.open({
+                                                    type: 1,
+                                                    area: ['500px', '300px'],
+                                                    title: ['经销商数据迁移', 'font-size:18px;'],
+                                                    content: $('#move_box')
+                                                });
+
+                                            } else {
+                                                layer.closeAll();
+                                                layer.msg(res.message);
+                                            }
+                                        }
+                                    });
+                                }
+
+                            });
+                        });
+
+
+                    })
+                    return false
+                })
+
                 $('._del').click(function(){
                     var This = this
                     tip('确定删除？','提示',function(){

@@ -11,6 +11,17 @@
             <div class="formBox">
                 <form class="" action="__URL__/add" method="post" id="_formTable">
                     <div class="control-group">
+                        <span>注册类型<sub style="color:red;margin-left: 5px;">*</sub></span>
+                        <input class="reg_type" type="checkbox" style="display: inline-block;vertical-align: top;" value="1"
+                               name="is_vendors"
+                        > 经销商
+                        <input class="reg_type" type="checkbox"
+                               style="display: inline-block;vertical-align: top;margin-left:
+                        30px;"
+                               value="1"
+                               name="is_service" > 服务站
+                    </div>
+                    <div class="control-group">
                         <span>账户名<sub style="color:red;margin-left: 5px;">*</sub></span>
                         <input type="text" name="user" placeholder="请输入登录账号...">
                         <div style="font-size: 12px;text-indent: 38%;margin-top:-10px;color: red">(账户名将不可修改，请确认后再提交)</div>
@@ -67,7 +78,7 @@
         <include file="Public/footer" />
     </div>
 </div>
-<script src="__PUBLIC__/Admin/js/public.js"></script> 
+<script src="__PUBLIC__/Admin/js/public.js"></script>
 <script>
 $(function(){
     //验证
@@ -79,6 +90,12 @@ $(function(){
         var email = $('input[name=email]').val().trim();
         var address = $('textarea[name="detail"]').val().trim();
         var idcard = $('input[name=idcard]').val().trim();
+        var reg_type = $('.reg_type:checked');
+
+        if(!reg_type.length){
+            layuiHint('请选择注册类型');
+            return
+        }
 
         if(!user.trim()){
             layuiHint('请输入登录账号');
