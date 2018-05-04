@@ -86,7 +86,7 @@ var home = new Vue({
 
 					}
 					// 发送数据包
-					wsSend(JSON.stringify(home.ajson));
+					that.sendMSG(home.ajson);
 					
 					// 设置水机状态
 					// home.statusIconName = home.statusIconClass[home.ajson['DeviceStause']];	// 水机状态图标
@@ -110,7 +110,7 @@ var home = new Vue({
 			home.ajson['type'] = '冲洗中';
 			home.ajson['curTime'] = '0';
 			// 发送数据包
-			wsSend(JSON.stringify(home.ajson));
+			that.sendMSG(home.ajson);
 
 			// 设置水机状态
 			// home.statusIconName = home.statusIconClass[1];	// 水机状态图标
@@ -191,12 +191,20 @@ var home = new Vue({
                     home.ajson['DayLifeFiter'+ filter ] = home.filterList[filter].timelife;
 					// 点击确定
 					// 发送数据包
-					wsSend(JSON.stringify(home.ajson));
+					that.sendMSG(home.ajson);
 				}else{
 					// 点击取消
 					noticeFn({text:'取消！'});
 				}
 			})
+		},
+		sendMSG: function(data){
+			// 发送json格式数据
+			if(Object.prototype.toString.call(data) === "[object Object]"){
+				data = JSON.stringify(data);
+			}
+			// 发送数据
+			sendmsg(data);
 		}
 	}
 })
