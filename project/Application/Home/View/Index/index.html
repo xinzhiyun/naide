@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<title>首页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/index/index.css">
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
@@ -301,31 +301,32 @@
 					console.log('err: ',err);
 				}
 			});
-			var wsurl = "ws://localhost:8181";
+			var wsurl = "ws://localhost:6001";
+			var int;	// 定时查询
 			// websocket 连接
-			wsFun(wsurl, function(str, res){
+			wsFun(wsurl, function(){
+				// 连接成功，只调用一次
+				// 发送登录包
+				//home.deviceId;	页面加载时候需要后台提供
+				home.ajson.DeviceID = home.deviceId;
+		        home.ajson.PackType = "login";
+				home.sendMSG(home.ajson);
+
+				setTimeout(function(){
+		            home.ajson.PackType = "Select";
+		            home.sendMSG(home.ajson);
+		            // 每个10秒钟发送一个查询包
+		            setInterval(function(){
+		                home.sendMSG(home.ajson);
+		            },10000);
+		        },1000);
+
+			}, function(str, res){
 				// str: 数据类型（接收，关闭， 错误），
 				// 在websocket.js中给出，不需要传
 				console.log(str, res);
-				/**
-				 * 连接成功发送登录包
-				 */
-				if(str == 'open'){
-					//home.deviceId;	页面加载时候需要后台提供
-					home.ajson.DeviceID = home.deviceId;
-			        home.ajson.PackType = "login";
-					wsSend(JSON.stringify(home.ajson));
 
-					setTimeout(function(){
-			            home.ajson.PackType = "Select";
-			            wsSend(JSON.stringify(home.ajson));
-			            // 每个10秒钟发送一个查询包
-			            setInterval(function(){
-			                wsSend(JSON.stringify(home.ajson));
-			            },10000);
-			        },1000);
-
-				}else if(str == 'message'){
+				if(str == 'message'){
 					/**
 					 * 接收数据更新到页面
 					 */
