@@ -9,10 +9,17 @@ use Common\Controller\HomebaseController;
 class RepairController extends HomebaseController
 {
 
+    public function index()
+    {
+
+        $info['device_code'] =
+        $this->assign('info',json_encode($info));
+        $this->display();
+    }
     /**
      * 用户报修
      */
-    public function repaire()
+    public function add()
     {
         try {
             if (IS_POST) {
@@ -52,9 +59,11 @@ class RepairController extends HomebaseController
                 }
             }
         } catch (\Exception $e) {
-            $this->json($e);
+            $this->to_json($e);
         }
     }
+
+    
 }
 
 

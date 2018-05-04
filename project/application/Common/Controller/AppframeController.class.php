@@ -12,11 +12,11 @@ class AppframeController extends Controller {
         }
     }
 
-    public function json($e)
+    public function to_json($e)
     {
         $err = [
             'status' => $e->getCode(),
-            'info' =>   $e->getMessage(),
+            'msg' =>   $e->getMessage(),
         ];
         $this->ajaxReturn($err,'JSON');
     }

@@ -18,6 +18,20 @@ class Device extends Redis
     );
 
     /**
+     * 当前用户的设备详情
+     * @param $key 设备号
+     * @return mixed
+     */
+    public static function get_devices_detail($uid='')
+    {
+//        empty($uid)?$_SESSION['']
+//        if (empty($uid)) {
+//
+//        }
+//        M('')->
+    }
+
+    /**
      * 设备数据
      * @param $key 设备号
      * @return mixed
