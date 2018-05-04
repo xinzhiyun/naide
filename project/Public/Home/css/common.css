@@ -35,7 +35,7 @@ body {
 	overflow-y: scroll;
 }
 
-/* 导航栏--开始 */
+/* navbar -- 开始 */
 #navbar {
 	width: 100vw;
 	height: 12vmin;
@@ -44,23 +44,20 @@ body {
 	top: 0;
 	line-height: 12vmin;
 	border-bottom: 1px solid #eee;
-    color: #000;
-    background: #fff;
-    -webkit-transition: .2s linear;
-    transition: .2s linear;
-    z-index: 999;
+	color: #000;
+	background: #fff;
+	-webkit-transition: .2s linear;
+	transition: .2s linear;
+	z-index: 999;
 }
-
 #navbar::after {
-	content: '';
+	content: "";
 	display: block;
 	visibility: hidden;
 	clear: both;
 	zoom: 1;
 }
-#navbar>h2,
-#navbar>a,
-#navbar>span {
+#navbar>h2,#navbar>a,#navbar>span {
 	height: 100%;
 	display: inline-block;
 	position: relative;
@@ -76,17 +73,15 @@ body {
 	font-weight: 400;
 	font-size: .8rem;
 }
-#navbar>span,
-#navbar>a {
+#navbar>span,#navbar>a {
 	width: 25%;
 	color: #000;
 }
-#navbar>span{
+#navbar>span {
 	font-size: 1.2rem;
 }
-#navbar>span:active::after,
-#navbar>a:active::after {
-	content: '';
+#navbar>span:active::after,#navbar>a:active::after {
+	content:"";
 	width: 12vmin;
 	height: 12vmin;
 	display: block;
@@ -103,17 +98,17 @@ body {
 body .nav-hide {
 	-webkit-transition: .3s linear;
 	transition: .3s linear;
-		-webkit-transform: translateY(-100%);
-		        transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+	transform: translateY(-100%);
 }
 body .nav-show {
 	-webkit-transition: .3s linear;
 	transition: .3s linear;
-		-webkit-transform: translateY(0);
-		        transform: translateY(0);
+	-webkit-transform: translateY(0);
+	transform: translateY(0);
 }
 
-/* 导航栏--结束 */
+/* navbar -- 结束 */
 
 /* 去除amazeui样式--开始 */
 .am-datepicker tr.am-datepicker-header {font-size: .7rem;}
