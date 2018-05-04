@@ -36,10 +36,6 @@ class Sms extends Redis
         self::connect();
         if(empty($phone)){ return false; }
 
-        if(self::getInfo($phone)){
-            return false;
-        }
-        
         return self::sendMsg($phone);
 
     }
@@ -53,10 +49,10 @@ class Sms extends Redis
     {
         self::connect();
 
-        if(self::$redis->Exists(self::$pre.$phone)){
-            return true;
+        if(self::$redis->exists(self::$pre.$phone)){
+            return self::$redis->get(self::$pre.$phone);
         }
-        return false;
+        return '';
     }
 
     public static function sendMsg($phone)
@@ -74,17 +70,19 @@ class Sms extends Redis
             'code' =>$code
         ), JSON_UNESCAPED_UNICODE));
 
-        $acsResponse = static::getAcsClient()->getAcsResponse($request);
-        if($acsResponse->Message =='ok'){
-            $res= self::$redis->setex(self::$pre.$phone, self::$time,$code);
+        $res= self::$redis->setex(self::$pre.$phone, self::$time,$code);
 
-            if ( $res ) return true;
+        if ( $res ) {
+            $acsResponse = static::getAcsClient()->getAcsResponse($request);
 
-            return false;
-        }else{
-            return false;
+            if($acsResponse->Message =='OK'){
+                return true;
+            }
         }
 
+
+
+        return false;
     }
 
 //    public function check()
