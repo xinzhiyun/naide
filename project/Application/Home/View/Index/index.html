@@ -330,7 +330,7 @@
 					/**
 					 * 接收数据更新到页面
 					 */
-        			home.dataList = JSON.parse(data.data);//读取websoket数据，转换为json对象
+        			home.dataList = JSON.parse(res);//读取websoket数据，转换为json对象
 
         			// 水机状态图标
         			home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];	
