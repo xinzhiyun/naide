@@ -107,6 +107,9 @@
   height: 1.06666667rem;
   line-height: 1.06666667rem;
 }
+.product_box div:nth-child(2) div {
+  font-size: 0.6566667rem;
+}
 .product_box div:nth-child(2) p {
   display: flex;
   display: -webkit-flex;

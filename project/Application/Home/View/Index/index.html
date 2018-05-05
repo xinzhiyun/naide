@@ -249,11 +249,6 @@
 	</div>
 
 	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script>
-		// 显示loading
-		var loaddiv = document.getElementsByClassName('loadingdiv');
-		fadeFn({elem: loaddiv[0]});
-	</script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/index/index.js"></script>
@@ -392,9 +387,6 @@
 			home.tdsRaw = 99;		// 原水值
 			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
 			home.statusText = home.dstauseList[0];	// 水机状态
-			
-			// 加载结束，隐藏loading
-			fadeFn({elem: loaddiv[0],handle:'hide'});
 		}
 	</script>
 </body>
