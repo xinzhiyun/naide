@@ -94,12 +94,15 @@ class UsersController extends HomebaseController {
         try{
             $data = I('post.');
             if(empty($data['phone']) || empty($data['tocken'])){
-                $tocken = md5(substr($data['phone'],2,8));
-                if ($data['tocken'] != $tocken) {
-                    E('参数错误!',201);
-                }
+                E('参数错误!',201);
             }
+            $tocken = md5(substr($data['phone'],2,8));
+            if ($data['tocken'] != $tocken) {
+                E('参数错误!',202);
+            }
+
             if(Sms::send($data['phone'])){
+
                 E('发送成功!',200);
             }
             E('发送失败,请稍后重试!',201);

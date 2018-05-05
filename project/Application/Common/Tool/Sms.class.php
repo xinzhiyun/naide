@@ -60,6 +60,8 @@ class Sms extends Redis
         Config::load();
         self::connect();
 
+
+
         $request = new SendSmsRequest();
         $request->setPhoneNumbers($phone);
         $request->setSignName(self::$config['sign']);
@@ -74,7 +76,6 @@ class Sms extends Redis
 
         if ( $res ) {
             $acsResponse = static::getAcsClient()->getAcsResponse($request);
-
             if($acsResponse->Message =='OK'){
                 return true;
             }
