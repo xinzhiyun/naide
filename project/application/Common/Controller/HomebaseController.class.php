@@ -7,6 +7,11 @@ use \Org\Util\WeixinJssdk;
 class HomebaseController extends AppframeController {
 
 	function _initialize() {
+	    //加载微信支付信息
+        $weixin = new WeixinJssdk();
+        $signPackage = $weixin->getSignPackage();
+        $this->assign('wxinfo',$signPackage);
+
 
         // 查询用户信息
         $info = M('Users')->where("open_id='{$openId}'")->find();

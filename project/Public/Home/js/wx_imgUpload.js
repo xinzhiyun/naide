@@ -1,7 +1,23 @@
 /**
  * [wxuploadimg 微信接口上传，预览图片]
  * @return  {Function} callback [回调函数]
+ *
  * 
+      //微信接口
+      wx.config({
+          debug: false,
+          appId: '{{$wxinfo["appId"]}}',
+          timestamp: '{{$wxinfo["timestamp"]}}',
+          nonceStr: '{{$wxinfo["nonceStr"]}}',
+          signature: '{{$wxinfo["signature"]}}',
+          jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'chooseImage',
+              'uploadImage',
+              'getLocalImgData',
+              'downloadImage'
+          ]
+      });
  *  使用：
  *    // 浏览上传图片
       wxuploadimg(function(res){

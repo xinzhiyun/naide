@@ -93,6 +93,14 @@ function getURL(_home, _url){
     homeurl = href.substring(0, homeindex) + '/' + _url;
     return homeurl;
 }
+/**
+ * [isWX 判断是否微信环境]
+ * @return {[type]} [description]
+ */
+var isWX = function(){
+    var ua = navigator.userAgent.toLowerCase();
+    return (ua.match(/MicroMessenger/i) == 'micromessenger' ? true : false);
+}
 
 // 验证价格
 var moneyCheck = function(val){
