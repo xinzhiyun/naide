@@ -235,7 +235,6 @@ li {
   border-radius: 0.10666667rem;
 }
 .mask_bg_public {
-  display: none;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -265,7 +264,8 @@ li {
   left: 0;
   z-index: 9;
   background: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 .mask_bg_public .mask_bottom ul {
   width: 100%;

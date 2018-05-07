@@ -39,19 +39,20 @@ class PayController extends HomebaseController {
             if(empty($setMealId)){
                 E('请选择套餐', 201);
             }
+
+            $info = M('setmeal')->find($setMealId);
+            if(empty($info)){
+                E('套餐已更新,请重新选择', 201);
+            }
             session('waterOrder.setMealId',$setMealId);
             $goodsInfo=array(
-                'imgSrc'=>1,
-                'goodsTitle'=>1,
-                'goodsDetail'=>1,
-                'goodsPrice'=>1,
+                'imgSrc'=>'../../Public/images/bj.png',
+                'goodsTitle'=>'耐得饮水机',
+                'goodsDetail'=>'精钢速热YD1515S-X',
+                'goodsPrice'=>$info['money'],
                 'goodsNum'=>1,
-
             );
-            session('waterOrder.goodsInfo',$setMealId);
-            //goodsInfo: {"imgSrc": "../../Public/images/bj.png", "goodsTitle": "耐得饮水机", "goodsDetail":
-            // "精钢速热YD1515S-X", "goodsPrice": "200元/3个月", "goodsNum": "2"},
-
+            session('waterOrder.goodsInfo',$goodsInfo);
 
             E('更新成功', 200);
         } catch (\Exception $e) {
