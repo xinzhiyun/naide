@@ -52,7 +52,7 @@ class PayController extends HomebaseController {
                 'goodsPrice'=>$info['money'],
                 'goodsNum'=>1,
             );
-            session('waterOrder.goodsInfo',$setMealId);
+            session('waterOrder.goodsInfo',$goodsInfo);
 
             E('更新成功', 200);
         } catch (\Exception $e) {
