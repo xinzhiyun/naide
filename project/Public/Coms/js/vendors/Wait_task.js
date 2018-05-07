@@ -74,7 +74,8 @@ var wait_task = new Vue({
 					contact_number:"13526458755"
 				},
 			]
-		}
+		},
+		search:""
 	},
 	methods:{
 		// 跳转页面改变url（公共）
@@ -89,10 +90,10 @@ var wait_task = new Vue({
 			wait_task.url_public(1);// 页面跳转
 			//待安装、待维修、待维护,将某数据发送给后台，将待安装的数据信息传到前台赋值给‘task_user’进行渲染页面，后将待办任务页面隐藏
 			var data_info = $this.task[index_name].task_text;
-			console.log($(".task_text").html());
+			console.log(data_info);
 			$.ajax({
 		        url: "",
-		        data: {datas: $(".task_text").html()},
+		        data: {datas : data_info},
 		        type: "post",
 		        success: function(res) {
 		            
@@ -101,7 +102,10 @@ var wait_task = new Vue({
 		            
 		        }
 		    })
-			$("#title_title").html(data_info);//页面title
+			localStorage.setItem("title",data_info);
+			
+			// $("#title_title").html(data_info);//页面title
+			// console.log($("#navbar").find("h2").html(data_info));
 		},
 		//搜索用户页面（第二页）
 		service_details:function(index_task_user){
@@ -109,6 +113,7 @@ var wait_task = new Vue({
 			wait_task.url_public(2);// 页面跳转
 			// 在用户列表中将选中的用户信息中的用户名传给后台，后台通过"用户名select_user"在数据库中查找相应的“服务详情内容”传给前台，前台赋值给"service_details_info",最后渲染在页面上
 			var select_user = $this.task_user[index_task_user].task_name;
+			console.log(select_user);
 			$.ajax({
 		        url: "",
 		        data: {datas: select_user},
@@ -120,22 +125,27 @@ var wait_task = new Vue({
 		            
 		        }
 		    })
-			$("#title_title").html("服务详情");
 		},
 		// 点击搜索小图标提交表单
         subClick:function(){
-        	console.log($("input[name='Info']").val());
-            $.ajax({
-		        url: "",
-		        data: {datas: $("input[name='Info']").val()},
-		        type: "post",
-		        success: function(res) {
-		            
-		        },
-		        error: function(res) {
-		            
-		        }
-		    })
+        	if(chineseCheck(trimFn(this.search)) || phoneCheck(this.search)){
+        		console.log($("input[name='Info']").val());
+	            $.ajax({
+			        url: "",
+			        data: {datas: $("input[name='Info']").val()},
+			        type: "post",
+			        success: function(res) {
+			            
+			        },
+			        error: function(res) {
+			            
+			        }
+			    })
+			    return;
+        	}else{
+        		noticeFn({text:'请输入正确的用户名或者手机号码!'});
+        		return;
+        	}
         },
 		// 派工按钮  服务详情页面（第三页）
 		plan_personnel_inp:function(){
@@ -150,7 +160,6 @@ var wait_task = new Vue({
 	        //   success:function(resData){}
 	        // });
 			$("#plan_personnel_info_bg").show();
-			$("#title_title").html("派工信息");
 		},
 		// 点击派工信息页面中的选择，弹出蒙版
 		select_masking:function(){

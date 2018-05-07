@@ -33,7 +33,7 @@
 		<form action="" method="post" id="form1">
 			<div class="install_input">
 				<i class="am-u-sm-1 iconfont icon-search"  @click="subClick()"></i>
-				<input type="text" name="Info" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="">
+				<input type="text" name="Info" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="" v-model="search">
 			</div>
 		</form>
 		<!-- 待安装用户 -->
@@ -147,14 +147,18 @@
 		</div>
 	</div>
 <!-- 蒙版部分结束 -->
+
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
+		// 微信手机端调试工具
+		var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
@@ -181,18 +185,22 @@
 			$(".wait_task_bg").show();//第一页 待办任务页面
 			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
 			$("#service_details_bg").hide();//第三页
+			$("#navbar").find("h2").html("待办任务");
 		}else if($_GET.index == "1"){
 			$(".wait_task_bg").hide();
 			$("#wait_install").show();
+			$("#navbar").find("h2").html(localStorage.getItem("title"));
 		}else if($_GET.index == "2"){
 			$(".wait_task_bg").hide();
 			$("#wait_install").hide();
 			$("#service_details_bg").show();
+			$("#navbar").find("h2").html("服务详情");
 		}else if($_GET.index == "3"){
 			$("#plan_personnel_info_bg").show();
 			$(".wait_task_bg").hide();
 			$("#wait_install").hide();
 			$("#service_details_bg").hide();
+			$("#navbar").find("h2").html("派工信息");
 		}
 
 		$(function(){
@@ -200,19 +208,26 @@
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
-			    console.log($("input[name='Info']").val());
-			    // 将用户输入的信息发送后台搜索
-			    $.ajax({
-			        url: "",
-			        data: {datas: $("input[name='Info']").val()},
-			        type: "post",
-			        success: function(res) {
-			            
-			        },
-			        error: function(res) {
-			            
-			        }
-			    })
+			    if(chineseCheck(trimFn(wait_task.search)) || phoneCheck(wait_task.search)){
+			    	console.log(wait_task.search);
+				    console.log($("input[name='Info']").val());
+				    // 将用户输入的信息发送后台搜索
+				    $.ajax({
+				        url: "",
+				        data: {datas: $("input[name='Info']").val()},
+				        type: "post",
+				        success: function(res) {
+				            
+				        },
+				        error: function(res) {
+				            
+				        }
+				    })
+			    }else{
+			    	noticeFn({text:'请输入正确的用户名或者手机号码!'});
+	        		return;
+			    }
+			    
 			})
 		});
 	</script>
