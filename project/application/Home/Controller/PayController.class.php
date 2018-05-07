@@ -40,6 +40,19 @@ class PayController extends HomebaseController {
                 E('请选择套餐', 201);
             }
             session('waterOrder.setMealId',$setMealId);
+            $goodsInfo=array(
+                'imgSrc'=>1,
+                'goodsTitle'=>1,
+                'goodsDetail'=>1,
+                'goodsPrice'=>1,
+                'goodsNum'=>1,
+
+            );
+            session('waterOrder.goodsInfo',$setMealId);
+            //goodsInfo: {"imgSrc": "../../Public/images/bj.png", "goodsTitle": "耐得饮水机", "goodsDetail":
+            // "精钢速热YD1515S-X", "goodsPrice": "200元/3个月", "goodsNum": "2"},
+
+
             E('更新成功', 200);
         } catch (\Exception $e) {
             $this->to_json($e);
@@ -58,7 +71,7 @@ class PayController extends HomebaseController {
         //后期加设备类型 此处需要加限制
         $list = $setmeal_model->select();
 
-        if (!empty($list)){
+        if (empty($list)){
             $data=array(
                 'status'=>201,
                 'list'=>array(),
