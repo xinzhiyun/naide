@@ -6,6 +6,68 @@ use Common\Tool\Sms;
 class UsersController extends HomebaseController {
 
     /**
+     * 用户水机购买前-信息录入
+     */
+    public function userbuy()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['uname'])) {
+                E('姓名不能为空', 201);
+            } else {
+                $reg['name'] = $data['uname'];
+            }
+
+            if (empty($data['uphone'])) {
+                E('手机号不能为空', 201);
+            } else {
+                $reg['user'] = $data['uphone'];
+            }
+
+            if (empty($data['upwd'])) {
+                E('密码不能为空', 201);
+            } else {
+                $reg['password'] = md5(md5($data['upwd']));
+            }
+
+            if (empty($data['address'])) {
+                E('地址不能为空', 201);
+            } else {
+                $order['address'] = md5(md5($data['address']));
+            }
+
+            $m =  M('users');
+            $info = $m->where('user='.$reg['user'])->find();
+
+            if (empty($info)) {
+                $data['created_at']=time();
+                $res = $m->add($reg);
+                if($res)$uid = $res;
+            } else {
+                $reg['updated_at']=time();
+                $res = $m->where('id='.$info['id'])->save($reg);
+                $uid = $info['id'];
+            }
+
+            if($res){
+                $order['uid'] = $uid;
+                $order['name'] = $reg['name'];
+                $order['phone'] = $reg['user'];
+            } else {
+                //用户注册失败
+                E('用户注册失败', 201);
+            }
+
+            session('waterOrder',$order);
+
+            E('注册成功', 200);
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+    
+    /**
      * 用户录入
      */
     public function reg()
@@ -65,7 +127,6 @@ class UsersController extends HomebaseController {
             if (empty($data['password'])) {
                 E('密码不能为空!', 201);
             }
-
 
             $m =  M('users');
             $info = $m->where('user='.$data['user'])->find();

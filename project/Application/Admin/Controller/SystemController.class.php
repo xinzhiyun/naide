@@ -19,5 +19,13 @@ class SystemController extends CommonController
 
     }
 
+    /**
+     * 系统设置-水机购买协议
+     */
+    public function agreement()
+    {
+
+    }
+
 
 }

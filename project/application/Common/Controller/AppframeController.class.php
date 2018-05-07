@@ -32,7 +32,6 @@ class AppframeController extends Controller {
 
         $data['referer'] = $data['url'] ? $data['url'] : "";
         $data['state']   = (!empty($data['status']) and $data['status']== 200) ? "success" : "fail";
-
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');
         switch (strtoupper($type)){
         	case 'JSON' :
