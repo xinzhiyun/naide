@@ -33,7 +33,7 @@ class UsersController extends HomebaseController {
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {
-                $order['address'] = md5(md5($data['address']));
+                $order['address'] = $data['address'];
             }
 
             $m =  M('users');
