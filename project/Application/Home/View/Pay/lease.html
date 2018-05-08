@@ -11,42 +11,47 @@
 </head>
 <body>
 	<div class="main" v-cloak>
-		<ul id='share'>
+		<!-- <ul id='share'> 
 			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
 			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
 			<a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a>
-		</ul>
+		</ul> -->
 		<!-- 主题内容 -->
 		<div class="mainContent">
-			<div class="aboutMeal"></div>
+			<div class="aboutMeal">
+				<ul id='share'> 
+					<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
+					<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
+					<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
+					<!-- <a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a> -->
+				</ul>
+			</div>
 			<!-- 选择套餐 -->
 			<ul class="selectMeal">
-				<li>
+				<li class="mealTitle">
 					<span class="iconfont icon-taocan"></span>
 					<p>选择套餐</p>
 				</li>
 				<li class="mealDetail">
-					<div>
-						<p>{{mealSet.one}}</p>
-						<p>{{mealSet.two}}</p>
-					</div>
-					<div>
-						<p>{{mealSet.three}}</p>
-						<p>{{mealSet.four}}</p>
-					</div>
+					<!-- 遍历套餐 -->
+					<ol class="am-avg-sm-2 am-thumbnails">
+						<li v-for="(mealSets, index) in mealSet">
+							<p class="am-thumbnail selectMel" @click="chooseMeal" :mealId="mealSets.id">{{mealSets.describe}}</p>
+						</li>
+					</ol>
 				</li>
 				<li><p class="confirmSelect" @click='confirmSelects'>确定选择</p></li>
 			</ul>
 		</div>
-
+		
 		<!-- 租赁协议 -->
-		<div class="monikuan">
+		<div class="monikuan" style="display: none;">
 			<div class="buyProtocal">
 				<h1>购买协议</h1>
-				<div class="protocalContent">{{$agreement}}</div>
+				<div class="protocalContent"> 购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致</div>
 				<div class="behavior">
-					<p class="refuse">拒绝</p>
+					<p class="refuse" @click="refuse">拒绝</p>
 					<p class="accept" @click="accepts">同意</p>
 				</div>
 			</div>
@@ -58,7 +63,7 @@
 <script src="__PUBLIC__/Home/js/vue.min.js"></script>
 <!-- <script src="__PUBLIC__/Home/js/pay/lease.js"></script> -->
 <script>
-
+	
 	window.onload = function() {
 		// 窗口高度
 		var clientHeight = document.documentElement.clientHeight + 'px';
@@ -68,51 +73,73 @@
 			el: '.main',
 			data: {
 				meal:'',
-				mealSet: {one: "100元/1个月", two: "200元/3个月", three: "300元/5个月", four: "600元/1年"}
+				mealSet: '', //套餐列表
 			},
 			mounted(){
-				var href = location.href;
-				if(href.indexOf('buy') > -1){
-					$('#share').hide();
-					$('.mainContent').show();
-					$(".monikuan").css({display:'flex'});
-				}else{
-					$('#share').show();
+				var _this = this;
+				// 请求套餐列表
+				$.get("{{:U('Home/pay/Waterlist')}}", function(res) {
+					if(res.status == 200) {
+						_this.mealSet = res.list;
+						// 请求数据后调用获取对象函数
+						getObj();
+					}else if(res.status == 201) {
+						
+					}
+				});
+				// 获取对象
+				function getObj(){
+					setTimeout(function(){
+						var mealContent = document.querySelectorAll(".selectMel");
+						// 默认选中第一个套餐
+						$(mealContent).eq(0).attr('class','mealselect');
+					},0);
 				}
-				this.meal = this.mealSet['one'];
+				
 			},
 			methods: {
-				// 点击同意时模拟框消失
+				// 点击同意时模拟框消失并且跳入下一步
 				accepts: function() {
-					$(".monikuan").css("display", "none");
+					// 套餐id
+					var meal_id = $('.mealselect').attr("mealId");
+					// 提交数据并跳转
+					$.ajax({
+						url: "{{:U('Home/Pay/setMeal')}}",
+						type: "post",
+						data: {setMealId: meal_id},
+						success: function(res) { 
+							console.log("成功",res);
+							if(res.status == 200) {
+								// 成功跳转下一个页面
+								location.href = '{{:U("Home/Users/buyinfo")}}';
+							}else if(res.status == 201){
+								noticeFn({text: res.msg});
+							}
+							
+						},
+						error: function(res) {
+							console.log("失败", res);
+						}
+					})
 				},
 				// 确认选择 提交内容
 				confirmSelects: function() {
-					location.href = '{{:U("Home/Pay/firstHire")}}' + '?meal=' + this.meal;
-					// $.ajax({
-					// 	url: "",
-					// 	type: "post",
-					// 	data: {}.
-					// 	success: function(res) {
-
-					// 	}
-					// })
+					$(".monikuan").css("display", "flex");
+				},
+				// 点击拒绝协议时弹出协议消失，并停留本页面
+				refuse: function() {
+					$(".monikuan").css("display", "none");
+				},
+				// 选择套餐
+				chooseMeal: function(ev) {
+					var target = ev.target || ev.srcElement;
+					$(target).attr('class','mealselect');
+					$(target).parent().siblings().children().attr("class", "");
 				}
 			},
 			computed: {}
-
+			
 		});
-
-		// 页面载入显示协议
-		var mealContent = $(".mealDetail>div").eq(0).children().eq(0).html();
-		// 默认选中第一个套餐
-		$(".mealDetail>div").eq(0).children().eq(0).attr('class','mealselect');
-		$(".mealDetail>div>p").on("touchstart", function() {
-			$(this).attr('class','mealselect').siblings().attr('class','').parent().siblings().children().attr('class','');
-			mealContent = $(this).html();
-			vm.meal = $(this).html();
-		})
-		
 	}
 </script>
 </html>
