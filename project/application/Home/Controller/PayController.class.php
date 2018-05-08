@@ -22,13 +22,38 @@ class PayController extends HomebaseController {
             }
             $waterOrder['pay'] = $pay;
 
+            if (empty($waterOrder['uid'])) {
+                E('请重新确认账号信息', 201);
+            }
+            if (empty($waterOrder['phone'])) {
+                E('请重新确认手机信息', 201);
+            }
+            if (empty($waterOrder['province'])) {
+                E('请重新地址信息', 201);
+            }
+            if (empty($waterOrder['address'])) {
+                E('请重新确认地址信息', 201);
+            }
+            if (empty($waterOrder['setMealId'])) {
+                E('请重新确认套餐信息', 201);
+            }
+            if (empty($waterOrder['goodsInfo']['goodsPrice'])) {
+                E('请重新确认商品信息', 201);
+            }
+
+
             $setmeal = M('setmeal')->field('money')->find($waterOrder['setMealId']);
-            dump($waterOrder);
 
             if(isset($setmeal['money']) && $setmeal['money'] == $waterOrder['goodsInfo']['goodsPrice']){
+                $order_sn = gerOrderSN();
+                if($waterOrder['goodsInfo']['goodsNum']==0){
+                    $waterOrder['goodsInfo']['goodsNum']=1;
+                }
+                $money = $waterOrder['goodsInfo']['goodsNum'] * $waterOrder['goodsInfo']['goodsPrice'];
+
                 //创建订单
                 $order=array(
-                    'orderid'=> gerOrderSN(),
+                    'order_id'=> $order_sn,
                     'uid'=>$waterOrder['uid'],
                     'phone'=>$waterOrder['phone'],
                     'name'=>$waterOrder['name'],
@@ -46,14 +71,33 @@ class PayController extends HomebaseController {
                     'goods_price'=>$waterOrder['goodsInfo']['goodsPrice'],
                     'goods_num'=>$waterOrder['goodsInfo']['goodsNum'],
                     'paytype'=>$waterOrder['pay'],
-                    'money'=>$waterOrder['goodsInfo']['goodsNum']*$waterOrder['goodsInfo']['goodsPrice'],
+                    'money'=>$money,
                     'flow'=>$waterOrder['flow'],
                     'created_at'=>time(),
                     'updated_at'=>time(),
-                    'is_play'=>0
+                    'is_play'=>0,
+                    'is_work'=>0,
                 );
 
-                $orderid = 123;
+                $waterOrder_model = M('order_water');
+                $orderID = $waterOrder_model->add($order);
+
+                if($orderID){
+                    session('waterOrder',null);
+
+                    $this->ajaxReturn(array(
+                        'status'=>200,
+                        'order_id'=>$order_sn,
+                        'title'=>'耐的净水器',
+                        'price'=>$money,
+                        'notify_url'=> U('notify_water','',true,true),
+                        'msg'=>'创建成功',
+                    ),'JSON');
+
+                }else{
+                    E('请重新确认订单信息', 201);
+                }
+
                 $this->ajaxReturn(array(
                     'orderid'=>$orderid,
                     'status'=>200,
