@@ -27,10 +27,19 @@ class VendorsController extends HomebaseController {
                 E('无数据!', 201);
             }
 
-            $info = $this->model->where($map)->select();
+            $info = $this->model->where($map)->field('id,name')->select();
             if (empty($info)) {
                 E('无数据!', 201);
             }else{
+                $work = M('work');
+                $where['type']=0;
+                $where['result']=array('neq',2);
+                foreach ($info as &$item) {
+                    $where['vid'] = $item['id'];
+//                    dump($where);
+                    $item['num'] = $work->where($where)->count('id');
+                }
+
                 $res =array(
                     'info'=>$info,
                     'status'=>200,
