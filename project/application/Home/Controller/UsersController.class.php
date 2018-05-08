@@ -30,6 +30,7 @@ class UsersController extends HomebaseController {
                 $reg['password'] = md5(md5($data['upwd']));
             }
 
+
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {

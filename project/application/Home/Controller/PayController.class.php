@@ -18,14 +18,23 @@ class PayController extends HomebaseController {
             $waterOrder = session('waterOrder');
             $pay = I('post.pay');
             if (empty($pay)) {
-                E('参数错误', 201);
+                E('请选择支付方式', 201);
             }
             $waterOrder['pay'] = $pay;
 
 
+            $setmeal = M('setmeal')->field('money')->find($waterOrder['setMealId']);
 
-            dump($waterOrder);
+            if(isset($setmeal['money']) && $setmeal['money'] == $waterOrder['goodsInfo']['goodsPrice']){
+                //创建订单
 
+
+            }else{
+                $this->ajaxReturn(array(
+                    'msg'=>'订单信息已更新',
+                    'status'=>202,
+                ),'JSON');
+            }
         } catch (\Exception $e) {
             $this->to_json($e);
         }

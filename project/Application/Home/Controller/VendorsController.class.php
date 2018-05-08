@@ -34,6 +34,9 @@ class VendorsController extends HomebaseController {
                 E('无数据!',201);
             }
 
+            session('waterOrder.province',$map['province']);
+            session('waterOrder.city',$map['city']);
+            session('waterOrder.district',$map['district']);
 
             $info = $this->model->where($map)->field('id,name')->select();
             if (empty($info)) {
@@ -44,7 +47,6 @@ class VendorsController extends HomebaseController {
                 $where['result']=array('neq',2);
                 foreach ($info as &$item) {
                     $where['vid'] = $item['id'];
-//                    dump($where);
                     $item['num'] = $work->where($where)->count('id');
                 }
 
