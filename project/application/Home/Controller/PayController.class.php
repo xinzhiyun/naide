@@ -22,18 +22,45 @@ class PayController extends HomebaseController {
             }
             $waterOrder['pay'] = $pay;
 
-
             $setmeal = M('setmeal')->field('money')->find($waterOrder['setMealId']);
+            dump($waterOrder);
 
             if(isset($setmeal['money']) && $setmeal['money'] == $waterOrder['goodsInfo']['goodsPrice']){
                 //创建订单
+                $order=array(
+                    'orderid'=> gerOrderSN(),
+                    'uid'=>$waterOrder['uid'],
+                    'phone'=>$waterOrder['phone'],
+                    'name'=>$waterOrder['name'],
+                    'province'=>$waterOrder['province'],
+                    'city'=>$waterOrder['city'],
+                    'district'=>$waterOrder['district'],
+                    'address'=>$waterOrder['address'],
+                    'vid'=>$waterOrder['sid'],
+                    'setmeal_id'=>$waterOrder['setMealId'],
+                    'type_id'=>$waterOrder['tid'],
+                    'describe'=>$waterOrder['describe'],
+                    'goods_img'=>$waterOrder['goodsInfo']['imgSrc'],
+                    'goods_title'=>$waterOrder['goodsInfo']['goodsTitle'],
+                    'goods_detail'=>$waterOrder['goodsInfo']['goodsDetail'],
+                    'goods_price'=>$waterOrder['goodsInfo']['goodsPrice'],
+                    'goods_num'=>$waterOrder['goodsInfo']['goodsNum'],
+                    'paytype'=>$waterOrder['pay'],
+                    'money'=>$waterOrder['goodsInfo']['goodsNum']*$waterOrder['goodsInfo']['goodsPrice'],
+                    'flow'=>$waterOrder['flow'],
+                    'created_at'=>time(),
+                    'updated_at'=>time(),
+                    'is_play'=>0
+                );
 
-
-            }else{
+                $orderid = 123;
                 $this->ajaxReturn(array(
-                    'msg'=>'订单信息已更新',
-                    'status'=>202,
+                    'orderid'=>$orderid,
+                    'status'=>200,
+                    'msg'=>'订单创建成功',
                 ),'JSON');
+            }else{
+                E('订单信息已更新',202);
             }
         } catch (\Exception $e) {
             $this->to_json($e);
@@ -69,7 +96,9 @@ class PayController extends HomebaseController {
                 E('套餐已更新,请重新选择', 201);
             }
             session('waterOrder.setMealId',$setMealId);
+            session('waterOrder.describe',$info['describe']);
             session('waterOrder.tid',$info['tid']);
+            session('waterOrder.flow',$info['flow']);
             $goodsInfo=array(
                 'imgSrc'=>'../../Public/images/bj.png',
                 'goodsTitle'=>'耐得饮水机',

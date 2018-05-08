@@ -30,7 +30,6 @@ class UsersController extends HomebaseController {
                 $reg['password'] = md5(md5($data['upwd']));
             }
 
-
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {
@@ -53,16 +52,14 @@ class UsersController extends HomebaseController {
             }
 
             if($res){
-                $order['uid'] = $uid;
-                $order['name'] = $reg['name'];
-                $order['phone'] = $reg['user'];
+                session('waterOrder.uid',$uid);
+                session('waterOrder.name',$reg['name']);
+                session('waterOrder.phone',$reg['user']);
+                session('waterOrder.uid',$uid);
             } else {
                 //用户注册失败
                 E('用户注册失败', 201);
             }
-
-            session('waterOrder',$order);
-
             E('注册成功', 200);
 
         } catch (\Exception $e) {

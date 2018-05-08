@@ -92,11 +92,29 @@ function gerOrderId()
 }
 
 function onlyOrderId(){                     
-  // $str = date('Ymd').time().mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999);
+//   $str = date('Ymd').time().mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999);
   $str = mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999).time();
   $yCode = mb_substr($str, 0, 15);
   return $yCode;
 }
+
+/**
+ * 生产唯一的水机订单ID
+ */
+function gerOrderSN()
+{
+    do {
+        $orderId = date('Ymd').time().mt_rand(1111111, 9999999).mt_rand(1111111, 9999999);
+        //查询订单号是否存在
+        $oid = M('order_water')->where("`order_id`='{$orderId}'")->field('id')->find();
+        // 如果订单号已存在再重新获取一次
+    } while ($oid);
+
+    // 绝对唯一的32位订单ID号
+    return $orderId;
+}
+
+
 
 /**
  * @param $data
