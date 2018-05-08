@@ -20,12 +20,20 @@ class VendorsController extends HomebaseController {
         try {
             $data = I('post.');
 
-            if (!empty($data['pos'])) {
-                $address = trim($data['pos']);
-                $map['address']=array('like',"%".$address."%");
-            }else{
-                E('无数据!', 201);
+            if (!empty($data['province'])) {
+                $map['province']=trim($data['province']);
             }
+            if (!empty($data['city'])) {
+                $map['city']=trim($data['city']);
+            }
+            if (!empty($data['district'])) {
+                $map['district']=trim($data['district']);
+            }
+
+            if(empty($map)){
+                E('无数据!',201);
+            }
+
 
             $info = $this->model->where($map)->field('id,name')->select();
             if (empty($info)) {
