@@ -36,6 +36,8 @@ class UsersController extends HomebaseController {
                 $order['address'] = $data['address'];
             }
 
+            $order['sid'] = $data['sid'];//服务站的id
+
             $m =  M('users');
             $info = $m->where('user='.$reg['user'])->find();
 
