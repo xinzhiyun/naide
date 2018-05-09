@@ -24,11 +24,18 @@ class UsersController extends HomebaseController {
                 $reg['user'] = $data['uphone'];
             }
 
-            if (empty($data['upwd'])) {
-                E('密码不能为空', 201);
-            } else {
-                $reg['password'] = md5(md5($data['upwd']));
+            if (isset($data['has'])) {
+                if (!empty($data['upwd'])) {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }else{
+                if (empty($data['upwd'])) {
+                    E('密码不能为空', 201);
+                } else {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
             }
+
 
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
@@ -55,7 +62,6 @@ class UsersController extends HomebaseController {
                 session('waterOrder.uid',$uid);
                 session('waterOrder.name',$reg['name']);
                 session('waterOrder.phone',$reg['user']);
-                session('waterOrder.uid',$uid);
             } else {
                 //用户注册失败
                 E('用户注册失败', 201);
@@ -173,6 +179,18 @@ class UsersController extends HomebaseController {
         }
     }
 
+    public function buyinfo()
+    {
+        if(isset($_GET['has'])){
+
+            $homeuser = session('homeuser');
+
+            session('waterOrder.uid',$homeuser['id']);
+            session('waterOrder.name',$homeuser['name']);
+            session('waterOrder.phone',$homeuser['user']);
+        }
+        $this->display();
+    }
 
 }
 

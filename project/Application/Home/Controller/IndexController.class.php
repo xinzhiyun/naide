@@ -6,7 +6,13 @@ use Common\Controller\HomebaseController;
  */
 class IndexController extends HomebaseController {
 
+    public function index()
+    {
+        $homeuser = session('homeuser');
+//        dump($homeuser);
 
+        $this->display();
+    }
 
 }
 

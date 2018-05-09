@@ -1,7 +1,9 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Pay;
 use Home\Controller\WechatController;
+use Think\Log;
 
 
 class PayController extends HomebaseController {
@@ -77,6 +79,7 @@ class PayController extends HomebaseController {
                     'updated_at'=>time(),
                     'is_play'=>0,
                     'is_work'=>0,
+                    'is_pay'=>0
                 );
 
                 $waterOrder_model = M('order_water');
@@ -158,8 +161,6 @@ class PayController extends HomebaseController {
         }
     }
 
-
-
     /**
      * 购买水机-加载水机套餐列表
      */
@@ -186,12 +187,38 @@ class PayController extends HomebaseController {
         $this->ajaxReturn($data,'JSON');
     }
 
+    /**
+     * 水机支付回调
+     */
+    public function notify_water()
+    {
+        $xml=file_get_contents('php://input', 'r');
+        Log::write($xml,'水机支付回调xml');
 
-    
-    
+        if($xml) {
+            //解析微信返回数据数组格式
+            $result = Pay::notifyData($xml);
+            Log::write(json_encode($result),'水机支付回调');
+            if(!empty($result['out_trade_no'])){
+                // 获取传回来的订单号
+                $map['order_id'] = $result['attach'];
+                $map['is_pay'] = 0;
+                $waterOrder_model = M('order_water');
+                // 查询订单是否已处理
+                $orderData = $waterOrder_model->where($map)->field('is_pay,money,id')->find();
+                // 如果订单未处理，订单支付金额等于订单实际金额
+                if(empty($orderData['is_pay']) && $orderData['money'] == $result['total_fee']){
+                    $data=array(
+                        'is_pay'=>1
+                    );
+                    $waterOrder_model->where('id='.$orderData['id'])->save($data);
+                }
+            }
+        }
+    }
+
 
 
     //------水机商品购买-end----------------
-
 
 }

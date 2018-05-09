@@ -1,7 +1,6 @@
 <?php
 namespace Common\Controller;
 use Think\Controller;
-
 class AppframeController extends Controller {
 
     public function __call($a,$b)

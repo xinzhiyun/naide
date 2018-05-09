@@ -4,26 +4,56 @@ namespace Common\Controller;
 use Common\Controller\AppframeController;
 use \Org\Util\WeixinJssdk;
 
-class HomebaseController extends AppframeController {
+class HomebaseController extends AppframeController
+{
+
+//	function _initialize() {
+//	    //加载微信支付信息
+//        $weixin = new WeixinJssdk();
+//        $signPackage = $weixin->getSignPackage();
+//        $this->assign('wxinfo',$signPackage);
+
+
+//        // 查询用户信息
+//        //$info = M('Users')->where("open_id='{$openId}'")->find();
+//
+//        // 判断用户是否存在
+//        if($info){
+//            // 用户当前设备
+//            $info['did'] = M('currentDevices')->where("`uid`={$info['id']}")->field('did')->find()['did'];
+//
+//            $_SESSION['homeuser'] = $info;
+//        }
+
+//	}
 
 	function _initialize() {
-	    //加载微信支付信息
-        $weixin = new WeixinJssdk();
-        $signPackage = $weixin->getSignPackage();
-        $this->assign('wxinfo',$signPackage);
+//        session('homeuser',null);exit;
 
-
-        // 查询用户信息
-        $info = M('Users')->where("open_id='{$openId}'")->find();
-
-        // 判断用户是否存在
-        if($info){
-            // 用户当前设备
-            $info['did'] = M('currentDevices')->where("`uid`={$info['id']}")->field('did')->find()['did'];
-
-            $_SESSION['homeuser'] = $info;
+        $homeuser = session('homeuser');
+        if (empty($homeuser)) {
+            //redirect(U('/Home/Login'), 2, '请登录...');
+            $user=M('users')->find();
+            session('homeuser',$user);
         }
 
+
+        if ( empty(session('homeuser.did')) ) {
+            $devices_model = M('devices');
+            $usermap = array(
+                'uid'=>session('homeuser.id'),
+                'default'=>1,
+            );
+            $did = $devices_model->where($usermap)->getField('id');
+            if(empty($did)){
+                $did = $devices_model->where('uid='.session('homeuser.id'))->getField('id');
+                if(empty($did)){
+                    redirect(U('/Home/Device/index'), 2, '无设备');
+                }else{
+                    $devices_model->where('id='.$did)->save(['default'=>1]);
+                }
+            }
+        }
 	}
 
     // 图片上传

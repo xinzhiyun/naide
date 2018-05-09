@@ -182,18 +182,17 @@ function is_user_login(){
     return !empty($session_user);
 }
 
-///**
-// * 获取当前登录前台用户id
-// * @return int
-// */
-//function get_current_user(){
-//    $session_user_id=session('user.id');
-//    if(!empty($session_user_id)){
-//        return $session_user_id;
-//    }else{
-//        return 0;
-//    }
-//}
+/**
+ * 将xml转为array
+ * @param  string $xml xml字符串
+ * @return array       转换得到的数组
+ */
+function xmltoArray($xml){
+    //禁止引用外部xml实体
+    libxml_disable_entity_loader(true);
+    $result= json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+    return $result;
+}
 
 
 

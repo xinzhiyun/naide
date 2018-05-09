@@ -5,6 +5,7 @@ use Common\Controller\HomebaseController;
 class WechatController extends HomebaseController
 {
 
+
     /**
      * 统一下单订单支付并返回数据 JsApi
      * @return string json格式的数据，可以直接用于js支付接口的调用
