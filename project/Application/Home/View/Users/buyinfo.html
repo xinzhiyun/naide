@@ -107,10 +107,10 @@
 		back2home[0].innerHTML = '';
 		
 		// 请求服务站数据
-		function getService(province , city , area, callback){
+		function getService(province , city , district, callback){
 			$.ajax({
 				url: '{{:U("Home/Vendors/getService")}}',
-				data: {province:province , city:city , area: area},
+				data: {province:province , city:city , district: district},
 				type: 'post',
 				success: function(res){
 					// console.log('请求成功！', res);
@@ -146,7 +146,7 @@
 			city = $('.ctext').text(),
 			district = $(this).text();
 			$(".uaddress").text( (!province && !city && !district) ? '请选择' : province + ' ' + city + ' ' + district);
-			 
+			
 			// 选择完地区时同时请求服务站数据
 			if($(this).text().indexOf('请选择') == -1){
 				setTimeout(function(){
