@@ -22,7 +22,7 @@ window.onload = function() {
 			var _this = this;
 			_this.userInfo.username = waterOrder.name;
 			_this.userInfo.userPhone = waterOrder.phone;
-			_this.userInfo.userAddress = waterOrder.address;			
+			_this.userInfo.userAddress = waterOrder.province + waterOrder.city + waterOrder.district + " " + waterOrder.address;			
 		},
 		methods: {
 			// 点击付款时弹出付款方式
