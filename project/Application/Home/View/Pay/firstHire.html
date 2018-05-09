@@ -25,8 +25,8 @@
 			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
 			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
 			jsApiList: [
-				// 所有要调用的 API 都要加到这个列表中
-				'chooseWXPay'
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
 			]
 		});
 		
@@ -71,19 +71,19 @@
 					<p style="padding-left:.5rem;">选择支付方式</p>
 				</li>
 				<li>
-					<div class="payWay">
+					<div class="payWay" payIndex="1">
 						<span class="iconfont icon-circleyuanquan quanquan"></span>
 						<p>
 							<span class="iconfont icon-weixinzhifu" style="color:rgb(82,165,73)"></span>微信支付
 						</p>
 					</div>
-					<div class="payWay">
+					<div class="payWay" payIndex="2">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p class="ylpic">
 							<img src="__PUBLIC__/Home/images/yl.png" alt="">银联支付
 						</p>
 					</div>
-					<div class="payWay">
+					<div class="payWay" payIndex="3">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p>
 							<span class="iconfont icon-alipay" style="color:rgb(0,170,239)"></span>支付宝支付
@@ -104,28 +104,48 @@
 		document.querySelector('.back2home').style.display = 'none';
 		
 		function sendAjax() {
-			$.ajax({
-				url: "{{:U('Home/Pay/Waterbuy')}}",
-				type: "post",
-				data: {pay: 1},
-				success: function(res) {
-					console.log("链接成功", res)
-					if(res.status == 200) {
-						// notify_url-支付回调地址 order_id-订单号 price-商品价格
-						var orderInfo = {notify_url: res.notify_url, order_id: res.order_id, price: res.price};
+			
+			// 选择付款方式
+			var payIndex = $(".icon-circleyuanquan").parent("div").attr("payIndex");
+			// 判断支付方式
+			switch(payIndex) {
+				case '1':
+					$.ajax({
+						url: "{{:U('Home/Pay/Waterbuy')}}",
+						type: "post",
+						data: {pay: payIndex},
+						success: function(res) {
+							console.log("连接成功", res)
+							if(res.status == 200) {
+								// notify_url-支付回调地址 order_id-订单号 price-商品价格
+								var orderInfo = {notify_url: res.notify_url, order_id: res.order_id, price: res.price};
+								// 返回信息保存到sessionStorage中
+								sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
 
-						sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
-						// 调用微信支付方法
-						weixinPay(res);
-					}else {
-						noticeFn({text: "付款出错!请重新支付"});
-					}
-				},
-				error: function(res) {
-					console.log("失败", res);		
-					noticeFn({text: '系统出了一点小问题，请稍后再试！'});
-				}
-			});
+								// 调用微信支付方法
+								weixinPay(res);
+
+							}else {
+								noticeFn({text: "付款出错!请重新支付"});
+							}
+						},
+						error: function(res) {
+							console.log("失败", res);		
+							noticeFn({text: '系统出了一点小问题，请稍后再试！'});
+						}
+					});
+				
+				break;
+				case '2':
+					// 银联支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+				break;
+				case '3':
+					// 支付宝支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+				break;
+			}
+			
 		}
 		
 	</script>
