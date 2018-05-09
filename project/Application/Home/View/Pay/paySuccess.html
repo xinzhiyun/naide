@@ -15,4 +15,10 @@
 	</div>
 </body>
 <script src="__PUBLIC__/Home/js/public.js"></script>
+<script>
+	// 支付成功后两秒后跳入扫描下载app页面
+	setTimeout(function() {
+		window.location.href = "{{:U('pay/installApp')}}";
+	}, 2000);
+</script>
 </html>
