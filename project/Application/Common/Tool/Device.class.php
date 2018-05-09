@@ -18,17 +18,29 @@ class Device extends Redis
     );
 
     /**
-     * 当前用户的设备详情
-     * @param $key 设备号
+     * 获取设备号
+     * @param $did  设备ID
      * @return mixed
      */
-    public static function get_devices_detail($uid='')
+    public static function get_devices_sn($did='')
     {
-//        empty($uid)?$_SESSION['']
-//        if (empty($uid)) {
-//
-//        }
-//        M('')->
+        if(empty($did)){
+            return '';
+        }
+        self::connect();
+
+        $key = "devices_sn_".$did;
+        if (self::$redis->exists($key)) {
+            $device_code = self::$redis->get($key);
+            if(!empty($device_code)){
+                return $device_code;
+            }
+        }
+
+        $device_code = M('devices')->where('id='.$did)->getField('device_code');
+        self::$redis->set($key,$device_code);
+
+        return $device_code;
     }
 
     /**

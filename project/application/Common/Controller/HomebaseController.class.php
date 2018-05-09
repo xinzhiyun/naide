@@ -36,10 +36,10 @@ class HomebaseController extends AppframeController
         $homeuser = session('homeuser');
         if (empty($homeuser)) {
             //redirect(U('/Home/Login'), 2, '请登录...');
+
             $user=M('users')->find();
             session('homeuser',$user);
         }
-
 
         if ( empty(session('homeuser.did')) ) {
             $devices_model = M('devices');
@@ -56,6 +56,7 @@ class HomebaseController extends AppframeController
                     $devices_model->where('id='.$did)->save(['default'=>1]);
                 }
             }
+            session('homeuser.did',$did);
         }
 	}
 

@@ -40,10 +40,9 @@ class UsersController extends HomebaseController {
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {
-                $order['address'] = $data['address'];
+                session('waterOrder.address',$data['address']);
             }
 
-            $order['sid'] = $data['sid'];//服务站的id
 
             $m =  M('users');
             $info = $m->where('user='.$reg['user'])->find();
@@ -59,6 +58,7 @@ class UsersController extends HomebaseController {
             }
 
             if($res){
+                session('waterOrder.sid',$data['sid']);
                 session('waterOrder.uid',$uid);
                 session('waterOrder.name',$reg['name']);
                 session('waterOrder.phone',$reg['user']);
