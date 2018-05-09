@@ -14,11 +14,11 @@
 	<form action='' id='form' method='POST' class='am-container'>
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3 nowrap'>收&nbsp;&nbsp;货&nbsp;&nbsp;人</label>
-			<input type="text" class='am-u-sm-9 uname' name='uname' placeholder="请输入收货人">
+			<input type="text" class='am-u-sm-9 uname' value="{{$_SESSION['waterOrder']['name']}}" name='uname' placeholder="请输入收货人">
 		</div>
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3'>手机号码</label>
-			<input type="text" class='am-u-sm-9 uphone' name='uphone' placeholder="请输入手机号">
+			<input type="text" class='am-u-sm-9 uphone' value="{{$_SESSION['waterOrder']['phone']}}" name='uphone' placeholder="请输入手机号">
 		</div>
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3'>设置密码</label>
@@ -103,14 +103,48 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
 	<script>
-		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].innerHTML = '';
-
+		// 隐藏首页按钮
+		document.querySelector('.back2home').style.display = 'none';
+		var href = location.href;
+		var has = null;		// 再次购买标志
+		var oldName, oldPhone;
+		if(href.indexOf('has') > -1){
+			// 隐藏密码框
+			document.querySelector('.upwd').parentNode.style.display = 'none';
+			// 显示首页按钮
+			document.querySelector('.back2home').style.display = 'block';
+			// 再次购买
+			has = true;
+			var inputhas = document.createElement('input');
+			inputhas.setAttribute('name','has');
+			inputhas.setAttribute('value','1');
+			inputhas.setAttribute('type','hidden');
+			document.querySelector('#form').appendChild(inputhas);
+			// 旧账号
+			oldName = "{{$_SESSION['waterOrder']['name']}}";
+			oldPhone = "{{$_SESSION['waterOrder']['phone']}}";
+		}
+		// 监听手机号(再次购买时候有用，第一次购买用不到)
+		document.querySelector('.uphone').onchange = function(){
+			var uphone = trimFn(this.value);
+			console.log(uphone)
+			if(has){
+				// 不是第一次购买
+				if(trimFn(oldPhone) != uphone && uphone){
+					// 显示密码框
+					document.querySelector('.upwd').parentNode.style.display = 'block';
+					noticeFn({text:'新的手机号码是独立账号！<br/>可作为登录账号使用！', time: 2500});
+				}else if(trimFn(oldPhone) == uphone && uphone){
+					// 未修改(使用旧账号)
+					document.querySelector('.upwd').removeAttribute('name');
+				}
+			}
+		}
 		// 请求服务站数据
 		function getService(pos, callback){
 			$.ajax({
 				url: '',
-				data: {pos:pos},
+				data: {pos: pos},
 				ttype: 'post',
 				success: function(res){
 					console.log('请求成功！', res);
@@ -178,7 +212,7 @@
 					upwd = trimFn($('.upwd').val()),
 					uaddress = trimFn($('.uaddress').text()),
 					uaddrdetail = trimFn($('.uaddrdetail').val());
-
+				
 				//验证收货人
 				if(!uname){
 					noticeFn({text:'请输入收货人！'});

@@ -253,8 +253,8 @@ var fadeFn = function(obj){
             '<span id="closebtn" class="iconfont icon-chacha1" ></span>'+
         '</div>'+
         '<div style="margin: 16px 0;">'+
-            '<p><i class="am-icon-question-circle-o"></i>&nbsp;确定要&nbsp;'+
-            '<span class="text" style="color:#0d94f3;"></span>&nbsp;吗？</p>'+
+            '<p><i class="am-icon-question-circle-o"></i>&nbsp;'+
+            '<span class="text" style="color:#0d94f3;"></span>&nbsp;</p>'+
         '</div>'+
         '<div id="confirmdiv3">'+
             '<span>&emsp;</span>'+
