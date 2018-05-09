@@ -19,4 +19,6 @@ return array(
 
     'DEBUG'                  => true,
     'DEDUG_OPENID'           =>'oXwY4t7hYDxtr2sMqqEa5ZVJpinU',
+
+    'ws'                     =>'ws://ddjz.ddjz88.com:6001'
 );

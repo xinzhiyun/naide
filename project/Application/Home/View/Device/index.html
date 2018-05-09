@@ -14,12 +14,13 @@
 		<div>所有设备</div>
 		<div>
 			<ul>
-				<li v-for="(each_code,index_number) in device_code" @click="tick()" class="li_code">
+				<li v-for="(each_code,index_number) in device_code" @click="tick()" :did="each_code.id" class="li_code">
 					<div></div>
 					<div>
 						设备号：
 						<span v-cloak>{{each_code.code}}</span>
-						<p class="tick_i"><i class="iconfont icon-dagouwuquan" v-if="default_code == each_code.code"></i></p>
+						<p class="tick_i"><i class="iconfont icon-dagouwuquan"
+											 :style="{display: (1 == each_code.default) ? 'block' : 'none'}"></i></p>
 					</div>
 				</li>
 				<li><h1 v-if="false">Yes</h1></li>

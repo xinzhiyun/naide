@@ -296,7 +296,7 @@
 					console.log('err: ',err);
 				}
 			});
-			var wsurl = "ws://localhost:6001";
+			var wsurl = "{{$config['ws']}}";
 			var int;	// 定时查询
 			// websocket 连接
 			wsFun(wsurl, function(){
