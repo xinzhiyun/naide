@@ -187,10 +187,8 @@ class UsersController extends HomebaseController {
 
     public function buyinfo()
     {
-        if(isset($_GET['has'])){
-
+        if(session('waterOrder.has')==1){
             $homeuser = session('homeuser');
-
             session('waterOrder.uid',$homeuser['id']);
             session('waterOrder.name',$homeuser['name']);
             session('waterOrder.phone',$homeuser['user']);

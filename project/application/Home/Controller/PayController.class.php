@@ -119,6 +119,9 @@ class PayController extends HomebaseController {
      */
     public function lease()
     {
+        if (isset($_GET['has'])) {
+            session('waterOrder.has',1);
+        }
         //协议  后期改为系统设置
         $agreement ="购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致";
 
