@@ -34,9 +34,9 @@ class VendorsController extends HomebaseController {
                 E('无数据!',201);
             }
 
-            session('waterOrder.province',$map['province']);
-            session('waterOrder.city',$map['city']);
-            session('waterOrder.district',$map['district']);
+            session('waterOrder.province',$map['province']??'');
+            session('waterOrder.city',$map['city']??'');
+            session('waterOrder.district',$map['district']??'');
 
             $info = $this->model->where($map)->field('id,name')->select();
             if (empty($info)) {
