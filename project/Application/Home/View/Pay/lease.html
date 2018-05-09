@@ -74,6 +74,7 @@
 			data: {
 				meal:'',
 				mealSet: '', //套餐列表
+				succFlag: true //防止多次点击同意提交
 			},
 			mounted(){
 				var _this = this;
@@ -100,27 +101,37 @@
 			methods: {
 				// 点击同意时模拟框消失并且跳入下一步
 				accepts: function() {
+					var _this = this;
 					// 套餐id
 					var meal_id = $('.mealselect').attr("mealId");
-					// 提交数据并跳转
-					$.ajax({
-						url: "{{:U('Home/Pay/setMeal')}}",
-						type: "post",
-						data: {setMealId: meal_id},
-						success: function(res) { 
-							console.log("成功",res);
-							if(res.status == 200) {
-								// 成功跳转下一个页面
-								location.href = '{{:U("Home/Users/buyinfo")}}';
-							}else if(res.status == 201){
-								noticeFn({text: res.msg});
+					if(_this.succFlag) {
+						_this.succFlag = false;
+						// 提交数据并跳转
+						$.ajax({
+							url: "{{:U('Home/Pay/setMeal')}}",
+							type: "post",
+							data: {setMealId: meal_id},
+							success: function(res) { 
+								// 恢复提交
+								_this.succFlag = true;
+								console.log("成功",res);
+								if(res.status == 200) {
+									// 成功跳转下一个页面
+									
+									location.href = '{{:U("Home/Users/buyinfo")}}';
+								}else if(res.status == 201){
+									noticeFn({text: res.msg});
+								}
+								
+							},
+							error: function(res) {
+								// 恢复提交
+								_this.succFlag = true;
+								console.log("失败", res);
 							}
-							
-						},
-						error: function(res) {
-							console.log("失败", res);
-						}
-					})
+						})
+					}
+					
 				},
 				// 确认选择 提交内容
 				confirmSelects: function() {
