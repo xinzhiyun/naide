@@ -145,7 +145,13 @@ class UsersController extends HomebaseController {
                 E('密码错误!', 201);
             } else {
                 $_SESSION['homeuser'] = $info;
-                E('登录成功', 200);
+
+                $this->ajaxReturn(array(
+                    'PHPSESSID'=>cookie('PHPSESSID'),
+                    'status'=>200,
+                    'msg'=>'登录成功',
+                ),'JSON');
+
             }
 
         } catch (\Exception $e) {

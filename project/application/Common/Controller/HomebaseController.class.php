@@ -29,6 +29,9 @@ class HomebaseController extends AppframeController
 
 	function _initialize() {
 //        session('homeuser',null);exit;
+        if(isset($_GET['PHPSESSID'])){
+            cookie('PHPSESSID',$_GET['PHPSESSID']);
+        }
 
         $homeuser = session('homeuser');
         if (empty($homeuser)) {
