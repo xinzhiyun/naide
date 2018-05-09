@@ -112,7 +112,9 @@
 					console.log("链接成功", res)
 					if(res.status == 200) {
 						// notify_url-支付回调地址 order_id-订单号 price-商品价格
-						session.setItem({orderInfo: {notify_url: res.notify_url, order_id: res.order_id, price: res.price}});
+						var orderInfo = {notify_url: res.notify_url, order_id: res.order_id, price: res.price};
+
+						sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
 						// 调用微信支付方法
 						weixinPay(res);
 					}else {
