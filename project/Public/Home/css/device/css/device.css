@@ -1,6 +1,17 @@
 body {
   background: #fff;
 }
+.buyd {
+  width: 24px;
+  position: fixed;
+  display: inline-block;
+  right: 0;
+  bottom: 10vh;
+  padding: 4px 1vw;
+  z-index: 99;
+  border-radius: 16px 0 0 16px;
+  background: #eee;
+}
 .device_administrate_bg {
   width: 100%;
   background: #fff;
