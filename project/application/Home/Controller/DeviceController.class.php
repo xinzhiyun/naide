@@ -24,6 +24,10 @@ class DeviceController extends HomebaseController
         
     }
 
+    /**
+     * 设定默认设备
+     * @param did 设备ID
+     */
     public function setDefault()
     {
         try {
