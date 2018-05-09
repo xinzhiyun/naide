@@ -146,7 +146,7 @@
 			city = $('.ctext').text(),
 			district = $(this).text();
 			$(".uaddress").text( (!province && !city && !district) ? '请选择' : province + ' ' + city + ' ' + district);
-			
+			 
 			// 选择完地区时同时请求服务站数据
 			if($(this).text().indexOf('请选择') == -1){
 				setTimeout(function(){
