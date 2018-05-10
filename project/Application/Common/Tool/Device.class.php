@@ -16,7 +16,7 @@ class Device extends Redis
         'sid',              //设备状态表的ID
         'type_id',          //设备类型
     );
-
+    
     /**
      * 获取设备号
      * @param $did  设备ID
@@ -108,6 +108,16 @@ class Device extends Redis
         return self::$redis->hset($key,$field,$val);
     }
 
+
+    /**
+     * 设置默认设备
+     * @param $uid
+     * @param $did
+     */
+    public function setdefault($uid,$did)
+    {
+        
+    }
 
 
 

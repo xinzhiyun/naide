@@ -58,6 +58,8 @@ class HomebaseController extends AppframeController
             }
             session('homeuser.did',$did);
         }
+        
+
 	}
 
     // 图片上传
