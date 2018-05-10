@@ -114,6 +114,20 @@ function gerOrderSN()
     return $orderId;
 }
 
+/**
+ * 生成工单号
+ * @return string
+ */
+function get_work_no(){
+    do {
+        $no = date('YmdHis').mt_rand(111, 999);
+        $oid = M('work')->where("`no`='{$no}'")->field('id')->find();
+    } while ($oid);
+
+    // 绝对唯一的32位订单ID号
+    return $no;
+}
+
 
 
 /**
@@ -171,6 +185,8 @@ function replace_array_value($data, array $replace, $suffix="")
     },$arr);
     return $data;
 }
+
+
 
 
 /**

@@ -2,7 +2,7 @@
 namespace Common\Tool;
 
 
-class Pay
+class WeiXin
 {
     public static $wxconfig = array(      //微信配置
         'APPID'=>'wxae48f3bbcda86ab1',

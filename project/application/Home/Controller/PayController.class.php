@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
-use Common\Tool\Pay;
+use Common\Tool\WeiXin;
 use Home\Controller\WechatController;
 use Think\Log;
 
@@ -200,7 +200,7 @@ class PayController extends HomebaseController {
 
         if($xml) {
             //解析微信返回数据数组格式
-            $result = Pay::notifyData($xml);
+            $result = WeiXin::notifyData($xml);
             Log::write(json_encode($result),'水机支付回调');
             if(!empty($result['out_trade_no'])){
                 // 获取传回来的订单号
