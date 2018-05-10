@@ -125,7 +125,12 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
 	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
+		var info = {{$info}};
+        console.log(info);
+        console.log(info.name);
+
+
+        var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 
 		$(function(){

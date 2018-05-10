@@ -224,4 +224,11 @@ class PayController extends HomebaseController {
 
     //------水机商品购买-end----------------
 
+
+    public function buy()
+    {
+        $list = M('setmeal')->where('type=0')->select();
+        $this->assign('list',$list);
+        $this->display();
+    }
 }

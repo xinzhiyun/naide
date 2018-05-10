@@ -63,6 +63,8 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/pay/buy.js"></script>
 	<script defer>
+		var list = {{$list|json_encode}};
+		console.log(list);
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>

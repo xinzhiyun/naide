@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Device;
 
 /**
  * 报修
@@ -11,8 +12,11 @@ class RepairController extends HomebaseController
 
     public function index()
     {
+//        $did = session('homeuser',null);
 
-        $info['device_code'] =
+        $did = session('homeuser.did');
+        $info = M('devices')->find($did);
+
         $this->assign('info',json_encode($info));
         $this->display();
     }
