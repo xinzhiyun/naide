@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
 </head>
 <body style="overflow:auto">
 <div class="repair-all_bg" id="repair_vue" v-cloak>
@@ -77,10 +78,43 @@
 						<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}&nbsp;</div>
 					</li>
 					<li>
+						<div class="am-u-sm-3 fs-l">省市区：</div>
+							<span class='areabtn text_bottom' v-text="info_confirm.addPCA" @click="choose_area"></span>
+					</li>
+					<li>
 						<div class="am-u-sm-3 fs-l">详细地址：</div>
-						<input type="text" :value="info_confirm.detailed_add" class="text_bottom">
+
+						<input type="text" :value="info_confirm.detailed_add" class="canInput text_bottom" >
 					</li>
 				</ul>
+				<!-- 地区选择弹出模板 -->
+				<div id="areaChoose" class="citys">
+					<div class="areaChoosebg">&emsp;</div>
+					<div class="areaDiv">
+						<div class='atop'>
+							<p>&emsp;</p>
+							<h2 class='am-h2 am-text-center'>所在地区</h2>
+							<button type="button" class="am-close close">&times;</button>
+						</div>
+						<div>
+							<div>
+								<p class='ptext ltext fblue'>请选择&nbsp;</p>
+								<div class='province areadiv' value="440000" data-code="440000"></div>
+							</div>
+							<div>
+								<p class='ctext ltext fblue'>&nbsp;</p>
+								<div class="city areadiv" value="440100" data-code="440100"></div>
+							</div>
+							<div>
+								<p class='atext ltext fblue'>&nbsp;</p>
+								<div class="area areadiv" value="440103" data-code="440103" @click="close_choose"></div>
+							</div>
+						</div>
+					</div>
+					<div id="confirmAreaChoose">
+						<div>确定</div>
+					</div>
+				</div>
 			</div>
 		<!-- 信息确认部分结束 -->
 		
@@ -123,7 +157,9 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
 	<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
+	<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
 	<script defer>
 		var info = {{$info}};
         console.log(info);
@@ -191,7 +227,7 @@
 		    } 
 		    $(".file_li").on("click","#chacha",function(){
 		    	$(this).parent("#result").parent().remove();
-		    });
+			});
 		})
 
 	</script>

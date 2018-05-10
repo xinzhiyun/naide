@@ -164,10 +164,12 @@ textarea {
 }
 #repair-infoconfirm ul li:nth-child(2),
 #repair-infoconfirm ul li:nth-child(3),
-#repair-infoconfirm ul li:nth-child(4) {
+#repair-infoconfirm ul li:nth-child(4),
+#repair-infoconfirm ul li:nth-child(5) {
   border-bottom: 0.02133333rem solid #e0e0e0;
 }
-#repair-infoconfirm ul li:nth-child(5) div {
+#repair-infoconfirm ul li:nth-child(5) div,
+#repair-infoconfirm ul li:nth-child(6) div {
   padding-top: 0.42666667rem;
 }
 #repair-infoconfirm ul .l_z {
@@ -237,3 +239,19 @@ textarea {
 .time_bg {
   display: none;
 }
+.detailInfo > span{
+  float: left;
+  display: inline !important;
+}
+.detailInfo > .canInput {
+  float: right;
+  display: inline-block !important;
+} 
+.areabtn {
+  line-height: 1.87733333rem;
+  float:right;
+  color: #8b8b8b;
+  font-size: 0.64rem;
+}
+
+

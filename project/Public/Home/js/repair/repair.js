@@ -5,7 +5,8 @@ var repair_bg_vue = new Vue({
 			linkman:"恩恩",//联系人
 			contact_number:"135-1354-1354",//联系电话
 			device_code:"123123123123123",//设备编码
-			detailed_add:"广东广州番禺区，钟村文化广场"//详细地址
+			addPCA: "广东 广州 番禺区",//省市区
+			detailed_add:"钟村文化广场"//详细地址
 		},
 		time_now:''
 	},
@@ -114,6 +115,23 @@ var repair_bg_vue = new Vue({
 			var repair_ul = $("#repair_ul");
 			var mask = $(".repair_bg");
 			repair_bg_vue.select_public(repair_ul,mask);
+		},
+		// 选择修改地址
+		choose_area:function() {
+			$("#areaChoose").fadeIn('fast');
+		},
+		// 关闭地区选择
+		close_choose:function(e) {
+			var _this = this;
+			var ev = e || window.event;
+			// 省市区
+			var province = $('.ptext').text(),
+			city = $('.ctext').text(),
+			district = $(ev.target).text();
+			this.info_confirm.addPCA = province + ' ' + city + ' ' + district;
+
+			// 选择地区模板消失
+			$("#areaChoose").fadeOut('fast');
 		}
 	},
 	mounted(){
