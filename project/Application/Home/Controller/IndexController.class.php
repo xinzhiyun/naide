@@ -11,7 +11,6 @@ class IndexController extends HomebaseController {
     {
         parent::__construct();
         $config['ws'] = C('ws');
-
         $this->assign('config',$config);
     }
 

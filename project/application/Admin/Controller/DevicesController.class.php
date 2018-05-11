@@ -10,6 +10,16 @@ use Think\Controller;
  */
 class DevicesController extends CommonController
 {
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $ws = C('ws');
+
+        $this->assign('ws',$ws);
+    }
     /**
      * 显示设备列表
      */
@@ -96,7 +106,7 @@ class DevicesController extends CommonController
                 ->where($map)
                 ->alias('d')
                 ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+//                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
                 ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
                 ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
                 ->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
@@ -187,10 +197,10 @@ class DevicesController extends CommonController
             ->where($map)
             ->alias('d')
             ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
-            ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+//            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+            ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-            ->field("statu.*,bind.*,vendors.*,type.*,d.*")
+            ->field("statu.*,vendors.*,type.*,d.*")
             ->find();
 
         // 滤芯信息

@@ -281,7 +281,7 @@ $(function(){
             var timer=null;
             var numAdd=0;
             var identify=0;
-            var websoket=new WebSocket("ws://120.27.12.1:6001");
+            var websoket=new WebSocket({{$ws}});
             var PackNum=0;//包数据
             var CmdList=[];//命令队列
             websoket.onopen=function(){

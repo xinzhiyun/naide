@@ -61,6 +61,7 @@ class ActionController extends Controller
         } else {
             Gateway::sendToUid($message['DeviceID'], $message);
         }
+        var_export($message);
     }
 
     /**

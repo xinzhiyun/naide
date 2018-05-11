@@ -28,13 +28,16 @@ class HomebaseController extends AppframeController
             if(empty($_SESSION['open_id'])){
                 $_SESSION['open_id'] = $weixin->GetOpenid();
             }
+
             if (empty($homeuser)) {
                 //redirect(U('/Home/Login'), 2, '请登录...');
 
                 $user = M('users')->where(['open_id'=>$_SESSION['open_id']])->find();
+                $user = M('users')->find();
                 session('homeuser',$user);
             }
         }else{
+
             //临时虚拟用户
             if (empty($homeuser)) {
                 //redirect(U('/Home/Login'), 2, '请登录...');
@@ -43,6 +46,7 @@ class HomebaseController extends AppframeController
                 session('homeuser',$user);
             }
         }
+
 
         //兼容安卓的夸端登录
         if(isset($_GET['PHPSESSID'])){
