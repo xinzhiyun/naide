@@ -275,7 +275,7 @@
 			// 请求当前设备数据
 			$.ajax({
 				url: '{{:U("Home/Index/index")}}',
-				type: 'get',
+				type: 'post',
 				async: false,
 				success: function(res){
 					console.log('res: ',res);
