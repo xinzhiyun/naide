@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\CommonController;
+use Common\Tool\Device;
 use Think\Controller;
 
 /**
@@ -203,21 +204,23 @@ class DevicesController extends CommonController
             ->field("statu.*,vendors.*,type.*,d.*")
             ->find();
 
-        // 滤芯信息
-        $filter = D('devices')
-            ->where($map)
-            ->alias('d')
-            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-            ->field('type.*') 
-            ->find();
-        $data['filterInfo'] = $this->getFilterDetail($filter);
+//        // 滤芯信息
+//        $filter = D('devices')
+//            ->where($map)
+//            ->alias('d')
+//            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
+//            ->field('type.*')
+//            ->find();
+        
+//        $data['filterInfo'] = $this->getFilterDetail($filter);
+        $data['filterInfo'] = Device::get_filter_info($data['statu']['type_id']);
 
         // 获取经销商信息
         $data['vendor'] = D('devices')
             ->where($map)
             ->alias('d')
-            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
-            ->join('__VENDORS__ v ON bind.vid=v.id', 'LEFT')
+//            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
+            ->join('__VENDORS__ v ON d.vid=v.id', 'LEFT')
             ->field('v.*')
             ->find();
         // 获取使用记录
@@ -233,6 +236,7 @@ class DevicesController extends CommonController
     public function getFilterDetail($sum)
     {
         unset($sum['id'],$sum['typename'],$sum['addtime']);
+
         $sum = array_filter($sum);
         foreach ($sum as $key => $value) {
             $str = stripos($value,'-');

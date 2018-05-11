@@ -19,6 +19,13 @@ class IndexController extends HomebaseController {
      */
     public function index()
     {
+        if(IS_AJAX){
+            $did = session('homeuser.did');
+            $this->ajaxReturn(array(
+                'deviceId'=> Device::get_devices_sn($did),
+                'status'=>200,
+            ),"JSON");
+        }
 
         $did = session('homeuser.did');
         $homedata['device_code'] = Device::get_devices_sn($did);

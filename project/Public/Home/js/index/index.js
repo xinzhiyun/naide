@@ -24,6 +24,11 @@ var home = new Vue({
 			    "PackType": "login",
 			    "Vison": 0,
 			},
+            bjson: {
+                "DeviceID": 'deviceId',
+                "PackType": "Select",
+                "Vison": 0,
+            },
 			statusIconName: '',								// 状态图标
 			statusIconClass: {
 				'0': 'iconfont icon-makewater glint',		// 制水

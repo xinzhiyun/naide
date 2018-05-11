@@ -1,5 +1,6 @@
 <?php
 namespace Api\Controller;
+use Common\Tool\Device;
 use Think\Controller;
 use Think\Log;
 use Org\Util\Gateway;
@@ -332,7 +333,10 @@ class ActionController extends Controller
         $msg['ReFlow'] = empty($data['reflow'])? 0 : $data['reflow'];
         $msg['Reday']  = empty($data['reday'])? 0 : $data['reday'];
 
-        $filter_life=$this->get_filter_info($data['deviceid']);
+//        $filter_life=$this->get_filter_info($data['deviceid']);
+        $type_id = Device::get_devices_info($data['deviceid'],'type_id');
+
+        $filter_life =  Device::get_filter_info($type_id);
         if(empty($filter_life)) return false;
        
         if ($msg['PackNum'] == 5) { //设备更新
@@ -416,23 +420,24 @@ class ActionController extends Controller
     }
 
 
-    public function get_filter_info($dcode)
-    {
-        $code = M('devices')->where("device_code={$dcode}")->find();
-//        $status = M('devices_statu')->where("DeviceID='{$dcode}'")->find();
-        $type = M('device_type')->where("id={$code['type_id']}")->find();
-
-        unset($type['id'], $type['typename'], $type['addtime']);
-        $sum = array_filter($type);
-        foreach ($sum as $key => $value) {
-            $str = stripos($value,'-');
-            $map['filtername'] = substr($value, 0,$str);
-            $map['alias'] = substr($value, $str+1);
+//    public function get_filter_info($dcode)
+//    {
+//        $code = M('devices')->where("device_code={$dcode}")->find();
+////        $status = M('devices_statu')->where("DeviceID='{$dcode}'")->find();
+//        $type = M('device_type')->where("id={$code['type_id']}")->find();
+//
+//        unset($type['id'], $type['typename'], $type['addtime']);
+//
+//        $sum = array_filter($type);
+//        foreach ($sum as $key => $value) {
+//            $str = stripos($value,'-');
+//            $map['filtername'] = substr($value, 0,$str);
+//            $map['alias'] = substr($value, $str+1);
+////            $res[] = M('filters')->where($map)->field('timelife,flowlife')->find();
 //            $res[] = M('filters')->where($map)->field('timelife,flowlife')->find();
-            $res[] = M('filters')->where($map)->field('timelife,flowlife')->find();
-        }
-        return $res;
-    }
+//        }
+//        return $res;
+//    }
 
 
     /**
@@ -448,8 +453,9 @@ class ActionController extends Controller
         $message['PackType'] = "SetData";
         $message['Vison']    = 0;
         $message['PackNum']  = 6;
+        $type_id = Device::get_devices_info($dcode,'type_id');
 
-        $filter =  $this->get_filter_info($dcode);
+        $filter =  Device::get_filter_info($type_id);
         foreach ($filter as $key =>$value) {
             $i =$key+1;
             $sdata[ 'ReFlowFilter'.$i]      =$value['flowlife'];

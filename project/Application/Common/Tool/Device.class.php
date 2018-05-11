@@ -108,16 +108,32 @@ class Device extends Redis
         return self::$redis->hset($key,$field,$val);
     }
 
-
     /**
-     * 设置默认设备
-     * @param $uid
-     * @param $did
+     * 获取滤芯数据
+     * @param $type_id 设备类型ID
+     * @return array
      */
-    public function setdefault($uid,$did)
+    public static function get_filter_info($type_id)
     {
-        
+        if(empty($type_id)){return false;}
+        $type = M('device_type')->where("id={$type_id}")->find();
+
+        foreach ($type as $k=> $v) {
+            if(strstr($k,'filter') and !empty($v) ){
+                $sum[$k] = $v;
+            }
+        }
+
+        foreach ($sum as $key => $value) {
+            $str = stripos($value,'-');
+            $map['filtername'] = substr($value, 0,$str);
+            $map['alias'] = substr($value, $str+1);
+            $res[] = M('filters')->where($map)->field('timelife,flowlife')->find();
+        }
+        return $res;
     }
+
+
 
 
 

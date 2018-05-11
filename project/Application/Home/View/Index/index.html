@@ -272,121 +272,126 @@
 			home.homeStyle = 'opacity:1;';
 		}
 		document.onready = function(){
-			// 请求当前设备数据
-			$.ajax({
-				url: '{{:U("Home/Index/index")}}',
-				type: 'post',
-				async: false,
-				success: function(res){
-					console.log('res: ',res);
-					if(res.code == 200){
-						home.filterList = res.data;				// 滤芯数据
-						home.filtermode = res.filtermode;		// 滤芯模式
-						home.deviceId = res.deviceId;
 
-						home.usedflow = home.dataList.SumFlow;	// 已用流量
-						home.usedday = home.dataList.SumDay;	// 已用天数
-						home.reflow = home.dataList.ReFlow;		// 剩余流量
-						home.reday = home.dataList.Reday;		// 剩余天数
-						home.tdsPure = home.dataList.PureTDS;	// 纯水值
-						home.tdsRaw = home.dataList.RawTDS;		// 原水值
-					}
-				},
-				error: function(err){
-					console.log('err: ',err);
-				}
-			});
-			var wsurl = "{{$config['ws']}}";
-			var int;	// 定时查询
-			// websocket 连接
-			wsFun(wsurl, function(){
-				// 连接成功，只调用一次
-				// 发送登录包
-				//home.deviceId;	页面加载时候需要后台提供
-				home.ajson.DeviceID = home.deviceId;
-		        home.ajson.PackType = "login";
-				home.sendMSG(home.ajson);
+			function getData(callback){
+                // 请求当前设备数据
+                $.ajax({
+                    url: '{{:U("Home/Index/index")}}',
+                    type: 'post',
+                    async: false,
+                    success: function(res){
+                        console.log('res: ',res);
+                        if(res.status == 200){
+                            home.filterList = res.data;				// 滤芯数据
+                            home.filtermode = res.filtermode;		// 滤芯模式
+                            home.deviceId = res.deviceId;
 
-				setTimeout(function(){
-		            home.ajson.PackType = "Select";
-		            home.sendMSG(home.ajson);
-		            // 每个10秒钟发送一个查询包
-		            setInterval(function(){
-		                home.sendMSG(home.ajson);
-		            },10000);
-		        },1000);
+                            home.usedflow = home.dataList.SumFlow;	// 已用流量
+                            home.usedday = home.dataList.SumDay;	// 已用天数
+                            home.reflow = home.dataList.ReFlow;		// 剩余流量
+                            home.reday = home.dataList.Reday;		// 剩余天数
+                            home.tdsPure = home.dataList.PureTDS;	// 纯水值
+                            home.tdsRaw = home.dataList.RawTDS;		// 原水值
+							callback();
+                        }
+                    },
+                    error: function(err){
+                        console.log('err: ',err);
+                    }
+                });
+			}
+            getData(function() {
+                var wsurl = "{{$config['ws']}}";
+                var int;	// 定时查询
+                // websocket 连接
+                wsFun(wsurl, function () {
+                    // 连接成功，只调用一次
+                    // 发送登录包
+                    //home.deviceId;	页面加载时候需要后台提供
+                    home.ajson.DeviceID = home.deviceId;
+                    home.ajson.PackType = "login";
+                    home.sendMSG(home.ajson);
+                    setTimeout(function () {
+                        // home.ajson.PackType = "Select";
+                        home.sendMSG(home.bjson);
+                        // 每个10秒钟发送一个查询包
+                        setInterval(function () {
+                            home.sendMSG(home.bjson);
+                        }, 10000);
+                    }, 1000);
 
-			}, function(str, res){
-				// str: 数据类型（接收，关闭， 错误），
-				// 在websocket.js中给出，不需要传
-				console.log(str, res);
+                }, function (str, res) {
+                    // str: 数据类型（接收，关闭， 错误），
+                    // 在websocket.js中给出，不需要传
+                    console.log(str, res);
 
-				if(str == 'message'){
-					/**
-					 * 接收数据更新到页面
-					 */
-        			home.dataList = JSON.parse(res);//读取websoket数据，转换为json对象
+                    if (str == 'message') {
+                        /**
+                         * 接收数据更新到页面
+                         */
+                        home.dataList = JSON.parse(res);//读取websoket数据，转换为json对象
 
-        			// 水机状态图标
-        			home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];	
-        			// 水机状态描述
-					home.statusText = home.dstauseList[home.dataList.DeviceStause];	
-					
-					switch(home.dataList.PackType){
-						case 'Select': 	//查询包
-							// 租赁模式
-							home.leasingmode = home.dataList.LeasingMode;	
-							home.usedflow = home.dataList.SumFlow;	// 已用流量
-							home.usedday = home.dataList.SumDay;	// 已用天数
-							home.reflow = home.dataList.ReFlow;		// 剩余流量
-							home.reday = home.dataList.Reday;		// 剩余天数
-							home.tdsPure = home.dataList.PureTDS;	// 纯水值
-							home.tdsRaw = home.dataList.RawTDS;		// 原水值
-							break;	
+                        // 水机状态图标
+                        home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];
+                        // 水机状态描述
+                        home.statusText = home.dstauseList[home.dataList.DeviceStause];
 
-						case 'SetData': //设置包
-							// 租赁模式
-							home.leasingmode = home.dataList.LeasingMode;	
-							home.usedflow = home.dataList.SumFlow;	// 已用流量
-							home.usedday = home.dataList.SumDay;	// 已用天数
-							home.reflow = home.dataList.ReFlow;		// 剩余流量
-							home.reday = home.dataList.Reday;		// 剩余天数
-							home.tdsPure = home.dataList.PureTDS;	// 纯水值
-							home.tdsRaw = home.dataList.RawTDS;		// 原水值
-							break;
+                        switch (home.dataList.PackType) {
+                            case 'Select': 	//查询包
+                                // 租赁模式
+                                home.leasingmode = home.dataList.LeasingMode;
+                                home.usedflow = home.dataList.SumFlow;	// 已用流量
+                                home.usedday = home.dataList.SumDay;	// 已用天数
+                                home.reflow = home.dataList.ReFlow;		// 剩余流量
+                                home.reday = home.dataList.Reday;		// 剩余天数
+                                home.tdsPure = home.dataList.PureTDS;	// 纯水值
+                                home.tdsRaw = home.dataList.RawTDS;		// 原水值
+                                break;
 
-						default:
-							console.log('不知道什么包');
-							break;
-					}
+                            case 'SetData': //设置包
+                                // 租赁模式
+                                home.leasingmode = home.dataList.LeasingMode;
+                                home.usedflow = home.dataList.SumFlow;	// 已用流量
+                                home.usedday = home.dataList.SumDay;	// 已用天数
+                                home.reflow = home.dataList.ReFlow;		// 剩余流量
+                                home.reday = home.dataList.Reday;		// 剩余天数
+                                home.tdsPure = home.dataList.PureTDS;	// 纯水值
+                                home.tdsRaw = home.dataList.RawTDS;		// 原水值
+                                break;
 
-				}else if(str == 'error'){
-					noticeFn({text: '数据连接断开'});
+                            default:
+                                console.log('不知道什么包');
+                                break;
+                        }
 
-				}
-			});
-			/*
-				以下是模拟数据
-			 */
-			home.leasingmode = 1;		// 租赁模式
-			home.filtermode = 2;		// 滤芯模式
-			home.reday = 66;			// 剩余天数
-			home.usedday = 101;			// 已用天数
-			home.reflow = 99;			// 剩余流量
-			home.usedflow = 101;		// 已用流量
-			// home 是vue实例
-			home.filterList = [
-				{fNum:'0',fName:'RO膜',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'80',reflow:'60'},
-				{fNum:'1',fName:'PP棉',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'50',reflow:'80'},
-				{fNum:'2',fName:'滤芯1',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'70',reflow:'20'},
-				{fNum:'3',fName:'滤芯2',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'40',reflow:'70'},
-				{fNum:'4',fName:'PP棉',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'66',reflow:'90'}
-			];
+                    } else if (str == 'error') {
+                        noticeFn({text: '数据连接断开'});
 
-			home.tdsPure = 100;		// 纯水值
-			home.tdsRaw = 99;		// 原水值
-			home.statusIconName = home.statusIconClass[0];	// 水机状态图标
-			home.statusText = home.dstauseList[0];	// 水机状态
+                    }
+                });
+            })
+			// /*
+			// 	以下是模拟数据
+			//  */
+			// home.leasingmode = 1;		// 租赁模式
+			// home.filtermode = 2;		// 滤芯模式
+			// home.reday = 66;			// 剩余天数
+			// home.usedday = 101;			// 已用天数
+			// home.reflow = 99;			// 剩余流量
+			// home.usedflow = 101;		// 已用流量
+			// // home 是vue实例
+			// home.filterList = [
+			// 	{fNum:'0',fName:'RO膜',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'80',reflow:'60'},
+			// 	{fNum:'1',fName:'PP棉',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'50',reflow:'80'},
+			// 	{fNum:'2',fName:'滤芯1',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'70',reflow:'20'},
+			// 	{fNum:'3',fName:'滤芯2',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'40',reflow:'70'},
+			// 	{fNum:'4',fName:'PP棉',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',allLife:'100',allFlow:'100',reday:'66',reflow:'90'}
+			// ];
+            //
+			// home.tdsPure = 100;		// 纯水值
+			// home.tdsRaw = 99;		// 原水值
+			// home.statusIconName = home.statusIconClass[0];	// 水机状态图标
+			// home.statusText = home.dstauseList[0];	// 水机状态
 		}
 	</script>
 </body>
