@@ -29,7 +29,7 @@
     document.body.appendChild(loading);
     // 提示框，确认取消框，loading框, navbar等的样式
     var style = document.createElement('style');
-    var stylecode = '.loadingdiv {width:30vmin;height:30vmin;display:none;position:fixed;max-width:140px;max-height:140px;left:50%;top:50%;border-radius:4px;transform:translate(-50%,-50%);color:#eee;background:rgba(0,0,0,.8);z-index: 10000;}.loadingdiv>div {width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-flow:column;}#noticeDiv {width:100vw;position:fixed;padding: 0 4%;top:30%;left:50%;text-align:center;margin-left:-50%;transition:.2s ease;z-index:999;transform:scale(0);z-index:9999;}#noticeDiv>span {display:inline-block;padding:10px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,.2);}#confirmDiv {width:90vw;max-width:400px;position:fixed;top:40%;left:50%;text-align:center;border-radius:2px;box-shadow:0 0 10px rgba(110,101,110,.2);color:#000;transform:translate(-50%,-50%);z-index:999;background:#fff;}#confirmDiv>div {padding:8px 16px;text-align:left;}#confirmDiv>div:nth-of-type(1) {background:#f8f8f8;}#confirmDiv>div:nth-of-type(2) {text-align:center;}#closebtn {width:10%;float:right;text-align:center;font-weight: 600;color: #999;transform: scale(1.4);}#closebtn:active{color:#666;}#confirmdiv3 {width:100%;padding:3% 0;}#confirmdiv3>span {display:inline-block;position:relative;}#confirmdiv3>span:nth-of-type(1){width:44%;}#confirmfalse,#confirmtrue {width:24%;padding:4px 0;color:#fff;background:#0d94f3;border-radius:2px;text-align:center;}#confirmtrue {margin-right:10px;color:#fff;background:#0d94f3;}#confirmfalse {color:#000;background:#eee;}#confirmfalse:active::after,#confirmtrue:active::after {content: "";width: 100%;height: 100%;display: block;position: absolute;top: 0;left: 0;background: rgba(0,0,0,.1);}#confirmPar {width:100vw;height:100vh;display:none;position:fixed;top:0;left:0;background:rgba(0,0,0,.2);z-index:9999;}@media screen and (max-width: 379px){#noticeDiv,#confirmDiv {font-size: .7rem;}}@media screen and (min-width: 380px){.loadingdiv{font-size:18px;}#noticeDiv,#confirmDiv {font-size: 18px;}}#fadeshow {display: block;-webkit-animation: showload .5s forwards;animation: showload .5s forwards;}#fadehide {display: block;-webkit-animation: hideload .5s forwards;animation: hideload .5s forwards;}@-webkit-keyframes showload {from {opacity: 0;}to {opacity: 1;}}@keyframes showload {from {opacity: 0;}to {opacity: 1;}}@-webkit-keyframes hideload {from {opacity: 1;}to {opacity: 0;}}@keyframes hideload {from {opacity: 1;}to {opacity: 0;}}';
+    var stylecode = '.loadingdiv {width:30vmin;height:30vmin;display:none;position:fixed;max-width:140px;max-height:140px;left:50%;top:50%;border-radius:4px;transform:translate(-50%,-50%);color:#eee;background:rgba(0,0,0,.8);z-index: 10000;}.loadingdiv>div {width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-flow:column;}#noticeDiv {width:100vw;position:fixed;padding: 0 4%;top:30%;left:50%;text-align:center;margin-left:-50%;transition:.2s ease;z-index:999;transform:scale(0);z-index:9999;}#noticeDiv>span {display:inline-block;padding:10px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,.2);}#confirmDiv {min-width: 80vw;max-width:400px;position:fixed;top:40%;left:50%;text-align:center;border-radius:6px;box-shadow:0 0 10px rgba(110,101,110,.2);color:#000;transform:translate(-50%,-50%);z-index:999;background:#fff;}#confirmDiv>div {padding:8px 16px;text-align:left;}#confirmDiv>div {text-align:center;}#confirmdiv3 {width:100%;padding:0 !important;border-radius:0 0 6px 6px;border-top: 1px solid #a1a1a1;overflow: hidden;}#confirmdiv3::after {content:"";width:100%;height:100%;display:block;clear:both;visibility:hidden;}#confirmdiv3>span {width:50%;display:inline-block;position:relative;padding:10px 0;text-align:center;background: #eee;}#confirmtrue {float:right;color:#0d94f3;border-left: 1px solid #d9d9d9;}#confirmfalse {float:left;color:#000;}#confirmfalse:active::after,#confirmtrue:active::after {content: "";width: 100%;height: 100%;display: block;position: absolute;top: 0;left: 0;background: rgba(0,0,0,.1);}#confirmPar {width:100vw;height:100vh;display:none;position:fixed;top:0;left:0;background:rgba(0,0,0,.2);z-index:9999;}@media screen and (max-width: 379px){#noticeDiv,#confirmDiv {font-size: .7rem;}}@media screen and (min-width: 380px){.loadingdiv{font-size:18px;}#noticeDiv,#confirmDiv {font-size: 18px;}}#fadeshow {display: block;-webkit-animation: showload .5s forwards;animation: showload .5s forwards;}#fadehide {display: block;-webkit-animation: hideload .5s forwards;animation: hideload .5s forwards;}@-webkit-keyframes showload {from {opacity: 0;}to {opacity: 1;}}@keyframes showload {from {opacity: 0;}to {opacity: 1;}}@-webkit-keyframes hideload {from {opacity: 1;}to {opacity: 0;}}@keyframes hideload {from {opacity: 1;}to {opacity: 0;}}';
     stylecode += '.go2Top{width:12vmin;height:12vmin;line-height:12vmin;display:none;position:fixed;border-radius: 50%;bottom:10vmin;right:2vmin;text-align:center;color:#0e90d2;background:#fff;box-shadow:0px 2px 16px 0px rgba(0,0,0, .1);transform: translate3d(0,0,0);font-weight:bold;z-index:99;}.go2Top:active{box-shadow: 0px 2px 16px 0px rgba(0,0,0, .1) inset;}'
     style.innerHTML = stylecode;
     document.head.appendChild(style);
@@ -249,17 +249,13 @@ var fadeFn = function(obj){
     // 遮罩层
     confirm.setAttribute('id','confirmPar');
     var contain = '<div id="confirmDiv">'+
-        '<div >温馨提示'+
-            '<span id="closebtn" class="iconfont icon-chacha1" ></span>'+
-        '</div>'+
-        '<div style="margin: 16px 0;">'+
+        '<div style="margin: 20px 0;font-size: .8rem;">'+
             '<p><i class="am-icon-question-circle-o"></i>&nbsp;'+
             '<span class="text" style="color:#0d94f3;"></span>&nbsp;</p>'+
         '</div>'+
         '<div id="confirmdiv3">'+
-            '<span>&emsp;</span>'+
-            '<span id="confirmtrue" >确定</span>'+
             '<span id="confirmfalse" >取消</span>'+
+            '<span id="confirmtrue" >确定</span>'+
         '</div>'+
     '</div>';
     confirm.innerHTML = contain;
@@ -315,9 +311,15 @@ var noticeFn = function(obj){
     noticeSpan.innerHTML = obj.text;
     noticeSpan.style.color = obj.fcolor;
     noticeSpan.style.background = obj.bgcolor;
-    notice.style.transform = 'scale(1)';
-    notice.style.opacity = '1';
 
+    notice.setAttribute('style',
+        'display:block;opacity:0;transform:scale(1.1);'
+    );
+    setTimeout(function(){
+        notice.setAttribute('style',
+            'opacity:1;transition: .3s ease;transform:scale(1);'
+        );
+    },0)
     // 自动消失
     noticeint = setTimeout(function(){
         notice.style.opacity = '.5';
@@ -346,23 +348,21 @@ var confirmFn = function(text, callback){
         })
      */
     document.body.style.overflow = 'hidden';
-    var confirm = document.getElementById('confirmDiv');
-    confirm.parentNode.style.display = 'block';
-    confirm.getElementsByClassName('text')[0].innerHTML = text;
+    var confirm = document.querySelector('#confirmDiv');
+   
+    confirm.parentNode.setAttribute('style',
+        'display:block;transform:scale(1.1);'
+    );
+    setTimeout(function(){
+        confirm.parentNode.setAttribute('style',
+            'display:block;opacity:1;transition: .3s ease;transform:scale(1);'
+        );
+    },0)
+    confirm.querySelector('.text').innerHTML = text;
     // 确定，取消按钮
-    var confirmtrue = document.getElementById('confirmtrue');
-    var confirmfalse = document.getElementById('confirmfalse');
-    var closebtn = document.getElementById('closebtn');
+    var confirmtrue = document.querySelector('#confirmtrue');
+    var confirmfalse = document.querySelector('#confirmfalse');
 
-    // 点击 xx 关闭
-    closebtn.onclick = function(){
-
-        document.body.style.overflow = 'auto';
-        //移除元素
-        setTimeout(function(){
-            confirm.parentNode.style.display = 'none';
-        }, 30);
-    }
     // 点击确定
     confirmtrue.onclick = function(){
         callback(true);
