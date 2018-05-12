@@ -67,8 +67,8 @@
   justify-content: space-around;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child div {
-  width: 3.84rem;
-  height: 3.2rem;
+  /* width: 3.84rem; */
+  /* height: 3.2rem; */
   position: relative;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child div img {
@@ -82,8 +82,8 @@ textarea {
 #chacha {
   display: block;
   position: absolute;
-  right: -0.064rem;
-  top: -0.14933333rem;
+  right: 0.3rem;
+  top: -0.25rem;
   color: #fff;
   font-size: 0.256rem;
   width: 0.64rem;
