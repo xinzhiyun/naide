@@ -93,6 +93,33 @@ function getURL(_home, _url){
     homeurl = href.substring(0, homeindex) + '/' + _url;
     return homeurl;
 }
+
+/**
+ * [getQuery 获取url参数]
+ * @return {[object]} [返回的参数键值对组成的对象]
+ */
+function getQuery(){
+    var obj = {};   // 返回的数据
+    var arr = [];   // 存放&分割的参数组
+    // 获取URL ? 后的部分
+    var param = location.search.substr(1);
+    // console.log('param: ',param);
+    // 多个参数
+    if(param.indexOf('&') > -1){
+        arr = param.split('&');
+
+    }else if(param.indexOf('&') == -1){
+        // 一个参数
+        obj[param.split('=')[0]] = param.split('=')[1];
+    }
+    // 将参数转为键值对的形式返回
+    arr.forEach(function(value, key){
+        // 自动去重
+        obj[value.split('=')[0]] = value.split('=')[1];
+    })
+    // 返回参数键值对组成的对象
+    return obj;
+}
 /**
  * [isWX 判断是否微信环境]
  * @return {[type]} [description]
@@ -236,7 +263,7 @@ var fadeFn = function(obj){
     // 顶部按钮
     var go2Top = document.createElement('div');
     go2Top.setAttribute('class', 'go2Top');
-    go2Top.setAttribute('ontouchend', 'goTop()');
+    go2Top.setAttribute('ontouchstart', 'goTop()');
     go2Top.innerHTML = '<i class="iconfont icon-xiangshang1"></i>';
 
     // 生成提示框元素
@@ -460,25 +487,17 @@ var goTop = function(){
     var scTop = document.body.scrollTop || document.documentElement.scrollTop;
     // console.log('scTop: ',scTop);
 
-    // scTop -= 40;
-    // scint = setTimeout(function(){
-    //     document.body.scrollTop
-    //     ? (document.body.scrollTop = scTop)
-    //     : (document.documentElement.scrollTop = scTop);
-        
-    //     if(scTop <= 0){
-    //         clearTimeout(scint);
-    //         return;
-    //     }
-    //     goTop();
-    // },1)
-    
     scTop -= 40;
-    document.body.scrollTop
-    ? (document.body.scrollTop = scTop)
-    : (document.documentElement.scrollTop = scTop);
-    if(scTop >= 0){
+    scint = setTimeout(function(){
+        document.body.scrollTop
+        ? (document.body.scrollTop = scTop)
+        : (document.documentElement.scrollTop = scTop);
+        
+        if(scTop <= 0){
+            clearTimeout(scint);
+            return;
+        }
         goTop();
-    }
-
+    },1)
+    
 }   
