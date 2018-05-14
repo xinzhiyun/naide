@@ -116,9 +116,16 @@
 								_this.succFlag = true;
 								console.log("成功",res);
 								if(res.status == 200) {
-									// 成功跳转下一个页面
+									// 判断路径是否有has
+									if(window.location.search) {
+										if(window.location.search.indexOf("has") != -1) {
+											location.href = '{{:U("Home/Users/buyinfo")}}' + '?has';
+										}
+									}else {
+										// 成功跳转下一个页面
+										location.href = '{{:U("Home/Users/buyinfo")}}';
+									}
 									
-									location.href = '{{:U("Home/Users/buyinfo")}}';
 								}else if(res.status == 201){
 									noticeFn({text: res.msg});
 								}
