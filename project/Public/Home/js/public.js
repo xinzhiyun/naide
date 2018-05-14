@@ -21,15 +21,21 @@
     // loading 加载等待
     var loading = document.createElement('div');
     loading.setAttribute('class', 'loadingdiv');
-    loading.innerHTML = '<div>'+
-    '<i class="am-icon-spinner am-icon-pulse am-icon-lg"></i>'+
-    '<div class="am-text-center" style="margin-top:10px;">正在加载 ...</div></div>';
-
+    // loading.innerHTML = '<div>'+
+    // '<i class="am-icon-spinner am-icon-pulse am-icon-lg"></i>'+
+    // '<div class="am-text-center" style="margin-top:10px;">正在加载 ...</div></div>';
+    //.loadingdiv {width:30vmin;height:30vmin;display:none;position:fixed;max-width:140px;max-height:140px;left:50%;top:50%;border-radius:4px;transform:translate(-50%,-50%);color:#eee;background:rgba(0,0,0,.8);z-index: 10000;}.loadingdiv>div {width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-flow:column;}
+    
+    loading.setAttribute('class', 'loadingdiv');
+    loading.innerHTML = '<div class="load"></div>'+
+        '<p>加载中···</p>';
+    //.loadingdiv{width:30vmin;height:30vmin;max-width:200px;max-height:200px;position:fixed;top:0;right:0;left:0;bottom:0;margin:auto;display:none;flex-flow:column;align-items:center;justify-content:center;border-radius:6px;background:rgba(0,0,0,.6);box-sizing:content-box;z-index:10000;}.load{width:40px;height:40px;display:inline-block;border-radius:100%;border:2px solid #999;border-right:2px solid #eee;animation:run linear 1s infinite}.loadingdiv>p{margin-top:4vmin;color:#fff;font-size:14px}@keyframes run{0%{transform:rotate(0)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}100%{transform:rotate(360deg)}}
+ 
     // 添加到页面
     document.body.appendChild(loading);
     // 提示框，确认取消框，loading框, navbar等的样式
     var style = document.createElement('style');
-    var stylecode = '.loadingdiv {width:30vmin;height:30vmin;display:none;position:fixed;max-width:140px;max-height:140px;left:50%;top:50%;border-radius:4px;transform:translate(-50%,-50%);color:#eee;background:rgba(0,0,0,.8);z-index: 10000;}.loadingdiv>div {width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-flow:column;}#noticeDiv {width:100vw;position:fixed;padding: 0 4%;top:30%;left:50%;text-align:center;margin-left:-50%;transition:.2s ease;z-index:999;transform:scale(0);z-index:9999;}#noticeDiv>span {display:inline-block;padding:10px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,.2);}#confirmDiv {width: 80vw;max-width:400px;position:fixed;top:40%;left:50%;text-align:center;border-radius:6px;box-shadow:0 0 10px rgba(110,101,110,.2);color:#000;transform:translate(-50%,-50%);z-index:999;background:#fff;}#confirmDiv>div {padding:20px 16px;text-align:left;text-align:center;}#confirmDiv>div:nth-of-type(1){margin: 20px 0;font-size: .8rem;}#confirmdiv3 {width:100%;padding:0 !important;border-radius:0 0 6px 6px;border-top: 1px solid #a1a1a1;overflow: hidden;}#confirmdiv3::after {content:"";width:100%;height:100%;display:block;clear:both;visibility:hidden;}#confirmdiv3>span {width:50%;display:inline-block;position:relative;padding:10px 0;text-align:center;background: #eee;}#confirmtrue {float:right;color:#0d94f3;border-left: 1px solid #d9d9d9;}#confirmfalse {float:left;color:#555;}#confirmfalse:active::after,#confirmtrue:active::after {content: "";width: 100%;height: 100%;display: block;position: absolute;top: 0;left: 0;background: rgba(0,0,0,.1);}#confirmPar {width:100vw;height:100vh;display:none;position:fixed;top:0;left:0;background:rgba(0,0,0,.2);z-index:9999;}@media screen and (max-width: 379px){#noticeDiv,#confirmDiv {font-size: .7rem;}}@media screen and (min-width: 380px){.loadingdiv{font-size:18px;}#noticeDiv,#confirmDiv,#confirmDiv>div {font-size: 18px !important;}}#fadeshow {display: block;-webkit-animation: showload .5s forwards;animation: showload .5s forwards;}#fadehide {display: block;-webkit-animation: hideload .5s forwards;animation: hideload .5s forwards;}@-webkit-keyframes showload {from {opacity: 0;}to {opacity: 1;}}@keyframes showload {from {opacity: 0;}to {opacity: 1;}}@-webkit-keyframes hideload {from {opacity: 1;}to {opacity: 0;}}@keyframes hideload {from {opacity: 1;}to {opacity: 0;}}';
+    var stylecode = '.loadingdiv{width:30vmin;height:30vmin;max-width:200px;max-height:200px;position:fixed;top:0;right:0;left:0;bottom:0;margin:auto;display:none;flex-flow:column;align-items:center;justify-content:center;border-radius:6px;background:rgba(0,0,0,.6);box-sizing:content-box;z-index:10000;}.load{width:40px;height:40px;display:inline-block;border-radius:100%;border:2px solid #999;border-right:2px solid #eee;animation:run linear 1s infinite}.loadingdiv>p{margin-top:4vmin;color:#fff;font-size:14px}@keyframes run{0%{transform:rotate(0)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}100%{transform:rotate(360deg)}}#noticeDiv {width:100vw;position:fixed;padding: 0 4%;top:30%;left:50%;text-align:center;margin-left:-50%;transition:.2s ease;z-index:999;transform:scale(0);z-index:9999;}#noticeDiv>span {display:inline-block;padding:10px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,.2);}#confirmDiv {width: 80vw;max-width:400px;position:fixed;top:40%;left:50%;text-align:center;border-radius:6px;box-shadow:0 0 10px rgba(110,101,110,.2);color:#000;transform:translate(-50%,-50%);z-index:999;background:#fff;}#confirmDiv>div {padding:20px 16px;text-align:left;text-align:center;}#confirmDiv>div:nth-of-type(1){margin: 20px 0;font-size: .8rem;}#confirmdiv3 {width:100%;padding:0 !important;border-radius:0 0 6px 6px;border-top: 1px solid #a1a1a1;overflow: hidden;}#confirmdiv3::after {content:"";width:100%;height:100%;display:block;clear:both;visibility:hidden;}#confirmdiv3>span {width:50%;display:inline-block;position:relative;padding:10px 0;text-align:center;background: #eee;}#confirmtrue {float:right;color:#0d94f3;border-left: 1px solid #d9d9d9;}#confirmfalse {float:left;color:#555;}#confirmfalse:active::after,#confirmtrue:active::after {content: "";width: 100%;height: 100%;display: block;position: absolute;top: 0;left: 0;background: rgba(0,0,0,.1);}#confirmPar {width:100vw;height:100vh;display:none;position:fixed;top:0;left:0;background:rgba(0,0,0,.2);z-index:9999;}@media screen and (max-width: 379px){#noticeDiv,#confirmDiv {font-size: .7rem;}}@media screen and (min-width: 380px){.loadingdiv{font-size:18px;}#noticeDiv,#confirmDiv,#confirmDiv>div {font-size: 18px !important;}}#fadeshow {display: block;-webkit-animation: showload .5s forwards;animation: showload .5s forwards;}#fadehide {display: block;-webkit-animation: hideload .5s forwards;animation: hideload .5s forwards;}@-webkit-keyframes showload {from {opacity: 0;}to {opacity: 1;}}@keyframes showload {from {opacity: 0;}to {opacity: 1;}}@-webkit-keyframes hideload {from {opacity: 1;}to {opacity: 0;}}@keyframes hideload {from {opacity: 1;}to {opacity: 0;}}';
     stylecode += '.go2Top{width:12vmin;height:12vmin;line-height:12vmin;display:none;position:fixed;border-radius: 50%;bottom:10vmin;right:2vmin;text-align:center;color:#0e90d2;background:#fff;box-shadow:0px 2px 16px 0px rgba(0,0,0, .1);transform: translate3d(0,0,0);font-weight:bold;z-index:99;}.go2Top:active{box-shadow: 0px 2px 16px 0px rgba(0,0,0, .1) inset;}'
     style.innerHTML = stylecode;
     document.head.appendChild(style);
@@ -57,6 +63,7 @@
     // 显示loading
     var loaddiv = document.querySelector('.loadingdiv');
     loaddiv.setAttribute('id', 'fadeshow');
+    loaddiv.setAttribute('style', 'display:flex;');
 
     // 设置首页链接
     var homebtn = document.getElementsByClassName('back2home');
@@ -477,7 +484,7 @@ window.onscroll = function(){
 // 隐藏loading
 setTimeout(function(){
     var script = document.createElement('script');
-    script.innerHTML = "var loaddiv = document.querySelector('.loadingdiv');/* 加载结束，隐藏loading*/fadeFn({elem: loaddiv,handle:'hide'});";
+    script.innerHTML = "var loaddiv = document.querySelector('.loadingdiv');/* 加载结束，隐藏loading*/fadeFn({elem: loaddiv,handle:'hide'});loaddiv.setAttribute('style', 'display:none');";
     document.head.appendChild(script);
 },0);
 
