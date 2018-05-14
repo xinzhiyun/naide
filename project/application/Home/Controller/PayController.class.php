@@ -263,7 +263,7 @@ class PayController extends HomebaseController {
                 E('用户信息错误,请刷新重试!', 201);
             }
 
-            $setmeal = M('setmeal')->field('money')->find($data['setMealId']);
+            $setmeal = M('setmeal')->field('money,describe')->find($data['setMealId']);
 
             if(isset($setmeal['money']) && $setmeal['money'] == $data['price']){
                 $order_sn = gerOrderSN();
@@ -272,7 +272,7 @@ class PayController extends HomebaseController {
                 }
                 $money = $data['price'] * $data['num'];
 
-                $user = M('user')->field('')->find($data['uid']);
+                $user = M('users')->field('name,user')->find($data['uid']);
                 //创建订单
                 $order=array(
                     'type'=>2,
@@ -287,7 +287,7 @@ class PayController extends HomebaseController {
                     'paytype'=>$data['pay'],
                     'money'=>$money,
                     'flow'=>$data['flow'],
-                    'describe'=>$data['describe'],
+                    'describe'=>$setmeal['describe'],
                     'created_at'=>time(),
                     'updated_at'=>time(),
                     'is_play'=>0,
@@ -300,9 +300,13 @@ class PayController extends HomebaseController {
                 $orderID = $order_model->add($order);
 
                 if($orderID){
+                    if(is_weixin()){
+                        $wxres = 1;
+                    }
 
                     $this->ajaxReturn(array(
                         'status'=>200,
+                        'wxres'=>$wxres,
                         'order_id'=>$order_sn,
                         'title'=>'耐的净水器套餐充值',
                         'price'=>$money,
@@ -326,5 +330,48 @@ class PayController extends HomebaseController {
             $this->to_json($e);
         }
     }
+
+    /**
+     * 微信支付 信息加载
+     */
+    public function wxres()
+    {
+        try {
+            $data = I('post.');
+            //$openId,$money,$order_id,$content,$notify_url
+            if (empty($data['openId'])) {
+                E('参数错误', 201);
+            } else {
+                $reg['openId'] = $data['openId'];
+            }
+
+            if (empty($data['money'])) {
+                E('参数错误', 201);
+            } else {
+                $reg['money'] = $data['money'];
+            }
+            if (empty($data['order_id'])) {
+                E('参数错误', 201);
+            } else {
+                $reg['order_id'] = $data['order_id'];
+            }
+            if (empty($data['content'])) {
+                E('参数错误', 201);
+            } else {
+                $reg['content'] = $data['content'];
+            }
+            if (empty($data['notify_url'])) {
+                E('参数错误', 201);
+            } else {
+                $reg['notify_url'] = $data['notify_url'];
+            }
+            WeiXin::uniformOrder(...$res);
+
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 
 }
