@@ -122,7 +122,6 @@ class SetmealController extends CommonController
                 } else {
                     $this->error('套餐设置失败啦！');
                 }
-            
             } else {
                 // getError是在数据创建验证时调用，提示的是验证失败的错误信息
                 $this->error($setmeal->getError());

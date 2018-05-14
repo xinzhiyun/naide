@@ -33,4 +33,16 @@ class File
             return $upload->getError();
         }
     }
+
+    public function output($filename,$title,$cellName,$data,$replace)
+    {
+        if(!empty($replace)){
+            $data = replace_array_value($data,$replace);
+        }
+        // dump($data);die;
+        $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
+        $myexcel->output();
+    }
+
+
 }

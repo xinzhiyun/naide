@@ -9,12 +9,14 @@ class Device extends Redis
         'sid',              //设备状态表的ID
         'timer',            //定时的数据 --json
         'type_id',          //设备类型
+        'vid',              //经销商ID
 
     );
     private static $notnullfields=array(    //非空字段
         'id',               //设备表的ID
         'sid',              //设备状态表的ID
         'type_id',          //设备类型
+        'vid',
     );
     
     /**
@@ -22,7 +24,7 @@ class Device extends Redis
      * @param $did  设备ID
      * @return mixed
      */
-    public static function get_devices_sn($did='')
+    public static function get_devices_sn($did='',$field='')
     {
         if(empty($did)){
             return '';
@@ -32,15 +34,18 @@ class Device extends Redis
         $key = "devices_sn_".$did;
         if (self::$redis->exists($key)) {
             $device_code = self::$redis->get($key);
-            if(!empty($device_code)){
-                return $device_code;
+            if(empty($device_code)){
+                $device_code = M('devices')->where('id='.$did)->getField('device_code');
+                self::$redis->set($key,$device_code);
             }
         }
 
-        $device_code = M('devices')->where('id='.$did)->getField('device_code');
-        self::$redis->set($key,$device_code);
+        if(empty($field)){
+            return $device_code;
+        }else{
+            return self::get_devices_info($device_code,$field);
+        }
 
-        return $device_code;
     }
 
     /**
@@ -81,6 +86,7 @@ class Device extends Redis
             switch ( $field ) {
                 case "id":
                 case "type_id":
+                case "vid":
                     $val = M('devices')->where('device_code='.$device_code)->getField($field);
                     self::$redis->hset($key,$field,$val);
                 break;

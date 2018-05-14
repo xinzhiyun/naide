@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Device;
 use Common\Tool\WeiXin;
 use Home\Controller\WechatController;
 use Think\Log;
@@ -235,8 +236,12 @@ class PayController extends HomebaseController {
      */
     public function buy()
     {
+        $info['uid'] = session('homeuser.id');
+        $info['did'] = session('homeuser.did');
+        $info['vid'] = Device::get_devices_sn($info['did'],'vid');
         $list = M('setmeal')->where('type=0')->select();
         $this->assign('list',$list);
+        $this->assign('info',$info);
         $this->display();
     }
 
@@ -372,6 +377,5 @@ class PayController extends HomebaseController {
             $this->to_json($e);
         }
     }
-
 
 }
