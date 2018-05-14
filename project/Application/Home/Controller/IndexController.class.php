@@ -14,6 +14,15 @@ class IndexController extends HomebaseController {
         $this->assign('config',$config);
     }
 
+    public function test()
+    {
+        $_SESSION['sss']=123;
+    }
+    public function test1()
+    {
+        echo $_SESSION['sss'];
+    }
+
     /**
      * 首页-水机
      */

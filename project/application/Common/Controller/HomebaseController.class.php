@@ -15,7 +15,8 @@ class HomebaseController extends AppframeController
 
         //微信信息
         $is_weixin = is_weixin();
-        $this->assign('is_weixin', $is_weixin);
+        $is_weixin_s = $is_weixin?'true':'false';
+        $this->assign('is_weixin', $is_weixin_s);
         if($is_weixin or DEBUG){
             $weixin = new WeixinJssdk();
             $signPackage = $weixin->getSignPackage();

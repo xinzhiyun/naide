@@ -55,6 +55,7 @@ class PayController extends HomebaseController {
 
                 //创建订单
                 $order=array(
+                    'type'=>1,
                     'order_id'=> $order_sn,
                     'uid'=>$waterOrder['uid'],
                     'phone'=>$waterOrder['phone'],
@@ -79,11 +80,12 @@ class PayController extends HomebaseController {
                     'updated_at'=>time(),
                     'is_play'=>0,
                     'is_work'=>0,
-                    'is_pay'=>0
+                    'is_pay'=>0,
+                    'status'=>0
                 );
 
-                $waterOrder_model = M('order_water');
-                $orderID = $waterOrder_model->add($order);
+                $order_model = M('order');
+                $orderID = $order_model->add($order);
 
                 if($orderID){
                     session('waterOrder',null);
@@ -206,15 +208,19 @@ class PayController extends HomebaseController {
                 // 获取传回来的订单号
                 $map['order_id'] = $result['attach'];
                 $map['is_pay'] = 0;
-                $waterOrder_model = M('order_water');
+                $order = M('order');
                 // 查询订单是否已处理
-                $orderData = $waterOrder_model->where($map)->field('is_pay,money,id')->find();
+                $orderData = $order->where($map)->field('is_pay,money,id')->find();
                 // 如果订单未处理，订单支付金额等于订单实际金额
                 if(empty($orderData['is_pay']) && $orderData['money'] == $result['total_fee']){
                     $data=array(
                         'is_pay'=>1
                     );
-                    $waterOrder_model->where('id='.$orderData['id'])->save($data);
+                    $order_res = $order->where('id='.$orderData['id'])->save($data);
+                    if(!empty($order_res)){
+                        //写流水
+                    }
+
                 }
             }
         }
@@ -224,11 +230,101 @@ class PayController extends HomebaseController {
 
     //------水机商品购买-end----------------
 
-
+    /**
+     * 套餐购买
+     */
     public function buy()
     {
         $list = M('setmeal')->where('type=0')->select();
         $this->assign('list',$list);
         $this->display();
     }
+
+    /**
+     * 生成套餐订单 (支持代充)
+     */
+    public function setmealbuy($data='')
+    {
+        try {
+
+            if(empty($data)) $data = I('post.');
+
+            if (empty($data['pay'])) {
+                E('支付方式错误', 201);
+            }
+
+            if (empty($data['setMealId'])) {
+                E('套餐信息错误,请刷新重试!', 201);
+            }
+            if (empty($data['price'])) {
+                E('套餐信息错误,请刷新重试!', 201);
+            }
+            if (empty($data['uid'])) {
+                E('用户信息错误,请刷新重试!', 201);
+            }
+
+            $setmeal = M('setmeal')->field('money')->find($data['setMealId']);
+
+            if(isset($setmeal['money']) && $setmeal['money'] == $data['price']){
+                $order_sn = gerOrderSN();
+                if ($data['num'] < 1) {
+                    $data['num'] = 1;
+                }
+                $money = $data['price'] * $data['num'];
+
+                $user = M('user')->field('')->find($data['uid']);
+                //创建订单
+                $order=array(
+                    'type'=>2,
+                    'order_id'=> $order_sn,
+                    'uid'=>$data['uid'],
+                    'did'=>$data['did'],
+                    'phone'=>$user['user'],
+                    'name'=>$user['name'],
+                    'vid'=>$data['sid'],
+                    'setmeal_id'=>$data['setMealId'],
+                    'type_id'=>$data['tid'],
+                    'paytype'=>$data['pay'],
+                    'money'=>$money,
+                    'flow'=>$data['flow'],
+                    'describe'=>$data['describe'],
+                    'created_at'=>time(),
+                    'updated_at'=>time(),
+                    'is_play'=>0,
+                    'is_work'=>0,
+                    'is_pay'=>0,
+                    'status'=>0
+                );
+
+                $order_model = M('order');
+                $orderID = $order_model->add($order);
+
+                if($orderID){
+
+                    $this->ajaxReturn(array(
+                        'status'=>200,
+                        'order_id'=>$order_sn,
+                        'title'=>'耐的净水器套餐充值',
+                        'price'=>$money,
+                        'notify_url'=> U('notify_water','',true,true),
+                        'msg'=>'创建成功',
+                    ),'JSON');
+
+                }else{
+                    E('请重新确认订单信息', 201);
+                }
+
+                $this->ajaxReturn(array(
+                    'orderid'=>$orderid,
+                    'status'=>200,
+                    'msg'=>'订单创建成功',
+                ),'JSON');
+            }else{
+                E('订单信息已更新',202);
+            }
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 }

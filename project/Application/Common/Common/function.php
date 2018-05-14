@@ -106,7 +106,7 @@ function gerOrderSN()
     do {
         $orderId = date('Ymd').time().mt_rand(1111111, 9999999).mt_rand(1111111, 9999999);
         //查询订单号是否存在
-        $oid = M('order_water')->where("`order_id`='{$orderId}'")->field('id')->find();
+        $oid = M('order')->where("`order_id`='{$orderId}'")->field('id')->find();
         // 如果订单号已存在再重新获取一次
     } while ($oid);
 
