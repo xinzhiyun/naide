@@ -17,7 +17,7 @@
  
 // 顶部导航栏、下拉刷新
 !function(){
-    
+     
     // loading 加载等待
     var loading = document.createElement('div');
     loading.setAttribute('class', 'loadingdiv');
