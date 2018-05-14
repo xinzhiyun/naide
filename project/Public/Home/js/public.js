@@ -98,7 +98,7 @@ function getURL(_home, _url){
  * [getQuery 获取url参数]
  * @return {[object]} [返回的参数键值对组成的对象]
  */
-function getQuery(){
+var getQuery = function (){
     var obj = {};   // 返回的数据
     var arr = [];   // 存放&分割的参数组
     // 获取URL ? 后的部分
@@ -120,6 +120,30 @@ function getQuery(){
     // 返回参数键值对组成的对象
     return obj;
 }
+
+/**
+* [getStyle 获取样式](可获取隐藏元素的样式)
+* @param {[element]} el [元素]
+* @param {[string]} attr [样式属性入height]
+* @return {[string]} [返回获取的attr的值]
+*/
+var getStyle = function(el, attr){
+  var style;
+  if(window.getComputedStyle){  // 非ie
+    if(attr){
+      // 获取某一个样式
+      style = window.getComputedStyle(el, false)[attr];
+    }else{
+      style = window.getComputedStyle(el, false);
+    }
+
+  }else{
+    // ie
+    style = el.currentStyle(attr);
+  }
+  return style
+}
+
 /**
  * [isWX 判断是否微信环境]
  * @return {[type]} [description]
