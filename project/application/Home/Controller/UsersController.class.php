@@ -197,6 +197,9 @@ class UsersController extends HomebaseController {
         $this->display();
     }
 
+    /**
+     * 用户中心
+     */
     public function mine()
     {
         $did = session('homeuser.did');
