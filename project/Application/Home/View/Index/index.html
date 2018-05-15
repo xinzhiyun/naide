@@ -156,7 +156,7 @@
 						<div class='fliterPercItem' v-for='f in filterList' v-if='filtermode == 0'>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-text='(f.reday/f.allLife)*100+"%"'>80%</span>
+								<span class='fright' v-text='((f.reday/f.allLife)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent'>
 								<span class='bgblue' :style='"width:"+(f.reday/f.allLife)*100+"%"'></span>
@@ -166,7 +166,7 @@
 						<div class='fliterPercItem' v-for='f in filterList' v-if='filtermode == 1'>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-text='(f.reflow/f.allFlow)*100+"%"'>80%</span>
+								<span class='fright' v-text='((f.reflow/f.allFlow)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent'>
 								<span class='bgblue' :style='"width:"+(f.reflow/f.allFlow)*100+"%"'></span>
@@ -176,8 +176,10 @@
 						<div class='fliterPercItem' v-for='f in filterList' v-if='filtermode == 2'>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-if='f.reday/f.allLife <= f.reflow/f.allFlow' v-text='(f.reday/f.allLife)*100+"%"'>80%</span>
-								<span class='fright' v-if='f.reday/f.allLife > f.reflow/f.allFlow' v-text='(f.reflow/f.allFlow)*100+"%"'>80%</span>
+								<span class='fright' v-if='f.reday/f.allLife <= f.reflow/f.allFlow'
+									  v-text='((f.reday/f.allLife)*100).toFixed(2)+"%"'>80%</span>
+								<span class='fright' v-if='f.reday/f.allLife > f.reflow/f.allFlow'
+									  v-text='((f.reflow/f.allFlow)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent'>
 								<span class='bgblue' v-if='f.reday/f.allLife <= f.reflow/f.allFlow' :style='"width:"+(f.reday/f.allLife)*100+"%"'></span>
@@ -217,7 +219,7 @@
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-text='(f.reday/f.allLife)*100+"%"'>80%</span>
+								<span class='fright' v-text='((f.reday/f.allLife)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent'><span class='bgblue' :style='"width:"+(f.reday/f.allLife)*100+"%"'></span></div>
 						</li>
@@ -226,7 +228,7 @@
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-text='(f.reflow/f.allFlow)*100+"%"'>80%</span>
+								<span class='fright' v-text='((f.reflow/f.allFlow)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent'><span class='bgblue' :style='"width:"+(f.reflow/f.allFlow)*100+"%"'></span></div>
 						</li>
@@ -235,8 +237,10 @@
 							<span class='iconfont icon-emptycircle'></span>
 							<p class='cfix'>
 								<span class='fleft' v-text='f.fName'>RO膜</span>
-								<span class='fright' v-if='f.reday/f.allLife <= f.reflow/f.allFlow' v-text='(f.reday/f.allLife)*100+"%"'>80%</span>
-								<span class='fright' v-if='f.reday/f.allLife > f.reflow/f.allFlow' v-text='(f.reflow/f.allFlow)*100+"%"'>80%</span>
+								<span class='fright' v-if='f.reday/f.allLife <= f.reflow/f.allFlow'
+									  v-text='((f.reday/f.allLife)*100).toFixed(2)+"%"'>80%</span>
+								<span class='fright' v-if='f.reday/f.allLife > f.reflow/f.allFlow'
+									  v-text='((f.reflow/f.allFlow)*100).toFixed(2)+"%"'>80%</span>
 							</p>
 							<div class='percent' v-if='f.reday/f.allLife <= f.reflow/f.allFlow'><span class='bgblue' :style='"width:"+(f.reday/f.allLife)*100+"%"'></span></div>
 							<div class='percent' v-if='f.reday/f.allLife > f.reflow/f.allFlow'><span class='bgblue' :style='"width:"+(f.reflow/f.allFlow)*100+"%"'></span></div>

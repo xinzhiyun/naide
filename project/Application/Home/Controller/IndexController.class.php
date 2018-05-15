@@ -26,9 +26,6 @@ class IndexController extends HomebaseController {
 
             $filters = Device::get_filter($device_code);
 
-            //{fNum:'0',fName:'RO膜',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',
-            //allLife:'100',allFlow:'100',reday:'80',reflow:'60'},
-
             $ds_id = Device::get_devices_info($device_code,'sid');
 
             $filter_data = M('devices_statu')->field('reflowfilter1,redayfilter1,reflowfilter2,redayfilter2,reflowfilter3,redayfilter3,reflowfilter4,redayfilter4,reflowfilter5,redayfilter5,reflowfilter6,redayfilter6,reflowfilter7,redayfilter7,reflowfilter8,redayfilter8
@@ -62,7 +59,7 @@ class IndexController extends HomebaseController {
             $List['PureTDS']=$dataList['puretds'];
             $List['RawTDS']=$dataList['rawtds'];
 
-            
+
             $this->ajaxReturn(array(
                 'filtermode'=>$filtermode,
                 'dataList'=>$List,
