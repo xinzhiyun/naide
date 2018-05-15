@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Device;
 use Common\Tool\Sms;
 
 class UsersController extends HomebaseController {
@@ -193,6 +194,15 @@ class UsersController extends HomebaseController {
             session('waterOrder.name',$homeuser['name']);
             session('waterOrder.phone',$homeuser['user']);
         }
+        $this->display();
+    }
+
+    public function mine()
+    {
+        $did = session('homeuser.did');
+        $device_code = Device::get_devices_sn($did);
+        $info['device_code'] = $device_code;
+        $this->assign('info',$info);
         $this->display();
     }
 
