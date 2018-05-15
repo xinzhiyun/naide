@@ -257,7 +257,11 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/index/index.js"></script>
 	<script src="__PUBLIC__/Home/js/websocket.js"></script>
+
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+
 	<script defer>
+        var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
@@ -289,6 +293,7 @@
                             home.filterList = res.data;				// 滤芯数据
                             home.filtermode = res.filtermode;		// 滤芯模式
                             home.deviceId = res.deviceId;
+                            home.dataList = res.dataList;
 
                             home.usedflow = home.dataList.SumFlow;	// 已用流量
                             home.usedday = home.dataList.SumDay;	// 已用天数
@@ -296,6 +301,9 @@
                             home.reday = home.dataList.Reday;		// 剩余天数
                             home.tdsPure = home.dataList.PureTDS;	// 纯水值
                             home.tdsRaw = home.dataList.RawTDS;		// 原水值
+
+                            home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];	// 水机状态图标
+                            home.statusText = home.dstauseList[home.dataList.DeviceStause];	// 水机状态
 							callback();
                         }
                     },

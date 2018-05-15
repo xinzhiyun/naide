@@ -1,6 +1,6 @@
 <?php
 namespace Org\Util;
-
+use Common\Tool\WeiXin;
 class WeixinJssdk
 {
   //=======【基本信息设置】=====================================
@@ -20,10 +20,10 @@ class WeixinJssdk
    * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
    * @var string
    */
-  public $APPID     = APPID;
-  public $APPSECRET = APPSECRET;
-  public $MCHID     = MCHID;
-  public $KEY       = KEY;
+  public $APPID     = WeiXin::APPID;
+  public $APPSECRET = WeiXin::APPSECRET;
+  public $MCHID     = WeiXin::MCHID;
+  public $KEY       = WeiXin::KEY;
 
   //=======【证书路径设置】=====================================
   /**
@@ -92,7 +92,6 @@ class WeixinJssdk
     // access_token 全局存储7000与更新[文件形式缓存]
     $data = json_decode($this->get_php_file("access_token.php"));
 
-   
     // 判断access_token是否过期
     if ($data->expire_time < time()) {
     

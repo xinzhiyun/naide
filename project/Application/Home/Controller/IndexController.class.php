@@ -2,6 +2,9 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
 use Common\Tool\Device;
+use Common\Tool\File;
+use Common\Tool\WeiXin;
+
 /**
  * 首页
  */
@@ -28,36 +31,33 @@ class IndexController extends HomebaseController {
 
             $ds_id = Device::get_devices_info($device_code,'sid');
 
-            $filter_data = M('devices_statu')->field('reflowfilter1,redayfilter1,reflowfilter2,redayfilter2,reflowfilter3,redayfilter3,reflowfilter4,redayfilter4,reflowfilter5,redayfilter5,reflowfilter6,redayfilter6,reflowfilter7,redayfilter7,reflowfilter8,redayfilter8
+            $filter_data = M('devices_statu')
+                ->field('reflowfilter1,redayfilter1,reflowfilter2,redayfilter2,reflowfilter3,redayfilter3,reflowfilter4,redayfilter4,reflowfilter5,redayfilter5,reflowfilter6,redayfilter6,reflowfilter7,redayfilter7,reflowfilter8,redayfilter8
         ')->find($ds_id);
 
-            foreach ($filters as $key=>$filter){
-
-                $filter_arr['fNum']     =$filter['id'];
-                $filter_arr['fName']    =$filter['filtername'];
-                $filter_arr['fDesc']    =$filter['introduce'];
-                $filter_arr['allLife']  =$filter['timelife'];
-                $filter_arr['allFlow']  =$filter['flowlife'];
-                $filter_arr['reday']    =$filter_data['redayfilter'.($key+1)];
-                $filter_arr['reflow']   =$filter_data['reflowfilte'.($key+1)];
+            foreach ($filters as $key=>$filter) {
+                $filter_arr['fNum']     = $filter['id'];
+                $filter_arr['fName']    = $filter['filtername'];
+                $filter_arr['fDesc']    = $filter['introduce'];
+                $filter_arr['allLife']  = $filter['timelife'];
+                $filter_arr['allFlow']  = $filter['flowlife'];
+                $filter_arr['reday']    = $filter_data['redayfilter'.($key+1)];
+                $filter_arr['reflow']   = $filter_data['reflowfilte'.($key+1)];
 
                 $filter_list[] = $filter_arr;
             }
-//            dump($filter_list);
-
-
-
 
             $dis = Device::get_devices_info($device_code,'sid');
-            $dataList = M('devices_statu')->field('FilterMode,SumFlow,SumDay,ReFlow,ReDay,PureTDS,RawTDS')->find($dis);
+            $dataList = M('devices_statu')->field('FilterMode,SumFlow,SumDay,ReFlow,ReDay,PureTDS,RawTDS,DeviceStause')->find($dis);
 
             $filtermode=$dataList['filtermode'];
             $List['SumFlow']=$dataList['sumflow'];
             $List['SumDay']=$dataList['sumday'];
             $List['ReFlow']=$dataList['reflow'];
-            $List['ReDay']=$dataList['reday'];
+            $List['Reday']=$dataList['reday'];
             $List['PureTDS']=$dataList['puretds'];
             $List['RawTDS']=$dataList['rawtds'];
+            $List['DeviceStause']=$dataList['devicestause'];
 
 
             $this->ajaxReturn(array(
@@ -77,6 +77,11 @@ class IndexController extends HomebaseController {
         $this->assign('homedata',$homedata);
 
         $this->display();
+    }
+
+    public function update()
+    {
+        File::upload('');
     }
 
 }

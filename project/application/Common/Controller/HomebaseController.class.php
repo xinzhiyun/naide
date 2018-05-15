@@ -2,6 +2,7 @@
 namespace Common\Controller;
 
 use Common\Controller\AppframeController;
+use Common\Tool\WeiXin;
 use \Org\Util\WeixinJssdk;
 
 class HomebaseController extends AppframeController
@@ -18,34 +19,36 @@ class HomebaseController extends AppframeController
         $is_weixin_s = $is_weixin?'true':'false';
         $this->assign('is_weixin', $is_weixin_s);
         if($is_weixin or DEBUG){
-            $weixin = new WeixinJssdk();
-            $signPackage = $weixin->getSignPackage();
+
+            $signPackage = WeiXin::getSignPackage();
             $this->assign('wxinfo',$signPackage);
 
             if(DEBUG){
-                $_SESSION['open_id'] = 'onLe70R11Z2SaaV_Z60hjUQH-hTY';
+                $_SESSION['open_id'] = 'ocea2uHn9T1OEUQTuDVnfdtJT7wE';
             }
 
+
             if(empty($_SESSION['open_id'])){
-                $_SESSION['open_id'] = $weixin->GetOpenid();
+                $_SESSION['open_id'] = WeiXin::GetOpenid();
             }
 
             if (empty($homeuser)) {
                 //redirect(U('/Home/Login'), 2, '请登录...');
 
                 $user = M('users')->where(['open_id'=>$_SESSION['open_id']])->find();
-                $user = M('users')->find();
+//                $user = M('users')->find();
+
                 session('homeuser',$user);
             }
         }else{
 
-            //临时虚拟用户
-            if (empty($homeuser)) {
-                //redirect(U('/Home/Login'), 2, '请登录...');
-
-                $user=M('users')->find();
-                session('homeuser',$user);
-            }
+//            //临时虚拟用户
+//            if (empty($homeuser)) {
+//                //redirect(U('/Home/Login'), 2, '请登录...');
+//
+//                $user=M('users')->find();
+//                session('homeuser',$user);
+//            }
         }
 
 

@@ -1,15 +1,56 @@
 <?php
 namespace Common\Tool;
-
+use \Org\Util\WeixinJssdk;
 
 class WeiXin
 {
-    public static $wxconfig = array(      //微信配置
-        'APPID'=>'wxae48f3bbcda86ab1',
-        'APPSECRET'=>'1c39100b331713ae9e96a4e5eb470424',
-        'MCHID'=>'1394894802',
-        'KEY'=>'CAA5EAE2CE5AC44A3F8930E6F127B423',
-    );
+//    public static $wxconfig = array(      //微信配置
+//        'APPID'=>'wxae48f3bbcda86ab1',
+//        'APPSECRET'=>'1c39100b331713ae9e96a4e5eb470424',
+//        'MCHID'=>'1394894802',
+//        'KEY'=>'CAA5EAE2CE5AC44A3F8930E6F127B423',
+//    );
+    const APPID             = 'wx6619d283675acc74';
+    const APPSECRET         = '13aa68f1e262cb406d13076d9a2a31e6';
+
+    const MCHID             = '1394894802';
+    const KEY               = 'CAA5EAE2CE5AC44A3F8930E6F127B423';
+
+    const TOKEN             = 'TOKENP';
+    const EncodingAESKey    = 'kw8vt7U9xqk8D1eqTwghD58WGdjUsSLKTbPL6MErJrb';
+
+    public static $_instance;
+
+    public static function wx_sdk(){
+        if(!(self::$_instance instanceof WeixinJssdk)){
+            self::$_instance = new WeixinJssdk;
+        }
+        return self::$_instance;
+    }
+
+
+    public static function GetOpenid()
+    {
+        return  self::wx_sdk()->GetOpenid();
+    }
+
+    /**
+     * 获取 SignPackage
+     * @return array
+     */
+    public static function getSignPackage()
+    {
+        return  self::wx_sdk()->getSignPackage();
+    }
+
+    /**
+     * 获取 AccessToken
+     * @return mixed
+     */
+    public static function getAccessToken()
+    {
+        return  self::wx_sdk()->getAccessToken();
+    }
 
     /**
      * 统一下单订单支付并返回数据 JsApi
@@ -73,7 +114,7 @@ class WeiXin
         $string_a=urldecode($string_a);
         //签名步骤二：在string后加入KEY
 //        $string_sign_temp=$string_a."&key=CAA5EAE2CE5AC44A3F8930E6F127B423";
-        $string_sign_temp=$string_a."&key=".self::$wxconfig['KEY'];
+        $string_sign_temp=$string_a."&key=".self::KEY;
         //签名步骤三：MD5加密
         $sign = md5($string_sign_temp);
         // 签名步骤四：所有字符转为大写
