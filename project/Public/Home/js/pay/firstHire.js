@@ -55,7 +55,7 @@ window.onload = function() {
 								// 付款失败
 								// 跳转到待付款订单页面
 								noticeFn({text: "付款失败"});
-								location.href = "{{:U('Home/Pay/payFailed')}}";
+								location.href = "{{:U('Home/Pay/payFailed')}}" + "?lease";
 							}
 						}
 					);
