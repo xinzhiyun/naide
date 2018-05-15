@@ -361,7 +361,6 @@ class ActionController extends Controller
                 $msg['DayLifeFiter'. $i]     = $filter_life[$i-1]['timelife'];
             }
             $msg['FilerNum'] = $filenum;
-
         }
         return $msg;
     }

@@ -239,7 +239,12 @@ class PayController extends HomebaseController {
         $info['uid'] = session('homeuser.id');
         $info['did'] = session('homeuser.did');
         $info['vid'] = Device::get_devices_sn($info['did'],'vid');
+
         $list = M('setmeal')->where('type=0')->select();
+//        $arr = [
+//            'money'=>['price']
+//        ];
+//        $list = replace_array_value($list,$arr,'_html');
         $this->assign('list',$list);
         $this->assign('info',$info);
         $this->display();

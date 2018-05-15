@@ -113,7 +113,7 @@ class SetmealController extends CommonController
             // dump($_POST);die;
             $setmeal = D('setmeal');
             $info = $setmeal->create();
-           
+            $info->money *=100 ;
             if($info){
 
                 $res = $setmeal->add();

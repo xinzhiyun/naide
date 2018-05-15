@@ -26,9 +26,8 @@ class Device extends Redis
      */
     public static function get_devices_sn($did='',$field='')
     {
-        if(empty($did)){
-            return '';
-        }
+        if(empty($did)){return false;}
+
         self::connect();
 
         $key = "devices_sn_".$did;
@@ -55,6 +54,7 @@ class Device extends Redis
      */
     public static function get_devices_info($device_code,$field='')
     {
+        if(empty($device_code)){return false;}
         self::connect();
         $key = self::$pre.$device_code;
 
@@ -116,13 +116,17 @@ class Device extends Redis
 
     /**
      * 获取滤芯数据
-     * @param $type_id 设备类型ID
-     * @return array
+     * @param $device_code 设备码
+     * @param $model    模式  true 激活的数据 false 设备默认数据
+     * @return array|bool
      */
-    public static function get_filter_info($type_id)
+    public static function get_filter_info($device_code,$model=false)
     {
-        if(empty($type_id)){return false;}
-        $type = M('device_type')->where("id={$type_id}")->find();
+        if(empty($device_code)){return false;}
+        $type_id = self::get_devices_info($device_code,'type_id');
+
+        $type = M('device_type')->find($type_id);
+        if(empty($type)){return false;}
 
         foreach ($type as $k=> $v) {
             if(strstr($k,'filter') and !empty($v) ){
@@ -135,6 +139,60 @@ class Device extends Redis
             $map['filtername'] = substr($value, 0,$str);
             $map['alias'] = substr($value, $str+1);
             $res[] = M('filters')->where($map)->field('timelife,flowlife')->find();
+        }
+
+        $ds_id = self::get_devices_info($device_code,'sid');
+
+        $filter_data = M('devices_statu')->field('reflowfilter1,redayfilter1,reflowfilter2,redayfilter2,reflowfilter3,redayfilter3,reflowfilter4,redayfilter4,reflowfilter5,redayfilter5,reflowfilter6,redayfilter6,reflowfilter7,redayfilter7,reflowfilter8,redayfilter8
+        ')->find($ds_id);
+
+        if(empty($filter_data)){return false;}
+
+        $filter_life = count($res);
+        if ($model) {
+            for ($i = 1; $i <= $filter_life; $i++) {
+                $msg['ReFlowFilter' . $i]   = $res[$i - 1]['flowlife'];
+                $msg['ReDayFilter' . $i]    = $res[$i - 1]['timelife'];
+                $msg['FlowLifeFilter' . $i] = $res[$i - 1]['flowlife'];
+                $msg['DayLifeFiter' . $i]   = $res[$i - 1]['timelife'];
+            }
+        }else{
+            for ($i = 1; $i <= $filter_life; $i++) {
+                $msg['ReFlowFilter'. $i]     = $filter_data['reflowfilter'.$i];
+                $msg['ReDayFilter'. $i]      = $filter_data['redayfilter'.$i];
+                $msg['FlowLifeFilter'. $i]   = $res[$i-1]['flowlife'];
+                $msg['DayLifeFiter'. $i]     = $res[$i-1]['timelife'];
+            }
+        }
+        $msg['FilerNum'] = $filter_life;
+
+        return $msg;
+    }
+
+    /**
+     * 获取滤芯数据
+     * @param $type_id 设备类型ID
+     * @return array
+     */
+    public static function get_filter($device_code)
+    {
+        if(empty($device_code)){return false;}
+        $type_id = self::get_devices_info($device_code,'type_id');
+
+        $type = M('device_type')->find($type_id);
+        if(empty($type)){return false;}
+
+        foreach ($type as $k=> $v) {
+            if(strstr($k,'filter') and !empty($v) ){
+                $sum[$k] = $v;
+            }
+        }
+
+        foreach ($sum as $key => $value) {
+            $str = stripos($value,'-');
+            $map['filtername'] = substr($value, 0,$str);
+            $map['alias'] = substr($value, $str+1);
+            $res[] = M('filters')->where($map)->find();
         }
         return $res;
     }

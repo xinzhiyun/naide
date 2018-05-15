@@ -20,18 +20,62 @@ class IndexController extends HomebaseController {
      */
     public function index()
     {
+        $did = session('homeuser.did');
         if(IS_AJAX){
-            $did = session('homeuser.did');
+            $device_code = Device::get_devices_sn($did);
+
+            $filters = Device::get_filter($device_code);
+
+            //{fNum:'0',fName:'RO膜',fDesc:'RO膜能够有效去除水中钙、镁、细菌、有机物、无机物、金属离子和放射性物质等，经过该装置净化出的水晶莹清澈、甜美甘醇',
+            //allLife:'100',allFlow:'100',reday:'80',reflow:'60'},
+
+            $ds_id = Device::get_devices_info($device_code,'sid');
+
+            $filter_data = M('devices_statu')->field('reflowfilter1,redayfilter1,reflowfilter2,redayfilter2,reflowfilter3,redayfilter3,reflowfilter4,redayfilter4,reflowfilter5,redayfilter5,reflowfilter6,redayfilter6,reflowfilter7,redayfilter7,reflowfilter8,redayfilter8
+        ')->find($ds_id);
+
+            foreach ($filters as $key=>$filter){
+
+                $filter_arr['fNum']     =$filter['id'];
+                $filter_arr['fName']    =$filter['filtername'];
+                $filter_arr['fDesc']    =$filter['introduce'];
+                $filter_arr['allLife']  =$filter['timelife'];
+                $filter_arr['allFlow']  =$filter['flowlife'];
+                $filter_arr['reday']    =$filter_data['redayfilter'.($key+1)];
+                $filter_arr['reflow']   =$filter_data['reflowfilte'.($key+1)];
+
+                $filter_list[] = $filter_arr;
+            }
+//            dump($filter_list);
+
+
+
+
+            $dis = Device::get_devices_info($device_code,'sid');
+            $dataList = M('devices_statu')->field('FilterMode,SumFlow,SumDay,ReFlow,ReDay,PureTDS,RawTDS')->find($dis);
+
+            $filtermode=$dataList['filtermode'];
+            $List['SumFlow']=$dataList['sumflow'];
+            $List['SumDay']=$dataList['sumday'];
+            $List['ReFlow']=$dataList['reflow'];
+            $List['ReDay']=$dataList['reday'];
+            $List['PureTDS']=$dataList['puretds'];
+            $List['RawTDS']=$dataList['rawtds'];
+
+            
             $this->ajaxReturn(array(
+                'filtermode'=>$filtermode,
+                'dataList'=>$List,
+                'data'=>$filter_list,
                 'deviceId'=> Device::get_devices_sn($did),
                 'status'=>200,
             ),"JSON");
         }
 
-        $did = session('homeuser.did');
+
         $homedata['device_code'] = Device::get_devices_sn($did);
 
-        //Device::get_devices_info($device_code);
+//        Device::get_devices_info($device_code);
 
         $this->assign('homedata',$homedata);
 
