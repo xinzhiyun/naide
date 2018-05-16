@@ -19,13 +19,13 @@ class WeiXin
     const TOKEN             = 'TOKENP';
     const EncodingAESKey    = 'kw8vt7U9xqk8D1eqTwghD58WGdjUsSLKTbPL6MErJrb';
 
-    public static $_instance;
+    public static $_wx;
 
     public static function wx_sdk(){
-        if(!(self::$_instance instanceof WeixinJssdk)){
-            self::$_instance = new WeixinJssdk;
+        if(!(self::$_wx instanceof WeixinJssdk)){
+            self::$_wx = new WeixinJssdk;
         }
-        return self::$_instance;
+        return self::$_wx;
     }
 
 

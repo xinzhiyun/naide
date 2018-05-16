@@ -33,10 +33,10 @@ class Device extends Redis
         $key = "devices_sn_".$did;
         if (self::$redis->exists($key)) {
             $device_code = self::$redis->get($key);
-            if(empty($device_code)){
-                $device_code = M('devices')->where('id='.$did)->getField('device_code');
-                self::$redis->set($key,$device_code);
-            }
+        }
+        if(empty($device_code)){
+            $device_code = M('devices')->where('id='.$did)->getField('device_code');
+            self::$redis->set($key,$device_code);
         }
 
         if(empty($field)){

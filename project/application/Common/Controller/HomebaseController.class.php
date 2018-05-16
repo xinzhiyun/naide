@@ -27,26 +27,23 @@ class HomebaseController extends AppframeController
 //                $_SESSION['open_id'] = 'ocea2uHn9T1OEUQTuDVnfdtJT7wE';
 //            }
 
-
-
-
             if(empty($_SESSION['open_id'])){
                 $_SESSION['open_id'] = WeiXin::GetOpenid();
             }
 
-//            if (empty($homeuser)) {
-//                redirect(U('/Home/Index/login'), 1, '请登录...');exit;
-//            }
-            $user = M('users')->find(1);
-
-            session('homeuser',$user);
+            if (empty($homeuser)) {
+                redirect(U('/Home/Login/index'));exit;
+            }
+//            $user = M('users')->find(1);
+//
+//            session('homeuser',$user);
 
 
         }else{
 
             //临时虚拟用户
             if (empty($homeuser)) {
-                redirect(U('/Home/Index/login'), 3, '请登录...');exit;
+                redirect(U('/Home/Login/index'));exit;
             }
         }
 
@@ -65,9 +62,9 @@ class HomebaseController extends AppframeController
             $did = $devices_model->where($usermap)->getField('id');
             if(empty($did)){
                 $did = $devices_model->where('uid='.session('homeuser.id'))->getField('id');
-                if(empty($did)){
-                    redirect(U('/Home/Device/index'), 2, '无设备');
-                }else{
+                if(!empty($did)){
+//                    //redirect(U('/Home/Device/index'), 2, '无设备');
+//                }else{
                     $devices_model->where('id='.$did)->save(['default'=>1]);
                 }
             }

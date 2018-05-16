@@ -54,20 +54,25 @@
 		// 密码判断
 		if(!userpass) {
 			noticeFn({text: "密码不能为空!"});
-			return false; 
+			return false;
 		}
 		// ajax提交后台
-		// $.ajax({
-		// 	url: "",
-		// 	type: "post",
-		// 	data: {},
-		// 	success: function(res) {
-		// 		console.log("成功", res);
-		// 	},
-		// 	error: function(res) {
-		// 		console.log("失败", res);
-		// 	}
-		// })
+		$.ajax({
+			url: "{{:U('/home/login/login')}}",
+			type: "post",
+			data: {user:username,password:userpass},
+			success: function(res) {
+                console.log("登录", res);
+                if(res.status == 200) {
+                    location.href = '{{:U("/Home/Index/index")}}';
+				}else{
+                    noticeFn({text: res.msg});
+                }
+			},
+			error: function(res) {
+				console.log("失败", res);
+			}
+		})
 	})
 </script>
 </html>

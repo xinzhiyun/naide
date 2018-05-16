@@ -11,19 +11,19 @@ namespace Common\Tool;
 class Redis
 {
     public static $redis='';
-    public static $_instance;
+    public static $redis_instance;
 
     public function __construct()
     {
         self::$redis = new \Redis();
-        self::$redis->connect('192.168.0.251',6379);
+        self::$redis->connect('127.0.0.1',6379);
     }
 
     public static function connect(){
-        if(!(self::$_instance instanceof Redis)){
-            self::$_instance = new Redis;
+        if(!(self::$redis_instance instanceof Redis)){
+            self::$redis_instance = new Redis;
         }
-        return self::$_instance;
+        return self::$redis_instance;
     }
 
 }
