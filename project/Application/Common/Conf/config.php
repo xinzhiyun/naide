@@ -17,7 +17,7 @@ return array(
     'DB_MASTER_NUM'          => 1, // 读写分离后 主服务器数量
     'DB_SLAVE_NO'            => '', // 指定从服务器序号
 
-    'DEBUG'                  => true,
+    'DEBUG'                  => false,
 
     'ws'                     =>'ws://ddjz.ddjz88.com:6001'
 );

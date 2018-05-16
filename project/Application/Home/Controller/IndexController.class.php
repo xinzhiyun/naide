@@ -19,7 +19,7 @@ class IndexController extends HomebaseController {
     {
 
         $did = session('homeuser.did');
-        // $homedata['device_code'] = Device::get_devices_sn($did);
+        $homedata['device_code'] = Device::get_devices_sn($did);
 
         // Device::get_devices_info($device_code);
 
