@@ -7,7 +7,7 @@ new Vue({
 		// 套餐选择
 		selectMeal: list,
 		// 选择套餐内容变量
-		displayMeal: list[0].money, //默认为第一个套餐的金额
+		displayMeal: (list[0].money/100), //默认为第一个套餐的金额
 		// 用户相关信息
 		userInfo: info
 	},
@@ -85,11 +85,12 @@ new Vue({
 				*/
 				var jogData = {
 					openId: open_id,
-					money: res.price,
+					money: res.price/100,
 					order_id: res.order_id,
 					content: res.title,
 					notify_url: res.notify_url
 				}
+				console.log(jogData)
 				var jogUrl = getURL("Home", "Pay/wxres");
 				$.ajax({
 					url: jogUrl,
@@ -109,7 +110,7 @@ new Vue({
 						console.log("失败", res);
 						noticeFn({text: '系统出了一点小问题，请稍后再试！'});
 					}
-				}) 
+				})
 			}
 			// 微信支付方法
 			function weixinPay(res){
