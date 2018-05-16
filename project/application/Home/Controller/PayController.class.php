@@ -96,7 +96,7 @@ class PayController extends HomebaseController {
                         'order_id'=>$order_sn,
                         'title'=>'耐的净水器',
                         'price'=>$money,
-                        'notify_url'=> U('notify_water','',true,true),
+                        'notify_url'=> U('/Home/Wechat/notify','',true,true),
                         'msg'=>'创建成功',
                     ),'JSON');
 
@@ -203,39 +203,39 @@ class PayController extends HomebaseController {
         $this->ajaxReturn($data,'JSON');
     }
 
-    /**
-     * 水机支付回调
-     */
-    public function notify_water()
-    {
-        $xml=file_get_contents('php://input', 'r');
-        Log::write($xml,'水机支付回调xml');
-
-        if($xml) {
-            //解析微信返回数据数组格式
-            $result = WeiXin::notifyData($xml);
-            Log::write(json_encode($result),'水机支付回调');
-            if(!empty($result['out_trade_no'])){
-                // 获取传回来的订单号
-                $map['order_id'] = $result['attach'];
-                $map['is_pay'] = 0;
-                $order = M('order');
-                // 查询订单是否已处理
-                $orderData = $order->where($map)->field('is_pay,money,id')->find();
-                // 如果订单未处理，订单支付金额等于订单实际金额
-                if(empty($orderData['is_pay']) && $orderData['money'] == $result['total_fee']){
-                    $data=array(
-                        'is_pay'=>1
-                    );
-                    $order_res = $order->where('id='.$orderData['id'])->save($data);
-                    if(!empty($order_res)){
-                        //写流水
-                    }
-
-                }
-            }
-        }
-    }
+//    /**
+//     * 水机支付回调
+//     */
+//    public function notify_water()
+//    {
+//        $xml=file_get_contents('php://input', 'r');
+//        Log::write($xml,'水机支付回调xml');
+//
+//        if($xml) {
+//            //解析微信返回数据数组格式
+//            $result = WeiXin::notifyData($xml);
+//            Log::write(json_encode($result),'水机支付回调');
+//            if(!empty($result['out_trade_no'])){
+//                // 获取传回来的订单号
+//                $map['order_id'] = $result['attach'];
+//                $map['is_pay'] = 0;
+//                $order = M('order');
+//                // 查询订单是否已处理
+//                $orderData = $order->where($map)->field('is_pay,money,id')->find();
+//                // 如果订单未处理，订单支付金额等于订单实际金额
+//                if(empty($orderData['is_pay']) && $orderData['money'] == $result['total_fee']){
+//                    $data=array(
+//                        'is_pay'=>1
+//                    );
+//                    $order_res = $order->where('id='.$orderData['id'])->save($data);
+//                    if(!empty($order_res)){
+//                        //写流水
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -330,7 +330,7 @@ class PayController extends HomebaseController {
                         'order_id'=>$order_sn,
                         'title'=>'耐的净水器套餐充值',
                         'price'=>$money,
-                        'notify_url'=> U('notify_water','',true,true),
+                        'notify_url'=> U('/Home/Wechat/notify','',true,true),
                         'msg'=>'创建成功',
                     ),'JSON');
 
@@ -385,7 +385,7 @@ class PayController extends HomebaseController {
             } else {
                 $notify_url = $data['notify_url'];
             }
-            
+
             $res= WeiXin::uniformOrder($openId,$money,$order_id,$content,$notify_url);
             $this->ajaxReturn(array(
                 'status'=>200,

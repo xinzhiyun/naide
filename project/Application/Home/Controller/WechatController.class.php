@@ -9,7 +9,7 @@ class WechatController extends Controller
     /**
      * 支付回调
      */
-    public function notify_water()
+    public function notify()
     {
         $xml=file_get_contents('php://input', 'r');
         Log::write($xml,'水机支付回调xml');
