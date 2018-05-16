@@ -46,25 +46,25 @@
 					<h3>我的订单</h3>
 					<ul class='am-g' style='margin:1vh 0;'>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}" >
+							<a href="{{:U('Home/Pay/order')}}?status=0">
 								<i class="iconfont icon-order_all"></i><br>
 								<span>全部订单</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?index=1">
+							<a href="{{:U('Home/Pay/order')}}?status=1">
 								<i class="iconfont icon-wait_pay"></i><br>
 								<span>待付款</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?index=2">
+							<a href="{{:U('Home/Pay/order')}}?status=2">
 								<i class="iconfont icon-wait_send"></i><br>
 								<span>待发货</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?index=3">
+							<a href="{{:U('Home/Pay/order')}}?status=3">
 								<i class="iconfont icon-wait_receive"></i><br>
 								<span>待收货</span>
 							</a>
