@@ -7,7 +7,7 @@ new Vue({
 		// 套餐选择
 		selectMeal: list,
 		// 选择套餐内容变量
-		displayMeal: list[0].money, //默认为第一个套餐的金额
+		displayMeal: (list[0].money/100), //默认为第一个套餐的金额
 		// 用户相关信息
 		userInfo: info
 	},
@@ -27,19 +27,6 @@ new Vue({
 		// 立即付款
 		payQuikly() {
 			var _this = this;
-			//微信接口
-			wx.config({
-				debug: false,
-				appId: wxinfo.appId, //企业号
-				timestamp: wxinfo.timestamp, //生成签名的时间戳
-				nonceStr: wxinfo.nonceStr, //生成签名的随机串
-				signature: wxinfo.signature, //签名，见附录1
-				jsApiList: [
-				// 所有要调用的 API 都要加到这个列表中
-				'chooseWXPay'
-				]
-			});
-
 			// 提交后台参数
 			/* 
 				pay	支付方式
@@ -69,23 +56,17 @@ new Vue({
 				type: "post",
 				data: mealInfo,
 				success: function(res) {
-					console.log("成功", res);
+					console.log("第一步", res)
 					if(res.status == 200) {
-						//判断微信环境
-						if(1){
-
-                            $.ajax({
-                                url: '/Home/Pay/wxres',
-                                type: "post",
-                                data: wxres,
-                                success: function(res) {
-                                    weixinPay(res);//调用微信支付
-                                }});
+						var isWx = isWX();
+						if(isWx) {
+							// 调用微信支付接口
+							weixinJog(res);
+						}else {
+							noticeFn({text: "非微信环境下"});
 						}
-
-
 					}else {
-						noticeFn({text: "付款出错!请重新支付"});
+						noticeFn({text: "支付失败!请重试"});
 					}
 				},
 				error: function(res) {
@@ -93,7 +74,44 @@ new Vue({
 					console.log("失败", res);
 				}
 			});
-
+			// 微信支付接口
+			function weixinJog(res) {
+				/*
+					openId	用户OpenID		
+					money	价格			
+					order_id	订单号			
+					content	订单内容		
+					notify_url	订单回调地址 
+				*/
+				var jogData = {
+					openId: open_id,
+					money: res.price/100,
+					order_id: res.order_id,
+					content: res.title,
+					notify_url: res.notify_url
+				}
+				console.log(jogData)
+				var jogUrl = getURL("Home", "Pay/wxres");
+				$.ajax({
+					url: jogUrl,
+					type: "post",
+					data: jogData,
+					success: function(res) {
+						console.log("成功", res);
+						if(res.status != 201) {
+							// 调用微信支付
+							weixinPay(res);
+						}else {
+							noticeFn({text: "付款出错!请重新支付"});
+						}
+						
+					},
+					error: function(res) {
+						console.log("失败", res);
+						noticeFn({text: '系统出了一点小问题，请稍后再试！'});
+					}
+				})
+			}
 			// 微信支付方法
 			function weixinPay(res){
 				var type = Object.prototype.toString.call(res);
