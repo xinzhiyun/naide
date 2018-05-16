@@ -1,20 +1,28 @@
 window.onload = function() {
-		// payKuan高度为窗口高度
+	// payKuan高度为窗口高度
 	$(".payKuan").css({"height": document.documentElement.clientHeight, "width": document.documentElement.clientWidth});
 	// 默认付款方式为隐藏
 	$(".payKuan").css("display", "none");
-
+	
 	// 实例化vue
 	new Vue({
 		el: ".main",
 		data: {
 			// 图片路径 商品标题 商品描述 商品价格/日期 商品数量
-			goodsInfo: {"imgSrc": "../../Public/images/bj.png", "goodsTitle": "耐得饮水机", "goodsDetail": "精钢速热YD1515S-X", "goodsPrice": "200元/3个月", "goodsNum": "2"},
-			userAddr: {
-				username: "小花",
-				userPhone: "13554269853",
-				userAddress: "广东省广州市番禺区创源路",
+			goodsInfo: goodsInfo,
+			// 用户信息
+			userInfo: {
+				username: "", //用户名
+				userPhone: "", //电话号码
+				userAddress: "", //地址
 			},
+		},
+		mounted: function() {
+			// 更新用户信息
+			var _this = this;
+			_this.userInfo.username = waterOrder.name;
+			_this.userInfo.userPhone = waterOrder.phone;
+			_this.userInfo.userAddress = waterOrder.province + waterOrder.city + waterOrder.district + " " + waterOrder.address;			
 		},
 		methods: {
 			// 点击付款时弹出付款方式
@@ -22,9 +30,37 @@ window.onload = function() {
 				$(".payKuan").css("display", "block");
 			},
 			// 付款
-			goPay() {
-				// 调出付款界面并输入密码
-			}
+			goPay: function() {
+				// 调用ajax请求函数
+				sendAjax()
+				// 微信支付方法
+				function weixinPay(res){
+					var type = Object.prototype.toString.call(res);
+					if(type === '[object Object]'){
+						res = JSON.stringify(res);
+					}
+					WeixinJSBridge.invoke(
+						'getBrandWCPayRequest',
+						JSON.parse(res),
+						function(res){
+							if (res.err_msg.substr(-2) == 'ok') {
+								// 付款成功，跳转前台主页
+								noticeFn({text: "付款成功"});
+								location.href = "{{:U('Home/Pay/paySuccess')}}";
+							} else if (res.err_msg.substr(-6) == 'cancel') {
+								// 取消付款
+								// 跳转到选择套餐页面
+								location.href = "{{:U('Home/Pay/lease')}}";
+							}else{
+								// 付款失败
+								// 跳转到待付款订单页面
+								noticeFn({text: "付款失败"});
+								location.href = "{{:U('Home/Pay/payFailed')}}" + "?lease";
+							}
+						}
+					);
+				};	
+			},
 			
 		}
 	})
@@ -40,5 +76,5 @@ window.onload = function() {
 			$(".payKuan").css("display", "none");
 		}
 	}, false);
-
+	
 }

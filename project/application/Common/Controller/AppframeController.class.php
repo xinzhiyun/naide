@@ -1,7 +1,6 @@
 <?php
 namespace Common\Controller;
 use Think\Controller;
-
 class AppframeController extends Controller {
 
     public function __call($a,$b)
@@ -11,6 +10,7 @@ class AppframeController extends Controller {
             $this->display($a);
         }
     }
+
 
     public function to_json($e)
     {

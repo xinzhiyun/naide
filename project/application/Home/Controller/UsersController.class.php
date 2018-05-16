@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Device;
 use Common\Tool\Sms;
 
 class UsersController extends HomebaseController {
@@ -24,17 +25,25 @@ class UsersController extends HomebaseController {
                 $reg['user'] = $data['uphone'];
             }
 
-            if (empty($data['upwd'])) {
-                E('密码不能为空', 201);
-            } else {
-                $reg['password'] = md5(md5($data['upwd']));
+            if (isset($data['has'])) {
+                if (!empty($data['upwd'])) {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }else{
+                if (empty($data['upwd'])) {
+                    E('密码不能为空', 201);
+                } else {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
             }
+
 
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {
-                $order['address'] = $data['address'];
+                session('waterOrder.address',$data['address']);
             }
+
 
             $m =  M('users');
             $info = $m->where('user='.$reg['user'])->find();
@@ -50,16 +59,14 @@ class UsersController extends HomebaseController {
             }
 
             if($res){
-                $order['uid'] = $uid;
-                $order['name'] = $reg['name'];
-                $order['phone'] = $reg['user'];
+                session('waterOrder.sid',$data['sid']);
+                session('waterOrder.uid',$uid);
+                session('waterOrder.name',$reg['name']);
+                session('waterOrder.phone',$reg['user']);
             } else {
                 //用户注册失败
                 E('用户注册失败', 201);
             }
-
-            session('waterOrder',$order);
-
             E('注册成功', 200);
 
         } catch (\Exception $e) {
@@ -139,7 +146,13 @@ class UsersController extends HomebaseController {
                 E('密码错误!', 201);
             } else {
                 $_SESSION['homeuser'] = $info;
-                E('登录成功', 200);
+
+                $this->ajaxReturn(array(
+                    'PHPSESSID'=>cookie('PHPSESSID'),
+                    'status'=>200,
+                    'msg'=>'登录成功',
+                ),'JSON');
+
             }
 
         } catch (\Exception $e) {
@@ -173,6 +186,28 @@ class UsersController extends HomebaseController {
         }
     }
 
+    public function buyinfo()
+    {
+        if(session('waterOrder.has')==1){
+            $homeuser = session('homeuser');
+            session('waterOrder.uid',$homeuser['id']);
+            session('waterOrder.name',$homeuser['name']);
+            session('waterOrder.phone',$homeuser['user']);
+        }
+        $this->display();
+    }
+
+    /**
+     * 用户中心
+     */
+    public function mine()
+    {
+        $did = session('homeuser.did');
+        $device_code = Device::get_devices_sn($did);
+        $info['device_code'] = $device_code;
+        $this->assign('info',$info);
+        $this->display();
+    }
 
 }
 

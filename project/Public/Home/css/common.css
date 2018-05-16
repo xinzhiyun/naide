@@ -33,6 +33,7 @@ body {
 	background: #edeef2;
 	overflow-x: hidden;
 	overflow-y: scroll;
+	margin: 0;
 }
 
 /* navbar -- 开始 */

@@ -8,6 +8,25 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/pay/css/buy.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script>
+		var list={{$list|json_encode}};
+		var info={{$info|json_encode}};
+		var open_id= "{{$_SESSION['open_id']}}";
+		console.log(open_id)
+		// 微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
+	</script>
 </head>
 <body>
 	<div class="main" v-cloak>
@@ -15,23 +34,9 @@
 		<div class="mainContent">
 			<h1>选择套餐</h1>
 			<ul class="am-avg-sm-2 am-thumbnails" @click="selectMeals">
-				<li class="am-thumbnail">
-					<p>{{selectMeal.one}}</p>
-				</li>
-				<li class="am-thumbnail">
-					<p>{{selectMeal.two}}</p>
-				</li>
-				<li class="am-thumbnail">
-					<p>{{selectMeal.three}}</p>
-				</li>
-				<li class="am-thumbnail">
-					<p>{{selectMeal.four}}</p>
-				</li>
-				<li class="am-thumbnail">
-					<p>{{selectMeal.five}}</p>
-				</li>
-				<li class="am-thumbnail">
-					<p>{{selectMeal.six}}</p>
+				<li class="am-thumbnail" v-for="(meal, index) in selectMeal">
+					<!-- flow-套餐天数  mealId=套餐id  tId-设备id -->
+					<p :flow="meal.flow" :mealId="meal.id" :tId="meal.tid" :mealMoney="meal.money">{{meal.describe}}</p>
 				</li>
 			</ul>
 			<p class="quikBuy" @click="quikBuys">立即购买</p>
@@ -47,12 +52,12 @@
 				<ul>
 					<li>￥{{displayMeal}}.00</li>
 					<li>支付方式</li>
-					<li>
+					<li :type="1">
 						<span><i class="iconfont icon-weixin"></i>微信支付</span>
 						<span class="iconfont icon-circleyuanquan"></span>
 					</li>
 					<li>
-						<p>立即付款</p>
+						<p class="payQuikly" @click="payQuikly">立即付款</p>
 					</li>
 				</ul>
 			</div>
@@ -62,7 +67,12 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/pay/buy.js"></script>
+
 	<script defer>
+        var wxinfo = {{$wxinfo|json_encode}};
+        var is_weixin ={{$is_weixin}};
+        console.log(wxinfo);
+        // console.log(is_weixin);
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>

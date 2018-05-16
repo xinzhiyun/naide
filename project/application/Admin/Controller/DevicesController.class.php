@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Admin\Controller\CommonController;
+use Common\Tool\Device;
 use Think\Controller;
 
 /**
@@ -10,6 +11,16 @@ use Think\Controller;
  */
 class DevicesController extends CommonController
 {
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $ws = C('ws');
+
+        $this->assign('ws',$ws);
+    }
     /**
      * 显示设备列表
      */
@@ -96,7 +107,7 @@ class DevicesController extends CommonController
                 ->where($map)
                 ->alias('d')
                 ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+//                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
                 ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
                 ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
                 ->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
@@ -187,27 +198,29 @@ class DevicesController extends CommonController
             ->where($map)
             ->alias('d')
             ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
-            ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+//            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
+            ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-            ->field("statu.*,bind.*,vendors.*,type.*,d.*")
+            ->field("statu.*,vendors.*,type.*,d.*")
             ->find();
 
-        // 滤芯信息
-        $filter = D('devices')
-            ->where($map)
-            ->alias('d')
-            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-            ->field('type.*') 
-            ->find();
-        $data['filterInfo'] = $this->getFilterDetail($filter);
+//        // 滤芯信息
+//        $filter = D('devices')
+//            ->where($map)
+//            ->alias('d')
+//            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
+//            ->field('type.*')
+//            ->find();
+        
+//        $data['filterInfo'] = $this->getFilterDetail($filter);
+        $data['filterInfo'] = Device::get_filter_info($data['statu']['type_id']);
 
         // 获取经销商信息
         $data['vendor'] = D('devices')
             ->where($map)
             ->alias('d')
-            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
-            ->join('__VENDORS__ v ON bind.vid=v.id', 'LEFT')
+//            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
+            ->join('__VENDORS__ v ON d.vid=v.id', 'LEFT')
             ->field('v.*')
             ->find();
         // 获取使用记录
@@ -223,6 +236,7 @@ class DevicesController extends CommonController
     public function getFilterDetail($sum)
     {
         unset($sum['id'],$sum['typename'],$sum['addtime']);
+
         $sum = array_filter($sum);
         foreach ($sum as $key => $value) {
             $str = stripos($value,'-');

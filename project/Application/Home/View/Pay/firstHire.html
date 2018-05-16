@@ -8,10 +8,36 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/pay/css/firstHire.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script>
+		// 水机订单信息
+		var waterOrder = JSON.parse('{{$_SESSION["waterOrder"]|json_encode}}');
+
+		// 商品信息
+		var goodsInfo = JSON.parse('{{$_SESSION["waterOrder"]["goodsInfo"]|json_encode}}');
+		console.log(waterOrder, goodsInfo)
+		// ajax请求地址
+		// var ajaxUrl = "{{:U('Home/Pay/Waterbuy')}}";
+		//微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
+		
+		
+	</script>
 </head>
 <body>
 	<div class="main" v-cloak>
 		<div class="mainContent">
+			<!-- <input type="hidden" class="waterOrder" value='{{$_SESSION["waterOrder"]|json_encode}}'> -->
 			<!-- 货物详情 -->
 			<div class="goods am-g">
 				<p class="am-u-sm-4 am-u-md-4 am-u-lg-4"><img src="__PUBLIC__/Home/images/bj.png" alt=""></p>
@@ -27,8 +53,8 @@
 					<span class="iconfont icon-shouhuodizhi"></span>
 				</div>
 				<ul class="am-u-sm-10">
-					<li><span>收货人： <i><span v-text='userAddr.username'></span></i></span><span v-text='userAddr.userPhone'></span></li>
-					<li>收货地址：<span v-text='userAddr.userAddress'></span></li>
+					<li><span>收货人： <i><span v-text='userInfo.username'></span></i></span><span v-text='userInfo.userPhone'></span></li>
+					<li>收货地址：<span v-text='userInfo.userAddress'></span></li>
 				</ul>
 			</div>
 			<!-- 确认付款 -->
@@ -46,19 +72,19 @@
 					<p style="padding-left:.5rem;">选择支付方式</p>
 				</li>
 				<li>
-					<div class="payWay">
+					<div class="payWay" payIndex="1">
 						<span class="iconfont icon-circleyuanquan quanquan"></span>
 						<p>
 							<span class="iconfont icon-weixinzhifu" style="color:rgb(82,165,73)"></span>微信支付
 						</p>
 					</div>
-					<div class="payWay">
+					<div class="payWay" payIndex="2">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p class="ylpic">
 							<img src="__PUBLIC__/Home/images/yl.png" alt="">银联支付
 						</p>
 					</div>
-					<div class="payWay">
+					<div class="payWay" payIndex="3">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p>
 							<span class="iconfont icon-alipay" style="color:rgb(0,170,239)"></span>支付宝支付
@@ -75,11 +101,54 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/pay/firstHire.js"></script>
-	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].innerHTML = '';
-        // var waterOrder = {{$_SESSION['waterOrder']|json_encode}};
-        // console.dir(waterOrder);
+	<script>
+		document.querySelector('.back2home').style.display = 'none';
+		
+		function sendAjax() {
+			
+			// 选择付款方式
+			var payIndex = $(".icon-circleyuanquan").parent("div").attr("payIndex");
+			// 判断支付方式
+			switch(payIndex) {
+				case '1':
+					$.ajax({
+						url: "{{:U('Home/Pay/Waterbuy')}}",
+						type: "post",
+						data: {pay: payIndex},
+						success: function(res) {
+							console.log("连接成功", res)
+							if(res.status == 200) {
+								// notify_url-支付回调地址 order_id-订单号 price-商品价格
+								var orderInfo = {notify_url: res.notify_url, order_id: res.order_id, price: res.price};
+								// 返回信息保存到sessionStorage中
+								sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
+
+								// 调用微信支付方法
+								weixinPay(res);
+
+							}else {
+								noticeFn({text: "付款出错!请重新支付"});
+							}
+						},
+						error: function(res) {
+							console.log("失败", res);		
+							noticeFn({text: '系统出了一点小问题，请稍后再试！'});
+						}
+					});
+				
+				break;
+				case '2':
+					// 银联支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+				break;
+				case '3':
+					// 支付宝支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+				break;
+			}
+			
+		}
+		
 	</script>
 </body>
 </html>

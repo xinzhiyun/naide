@@ -24,20 +24,35 @@ var device_administrate = new Vue({
 			var e = event || window.event;
 			e.preventDefault();
 			var el = e.currentTarget;
-			var data = $(el).children().children("span").html();
-			this.default_code = data;
-			console.log(data);
+
+            var did = el.getAttribute("did");
+            document.querySelectorAll('.icon-dagouwuquan').forEach(function(icon,index){
+                icon.style.display = 'none';
+            })
+            // var data = $(el).children().children("span").html();
+			// this.default_code = data;
 			// 将选中的设备号发送后台
 		    $.ajax({
-		        url: "",
-		        data: {datas: data},
+                url: "/index.php/Home/Device/setDefault",
+                data: {did: did},
 		        type: "post",
 		        success: function(res) {
-		            
+		            if(res.status==200){
+		            	noticeFn({text:'切换成功'})
+                        el.querySelector('.iconfont').style.display = 'block';
+                        el.setAttribute("default",'1');
+
+                        setTimeout(function () {
+                            location.href = '/index.php/Home/Users/mine';
+                        },500);
+					}else{
+                        noticeFn({text:'切换失败'})
+                    }
 		        },
 		        error: function(res) {
-		            
-		        }
+                    noticeFn({text:'网络断开,请刷新重试'})
+
+                }
 		    })
 		},
 	},

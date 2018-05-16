@@ -83,7 +83,7 @@ function gerOrderId()
     // 生成唯一订单号
     $orderId = onlyOrderId().$did;
     //查询订单号是否存在
-    $oid = M('Orders')->where("`order_id`='{$orderId}'")->field('id')->find();
+    $oid = M('Order')->where("`order_id`='{$orderId}'")->field('id')->find();
     // 如果订单号已存在再重新获取一次
   } while ($oid);
 
@@ -92,11 +92,43 @@ function gerOrderId()
 }
 
 function onlyOrderId(){                     
-  // $str = date('Ymd').time().mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999);
+//   $str = date('Ymd').time().mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999);
   $str = mt_rand(1111111111, 9999999999).mt_rand(1111111111, 9999999999).time();
   $yCode = mb_substr($str, 0, 15);
   return $yCode;
 }
+
+/**
+ * 生产唯一的水机订单ID
+ */
+function gerOrderSN()
+{
+    do {
+        $orderId = date('Ymd').time().mt_rand(1111111, 9999999).mt_rand(1111111, 9999999);
+        //查询订单号是否存在
+        $oid = M('order')->where("`order_id`='{$orderId}'")->field('id')->find();
+        // 如果订单号已存在再重新获取一次
+    } while ($oid);
+
+    // 绝对唯一的32位订单ID号
+    return $orderId;
+}
+
+/**
+ * 生成工单号
+ * @return string
+ */
+function get_work_no(){
+    do {
+        $no = date('YmdHis').mt_rand(111, 999);
+        $oid = M('work')->where("`no`='{$no}'")->field('id')->find();
+    } while ($oid);
+
+    // 绝对唯一的32位订单ID号
+    return $no;
+}
+
+
 
 /**
  * @param $data
@@ -155,6 +187,8 @@ function replace_array_value($data, array $replace, $suffix="")
 }
 
 
+
+
 /**
  * 判断前台用户是否登录
  * @return boolean
@@ -164,20 +198,50 @@ function is_user_login(){
     return !empty($session_user);
 }
 
-///**
-// * 获取当前登录前台用户id
-// * @return int
-// */
-//function get_current_user(){
-//    $session_user_id=session('user.id');
-//    if(!empty($session_user_id)){
-//        return $session_user_id;
-//    }else{
-//        return 0;
-//    }
-//}
+/**
+ * 将xml转为array
+ * @param  string $xml xml字符串
+ * @return array       转换得到的数组
+ */
+function xmltoArray($xml){
+    //禁止引用外部xml实体
+    libxml_disable_entity_loader(true);
+    $result= json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+    return $result;
+}
 
 
+
+function getip() {
+    static $ip = '';
+    $ip = $_SERVER['REMOTE_ADDR'];
+    if(isset($_SERVER['HTTP_CDN_SRC_IP'])) {
+        $ip = $_SERVER['HTTP_CDN_SRC_IP'];
+    } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
+        foreach ($matches[0] AS $xip) {
+            if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
+                $ip = $xip;
+                break;
+            }
+        }
+    }
+    if (preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip)) {
+        return $ip;
+    } else {
+        return '127.0.0.1';
+    }
+}
+
+function is_weixin()
+{
+    if (empty($_SERVER['HTTP_USER_AGENT']) || ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows Phone') === false))) {
+        return false;
+    }
+
+    return true;
+}
 
 
 

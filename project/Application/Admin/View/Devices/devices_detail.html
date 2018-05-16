@@ -117,7 +117,6 @@ $(function(){
         },
         success:function(data){
             deviceId=data.statu.device_code;
-            console.log(data);
             $('._dev').append(location.hash.slice(1));//设置当前设备编号
 
             //设置设备状态
@@ -274,14 +273,15 @@ $(function(){
                 $('._vendor').html(_html3)
             }
 
-            //alert($(".tdDeviceId").html());
+            // alert(123);
+            // console.log(deviceId);
             //    success
             //websoket
             //1.建立连接
             var timer=null;
             var numAdd=0;
             var identify=0;
-            var websoket=new WebSocket("ws://120.27.12.1:6001");
+            var websoket=new WebSocket("{{$ws}}");
             var PackNum=0;//包数据
             var CmdList=[];//命令队列
             websoket.onopen=function(){
@@ -291,6 +291,7 @@ $(function(){
                     "PackType":"login",
                     "Vison":0,
                 };
+
                 websoket.send(JSON.stringify(ajson));
                 setTimeout(function(){
                     ajson.PackType="Select";

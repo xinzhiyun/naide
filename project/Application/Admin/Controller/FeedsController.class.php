@@ -59,7 +59,6 @@ class FeedsController extends CommonController
             $data = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__BINDING__ bd ON bd.did = d.id')
                         ->join('__VENDORS__ v ON bd.vid = v.id')
                         ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
                         ->order('f.addtime desc')
@@ -77,8 +76,7 @@ class FeedsController extends CommonController
 
         $total = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__BINDING__ bd ON  f.did= bd.did ')
+                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
 //                        ->join('__VENDORS__ v ON bd.vid = v.id')
 //                        ->field('d.*,f.id,f.content,f.addtime')
                         ->order('f.addtime desc')
@@ -87,10 +85,9 @@ class FeedsController extends CommonController
         $pageButton =$page->show();
         $userlist = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__BINDING__ bd ON bd.did = f.did', 'LEFT')
+                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
 //                        ->join('__VENDORS__ v ON bd.vid = v.id', 'LEFT')
-                       ->field('d.*,f.id, f.content,f.addtime')
+                        ->field('d.*,f.id, f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
@@ -161,13 +158,13 @@ class FeedsController extends CommonController
         }
 
 //        dump($map);die;
-        $user = M('repair');
+        $user = M('work');
         // PHPExcel 导出数据 
         if (I('output') == 1) {
             $data = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('pub_binding bd ON  d.id = bd.did', 'LEFT')
+//                        ->join('pub_binding bd ON  d.id = bd.did', 'LEFT')
                         ->field('f.uid,d.device_code,d.name,d.phone,f.content,f.address,f.status,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
@@ -182,12 +179,10 @@ class FeedsController extends CommonController
             return ;
         }
         
-        $user = M('repair');
+        $user = M('work');
         $total = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__BINDING__ bd ON  f.did = bd.did', 'LEFT')
-//                        ->field('d.*,f.id, f.content,f.addtime,f.picpath')
                         ->order('f.addtime desc')
                         ->count();
         $page  = new \Think\Page($total,8);
@@ -195,8 +190,7 @@ class FeedsController extends CommonController
         $userlist = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON  f.did = d.id', 'LEFT')
-                        ->join('__BINDING__ bd ON  f.did = bd.did', 'LEFT')
-                        ->field('d.*,f.id, f.content,f.addtime,f.picpath,f.status,bd.vid')
+                        ->field('d.*,f.id, f.content,f.addtime,f.picpath,f.status,d.vid')
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
