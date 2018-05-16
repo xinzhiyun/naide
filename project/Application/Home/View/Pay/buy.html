@@ -12,7 +12,20 @@
 	<script>
 		var list={{$list|json_encode}};
 		var info={{$info|json_encode}};
-		console.log(list, info);
+		var open_id= "{{$_SESSION['open_id']}}";
+		console.log(open_id)
+		// 微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
 	</script>
 </head>
 <body>
@@ -59,7 +72,7 @@
         var wxinfo = {{$wxinfo|json_encode}};
         var is_weixin ={{$is_weixin}};
         console.log(wxinfo);
-        console.log(is_weixin);
+        // console.log(is_weixin);
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
