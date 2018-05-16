@@ -10,21 +10,24 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/device/css/device.css">
 </head>
 <body>
+{{$a}}
 	<div class="device_administrate_bg" id="device_administrate_vue" v-cloak>
 		<div>所有设备</div>
 		<div>
 			<ul>
-				<li v-for="(each_code,index_number) in device_code" @click="tick()" class="li_code">
+				<li v-for="(each_code,index_number) in device_code" @click="tick()" :did="each_code.id" class="li_code">
 					<div></div>
 					<div>
 						设备号：
 						<span v-cloak>{{each_code.code}}</span>
-						<p class="tick_i"><i class="iconfont icon-dagouwuquan" v-if="default_code == each_code.code"></i></p>
+						<p class="tick_i"><i class="iconfont icon-dagouwuquan"
+											 :style="{display: (1 == each_code.default) ? 'block' : 'none'}"></i></p>
 					</div>
 				</li>
 				<li><h1 v-if="false">Yes</h1></li>
 			</ul>
 		</div>
+		<a class='buyd' href="{{:U('Home/Pay/lease')}}?has">购买水机</a>
 		<div class="device_administrate_bottom" id="devices-add">
 			<p>
 				<i class="iconfont icon-add"></i>
@@ -41,6 +44,7 @@
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+        device_administrate.device_code={{$list|json_encode}};
 
 		//微信接口
 		wx.config({

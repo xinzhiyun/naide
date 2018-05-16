@@ -8,11 +8,11 @@
                 <span class="select-box">产品类型:
                     <input type="text" class="input-medium prodtype" name="typename" placeholder="请输入产品类型" style="width: 70px;"/ >
                 </span>
-                <span class="select-box">套餐模式:
-                    <select class="select" size="1" name="remodel" style="width: 100px;">
-                    <option value="" selected>- 套餐模式 -</option>
-                    <option value="0">流量</option>
-                    <option value="1">时长</option>
+                <span class="select-box">套餐类型:
+                    <select class="select" size="1" name="type" style="width: 100px;">
+                    <option value="" selected>- 套餐类型 -</option>
+                    <option value="0">充值套餐</option>
+                    <option value="1">水机套餐</option>
                     </select>
                 </span>
                 <span class="select-box">套餐金额:
@@ -25,9 +25,9 @@
                 <span class="select-box">套餐名称:
                     <input type="text" class="input-medium describe" name="describe" placeholder="请输入查询条件" style="width: 70px;" / >
                 </span>
-                <span class="select-box" style="display: inline-block;position:relative">时间:
-                    <input type="text" id="date-start" class="input-medium form-control" name="mintime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
-                </span>
+                <!--<span class="select-box" style="display: inline-block;position:relative">时间:-->
+                    <!--<input type="text" id="date-start" class="input-medium form-control" name="mintime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxtime" placeholder="请选择时间" style="width:76px;right: 0"/ >-->
+                <!--</span>-->
                 
                 <!-- <span class="select-box">查询条件:
                     <input type="text" class="input-medium" name="value" placeholder="请输入查询条件" / >
@@ -52,13 +52,13 @@
                 <thead>
                 <tr>
                     <th>套餐编号</th>
+                    <th>套餐名称</th>
                     <th>产品类型</th>
-                    <th>套餐模式</th>
+                    <th>套餐类型</th>
                     <th>套餐金额</th>
                     <th>套餐量（天）</th>
-                    <th>套餐名称</th>
                     <th>创建时间</th>
-                    <th>是否首充</th>
+                    <!--<th>是否首充</th>-->
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -67,25 +67,20 @@
                     <foreach name="list" item="vo" key="key">
                     <tr>
                         <td>{{$vo.id}}</td>
+                        <td>{{$vo.describe}}</td>
+
                         <td>{{$vo.typename}}</td>
                         <td>
-                            <switch name="vo.remodel">
-                                <case value="0">流量</case>
-                                <case value="1">时长</case>
+                            <switch name="vo.type">
+                                <case value="0">充值套餐</case>
+                                <case value="1">水机套餐</case>
                                 <default />
                             </switch>
                         </td>
                         <td>{{$vo['money']/100}}</td>
                         <td>{{$vo.flow}}</td>
-                        <td>{{$vo.describe}}</td>
                         <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
-                        <td>
-                            <switch name="vo.status">
-                                <case value="0">否</case>
-                                <case value="1">是</case>
-                                <default />
-                            </switch>
-                        </td>
+
                         <td><a class="deletBnt" ruleId="{{$vo['id']}}" href="javascript:;">删除</a></td>
                     </tr>
                     </foreach>

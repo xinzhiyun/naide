@@ -77,7 +77,7 @@ class Events
      */
     public static function sendMsg($message)
     {
-        $url = 'http://pub.dianqiukj.com/api/action/receive';
+        $url = 'http://ddjz.ddjz88.com/api/action/receive';
         $curlobj = curl_init();
         curl_setopt($curlobj,CURLOPT_URL,$url);
         curl_setopt($curlobj,CURLOPT_HEADER,0);     

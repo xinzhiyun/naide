@@ -17,7 +17,7 @@ class UsersController extends CommonController
             $users=M('devices')
             ->where($ma)
             ->alias('d')
-            ->join('pub_binding bd ON d.id=bd.did', 'LEFT')
+//            ->join('pub_binding bd ON d.id=bd.did', 'LEFT')
             ->field('d.uid')
             ->select();
             $ids = array_column($users,'uid');
@@ -68,11 +68,11 @@ class UsersController extends CommonController
             ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
             ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
             ->join('__DEVICES__ d ON cd.did=d.id', 'LEFT')
-            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
-            ->field('u.id,w.nickname,d.device_code,d.phone,d.address,u.login_time,u.login_ip,d.updatetime')
+//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
+            ->field('u.id,w.nickname,d.device_code,d.phone,d.address,u.login_time,u.login_ip,d.bindtime')
             ->order('u.created_at desc')
             ->select();
-            $arr = ['updatetime'=>['date','Y-m-d H:i:s'],'login_time'=>['date','Y-m-d H:i:s']];
+            $arr = ['bindtime'=>['date','Y-m-d H:i:s'],'login_time'=>['date','Y-m-d H:i:s']];
             $data = replace_array_value($data,$arr);
             $filename = '用户列表数据';
             $title = '用户列表';
@@ -87,10 +87,10 @@ class UsersController extends CommonController
             ->where($map)
             ->alias('u')
             ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
-            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
-            ->join('__DEVICES__ d ON cd.did=d.id', 'LEFT')
-            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
-            ->field('d.device_code,d.name,d.address,d.phone,w.*,u.*,cd.uid,cd.did,d.updatetime')
+//            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
+            ->join('__DEVICES__ d ON u.id=d.uid', 'LEFT')
+//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
+//            ->field('d.device_code,d.name,d.address,d.phone,w.*,u.*,cd.uid,cd.did,d.updatetime')
             ->count();
         $page  = new \Think\Page($total,10);
         $pageButton =$page->show();
@@ -99,13 +99,13 @@ class UsersController extends CommonController
             ->where($map)
             ->alias('u')
             ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
-            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
-            ->join('__DEVICES__ d ON cd.did=d.id', 'LEFT')
-            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
-            ->field('d.device_code,d.name,d.phone,w.*,u.*,d.address,cd.uid,cd.did,d.updatetime')
+//            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
+            ->join('__DEVICES__ d ON d.uid=u.id AND d.default=1', 'LEFT')
+//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
+            ->field('d.device_code,u.id,u.name,u.user phone,d.address,d.uid,d.bindtime')
 //            ->field('d.device_code,.name,d.address,d.phone,u.*,w.nickname,cd.uid,cd.did,d.updatetime')
             ->limit($page->firstRow.','.$page->listRows)
-            ->order('u.created_at desc')
+            ->order('u.id desc')
             ->select();
             // ->getAll();
 
@@ -158,47 +158,45 @@ class UsersController extends CommonController
     public function user_info()
     {
 //        dump(I(''));die;
-        $map['open_id'] = I('get.open_id');
+//        $map['open_id'] = I('get.open_id');
         // 微信用户信息
-        $user = M('wechat')->where($map)->find();
+//        $user = M('wechat')->where($map)->find();
+        $uid = I('id');
+        if(empty($uid)) E('数据错误');
 
-        // 显示用户基础信息
-        $userinfo = M('users')
-            ->alias('u')
-            ->where($map)
-            ->join('__DEVICES__ d ON u.id=d.uid', 'LEFT')
-            ->select();
+//        $userinfo = M('users')->find($uid);
+        $devices=M('devices')
+            ->alias('d')
+            ->where('uid='.$uid)
+            ->join('__USERS__ u ON d.uid=u.id','LEFT')
+            ->join('__DEVICES_STATU__ ds ON d.device_code=ds.DeviceID','LEFT')
+            ->field('d.id did,d.device_code,u.name,u.user phone,d.province,d.city,d.district,d.address,ds.reday')->select();
 
-        // 充值记录
-        $did = array();
-        $code = array();
-        foreach ($userinfo as $key => $value) {
-            $did[]  = $value['id'];
-            $code[] = $value['device_code'];
+
+        $dids = array_column($devices,'did');
+//        $code = array_column($devices,'device_code');
+        if(!empty($dids)){
+            $where['did']    = array('in',$dids);
+//            $flow    = M('flow')->where($where)->order('did desc')->order('addtime desc')->select();
+            $flow    = M('flow')
+                ->alias('f')
+                ->where($where)
+                ->join('__DEVICES__ d ON d.id=f.did','LEFT')
+                ->order('f.did desc')->order('f.addtime desc')
+                ->field('d.device_code,f.*')
+                ->select();
         }
-        $where['_query'] = "status=1";
-        if(!empty($did)){
-            $where['did']    = array('in',$did);
-        }
-        $flow    = M('flow')->where($where)->order('addtime desc')->select();
-
-
-        $balance=[];
-        if(!empty($code)){
-             $balance = M('devices_statu')
-            ->where(['DeviceID' => ['in',$code]])
-            ->field('DeviceID,ReDay')
-            ->select();
-        }
-
-        $flow[0]['reday'] = $balance['0']['reday'];
+        $arr = [
+            'mode' => ['系统赠送','微信','支付宝'],
+            'addtime'=>['date','Y-m-d H:i:s'],
+            'money'=>['price']
+        ];
+        $flow = replace_array_value($flow,$arr);
 
         // 分配数据
         $assign = [
-            'userinfo' => json_encode($userinfo),
-            'user'     => json_encode($user),
-            'flow'     => json_encode($flow),
-            'balance'  => json_encode($balance),
+            'flow'     => $flow,
+            'devices' =>$devices,
         ];
 
         $this->assign($assign);
@@ -292,7 +290,7 @@ class UsersController extends CommonController
                 ->join('__DEVICES__ d ON f.did=d.id','LEFT')
 //                ->join('__USERS__ u ON d.uid=u.id', 'LEFT')
                 ->join('__DEVICES_STATU__ ds ON d.device_code=ds.DeviceID','LEFT')
-                ->join('__BINDING__ bd ON f.did = bd.did ','LEFT')
+//                ->join('__BINDING__ bd ON f.did = bd.did ','LEFT')
                 ->field('f.id,d.name,f.money,f.flow,ds.reday,f.mode,f.addtime')
                 ->order('f.addtime desc')
                 ->select();
@@ -318,7 +316,7 @@ class UsersController extends CommonController
             ->alias('f')
             ->join('__DEVICES__ d ON f.did=d.id','LEFT')
 //            ->join('__USERS__ u ON d.uid=u.id', 'LEFT')
-            ->join('__BINDING__ bd ON d.id = bd.did ','LEFT')
+//            ->join('__BINDING__ bd ON d.id = bd.did ','LEFT')
             ->field('f.*,d.name,u.balance')
             ->count();
         $page  = new \Think\Page($total,8);
@@ -331,12 +329,13 @@ class UsersController extends CommonController
             ->alias('f')
             ->join('__DEVICES__ d ON f.did=d.id','LEFT')
             ->join('__DEVICES_STATU__ ds ON d.device_code=ds.DeviceID','LEFT')
-//            ->join('__USERS__ u ON d.uid=u.id', 'LEFT')
-            ->join('__BINDING__ bd ON f.did = bd.did ','LEFT')
+            ->join('__USERS__ u ON d.uid=u.id', 'LEFT')
+//            ->join('__BINDING__ bd ON f.did = bd.did ','LEFT')
             ->limit($page->firstRow.','.$page->listRows)
-            ->field('f.*,d.name,ds.reday,bd.vid')
+            ->field('f.*,u.name,ds.reday,d.vid')
             ->order('f.addtime desc')
             ->select();
+//        dump($list);exit;
         $this->assign('list',$list);
         $this->assign('button',$pageButton);
         $this->display();

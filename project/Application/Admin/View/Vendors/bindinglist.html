@@ -47,8 +47,8 @@
                             <td>{{$vo.name}}</td>
                             <td>{{$vo.phone}}</td>
                             <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
-                            <td>
-                                <a class="remove" device_id="{{$vo.id}}" device_did="{{$vo.did}}">解除绑定</a>
+                            <td align="center">
+                                <a class="remove" device_id="{{$vo.id}}" device_did="{{$vo.did}}">解除经销商关系绑定</a>
                             </td>
                         </tr>
                         </foreach>
@@ -74,7 +74,7 @@
                     console.log(id);
                     console.log(did);
                     tip('确定解除绑定？','提示',function(){
-                        window.location.href = "{{:U('bindingdel')}}"+"?id="+id+"&did="+did;
+                        window.location.href = "{{:U('bindingdel')}}"+"?did="+did;
                     })
                     return false;
                 })

@@ -24,7 +24,7 @@ body .mainContent ul li p {
   background-color: #f5f5fa;
   border-radius: 2px;
 }
-body .mainContent ul li:first-child p {
+body .mainContent ul li .selectedMeal{
   background-color: #0090ff;
   color: white;
 }

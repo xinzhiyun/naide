@@ -67,7 +67,7 @@ class OrdersController extends CommonController
             }
             return false;
         });
-        $order = M('orders');
+        $order = M('order');
         // PHPExcel 导出数据 
         if (I('output') == 1) {
             $data = $order->where($map)
@@ -127,31 +127,35 @@ class OrdersController extends CommonController
         $total = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.device_id = d.id','LEFT')
-                    ->join('pub_users u on o.user_id = u.id','LEFT')
-                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
-                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
-                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on b.vid = v.id','LEFT')->count();
+                    ->join('pub_devices d on o.did = d.id','LEFT')
+//                    ->join('pub_users u on o.uid = u.id','LEFT')
+//                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
+//                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
+//                    ->join('pub_binding b on o.device_id = b.did','LEFT')
+                    ->join('pub_vendors v on o.vid = v.id','LEFT')
+                    ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
         
         $list = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.device_id = d.id','LEFT')
-                    ->join('pub_users u on o.user_id = u.id','LEFT')
-                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
-                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
-                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on b.vid = v.id','LEFT')
+                    ->join('pub_devices d on o.did = d.id','LEFT')
+//                    ->join('pub_users u on o.uid = u.id','LEFT')
+//                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
+//                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
+//                    ->join('pub_binding b on o.device_id = b.did','LEFT')
+                    ->join('pub_vendors v on o.vid = v.id','LEFT')
                     ->limit($page->firstRow.','.$page->listRows)
-                    ->field([
-                        'o.*','w.nickname','v.name vname','e.name','e.phone','e.addres'
-                        ])
+                    ->field(['o.*','v.name vname'])
                     ->order('o.created_at desc')
                     ->select();
-        // dump($list);die;
+        $arr = [
+            'type'=>['1'=>'水机订单','2'=>'充值订单'],
+        ];
+
+        $list = replace_array_value($list,$arr);
+//         dump($list);die;
         $this->assign('list',$list);
         $this->assign('button',$pageButton);
         $this->display();

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>支付失败</title>
+	<title>支付成功</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
@@ -18,7 +18,7 @@
 		}
 		.failInfo > span {
 			font-size: 5.2rem;
-			color: #F9586B;
+			color: #32C97C;
 		}
 		.failInfo > p {
 			margin-top: 0.64rem;
@@ -38,8 +38,8 @@
 			
 		}
 		.selectDo > p > a {
-			color: #7B7B7B;
-			text-decoration: none;
+            color: #7B7B7B;
+            text-decoration: none;
 		}
 
 	</style>
@@ -47,12 +47,12 @@
 <body>
 	<div class="main">
 		<div class="failInfo">
-			<span class="iconfont icon-zhifushibai"></span>
-			<p>支付失败</p>
+			<span class="iconfont icon-chenggong"></span>
+			<p>支付成功</p>
 		</div>
 		<div class="selectDo">
 			<p><a href="javascript:history.go(-1)">再次支付</a></p>
-			<!-- <p><a href="{{:U('Home/Pay/lease')}}">返回首页</a></p> -->
+			<p><a href="{{:U('Home/Pay/lease')}}">返回首页</a></p>
 		</div>
 	</div>
 </body>
@@ -60,15 +60,9 @@
 <script>
 	// 消费者主页套餐购买
 	console.log(location.search)
-	if(location.search.indexOf("index") != -1) {
+	if(location.search.indexOf("index") != -1) {	
 		var p = "<p><a href='{{:U('Home/index')}}'>返回首页</a></p>";
 		$(".selectDo").append(p);
 	}
-	// 租赁页面跳转
-	if(location.search.indexOf("lease") != -1) {
-		var p = "<p><a href='{{:U('Home/Pay/lease')}}'>返回首页</a></p>";
-		$(".selectDo").append(p);
-	}
 </script>
-
 </html>

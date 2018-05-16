@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Common\Tool\Device;
 use Think\Controller;
 
 /**
@@ -222,28 +223,20 @@ class VendorsController extends CommonController
         if (IS_POST) {
 
             //查找设备的id
-            $did1 = M('devices')->where('device_code='.$_POST['dcode'])->field('id')->find();
 
-            // dump($did1);die;
+            $did1 = Device::get_devices_info($_POST['dcode'],'id');
             if ($did1) {
                 if ($_POST['vid']) {
-                    $arr = array(
+
+                    $data = array(
                         'vid' => I('vid'),
-                        'did' => $did1['id'],
-                        'operator' => $_SESSION['adminuser']['name'],
-                        'addtime' => time(),
+                        'binding_statu'=>1,
+                        'bindingtime'=>time()
                     );
-                    
-                    // dump($arr);die;
-                    // 添加
-                    $binding = M('binding');
-                    if($binding->where('did='.$did1['id'])->find()){
-                        return $this->error('设备已绑定过经销商');
-                    }
-                    if ($binding->add($arr)) {
-                        // 更改设备的绑定状态
-                        $devices = M('devices');  
-                        $devices->where($did)->setField('binding_statu','1');
+                    $res = M('devices')->where('id='.$did1)->save($data);
+
+                    if ($res) {
+
 
                         $this->success('添加成功',U('bindinglist'));
                     }else{
@@ -262,27 +255,16 @@ class VendorsController extends CommonController
 
             if(!empty($_SESSION['adminuser'])){
                 // 获取经销商信息
-                $case = $_SESSION['adminuser']['leavel'];
+                $case = $_SESSION['adminuser']['is_vendors'];
 
-                switch ($case) {
-                    
-                    case '0':
-                        $user = D('vendors')->getAll();
-                        break;
-
-                    case '1':
-                    // 一级经销商只能给二级经销商绑定设备，如需再往下分级，则case '2' leavel=3
-                        $user = M('vendors')->where('leavel=2')->select();
-
-                        break;    
-                    
-                    default:
-                        # code...
-                        break;
+                if($case==1){
+                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+                }else{
+                    $user = D('vendors')->getAll();
                 }
-
                 // 获取设备信息
                 $devices = M('devices')->where('binding_statu=0')->select();
+
 
                 $this->assign('user',$user);
                 $this->assign('devices',$devices);
@@ -303,22 +285,35 @@ class VendorsController extends CommonController
     public function bindinglist()
     {
         // 搜索功能
-        $map = array(
-            'pub_devices.device_code' => array('like','%'.trim(I('post.device_code')).'%'),
-            'pub_vendors.phone' => array('like','%'.trim(I('post.phone')).'%'),
-            'pub_vendors.name' => array('like','%'.trim(I('post.name')).'%'),
-        );
-        if($this->get_level()){
-            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+        $phone = trim(I('post.phone'));
+        if (!empty($phone)) {
+            $map['d.phone'] = array('like','%'.$phone.'%');
         }
-         $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-         if (is_numeric($maxaddtime)) {
-             $map['pub_binding.addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
+
+        $device_code = trim(I('post.device_code'));
+        if (!empty($device_code)) {
+            $map['d.device_code'] = array('like','%'.$device_code.'%');
+        }
+
+        $name = trim(I('post.name'));
+        if (!empty($name)) {
+            $map['d.name'] = array('like','%'.$name.'%');
+        }
+
+
+//        if($this->get_level()){
+//            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+//        }
+         $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
+         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
+
+         if (!empty($minaddtime)) {
+             $map['d.bindingtime'][] = array('egt',$minaddtime);
          }
-         if ($maxaddtime < 0) {
-             $map['pub_binding.addtime'] = array(array('egt',$minaddtime));
+         if (!empty($maxaddtime)) {
+             $map['d.bindingtime'][] = array('elt',$maxaddtime);
          }
+
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
@@ -327,7 +322,7 @@ class VendorsController extends CommonController
             return false;
         });
 
-        $binding = M('binding');
+        $device_model = M('devices');
         // PHPExcel 导出数据
         if (I('output') == 1) {
             $data = $binding->where($map)
@@ -351,22 +346,22 @@ class VendorsController extends CommonController
         }
 
 
-        
-        $total =$binding->where($map)
-                    ->join('pub_vendors ON pub_binding.vid = pub_vendors.id')
-                    ->join('pub_devices ON pub_binding.did = pub_devices.id')
-                    ->field('pub_binding.*,pub_vendors.name,pub_vendors.phone,pub_devices.device_code')
-                    ->count();
+        $total = $device_model
+            ->where($map)
+            ->alias('d')
+            ->join('pub_vendors v ON d.vid = v.id')
+            ->field('v.name,v.phone,d.device_code')
+            ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
 
-        $bindinglist = $binding->where($map)
-                                ->limit($page->firstRow.','.$page->listRows)
-                                ->join('pub_vendors ON pub_binding.vid = pub_vendors.id')
-                                ->join('pub_devices ON pub_binding.did = pub_devices.id')
-                                ->field('pub_binding.*,pub_vendors.name,pub_vendors.phone,pub_devices.device_code')
-                                ->order('pub_binding.addtime desc')
-                                ->select();
+        $bindinglist = $device_model->where($map)
+                            ->alias('d')
+                            ->limit($page->firstRow.','.$page->listRows)
+                            ->join('pub_vendors v ON d.vid = v.id')
+                            ->field('d.vid,d.id did,v.name,v.phone,d.device_code')
+                            ->order('d.bindingtime desc')
+                            ->select();
 //        dump($map);
         $this->assign('list',$bindinglist);
         $this->assign('button',$pageButton);
@@ -378,16 +373,20 @@ class VendorsController extends CommonController
      * 
      * @author 潘宏钢 <619328391@qq.com>
      */
-    public function bindingdel($id,$did)
+    public function bindingdel()
     {
         
         if ($_SESSION['adminuser']['leavel'] == 0) {
-            
-            $res = D('binding')->delete($id);
+            $did = I('post.did');
+            // 更新设备绑定状态
+            $devices = M('devices');
+            $data=array(
+                'binding_statu'=>0,
+                'vid'=>null,
+                'updatetime'=>time()
+            );
+            $res = $devices->where('id='.$did)->setField($data);
             if($res){
-                // 更新设备绑定状态
-                $devices = M('devices');  
-                $devices->where('id='.$did)->setField('binding_statu','0');
                 $this->success('解除成功',U('bindinglist'));
             }else{
                 $this->error('解除失败');

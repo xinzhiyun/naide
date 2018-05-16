@@ -9,186 +9,268 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script>
+		// 用户信息
+		var info = {{$info}};
+		console.log("后台传来用户信息", info)
+		// 省市区
+		var addPCA = info.province + info.city + info.district;
+	</script>
 </head>
 <body style="overflow:auto">
-<div class="repair-all_bg" id="repair_vue" v-cloak>
-	<form action="" metho="post" enctype="multipart/form-data" id="form">
-		<div id="repair-all">
-		<!-- 服务内容部分开始 --> 
-			<div id="repair-container">
-				<ul>
-					<li>
-						<p class="fblue" style="textAlign:center;">服务内容</p>
-					</li>
-					<li>	
-						<div class="am-u-sm-3 fs-l">预约时间：</div>
-						<div class="am-u-sm-3">&nbsp;</div>
-						<input type="text" class="am-u-sm-5 bespeak_time" :placeholder="time_now" id="my-start-2" value=""/>
-						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
-					</li>
-					<li>
-						<div class="am-u-sm-3 fs-l">预约时段：</div>
-						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r text_top" id="repair_time" @touchend="bespeak_time">&nbsp;</div>
-						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
-					</li>
-					<li>
-						<div class="am-u-sm-3 fs-l">服务类型：</div>
-						<div class="am-u-sm-4">&nbsp;</div>
-						<div class="am-u-sm-4 fs-r text_top" id="repair_t" @touchend="serve_type">&nbsp;</div>
-						<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<span @click="dian">备注信息：</span>
-						<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(可不填)" id="comments" class="text_middle"></textarea>
-					</li>
-					<li class="file_li">
+	<div class="repair-all_bg" id="repair_vue" v-cloak>
+		<form action="" metho="post" enctype="multipart/form-data" id="form">
+			<div id="repair-all">
+				<!-- 服务内容部分开始 --> 
+				<div id="repair-container">
+					<ul>
+						<li>
+							<p class="fblue" style="text-align:center;">服务内容</p>
+						</li>
+						<li>	
+							<div class="am-u-sm-3 fs-l">预约时间：</div>
+							<div class="am-u-sm-3">&nbsp;</div>
+							<input type="text" class="am-u-sm-5 bespeak_time" :placeholder="time_now" id="my-start-2" value=""/>
+							<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
+						</li>
+						<li>
+							<div class="am-u-sm-3 fs-l">预约时段：</div>
+							<div class="am-u-sm-4">&nbsp;</div>
+							<div class="am-u-sm-4 fs-r text_top" id="repair_time" @touchend="bespeak_time">&nbsp;</div>
+							<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
+						</li>
+						<li>
+							<div class="am-u-sm-3 fs-l">服务类型：</div>
+							<div class="am-u-sm-4">&nbsp;</div>
+							<div class="am-u-sm-4 fs-r text_top" id="repair_t" @touchend="serve_type">&nbsp;</div>
+							<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<span @click="dian">备注信息：</span>
+							<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(可不填)" id="comments" class="text_middle"></textarea>
+						</li>
+						<li class="file_li">
+							<!-- 上传图片 -->
+							<div class="repairPic am-u-sm-4" id="Pic_file" style="width: 3.84rem; height: 3.2rem">
+								<i class="iconfont icon-ai-up-img"></i>
+								<span>添加问题图片</span>
+								<input type="button" id="file_input"/>
+							</div>
+							<!-- 存放图片 -->
+							<div class="pic_2 am-u-sm-8">
+								<!-- <div class="am-u-sm-6" style="position:relative;" index="234234234234"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div> -->
+								<!-- <div class="am-u-sm-6" style="position:relative;" index="028347928347"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div> -->
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- 服务内容部分结束 -->
+				
+				<!-- 信息确认部分开始 -->
+				<div id="repair-infoconfirm">
+					<ul>
+						<li class="l_z"><p class="fblue">信息确认</p></li>
+						<li class="l_z">
+							<div class="am-u-sm-3 fs-l">联系人：</div>
+							<input type="text" name="username" :value="info_confirm.linkman ? info_confirm.linkman : ''" class="text_bottom">
+						</li>
+						<li class="l_z">
+							<div class="am-u-sm-3 fs-l">联系电话：</div>
+							<input type="text" name="userphone" :value="info_confirm.contact_number ? info_confirm.contact_number : ''" class="text_bottom">
+						</li>
+						<li class="l_z">
+							<!-- <div class="am-u-sm-3 fs-l">设备编码：</div>
+								<input type="text" :value="info_confirm.device_code" class="text_bottom"> -->
+								<div class="am-u-sm-3 fs-l">设备编码：</div>
+								<div class="am-u-sm-2">&nbsp;</div>
+								<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}</div>
+							</li>
+							<li>
+								<div class="am-u-sm-3 fs-l">省市区：</div>
+								<span class='areabtn text_top' v-text="info_confirm.addPCA ? info_confirm.addPCA : '暂无地址'" @click="choose_area"></span>
+							</li>
+							<li>
+								<div class="am-u-sm-3 fs-l">详细地址：</div>
+								
+								<input type="text" name="detailadd" :value="info_confirm.detailed_add ? info_confirm.detailed_add : ''" class="canInput text_bottom" >
+							</li>
+						</ul>
+						<!-- 地区选择弹出模板 -->
+						<div id="areaChoose" class="citys">
+							<div class="areaChoosebg">&emsp;</div>
+							<div class="areaDiv">
+								<div class='atop'>
+									<p>&emsp;</p>
+									<h2 class='am-h2 am-text-center'>所在地区</h2>
+									<button type="button" class="am-close close">&times;</button>
+								</div>
+								<div>
+									<div>
+										<p class='ptext ltext fblue'>请选择&nbsp;</p>
+										<div class='province areadiv' value="440000" data-code="440000"></div>
+									</div>
+									<div>
+										<p class='ctext ltext fblue'>&nbsp;</p>
+										<div class="city areadiv" value="440100" data-code="440100"></div>
+									</div>
+									<div>
+										<p class='atext ltext fblue'>&nbsp;</p>
+										<div class="area areadiv" value="440103" data-code="440103" @click="close_choose"></div>
+									</div>
+								</div>
+							</div>
+							<div id="confirmAreaChoose">
+								<div>确定</div>
+							</div>
+						</div>
+					</div>
+					<!-- 信息确认部分结束 -->
+					
+					<input type="button" value="提交" id="repair-sub" class="bgblue" @click="submit_text()">
+				</div>
+			</form>
+			<!-- 预约时段蒙版开始部分 -->
+			<div class="mask_bg time_bg">
+				<div class="mask_bottom">
+					<p class="fblue">预约时段</p>
+					<ul id="time_ul">
+						<li class="no_selected"></li>
+						<li id="check time_selected">上午 09:00-11:00</li>
+						<li class="no_selected">下午 14:00-17:00</li>
+					</ul>
+					<ul>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 预约时段蒙版结束部分 -->
+			
+			<!-- 维修蒙版开始部分 -->
+			<div class="mask_bg repair_bg">
+				<div class="mask_bottom">
+					<p class="fblue">服务类型</p>
+					<ul id='repair_ul'>
+						<li class="no_selected">安装</li>
+						<li id="repai_selected">维修</li>
+						<li class="no_selected">维护</li>
+					</ul>
+					<ul>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 维修蒙版结束部分 -->
+		</div>
+		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+		<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+		<script src="__PUBLIC__/Home/js/public.js"></script>
+		<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+		<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
+		<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
+		<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
+		<script src="__PUBLIC__/Home/js/wx_imgUpload.js"></script>
+		<script defer>
+			var back2home = document.getElementsByClassName('back2home');
+			// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+			
+			$(function(){
+				// 日历插件
+				var nowTemp = new Date();
+				var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+				var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+				var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+				var $myStart2 = $('#my-start-2');
+				var checkin = $myStart2.datepicker({
+					onRender: function(date, viewMode) {
+						// 默认 days 视图，与当前日期比较
+						var viewDate = nowDay;
+						switch (viewMode) {
+							// moths 视图，与当前月份比较
+							case 1:
+							viewDate = nowMoth;
+							break;
+							// years 视图，与当前年份比较
+							case 2:
+							viewDate = nowYear;
+							break;
+						}
+						return date.valueOf() < viewDate ? 'am-disabled' : '';
+					}
+				})
+				
+				//微信接口
+				wx.config({
+					debug: false,
+					appId: '{{$wxinfo["appId"]}}',
+					timestamp: '{{$wxinfo["timestamp"]}}',
+					nonceStr: '{{$wxinfo["nonceStr"]}}',
+					signature: '{{$wxinfo["signature"]}}',
+					jsApiList: [
+					// 所有要调用的 API 都要加到这个列表中
+					'chooseImage',
+					'uploadImage',
+					'getLocalImgData',
+					'downloadImage'
+					]
+				});
+				// var result = []; // 放入图片
+
+				// 上传图片 参数：图片路径-res.src  后台图片id-res.media_Id
+				$("#file_input").on("click", function() {
+					if($(".pic_2").children().length == 2) {
+						noticeFn({text: '只能上传两张图片喔'});
+						return false;
+					}
+					wxuploadimg(function(res) {
+
+						$(".pic_2").children().append('<div class="am-u-sm-4" style="position:relative;" index="'+res.media_Id+'"><img src="'+res['src']+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>')
 						
-						<div class="repairPic am-u-sm-4" id="Pic_file">
-				            <i class="iconfont icon-ai-up-img"></i>
-				            <span>添加问题图片</span>
-				            <input type="file" id="file_input" multiple/>  
-			            </div>
-			             <!-- <div class="pic_2 am-u-sm-4"><img src="../../Public/frontEnd/images/1a.jpg" alt=""></div> -->
-					</li>
-				</ul>
-			</div>
-		<!-- 服务内容部分结束 -->
-
-		<!-- 信息确认部分开始 -->
-			<div id="repair-infoconfirm">
-				<ul>
-					<li class="l_z"><p class="fblue">信息确认</p></li>
-					<li class="l_z">
-						<div class="am-u-sm-3 fs-l">联系人：</div>
-						<input type="text" :value="info_confirm.linkman" class="text_bottom">
-					</li>
-					<li class="l_z">
-						<div class="am-u-sm-3 fs-l">联系电话：</div>
-						<input type="text" :value="info_confirm.contact_number" class="text_bottom">
-					</li>
-					<li class="l_z">
-						<!-- <div class="am-u-sm-3 fs-l">设备编码：</div>
-						<input type="text" :value="info_confirm.device_code" class="text_bottom"> -->
-						<div class="am-u-sm-3 fs-l">设备编码：</div>
-						<div class="am-u-sm-2">&nbsp;</div>
-						<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}&nbsp;</div>
-					</li>
-					<li>
-						<div class="am-u-sm-3 fs-l">详细地址：</div>
-						<input type="text" :value="info_confirm.detailed_add" class="text_bottom">
-					</li>
-				</ul>
-			</div>
-		<!-- 信息确认部分结束 -->
-		
-			<input type="button" value="提交" id="repair-sub" class="bgblue" @click="submit_text()">
-		</div>
-	</form>
-	<!-- 预约时段蒙版开始部分 -->
-		<div class="mask_bg time_bg">
-			<div class="mask_bottom">
-				<p class="fblue">预约时段</p>
-				<ul id="time_ul">
-					<li class="no_selected"></li>
-					<li id="check time_selected">上午 09:00-11:00</li>
-					<li class="no_selected">下午 14:00-17:00</li>
-				</ul>
-				<ul>
-					<li></li>
-				</ul>
-			</div>
-		</div>
-	<!-- 预约时段蒙版结束部分 -->
-
-	<!-- 维修蒙版开始部分 -->
-		<div class="mask_bg repair_bg">
-			<div class="mask_bottom">
-				<p class="fblue">服务类型</p>
-				<ul id='repair_ul'>
-					<li class="no_selected">安装</li>
-					<li id="repai_selected">维修</li>
-					<li class="no_selected">维护</li>
-				</ul>
-				<ul>
-					<li></li>
-				</ul>
-			</div>
-		</div>
-	<!-- 维修蒙版结束部分 -->
-</div>
-	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
-	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
-	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-
-		$(function(){
-			// 日历插件
-		    var nowTemp = new Date();
-		    var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
-		    var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
-		    var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
-		    var $myStart2 = $('#my-start-2');
-		    var checkin = $myStart2.datepicker({
-		        onRender: function(date, viewMode) {
-		        // 默认 days 视图，与当前日期比较
-		        var viewDate = nowDay;
-		        switch (viewMode) {
-		          // moths 视图，与当前月份比较
-		          case 1:
-		            viewDate = nowMoth;
-		            break;
-		          // years 视图，与当前年份比较
-		          case 2:
-		            viewDate = nowYear;
-		            break;
-		        }
-		        return date.valueOf() < viewDate ? 'am-disabled' : '';
-		      }
-		    })
-
-		    // 上传图片
-		    var input = document.getElementById("file_input");   
-		    var result,div;   
-		    if(typeof FileReader==='undefined'){   
-		        result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
-		        input.setAttribute('disabled','disabled');  
-		    }else{   
-
-				input.addEventListener('change',readFile,false);
-		    }　　　　　   
-		    function readFile(){   
-		    	if($(".file_li").children("div").length == 3){
-				   noticeFn({text: '限制最多只能上传2张图片',time: '1500'});
-		    	}else{
-		    		for(var i=0;i<this.files.length;i++){  
-			            // match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。 
-			            if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
-			                return alert("上传的图片格式不正确，请重新选择")
-			            　　　　　　　　　}   
-				            var reader = new FileReader();
-				            reader.readAsDataURL(this.files[i]);   
-				            reader.onload = function(e){   
-				                result = '<div id="result" class="am-u-sm-4" style="position:relative;"><img src="'+this.result+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>';   
-				                div = document.createElement('div');   
-				                div.innerHTML = result;   
-				                document.getElementById('Pic_file').after(div);  　
-				                console.log(this.result);　　　　　　
-			            }   
-			        }   
-		    	}
-		    } 
-		    $(".file_li").on("click","#chacha",function(){
-		    	$(this).parent("#result").parent().remove();
-		    });
-		})
-
-	</script>
-</body>
-</html>
+					})
+				});
+				// 删除图片
+				$(".file_li").on("click","#chacha",function(){
+					alert($(this))
+					$(this).parent().remove();
+				});
+				
+				
+				// var result,div;   
+				// if(typeof FileReader==='undefined'){   
+				// 	result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
+				// 	input.setAttribute('disabled','disabled');  
+				// }else{   
+					
+				// 	input.addEventListener('change',readFile,false);
+				// }　　　　　   
+				// function readFile(){   
+				// 	if($(".file_li").children("div").length == 3){
+				// 		noticeFn({text: '限制最多只能上传2张图片',time: '1500'});
+				// 	}else{
+				// 		for(var i=0;i<this.files.length;i++){  
+				// 			// match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。 
+				// 			if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
+				// 				return alert("上传的图片格式不正确，请重新选择")
+				// 			　　　　　　　　　}   
+				// 			var reader = new FileReader();
+				// 			reader.readAsDataURL(this.files[i]);   
+				// 			reader.onload = function(e){   
+				// 				result = '<div id="result" class="am-u-sm-4" style="position:relative;"><img src="'+this.result+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>';   
+				// 				div = document.createElement('div');   
+				// 				div.innerHTML = result;   
+				// 				document.getElementById('Pic_file').after(div);  　
+				// 				// console.log(this.result);　　　　　　
+				// 			}   
+				// 		}   
+				// 	}
+				// } 
+				
+				
+			})
+			
+		</script>
+	</body>
+	</html>

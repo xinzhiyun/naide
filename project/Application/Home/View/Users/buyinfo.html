@@ -28,31 +28,31 @@
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3 label'>所在地区</label>
 			<span class='am-u-sm-9 areabtn am-text-left uaddress'></span>
-			<input type="hidden" name='uaddress' value=''>
+			<!-- <input type="hidden" name='uaddress' value=''> -->
 			<span class='areabtn choosebtn f888' >请选择 ></span>
 		</div>
 		<div class='am-g am-text-middle'>
-	      	<label for="" class='am-u-sm-3 label'>收货地址</label>
-	      	<textarea class="am-u-sm-9 uaddrdetail" name='uaddrdetail' rows="5" placeholder="请输入详细地址信息、如道路、门牌号、小区、楼栋号、单元室等"></textarea>
-	    </div>
-	    <div class='time'></div>
-	    <div class='am-g' style='background:#edeef2;'></div>
+			<label for="" class='am-u-sm-3 label'>收货地址</label>
+			<textarea class="am-u-sm-9 uaddrdetail" name='address' rows="5" placeholder="请输入详细地址信息、如道路、门牌号、小区、楼栋号、单元室等"></textarea>
+		</div>
+		<div class='time'></div>
+		<div class='am-g' style='background:#edeef2;'></div>
 		<div class='am-g am-text-middle service_stop'>
 			<label for="" class='am-u-sm-3 label'>服务站地址</label>
-			<input type="hidden" name='service_stop' value=''>
-			<span class='f888'>请选择 ></span>
+			<input type="hidden" name="sid" value="">
+			<span class='f888 serviceF88' index="0">请选择 ></span>
 		</div>
-	    <div class="confirm">
-		    <div class="am-u-sm-10 confirm bgblue">确定</div>
+		<div>
+			<div class="am-u-sm-10 confirm bgblue">确定</div>
 		</div>
 	</form>
 	<div id="areaChoose" class="citys">
 		<div class="areaChoosebg">&emsp;</div>
-        <div class="areaDiv">
-        	<div class='atop'>
-        		<p>&emsp;</p>
-	        	<h2 class='am-h2 am-text-center'>所在地区</h2>
-	        	<button type="button" class="am-close close">&times;</button>
+		<div class="areaDiv">
+			<div class='atop'>
+				<p>&emsp;</p>
+				<h2 class='am-h2 am-text-center'>所在地区</h2>
+				<button type="button" class="am-close close">&times;</button>
 			</div>
 			<div>
 				<div>
@@ -68,10 +68,10 @@
 					<div class="area areadiv" value="440103" data-code="440103"></div>
 				</div>
 			</div>
-    	</div>
-    	<div id="confirmAreaChoose">
-    		<div>确定</div>
-    	</div>
+		</div>
+		<div id="confirmAreaChoose">
+			<div>确定</div>
+		</div>
 	</div>
 	<div id='serviceChoose'>
 		<div class='sTop'></div>
@@ -81,17 +81,17 @@
 				<li class='fleft'>
 					<p class='tcenter'><span class='sSelect'>请选择</span></p>
 					<ul class='serviceul'>
-						<li class='tcenter'>南浦服务站</li>
-						<li class='tcenter'>钟村服务站</li>
-						<li class='tcenter'>石壁服务站</li>
+						<li class='tcenter' indexId="4">南浦服务站</li>
+						<li class='tcenter' indexId="6">钟村服务站</li>
+						<li class='tcenter' indexId="7">石壁服务站</li>
 					</ul>
 				</li>
 				<li class='fright'>
 					<p class='tcenter f888'><span>待安装人数</span></p>
 					<ul class='numberul'>
-						<li class='tcenter'>3</li>
+						<!-- <li class='tcenter'>3</li>
 						<li class='tcenter'>8</li>
-						<li class='tcenter'>11</li>
+						<li class='tcenter'>11</li> -->
 					</ul>
 				</li>
 			</ul>
@@ -105,21 +105,21 @@
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
 		back2home[0].innerHTML = '';
-
+		
 		// 请求服务站数据
-		function getService(pos, callback){
+		function getService(province , city , district, callback){
 			$.ajax({
-				url: '',
-				data: {pos:pos},
-				ttype: 'post',
+				url: '{{:U("Home/Vendors/getService")}}',
+				data: {province:province , city:city , district: district},
+				type: 'post',
 				success: function(res){
-					console.log('请求成功！', res);
-					// 无数据
-					callback({code:200,data:[]});
+					// console.log('请求成功！', res);
+					// 回调遍历服务站数据
+					callback(res);
 				},
 				error: function(err){
 					console.log('请求失败！', err);
-					callback({code:-1});
+					callback({status:-1});
 				}
 			})
 		}
@@ -127,138 +127,167 @@
 		$(".areabtn").on("click", function(){
 			$("#areaChoose").fadeIn('fast');
 		});
+		// 服务站id号
+		var serId;
+		// 服务地区选择
+		$(".serviceul").on("click", "li", function() {
+			$(".serviceF88").attr("index", "1");
+			// 获取服务id
+			serId = $(this).attr("indexId");
+			$("input[name='sid']").val(serId);
+			$("#serviceChoose").fadeOut("fast");
 
+		})
 		// 关闭地区选择，并显示到对应区域
 		$(".area").on("click", 'p', function(){
-			
+			$(".serviceF88").text("请选择").attr("index", "0");
+			// 省市区
 			var province = $('.ptext').text(),
-				city = $('.ctext').text(),
-				area = $(this).text();
+			city = $('.ctext').text(),
+			district = $(this).text();
+			$(".uaddress").text( (!province && !city && !district) ? '请选择' : province + ' ' + city + ' ' + district);
 			
-			$(".uaddress").text( (!province && !city && !area) ? '请选择' : province + ' ' + city + ' ' + area);
-			// console.log($(this).text().indexOf('请选择'));
+			// 选择完地区时同时请求服务站数据
 			if($(this).text().indexOf('请选择') == -1){
 				setTimeout(function(){
 					$("#areaChoose").fadeOut('fast');
 					$('.choosebtn').hide();
-
-					// 查询服务站数据
-					getService(province + city + area, function(res){
-						if(res.code == 200){
-							if(!res.data.length){
-								noticeFn({text: '您的位置附近 无服务站，请自行安装设备！'});
-								$('.service_stop>span').html('无选择&nbsp;<span class="iconfont icon-Prompt"></span>')
-								return
+					// 查询服务站数据 传递参数: province-省 city-市 district-区 
+					getService(province, city, district, function(res){
+						console.log("服务站数据", res);
+						if(res.status == 200){
+							// 服务站名称 serviceName 服务站人数 serviceNum
+							var serviceName = "",
+							serviceNum = "";
+							for(var i = 0; i < res.info.length; i++) {
+								serviceName = serviceName + "<li class='tcenter' indexId='"+res.info[i].id+"'>"+ res.info[i].name+"</li>";
+								serviceNum = serviceNum + "<li class='tcenter'>"+ res.info[i].num+"</li>";
 							}
-							// 显示服务站数据
-							$('.sBottom').html();
-
-						}else{
+							$(".serviceul").html(serviceName);//服务站名称显示
+							$(".numberul").html(serviceNum);//服务站人数显示
+						}else if(res.status == 201){
+							noticeFn({text: '您的位置附近 无服务站，请自行安装设备！'});
+							// 服务站名称 serviceName 服务站人数 serviceNum
+							$(".serviceul").html("<li class='tcenter' indexId='0'>自定义安装</li>");//服务站名称显示
+							$(".numberul").html("<li class='tcenter'>0</li>");//服务站人数显示
+						}else {
 							noticeFn({text: '系统遇到问题，请稍后再试！'});
 						}
 					});
+						
+
 				},300);
 			}
-
+				
 		});
 	</script>
 	<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
 	<script>
-		$(function(){
-			// 提交
-			$('.confirm').click(function(){
-				var nameEle = $('.uname'), 
-				phoneEle = $('.uphone'), 
-				addrEle = $('.uaddress'), 
-				addrdetEle = $('.uaddrdetail'), 
-				pwdEle = $('.upwd');
-
-				var uname = trimFn($('.uname').val()),
+			$(function(){
+				// 提交
+				$('.confirm').click(function(){
+					var nameEle = $('.uname'), 
+					phoneEle = $('.uphone'), 
+					addrEle = $('.uaddress'), 
+					addrdetEle = $('.uaddrdetail'), 
+					pwdEle = $('.upwd');
+					
+					var uname = trimFn($('.uname').val()),
 					uphone = trimFn($('.uphone').val()),
 					upwd = trimFn($('.upwd').val()),
 					uaddress = trimFn($('.uaddress').text()),
-					uaddrdetail = trimFn($('.uaddrdetail').val());
+					uaddrdetail = trimFn($('.uaddrdetail').val()),
+					uService = $('.serviceF88').attr("index");
+					
+					//验证收货人
+					if(!uname){
+						noticeFn({text:'请输入收货人！'});
+						nameEle.css({border: '1px solid red'});
+						return
+					}else if(!nameCheck(uname)){
+						noticeFn({text:'收货人只能是中文,英文,下划线组成'});
+						nameEle.css({border: '1px solid red'});
+						return	
+					}else{
+						nameEle.css({border: 'none'});
+					}
+					
+					//验证手机号码
+					if(!uphone){
+						noticeFn({text:'请输入手机号码！'});
+						phoneEle.css({border: '1px solid red'});
+						return
+					}else if(!phoneCheck(uphone)){
+						noticeFn({text:'请输入正确的手机号码！'});
+						phoneEle.css({border: '1px solid red'});
+						return
+					}else{
+						phoneEle.css({border: 'none'});
+					}
+					
+					//验证密码
+					if(!upwd){
+						noticeFn({text:'请输入密码！'});
+						pwdEle.css({border: '1px solid red'});
+						return
+					}else{
+						pwdEle.css({border: 'none'});
+					}
+					
+					//验证地区
+					if(!uaddress){
+						noticeFn({text:'请选择收货地区！'});
+						return
+					}
 
-				//验证收货人
-				if(!uname){
-					noticeFn({text:'请输入收货人！'});
-					nameEle.css({border: '1px solid red'});
-					return
-				}else if(!nameCheck(uname)){
-					noticeFn({text:'收货人只能是中文,英文,下划线组成'});
-					nameEle.css({border: '1px solid red'});
-					return	
-				}else{
-					nameEle.css({border: 'none'});
-				}
-
-				//验证手机号码
-				if(!uphone){
-					noticeFn({text:'请输入手机号码！'});
-					phoneEle.css({border: '1px solid red'});
-					return
-				}else if(!phoneCheck(uphone)){
-					noticeFn({text:'请输入正确的手机号码！'});
-					phoneEle.css({border: '1px solid red'});
-					return
-				}else{
-					phoneEle.css({border: 'none'});
-				}
-
-				//验证密码
-				if(!upwd){
-					noticeFn({text:'请输入密码！'});
-					pwdEle.css({border: '1px solid red'});
-					return
-				}else{
-					pwdEle.css({border: 'none'});
-				}
-
-				//验证地区
-				if(!uaddress){
-					noticeFn({text:'请选择收货地区！'});
-					return
-				}
-
-				//验证详细地址
-				if(!uaddrdetail){
-					noticeFn({text:'请输入详细地址！'});
-					addrdetEle.css({border: '1px solid red'});
-					return
-				}else if(!nameCheck(uaddrdetail)){
-					noticeFn({text:'详细地址只能是中文、英文和下划线组成！'});
-					addrdetEle.css({border: '1px solid red'});
-					return
-				}else{
-					addrdetEle.css({border: 'none'});
-				}
-				$('input[name="uaddress"]').val(uaddress);
-
-				var formdata = new FormData($('#form')[0]);
-				// 验证通过则 提交
-				// $.ajax({
-				// 	url: '{{:U("Home/Users/info")}}',
-				// 	data: formdata,
-				// 	contentType: false,
-				// 	success: function(res){
-				// 		console.log('请求成功: ',res);
-				// 		noticeFn({text:'提交成功!'});
-				// 		setTimeout(function(){
-				// 			// 调回租赁页
-				// 			location.href = '{{:U("Home/Pay/lease")}}' + '#buy';
-				// 		},500);
-				// 	},
-				// 	error: function(err){
-				// 		console.log('请求失败: ',err);
-				// 		noticeFn({text:'提交失败，请稍后再试!'});
-				// 	}
-				// })
-				
-				// 调回租赁页
-				location.href = '{{:U("Home/Pay/lease")}}' + '#buy';
+					// 验证服务区
+					if(uService == '0'){
+						noticeFn({text:'请选择服务地区！'});
+						return
+					}
+					
+					//验证详细地址
+					if(!uaddrdetail){
+						noticeFn({text:'请输入详细地址！'});
+						addrdetEle.css({border: '1px solid red'});
+						return
+					}else if(!nameCheck(uaddrdetail)){
+						noticeFn({text:'详细地址只能是中文、英文和下划线组成！'});
+						addrdetEle.css({border: '1px solid red'});
+						return
+					}else{
+						addrdetEle.css({border: 'none'});
+					}
+					// $('input[name="uaddress"]').val(uaddress);
+					
+					var formdata = new FormData($('#form')[0]);
+					// 验证通过则 提交
+					$.ajax({
+						url: '{{:U("Home/users/userbuy")}}',
+						data: formdata,
+						type: "post",
+						contentType: false,
+						processData: false,
+						success: function(res){
+							console.log('请求成功: ',res);
+							if(res.status == 200) {
+								noticeFn({text:'提交成功!'});
+								setTimeout(function(){
+									// 调到首租付款页面
+									location.href = '{{:U("Home/Pay/firstHire")}}';
+								},500);
+							}else if(res.status == 201) {
+								noticeFn({text:'请完善录入信息!'});
+							}
+						},
+						error: function(err){
+							console.log('请求失败: ',err);
+							noticeFn({text:'提交失败，请稍后再试!'});
+						}
+					})
+				})
+								
 			})
-
-		})
 	</script>
 </body>
 </html>

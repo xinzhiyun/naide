@@ -7,14 +7,12 @@ use Think\Controller;
 */
 class AddTdsController extends Controller
 {
-    
     public function index()
     {
         // 查询所有的设备数据
         $data = M('devices_statu')->field('DeviceID,RawTDS,PureTDS')->select();
         // dump($data);die;
         self::action($data);
-        
     }
 
     // 数据处理

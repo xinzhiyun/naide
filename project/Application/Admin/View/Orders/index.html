@@ -41,12 +41,12 @@
                 <thead>
                 <tr>
                     <th>订单编号</th>
+                    <th>订单类型</th>
                     <th>下单用户</th>
-                    <th>经销商名字</th>
-                    <th>购买商品数量</th>
-                    <th>购买总额</th>
-                    <th>收货人</th>
                     <th>收货人电话</th>
+                    <th>经销商名字</th>
+                    <th>商品信息</th>
+                    <th>购买总额</th>
                     <th>收货地址</th>
                     <th>下单时间</th>
                     <th>订单状态</th>
@@ -61,13 +61,13 @@
                         <foreach name="list" item="vo" key="key">
                         <tr>
                             <td><a href="__URL__/order_detail.html#{{$vo.order_id}}">{{$vo.order_id}}</a></td>
-                            <td>{{$vo.nickname}}</td>
-                            <td>{{$vo.vname}}</td>
-                            <td>{{$vo.total_num}}</td>
-                            <td>{{$vo['total_price']/100}}</td>
-                            <td>{{$vo.name}}</td> 
+                            <td>{{$vo.type}}</td>
+                            <td>{{$vo.name}}</td>
                             <td>{{$vo.phone}}</td>
-                            <td>{{$vo.addres}}</td>
+                            <td>{{$vo.vname}}</td>
+                            <td>{{$vo.describe}}</td>
+                            <td>{{$vo['money']/100}}</td>
+                            <td>{{$vo.province}}-{{$vo.city}}-{{$vo.district}}<br>{{$vo.address}}</td>
                             <td>{{$vo.created_at|date='Y-m-d H:i:s',###}}</td>
                             <td>
                                 <if condition="$vo['is_pay'] eq 0 "> 待付款
