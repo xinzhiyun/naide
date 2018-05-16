@@ -16,7 +16,7 @@ class Redis
     public function __construct()
     {
         self::$redis = new \Redis();
-        self::$redis->connect('127.0.0.1',6379);
+        self::$redis->connect('192.168.0.251',6379);
     }
 
     public static function connect(){
