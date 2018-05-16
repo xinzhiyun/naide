@@ -104,7 +104,7 @@ new Vue({
 						}else {
 							noticeFn({text: "付款出错!请重新支付"});
 						}
-						
+						 
 					},
 					error: function(res) {
 						console.log("失败", res);
