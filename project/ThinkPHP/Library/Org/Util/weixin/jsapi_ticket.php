@@ -1,1 +1,1 @@
-<?php exit();?>{"expire_time":1526413944,"jsapi_ticket":"sM4AOVdWfPE4DxkXGEs8VDYZI3EEaPA3VLl69yEOIW-fQXBmHcmz34_fuSNIDzGwg5mM9mZXxHqv6U_IJJLk_g"}
+<?php exit();?>{"expire_time":1526465210,"jsapi_ticket":"sM4AOVdWfPE4DxkXGEs8VDYZI3EEaPA3VLl69yEOIW-0tZmSb5vJ4eKyT0BgrU092uCUe_KaW1Dw3RWqTZw6Kw"}

@@ -63,6 +63,8 @@
 <script src="__PUBLIC__/Home/js/vue.min.js"></script>
 <!-- <script src="__PUBLIC__/Home/js/pay/lease.js"></script> -->
 <script>
+	var code = "{{$_GET['code']}}";
+
 	
 	window.onload = function() {
 		// 窗口高度
@@ -110,7 +112,7 @@
 						$.ajax({
 							url: "{{:U('Home/Pay/setMeal')}}",
 							type: "post",
-							data: {setMealId: meal_id},
+							data: {setMealId: meal_id,code:code},
 							success: function(res) { 
 								// 恢复提交
 								_this.succFlag = true;

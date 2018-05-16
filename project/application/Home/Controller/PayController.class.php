@@ -63,7 +63,7 @@ class PayController extends HomebaseController {
                     'name'=>$waterOrder['name'],
                     'province'=>$waterOrder['province'],
                     'city'=>$waterOrder['city'],
-                    'district'=>$waterOrder['district'],
+                    'district'=>'水机订单'.$waterOrder['district'],
                     'address'=>$waterOrder['address'],
                     'vid'=>$waterOrder['sid'],
                     'setmeal_id'=>$waterOrder['setMealId'],
@@ -139,6 +139,15 @@ class PayController extends HomebaseController {
     {
         try {
             $setMealId=I('setMealId');
+            $code = I('code');
+            if (!empty($code)) {
+               $code = M('users')->field('code')->where(['code'=>$code])->find();
+               if (!empty($code['code'])) {
+                   session('waterOrder.code',$code['code']);
+               }
+            } else {
+                E('无效邀请码', 201);
+            }
             if(empty($setMealId)){
                 E('请选择套餐', 201);
             }
@@ -148,6 +157,7 @@ class PayController extends HomebaseController {
             if(empty($info)){
                 E('套餐已更新,请重新选择', 201);
             }
+
             session('waterOrder.setMealId',$setMealId);
             session('waterOrder.describe',$info['describe']);
             session('waterOrder.tid',$info['tid']);

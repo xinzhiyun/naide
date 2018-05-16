@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务详情</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/Coms/css/service/css/serviceDetail.css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+</head>
+<body>
+    <div class="main">
+        <!-- 用户信息 -->
+        <div class="userInfos">
+            <p>用户信息</p>
+            <ul>
+                <li>
+                    <span>用户名：</span> 
+                    <span>嗯呢</span>
+                </li>
+                <li>
+                    <span>手机号码：</span> 
+                    <span>135-2564-8952</span>
+                </li>
+                <li>
+                    <span>设备编码：</span> 
+                    <span>868575025659808</span>
+                </li>
+                <li class="userAddr">
+                    <span>维护地址：</span> 
+                    <span>广东广州番禺区，钟村文化广场5巷21号(七天超市)</span>
+                </li>
+            </ul>
+        </div>
+        <!-- 设备信息 -->
+        <div class="deviceInfo">
+            <div>
+                <p>服务信息</p>
+                <ul>
+                    <li>
+                        <span>工单号：</span><span>2018042025652</span>
+                    </li>
+                    <li>
+                        <span>安装人员：</span><span>咕噜</span>
+                    </li>
+                    <li>
+                        <span>手机号码：</span><span>135-3658-3467</span>
+                    </li>
+                    <li>
+                        <span>服务内容：</span><span>滤芯 (2级)</span>
+                    </li>
+                    <li>
+                        <span>上门时间：</span><span>2018-03-31</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Coms/js/service/serviceDetail.js"></script>
+    <script>
+        window.onload = function(){
+                
+            var back2home = document.getElementsByClassName('back2home');
+            back2home[0].setAttribute('href','{:U("Coms/Index/index")}');
+        }
+    </script>
+</body>
+</html>

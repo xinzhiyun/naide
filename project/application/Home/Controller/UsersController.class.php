@@ -6,13 +6,24 @@ use Common\Tool\Sms;
 
 class UsersController extends HomebaseController {
 
+
+    //
     /**
      * 用户水机购买前-信息录入
      */
     public function userbuy()
     {
         try {
+
             $data = I('post.');
+            if (empty(session('waterOrder.code'))) {
+                E('邀请码不能为空', 201);
+            } else {
+               $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
+               if( empty($users_code['code'])) {
+                   E('无法找到该邀请码', 201);
+               }
+            }
             if (empty($data['uname'])) {
                 E('姓名不能为空', 201);
             } else {
@@ -50,7 +61,14 @@ class UsersController extends HomebaseController {
 
             if (empty($info)) {
                 $data['created_at']=time();
+                $reg['code'] = $this->create_guid();
+                //老父亲
+                $reg['to_code'] = $users_code['code'];
+                //老爷爷
+                $reg['parent_code'] = $users_code['to_code'];
+
                 $res = $m->add($reg);
+
                 if($res)$uid = $res;
             } else {
                 $reg['updated_at']=time();
@@ -208,7 +226,32 @@ class UsersController extends HomebaseController {
         $this->assign('info',$info);
         $this->display();
     }
+    //每个用户的邀请码
+    function create_guid($namespace = '') {
+        static $guid = '';
+        $uid = uniqid("", true);
+        $data = $namespace;
+        $data .= $_SERVER['REQUEST_TIME'];
+        $data .= $_SERVER['HTTP_USER_AGENT'];
+        $data .= $_SERVER['LOCAL_ADDR'];
+        $data .= $_SERVER['LOCAL_PORT'];
+        $data .= $_SERVER['REMOTE_ADDR'];
+        $data .= $_SERVER['REMOTE_PORT'];
+        $hash = strtoupper(hash('ripemd128', $uid . $guid . md5($data)));
+        $guid = substr($hash,  0,  8) .
+            '-' .
+            substr($hash,  8,  4) .
+            '-' .
+            substr($hash, 12,  4) .
+            '-' .
+            substr($hash, 16,  4) .
+            '-' .
+            substr($hash, 20, 12) ;
 
+
+        return $guid;
+
+    }
 }
 
 
