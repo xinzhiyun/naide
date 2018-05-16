@@ -10,7 +10,9 @@ namespace Api\Controller;
 use Common\Controller\HomebaseController;
 
 
+
 use Common\Tool\Device;
+
 use Think\Controller;
 
 class UsersController extends  HomebaseController
@@ -22,9 +24,12 @@ class UsersController extends  HomebaseController
         $users_info = M('Users')->field('id,name,user,balance')->where($map)->find();
         if ($users_info) {
             $users_info['device_code'] = M('devices')->where(['uid'=>$users_info['id'],'default'=>1])->getField('device_code');
+
+
             $this->ajaxReturn(['code'=>200,'data'=>$users_info]);
         } else {
             $this->ajaxReturn(['code'=>400]);
+
         }
     }
     //个人信息编辑
@@ -33,7 +38,11 @@ class UsersController extends  HomebaseController
             try {
                 $where['id'] = I('get.projectID');
                 $data = I('post.');
+
+                $info = M('users')->where($where)->save($data);
+
                 $info = M('users')->where(where)->save($data);
+
                 if ($info) {
                     E('修改成功', 200);
                 } else {
@@ -47,6 +56,7 @@ class UsersController extends  HomebaseController
 
         }
     }
+ 
     //服务记录
     public function service_record() {
 
@@ -103,4 +113,5 @@ class UsersController extends  HomebaseController
         }
 
     }
+
 }
