@@ -36,7 +36,7 @@
 			<ul class="am-avg-sm-2 am-thumbnails" @click="selectMeals">
 				<li class="am-thumbnail" v-for="(meal, index) in selectMeal">
 					<!-- flow-套餐天数  mealId=套餐id  tId-设备id -->
-					<p :flow="meal.flow" :mealId="meal.id" :tId="meal.tid" :mealMoney="meal.money/100">{{meal.describe}}</p>
+					<p :flow="meal.flow" :mealId="meal.id" :tId="meal.tid" :mealMoney="meal.money">{{meal.describe}}</p> 
 				</li>
 			</ul>
 			<p class="quikBuy" @click="quikBuys">立即购买</p>
