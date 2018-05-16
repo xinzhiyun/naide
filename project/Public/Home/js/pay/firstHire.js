@@ -31,8 +31,98 @@ window.onload = function() {
 			},
 			// 付款
 			goPay: function() {
-				// 调用ajax请求函数
-				sendAjax()
+				// 选择付款方式
+				var payIndex = $(".icon-circleyuanquan").parent("div").attr("payIndex");
+				var payUrl = getURL("Home", "Pay/Waterbuy");
+				// 判断支付方式
+				switch(payIndex) {
+					case '1':
+					$.ajax({
+						url: payUrl,
+						type: "post",
+						data: {pay: payIndex},
+						success: function(res) {
+							if(res.status == 200) {
+								/*
+								notify_url-支付回调地址 
+								order_id-订单号 
+								price-商品价格 
+								*/
+								var orderInfo = {
+									notify_url: res.notify_url, 
+									order_id: res.order_id, 
+									price: res.price
+								};
+								// 返回信息保存到sessionStorage中
+								sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
+								
+								// 判断是否在微信环境下
+								var iswx = isWX();
+								if(iswx) {
+									// 调用微信接口
+									weixinJog(res);
+								}else {
+									noticeFn({text: "非微信环境下"});
+								}
+								
+							}else {
+								noticeFn({text: "付款出错!请重新支付"});
+							}
+						},
+						error: function(res) {
+							console.log("失败", res);		
+							noticeFn({text: '系统出了一点小问题，请稍后再试！'});
+						}
+					});
+					
+					break;
+					case '2':
+					// 银联支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+					break;
+					case '3':
+					// 支付宝支付
+					noticeFn({text: "暂时只支持微信支付喔！"});
+					break;
+				}
+				// 微信支付接口
+				function weixinJog(res) {
+					/*
+					openId	用户OpenID		
+					money	价格			
+					order_id	订单号			
+					content	订单内容		
+					notify_url	订单回调地址 
+					*/
+					var jogData = {
+						openId: open_id,
+						money: res.price,
+						order_id: res.order_id,
+						content: res.title,
+						notify_url: res.notify_url
+					}
+					console.log("请求参数",jogData, open_id)
+					var jogUrl = getURL("Home", "Pay/wxres");
+					$.ajax({
+						url: jogUrl,
+						type: "post",
+						data: jogData,
+						success: function(res) {
+							console.log("成功", res);
+							if(res.status == 200) {
+								// 调用微信支付
+								weixinPay(res.res);
+							}else {
+								noticeFn({text: "付款出错!请重新支付"});
+							}
+							
+						},
+						error: function(res) {
+							console.log("失败", res);
+							noticeFn({text: '系统出了一点小问题，请稍后再试！'});
+						}
+					})
+				} 
 				// 微信支付方法
 				function weixinPay(res){
 					var type = Object.prototype.toString.call(res);
