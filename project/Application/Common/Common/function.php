@@ -83,7 +83,7 @@ function gerOrderId()
     // 生成唯一订单号
     $orderId = onlyOrderId().$did;
     //查询订单号是否存在
-    $oid = M('Orders')->where("`order_id`='{$orderId}'")->field('id')->find();
+    $oid = M('Order')->where("`order_id`='{$orderId}'")->field('id')->find();
     // 如果订单号已存在再重新获取一次
   } while ($oid);
 

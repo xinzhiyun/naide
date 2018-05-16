@@ -50,4 +50,42 @@ class DeviceController extends HomebaseController
             $this->to_json($e);
         }
     }
+
+    /**
+     * 设备绑定
+     */
+    public function bind()
+    {
+
+    }
+
+    /**
+     * 查询是否有设备订单
+     */
+    public function waterOrder()
+    {
+        try {
+            $uid = session('honeuser.id');
+
+            if (empty($uid)) {
+                E('数据错误!', 201);
+            } else {
+                $map['uid'] = $uid;
+            }
+            $map['is_work'] = 0;
+
+            $order = M('order')->where($map)->getField('id');
+
+            $this->ajaxReturn(array(
+                'status'=>200,
+                'order_id'=>$order,
+                'msg'=>'OK!',
+            ),'JSON');
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+
+    }
+
 }

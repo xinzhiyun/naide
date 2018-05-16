@@ -13,7 +13,7 @@ class WeiXin
     const APPID             = 'wx6619d283675acc74';
     const APPSECRET         = '13aa68f1e262cb406d13076d9a2a31e6';
 
-    const MCHID             = '1394894802';
+    const MCHID             = '1247894201';
     const KEY               = 'CAA5EAE2CE5AC44A3F8930E6F127B423';
 
     const TOKEN             = 'TOKENP';
@@ -43,6 +43,22 @@ class WeiXin
         return  self::wx_sdk()->getSignPackage();
     }
 
+    public static function httpGet($url)
+    {
+        return  self::wx_sdk()->httpGet($url);
+    }
+
+    public static function getInfo($openid)
+    {
+        $accessToken = self::getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$accessToken.'&openid='.$openid.'&lang=zh_CN';
+
+        // 发送请求获取用户信息
+        $userInfo = self::httpGet($url);
+        // 把 JSON 格式的字符串转换为PHP数组
+        return json_decode($userInfo, true);
+    }
+
     /**
      * 获取 AccessToken
      * @return mixed
@@ -64,7 +80,7 @@ class WeiXin
     public static function uniformOrder($openId,$money,$order_id,$content,$notify_url)
     {
         $content = substr($content,0,80);
-        $money = $money * 100;                          // 将金额强转换整数
+//        $money = $money * 100;                          // 将金额强转换整数
 
         $money = 1;                                     // 冲值测试额1分钱 上线取消此行
 
@@ -79,7 +95,7 @@ class WeiXin
 
         $input->SetAttach($order_id);                   // 唯一订单ID
 
-        $input->SetOut_trade_no(gerOrderId());          // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+        $input->SetOut_trade_no($order_id);          // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
         $input->SetTotal_fee($money);                   // 产品金额单位为分
 
         //$input->SetTime_start(date("YmdHis"));        // 设置订单生成时间

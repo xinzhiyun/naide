@@ -30,10 +30,10 @@ new Vue({
 			//微信接口
 			wx.config({
 				debug: false,
-				appId: '{{$wxinfo["appId"]}}', //企业号
-				timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
-				nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
-				signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+				appId: wxinfo.appId, //企业号
+				timestamp: wxinfo.timestamp, //生成签名的时间戳
+				nonceStr: wxinfo.nonceStr, //生成签名的随机串
+				signature: wxinfo.signature, //签名，见附录1
 				jsApiList: [
 				// 所有要调用的 API 都要加到这个列表中
 				'chooseWXPay'
@@ -71,8 +71,19 @@ new Vue({
 				success: function(res) {
 					console.log("成功", res);
 					if(res.status == 200) {
-						// 调用微信支付
-						weixinPay(res);
+						//判断微信环境
+						if(1){
+
+                            $.ajax({
+                                url: '/Home/Pay/wxres',
+                                type: "post",
+                                data: wxres,
+                                success: function(res) {
+                                    weixinPay(res);//调用微信支付
+                                }});
+						}
+
+
 					}else {
 						noticeFn({text: "付款出错!请重新支付"});
 					}

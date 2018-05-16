@@ -18,7 +18,6 @@ return array(
     'DB_SLAVE_NO'            => '', // 指定从服务器序号
 
     'DEBUG'                  => true,
-    'DEDUG_OPENID'           =>'oXwY4t7hYDxtr2sMqqEa5ZVJpinU',
 
     'ws'                     =>'ws://ddjz.ddjz88.com:6001'
 );

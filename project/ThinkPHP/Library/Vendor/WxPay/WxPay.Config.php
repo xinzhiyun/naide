@@ -2,7 +2,7 @@
 /**
 * 	配置账号信息
 */
-
+use Common\Tool\WeiXin;
 class WxPayConfig
 {
 	//=======【基本信息设置】=====================================
@@ -22,10 +22,11 @@ class WxPayConfig
 	 * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
 	 * @var string
 	 */
-	const APPID = APPID;
-	const MCHID = MCHID;
-	const KEY = KEY;
-	const APPSECRET = APPSECRET;
+	const APPID = WeiXin::APPID;
+	const MCHID = WeiXin::MCHID;
+	const KEY   = WeiXin::KEY;
+	const APPSECRET = WeiXin::APPSECRET;
+
 	//=======【证书路径设置】=====================================
 	/**
 	 * TODO：设置商户证书路径

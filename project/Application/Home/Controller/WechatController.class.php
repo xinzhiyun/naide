@@ -2,6 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
 use Common\Tool\WeiXin;
+use Think\Log;
 
 class WechatController extends HomebaseController
 {
@@ -17,9 +18,11 @@ class WechatController extends HomebaseController
         $xml=file_get_contents('php://input', 'r');
         if($xml){
             $data = xmltoArray($xml);
+
             // 判断如果是关注事件
             if($data['Event'] == 'subscribe'){
                 //$data['FromUserName'] //openid
+                $this->add($data['FromUserName']);//自动注册
                 exit;
             }
 
@@ -28,6 +31,59 @@ class WechatController extends HomebaseController
                 //$data['FromUserName'] //openid
                 exit;
             }
+        }
+    }
+
+    /**
+     * [index 微信关注事件-填写微信信息表]
+     * @return [type] [description]
+     */
+    public function add($openid)
+    {
+        Log::write($openid,'微信关注');
+        $userId = M('Wechat')->field('id')->where('`open_id`="'.$openid.'"')->find();
+
+        // 发送请求获取用户信息
+        $userInfo = WeiXin::getInfo($openid);
+
+        // 准备微信信息表数据
+        $data['open_id'] = $userInfo['openid'];
+        $data['nickname'] = $userInfo['nickname'];
+        $data['head'] = $userInfo['headimgurl'];
+
+        $data['sex'] = $userInfo['sex'];   // 性别{0:未定义, 1:男, 2:女}
+
+        $data['area'] = $userInfo['province'];  // 地区 省份
+
+        $data['address'] = $userInfo['country'].' '.$userInfo['province'].' '.$userInfo['city']; // 国家 省份 市区
+
+        // 如果数据库并未存储，将用户信息写入数据库
+        if(empty($userId)){
+            // 将用户信息写入数据库
+            $insertId = M('Wechat')->data($data)->add();
+
+            if($insertId){
+                $user = M('Users');
+                $uid = $user->where('`open_id`="'.$openid.'"')->getField('id')->find();
+
+                $userData['created_at'] = time();
+                $userData['login_time'] = $userData['created_at'];
+                $userData['login_ip'] = get_client_ip();
+                if(empty($uid)){
+                    $userData['open_id'] = $data['open_id'];
+                    M('Users')->data($userData)->add();
+                }else{
+                    M('Users')->where('id='.$uid)->save($userData);
+                }
+
+
+
+            }
+            // 微信用户信息已存在，说明用户是第二是关注微信公众号
+        }else{
+            // 修改用户状态为1（启用）
+            $userData['user_status'] = 1;
+            M('Users')->where('`open_id`="'.$openid.'"')->save($userData);
         }
     }
 

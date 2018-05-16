@@ -352,32 +352,30 @@ class PayController extends HomebaseController {
             if (empty($data['openId'])) {
                 E('参数错误', 201);
             } else {
-                $reg['openId'] = $data['openId'];
+                $openId = $data['openId'];
             }
 
             if (empty($data['money'])) {
                 E('参数错误', 201);
             } else {
-                $reg['money'] = $data['money'];
+                $money = $data['money'];
             }
             if (empty($data['order_id'])) {
                 E('参数错误', 201);
             } else {
-                $reg['order_id'] = $data['order_id'];
+                $order_id = $data['order_id'];
             }
             if (empty($data['content'])) {
                 E('参数错误', 201);
             } else {
-                $reg['content'] = $data['content'];
+                $content = $data['content'];
             }
             if (empty($data['notify_url'])) {
                 E('参数错误', 201);
             } else {
-                $reg['notify_url'] = $data['notify_url'];
+                $notify_url = $data['notify_url'];
             }
-            WeiXin::uniformOrder(...$res);
-
-
+            WeiXin::uniformOrder($openId,$money,$order_id,$content,$notify_url);
         } catch (\Exception $e) {
             $this->to_json($e);
         }
