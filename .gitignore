@@ -4,3 +4,5 @@ Runtime
 /project/Application/Common/Conf
 /project/Public/upload
 .idea/
+jsapi_ticket.php
+access_token.php

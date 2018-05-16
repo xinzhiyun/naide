@@ -129,8 +129,6 @@
 			var lineChart2 = echarts.init(getId('#lineChart2'));
 			lineChart2.setOption(getOption('line', rawArray, pureArray, '#f75151',mustDates));
 
-			// 隐藏loading
-			fadeFn({elem: loaddiv, handle:'hide'});
 		}
 		// echarts 配置
 		var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {

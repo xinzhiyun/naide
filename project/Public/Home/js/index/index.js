@@ -62,12 +62,12 @@ var home = new Vue({
 			var that = this;
 			var text = '';
 			if(that.powerStatus == '开机'){
-				console.log('关机');
-				text = '确定要关机吗？';
-
-			}else if(that.powerStatus == '关机'){
 				console.log('开机');
 				text = '确定要开机吗？';
+
+			}else if(that.powerStatus == '关机'){
+				console.log('关机');
+				text = '确定要关机吗？';
 			}
 
 			// 确认取消框

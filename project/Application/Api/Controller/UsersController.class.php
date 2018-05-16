@@ -18,9 +18,13 @@ use Think\Controller;
 class UsersController extends  HomebaseController
 {
 
+
+
+
     //个人中心接口
     public function user_center() {
-        $map['id']= 1;
+
+        $map['id']= $_SESSION['homeuser']['id'];
         $users_info = M('Users')->field('id,name,user,balance')->where($map)->find();
         if ($users_info) {
             $users_info['device_code'] = M('devices')->where(['uid'=>$users_info['id'],'default'=>1])->getField('device_code');
@@ -60,7 +64,7 @@ class UsersController extends  HomebaseController
     //服务记录
     public function service_record() {
 
-            $map['uid'] = 1;
+            $map['uid'] = $_SESSION['homeuser']['id'];
             $total = M('work')->where($map)->count();
             $page  = new \Think\Page($total,20);
             $pageButton =$page->show();
@@ -77,7 +81,7 @@ class UsersController extends  HomebaseController
     //服务记录详情
     public function service_del() {
         $map['no'] = I('get.workid');
-        $map['uid'] = 1;
+        $map['uid'] = $_SESSION['homeuser']['id'];
         $word_del = M('work')->where($map)->find();
         if ($word_del) {
             $this->ajaxReturn(['code'=>200,'data'=>$word_del]);
@@ -87,7 +91,7 @@ class UsersController extends  HomebaseController
     }
     //收益明细
     public function earnings() {
-        $map['user_id'] = 1;
+        $map['user_id'] =  $_SESSION['homeuser']['id'];
         $total = M('distr')->where($map)->count();
         $page  = new \Think\Page($total,20);
         $pageButton =$page->show();
@@ -111,6 +115,23 @@ class UsersController extends  HomebaseController
         } else {
             $this->ajaxReturn(['code'=>400]);
         }
+
+    }
+    //我的团队
+    public function team() {
+
+        $map['id'] =  $_SESSION['homeuser']['id'];
+        $code =  M('users')->where($map)->getField('code');
+        $codeMap['to_code|parent_code'] = $code;
+        $code_list = M('users')->field('name,created_at')->where($codeMap)->select();
+
+        if ($code_list) {
+            $this->ajaxReturn(['code'=>200,'data'=>$code_list]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+    public function waterOrder() {
 
     }
 
