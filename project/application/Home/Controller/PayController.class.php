@@ -297,7 +297,7 @@ class PayController extends HomebaseController {
                     'paytype'=>$data['pay'],
                     'money'=>$money,
                     'flow'=>$data['flow'],
-                    'describe'=>$setmeal['describe'],
+                    'describe'=>'充值:'.$setmeal['describe'],
                     'created_at'=>time(),
                     'updated_at'=>time(),
                     'is_play'=>0,
@@ -379,6 +379,38 @@ class PayController extends HomebaseController {
             $this->ajaxReturn(array(
                 'status'=>200,
                 'res'=>$res,
+                'msg'=>'成功',
+            ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+    
+    
+    /**
+     * 订单列表
+     */
+    public function orderlist()
+    {
+        try {
+            $p = I('p',1);
+
+            $map['uid'] = session('homeuser.id');
+
+            $total = M('order')->where($map)->count('id');
+
+            $page  = new \Think\Page($total,10);
+
+            $list = M('order')->where($map)
+                ->limit($page->firstRow.','.$page->listRows)
+                ->field('id,order_id,type,created_at,express,mca,status,goods_img,goods_title,goods_detail,goods_price,goods_num,money,describe')
+                ->order('created_at desc')
+                ->select();
+
+            $this->ajaxReturn(array(
+                'status'=>200,
+                'p'=>$p,
+                'list'=>$list,
                 'msg'=>'成功',
             ),'JSON');
         } catch (\Exception $e) {
