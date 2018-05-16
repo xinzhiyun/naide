@@ -15,16 +15,16 @@ var $_GET = (function() {
 		return {};
 	}
 })();
-if($_GET.index == undefined){
+if($_GET.status == undefined){
 	$(".line_check").css("left"," 0.42666667rem");
 	$(".pay_page").show().siblings().show();
-}else if($_GET.index == "1"){
+}else if($_GET.status == "1"){
 	$(".line_check").css("left"," 3.94666667rem");
 	$(".pay_page").show().siblings().hide();
-}else if($_GET.index == "2"){
+}else if($_GET.status == "2"){
 	$(".line_check").css("left"," 7.57333333rem");
 	$(".send_page").show().siblings().hide();
-}else if($_GET.index == "3"){
+}else if($_GET.status == "3"){
 	$(".line_check").css("left"," 11.41333333rem");
 	$(".take_page").show().siblings().hide();
 }
@@ -43,16 +43,7 @@ var product_pay = new Vue({
 						product_price :  "120.00",//产品单价
 						product_count:1,//产品购买件数
 						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-						each_product_total : ""//单品总价
-						
-					},
+					}
 				],
 				flow_info:[
 					{
