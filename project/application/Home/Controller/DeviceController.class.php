@@ -73,12 +73,13 @@ class DeviceController extends HomebaseController
                 $map['uid'] = $uid;
             }
             $map['is_work'] = 0;
+            $map['is_pay'] = 1;
 
-            $order = M('order')->where($map)->getField('id');
+            $order = M('order')->where($map)->field('id,district,province,city,district,address,vid,uid,name,phone')->select();
 
             $this->ajaxReturn(array(
                 'status'=>200,
-                'order_id'=>$order,
+                'order'=>$order,
                 'msg'=>'OK!',
             ),'JSON');
 

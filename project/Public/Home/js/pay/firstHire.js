@@ -136,16 +136,19 @@ window.onload = function() {
 							if (res.err_msg.substr(-2) == 'ok') {
 								// 付款成功，跳转前台主页
 								noticeFn({text: "付款成功"});
-								location.href = "{{:U('Home/Pay/paySuccess')}}";
+								var url = getURL("Home", "Pay/paySuccess");
+								location.href = url;
 							} else if (res.err_msg.substr(-6) == 'cancel') {
 								// 取消付款
 								// 跳转到选择套餐页面
-								location.href = "{{:U('Home/Pay/lease')}}";
+								var url = getURL("Home", "Pay/lease");
+								location.href = url;
 							}else{
 								// 付款失败
 								// 跳转到待付款订单页面
 								noticeFn({text: "付款失败"});
-								location.href = "{{:U('Home/Pay/payFailed')}}" + "?lease";
+								var url = getURL("Home", "Pay/payFailed");
+								location.href = url + "?lease";
 							}
 						}
 					);

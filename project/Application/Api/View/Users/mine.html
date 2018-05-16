@@ -8,8 +8,16 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/mine.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/Users/mine.css">
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<style>
+		/*#refresh {
+			width: 100vw;height: 90px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);z-index: 9999;
+		}
+		#refresh>span {
+			width: 56px;height: 56px;display: inline-block;position: relative;margin: 0 auto;line-height: 56px;background: #fff;
+		}*/
+	</style>
 </head>
 <body>
 	<div id="mine" class="mine-first-all bgTop" >
@@ -46,25 +54,25 @@
 					<h3>我的订单</h3>
 					<ul class='am-g' style='margin:1vh 0;'>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?status=0">
+							<a href="{{:U('Home/Pay/order')}}" >
 								<i class="iconfont icon-order_all"></i><br>
 								<span>全部订单</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?status=1">
+							<a href="{{:U('Home/Pay/order')}}?index=1">
 								<i class="iconfont icon-wait_pay"></i><br>
 								<span>待付款</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?status=2">
+							<a href="{{:U('Home/Pay/order')}}?index=2">
 								<i class="iconfont icon-wait_send"></i><br>
 								<span>待发货</span>
 							</a>
 						</li>
 						<li class='am-u-sm-3 am-text-center'>
-							<a href="{{:U('Home/Pay/order')}}?status=3">
+							<a href="{{:U('Home/Pay/order')}}?index=3">
 								<i class="iconfont icon-wait_receive"></i><br>
 								<span>待收货</span>
 							</a>
@@ -136,14 +144,17 @@
 				</div>
 			</div>
 		</div>
+		<!-- <div id='refresh' style='width: 100vw;height: 90px;line-height: 90px;position: absolute;top: 0;text-align: center;transition: .5s linear;transform: translateY(-100%);z-index: 9999;'>
+			<span style='width: 56px;height: 56px;display: inline-block;position: relative;margin: 0 auto;line-height: 56px;background: #fff;'><i class="am-icon-spinner am-icon-pulse am-icon-lg"></i></span>
+		</div> -->
 	</div>
-	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
 	</script>
 	<script>
 		var mine = new Vue({
@@ -159,13 +170,13 @@
 					arrowindex: 'down'
 				}
 			},
-			created() {
+			mounted() {
 				this.uname = '哈哈';
 				this.umoney = '￥10000';
-				this.device_code = {{$info['device_code']}};
+				this.device_code = '121345sdf4sd';
 				this.uAddress = '水电费是多少大局观和高房价';
 				this.uPhone = '13265987456';
-				this.device_now = {{$info['device_code']}};
+				this.device_now = 'dfgdf54512135';
 				
 			},
 			methods: {
