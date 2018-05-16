@@ -85,7 +85,7 @@ new Vue({
 				*/
 				var jogData = {
 					openId: open_id,
-					money: res.price/100,
+					money: res.price,
 					order_id: res.order_id,
 					content: res.title,
 					notify_url: res.notify_url
@@ -98,9 +98,9 @@ new Vue({
 					data: jogData,
 					success: function(res) {
 						console.log("成功", res);
-						if(res.status != 201) {
+						if(res.status == 200) {
 							// 调用微信支付
-							weixinPay(res);
+							weixinPay(res.res);
 						}else {
 							noticeFn({text: "付款出错!请重新支付"});
 						}
