@@ -109,7 +109,7 @@ new Vue({
 						console.log("失败", res);
 						noticeFn({text: '系统出了一点小问题，请稍后再试！'});
 					}
-				})
+				}) 
 			}
 			// 微信支付方法
 			function weixinPay(res){
