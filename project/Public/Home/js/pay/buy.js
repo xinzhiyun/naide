@@ -145,7 +145,7 @@ new Vue({
 			if(target.nodeName.toLowerCase() == "p") {
 				$(target).addClass("selectedMeal").parent().siblings().children().removeClass("selectedMeal");
 
-				_this.displayMeal = parseInt($(target).attr("mealMoney"));
+				_this.displayMeal = parseInt($(target).attr("mealMoney")/100);
 				console.log($(target).attr("mealMoney"))
 			}
 		},
