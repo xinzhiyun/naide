@@ -91,7 +91,7 @@ class UsersController extends HomebaseController {
             $this->to_json($e);
         }
     }
-    
+
     /**
      * 用户录入
      */
@@ -252,6 +252,35 @@ class UsersController extends HomebaseController {
         return $guid;
 
     }
+
+    /**
+     * 建议
+     */
+    public function proposal()
+    {
+        if (IS_POST) {
+            // 接收用户输入数据
+            $arr = array(
+                'content' => I('content'),
+                'uid' => $_SESSION['homeuser']['id'],
+                'addtime' => time(),
+                'did' => $_SESSION['homeuser']['did'],
+                'vid'=>Device::get_devices_sn($_SESSION['homeuser']['did'],'vid'),
+            );
+
+            // 实例化
+            $feeds = M('feeds');
+            if ($feeds->add($arr)) {
+                $this->success('感谢您的建议，我们会仔细阅读并做出相应调整，谢谢！',U('Index/index'));
+            }else{
+                $this->error('一不小心服务器偷懒了~');
+            }
+
+        }else{
+            $this->display();
+        }
+    }
+
 }
 
 

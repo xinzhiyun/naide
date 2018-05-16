@@ -15,9 +15,10 @@
 
 		// 商品信息
 		var goodsInfo = JSON.parse('{{$_SESSION["waterOrder"]["goodsInfo"]|json_encode}}');
-		console.log(waterOrder, goodsInfo)
-		// ajax请求地址
-		// var ajaxUrl = "{{:U('Home/Pay/Waterbuy')}}";
+
+		// 用户open_id
+		var open_id= "{{$_SESSION['open_id']}}";
+
 		//微信接口
 		wx.config({
 			debug: false,
@@ -30,8 +31,6 @@
 			'chooseWXPay'
 			]
 		});
-		
-		
 	</script>
 </head>
 <body>
@@ -44,7 +43,7 @@
 				<ul class="am-u-sm-8 am-u-md-8 am-u-lg-8">
 					<li v-text='goodsInfo.goodsTitle'></li>
 					<li v-text='goodsInfo.goodsDetail'></li>
-					<li class="am-text-bottom"><span v-text='goodsInfo.goodsPrice'></span>X<span v-text='goodsInfo.goodsNum'></span></li>
+					<li class="am-text-bottom"><span v-text='(goodsInfo.goodsPrice/100)'></span>X<span v-text='goodsInfo.goodsNum'></span></li>
 				</ul>
 			</div>
 			<!-- 货物地址 -->
@@ -66,7 +65,7 @@
 		<div class="payKuan">
 			<ul>
 				<li>
-					<p>支付：<span>￥{{parseInt(goodsInfo.goodsPrice)}}</span></p>
+					<p>支付：<span>￥{{parseInt(goodsInfo.goodsPrice/100)}}</span></p>
 				</li>
 				<li>
 					<p style="padding-left:.5rem;">选择支付方式</p>
@@ -78,7 +77,8 @@
 							<span class="iconfont icon-weixinzhifu" style="color:rgb(82,165,73)"></span>微信支付
 						</p>
 					</div>
-					<div class="payWay" payIndex="2">
+					<!-- 请不要删 -->
+					<!-- <div class="payWay" payIndex="2">
 						<span class="iconfont icon-weixuanzhongyuanquan quanquan"></span>
 						<p class="ylpic">
 							<img src="__PUBLIC__/Home/images/yl.png" alt="">银联支付
@@ -89,7 +89,8 @@
 						<p>
 							<span class="iconfont icon-alipay" style="color:rgb(0,170,239)"></span>支付宝支付
 						</p>
-					</div>
+					</div> -->
+
 					<div class="payConfirm">
 						<p @click="goPay">确定</p>
 					</div>
@@ -103,52 +104,6 @@
 	<script src="__PUBLIC__/Home/js/pay/firstHire.js"></script>
 	<script>
 		document.querySelector('.back2home').style.display = 'none';
-		
-		function sendAjax() {
-			
-			// 选择付款方式
-			var payIndex = $(".icon-circleyuanquan").parent("div").attr("payIndex");
-			// 判断支付方式
-			switch(payIndex) {
-				case '1':
-					$.ajax({
-						url: "{{:U('Home/Pay/Waterbuy')}}",
-						type: "post",
-						data: {pay: payIndex},
-						success: function(res) {
-							console.log("连接成功", res)
-							if(res.status == 200) {
-								// notify_url-支付回调地址 order_id-订单号 price-商品价格
-								var orderInfo = {notify_url: res.notify_url, order_id: res.order_id, price: res.price};
-								// 返回信息保存到sessionStorage中
-								sessionStorage.setItem("orderInfo", JSON.stringify(orderInfo));
-
-								// 调用微信支付方法
-								weixinPay(res);
-
-							}else {
-								noticeFn({text: "付款出错!请重新支付"});
-							}
-						},
-						error: function(res) {
-							console.log("失败", res);		
-							noticeFn({text: '系统出了一点小问题，请稍后再试！'});
-						}
-					});
-				
-				break;
-				case '2':
-					// 银联支付
-					noticeFn({text: "暂时只支持微信支付喔！"});
-				break;
-				case '3':
-					// 支付宝支付
-					noticeFn({text: "暂时只支持微信支付喔！"});
-				break;
-			}
-			
-		}
-		
 	</script>
 </body>
 </html>

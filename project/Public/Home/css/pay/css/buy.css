@@ -21,7 +21,7 @@ body .mainContent ul li {
 body .mainContent ul li p {
   margin: 0;
   padding: 0.32rem 0;
-  background-color: #f5f5fa;
+  background-color: #f5f5fa; 
   border-radius: 2px;
 }
 body .mainContent ul li .selectedMeal{
