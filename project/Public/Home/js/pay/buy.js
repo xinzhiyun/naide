@@ -64,7 +64,7 @@ new Vue({
 							weixinJog(res);
 						}else {
 							noticeFn({text: "非微信环境下"});
-						}
+						} 
 					}else {
 						noticeFn({text: "支付失败!请重试"});
 					}
