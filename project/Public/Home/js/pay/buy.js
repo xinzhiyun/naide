@@ -122,17 +122,21 @@ new Vue({
 					'getBrandWCPayRequest',
 					JSON.parse(res),
 					function(res){
+                        // WeixinJSBridge.log(res.err_msg);
+                        // alert(res.err_code+res.err_desc+res.err_msg);
 						if (res.err_msg.substr(-2) == 'ok') {
 							// 付款成功，跳转前台主页
 							noticeFn({text: "付款成功"});
-							location.href = "{{:U('Home/Pay/paySuccCom')}}" + "?index";
+                            var url = getURL("Home", "Pay/paySuccCom");
+							location.href = url + "?index";
 						} else if (res.err_msg.substr(-6) == 'cancel') {
 							// 取消付款
 						}else{
 							// 付款失败
 							// 跳转到待付款订单页面
 							noticeFn({text: "付款失败"});
-							location.href = "{{:U('Home/Pay/payFailed')}}" + "?index";
+                            var url  = getURL("Home", "Pay/payFailed");
+							location.href = url + "?index";
 						}
 					}
 				);
