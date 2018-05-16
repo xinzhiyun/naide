@@ -1,10 +1,8 @@
 <?php
 namespace Com\Controller;
-use Think\Controller;
-use \Org\Util\WeixinJssdk;
-use Home\Controller\WechatController;
+use Common\Controller\AppframeController;
 
-class CommonController extends Controller 
+class CommonController extends AppframeController
 {
 
 }

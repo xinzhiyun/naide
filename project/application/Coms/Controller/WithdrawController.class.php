@@ -1,8 +1,8 @@
 <?php
 namespace Coms\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\ComsbaseController;
 
-class WithdrawController extends HomebaseController {
+class WithdrawController extends ComsbaseController {
 
 }
 

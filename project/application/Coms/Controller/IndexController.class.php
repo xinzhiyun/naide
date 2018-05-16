@@ -1,12 +1,13 @@
 <?php
 namespace Coms\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\ComsbaseController;
 /**
  * 首页
  */
-class IndexController extends HomebaseController {
+class IndexController extends ComsbaseController {
 
 	public function index() {
+
     	// $this->display(":index");
     	$this->display();
     }

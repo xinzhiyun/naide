@@ -1,7 +1,7 @@
 <?php
 namespace Coms\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\ComsbaseController;
 
-class VendorsController extends HomebaseController {
+class VendorsController extends ComsbaseController {
 
 }

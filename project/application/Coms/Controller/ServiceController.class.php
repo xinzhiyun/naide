@@ -1,8 +1,8 @@
 <?php
 namespace Coms\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\ComsbaseController;
 
-class ServiceController extends HomebaseController {
+class ServiceController extends ComsbaseController {
 
 }
 

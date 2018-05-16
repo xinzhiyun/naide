@@ -1,7 +1,48 @@
 <?php
 namespace Coms\Controller;
-use Common\Controller\HomebaseController; 
+use Common\Controller\ComsbaseController;
 
-class DealerController extends HomebaseController {
+class DealerController extends ComsbaseController {
 
+    public function dealerSet()
+    {
+        $vid = session('comsuser.id');
+        $data = M('vendors')->field('install_price,service_price,commission,id')->find($vid);
+        $this->assign('data',$data);
+        $this->display();
+        
+    }
+    public function setdealer()
+    {
+       try {
+           $data = I('post.');
+
+           if (empty($data['id'])) {
+               E('参数错误', 201);
+           }else{
+               $id = $data['id'];
+           }
+
+           $clear['install_price_ex']=0;
+           $clear['service_price_ex']=0;
+           $clear['commission_ex']   =0;
+           $data = M('vendors')->where('id='.$id)->save($clear);
+
+           $clear['install_price_ex']   = $data['install_price_ex'];
+           $clear['service_price_ex']   = $data['service_price_ex'];
+           $clear['commission_ex']      = $data['commission_ex'];
+           $clear['examine']            = 1;
+
+           $res = M('vendors')->where('id='.$id)->save($clear);
+
+           if($res){
+               E('提交成功,请等待审核!',200);
+           }else{
+               E('提交失败,请重新尝试!',201);
+           }
+
+       } catch (\Exception $e) {
+           $this->to_json($e);
+       }
+    }
 }
