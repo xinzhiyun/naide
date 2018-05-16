@@ -1,11 +1,46 @@
 <?php
 namespace Home\Controller;
-use Common\Controller\HomebaseController;
+use Think\Controller;
 use Common\Tool\WeiXin;
 use Think\Log;
 
-class WechatController extends HomebaseController
+class WechatController extends Controller
 {
+    /**
+     * 支付回调
+     */
+    public function notify_water()
+    {
+        $xml=file_get_contents('php://input', 'r');
+        Log::write($xml,'水机支付回调xml');
+
+        if($xml) {
+            //解析微信返回数据数组格式
+            $result = WeiXin::notifyData($xml);
+            Log::write(json_encode($result),'水机支付回调');
+            if(!empty($result['out_trade_no'])){
+                // 获取传回来的订单号
+                $map['order_id'] = $result['attach'];
+                $map['is_pay'] = 0;
+                $order = M('order');
+                // 查询订单是否已处理
+                $orderData = $order->where($map)->field('is_pay,money,id')->find();
+                // 如果订单未处理，订单支付金额等于订单实际金额
+                if(empty($orderData['is_pay']) && $orderData['money'] == $result['total_fee']){
+                    $data=array(
+                        'is_pay'=>1
+                    );
+                    $order_res = $order->where('id='.$orderData['id'])->save($data);
+                    if(!empty($order_res)){
+                        //写流水
+                    }
+
+                }
+            }
+        }
+    }
+
+
     // 接受微信服务器下发的事件
     public function getEventData()
     {
@@ -87,63 +122,6 @@ class WechatController extends HomebaseController
         }
     }
 
-//
-//    /**
-//     * 统一下单订单支付并返回数据 JsApi
-//     * @return string json格式的数据，可以直接用于js支付接口的调用
-//     * @param  [string] $openId    用户openid
-//     * @param  [type] $money     订单金额(原金额 未乘100的)
-//     * @param  [type] $order_id  订单id
-//     * @param  [type] $content    订单详情
-//     * @param  [type] $notify_url 回调地址
-//     */
-//    public static function uniformOrder($openId,$money,$order_id,$content,$notify_url)
-//    {
-//        $content = substr($content,0,80);
-//        $money = $money * 100;                          // 将金额强转换整数
-//
-//        $money = 1;                                     // 冲值测试额1分钱 上线取消此行
-//
-//        vendor('WxPay.jsapi.WxPay#JsApiPay');
-//        $tools = new \JsApiPay();
-//
-//        vendor('WxPay.jsapi.WxPay#JsApiPay');
-//        $input = new \WxPayUnifiedOrder();
-//        //$input->SetDetail($uid);
-//
-//        $input->SetBody($content);                      // 产品内容
-//
-//        $input->SetAttach($order_id);                   // 唯一订单ID
-//
-//        $input->SetOut_trade_no(gerOrderId());          // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-//        $input->SetTotal_fee($money);                   // 产品金额单位为分
-//
-//        //$input->SetTime_start(date("YmdHis"));        // 设置订单生成时间
-//        //$input->SetTime_expire(date("YmdHis", time() + 300));// 设置订单失效时间
-//        //$input->SetGoods_tag($uid);
-//
-//        $input->SetNotify_url($notify_url);             // 微信充值回调地址
-//        $input->SetTrade_type("JSAPI");           // 支付方式 JS-SDK 类型是：JSAPI
-//        // 用户在公众号的唯一标识
-//        $input->SetOpenid($openId);
-//
-//        $order = \WxPayApi::unifiedOrder($input);       // 统一下单
-//
-//        // 返回支付需要的对象JSON格式数据
-//        $jsApiParameters = $tools->GetJsApiParameters($order);
-//
-//        echo $jsApiParameters;
-//        exit;
-//    }
-
-//
-//    // 请先关注微信公众号
-//    public function follow()
-//    {
-//        // 显示模板
-//        $this->display('follow');
-//        // echo '请先关注微信公众号！';
-//    }
 
     /**
      * 生成自定义菜单

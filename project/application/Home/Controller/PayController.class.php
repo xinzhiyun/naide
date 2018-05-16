@@ -385,6 +385,7 @@ class PayController extends HomebaseController {
             } else {
                 $notify_url = $data['notify_url'];
             }
+            
             $res= WeiXin::uniformOrder($openId,$money,$order_id,$content,$notify_url);
             $this->ajaxReturn(array(
                 'status'=>200,
