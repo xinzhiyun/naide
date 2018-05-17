@@ -39,6 +39,9 @@
 						<textarea class='am-u-sm-8 addr' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
 					</div>
 				</div>
+				<input type="hidden" name='province' class='province'>
+				<input type="hidden" name='city' class='city'>
+				<input type="hidden" name='district' class='district'>
 				<div class="save bgblue" style="z-index:9999;">保存</div>
 			</div>
 		</form>
@@ -78,6 +81,9 @@
 					$('.name').val(mealArr[selectOP].name);
 					$('.phone').val(mealArr[selectOP].phone);
 					$('.addr').val(mealArr[selectOP].province + mealArr[selectOP].city + mealArr[selectOP].district + mealArr[selectOP].address);
+					$('.province').val(mealArr[selectOP].province);
+					$('.city').val(mealArr[selectOP].city);
+					$('.district').val(mealArr[selectOP].district);
 				})
 				var name = '', sex = '', phone = '', addr = '';
 
