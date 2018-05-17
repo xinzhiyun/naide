@@ -355,3 +355,11 @@
   border-top-right-radius: 0.32rem;
   border-bottom-right-radius: 0.32rem;
 }
+/* 加载更多 */
+.loadMore {
+  background-color: white;
+  text-align: right;
+  height: 1.5rem;
+  box-sizing: content-box;
+  color: #0d94f3;
+}
