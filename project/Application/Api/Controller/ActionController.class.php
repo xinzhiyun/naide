@@ -483,6 +483,38 @@ class ActionController extends Controller
         $this->sendMsg($message);
     }
 
+    /**
+     * 直接为设备充值天数
+     * @param $dcode 设备码
+     * @param $day 增加的天数
+     */
+    public function pullDay($dcode,$day)
+    {
+
+        $sid = Device::get_devices_info($dcode,'sid');
+
+        $reday = M('devicesStatu')->field('ReDay,updatetime')->find($sid);
+
+        $data['ReDay'] = intval($day)+$reday['reday'];
+        $data['updatetime'] = time();
+        $data['data_statu'] = 1;
+        $info =  M('devicesStatu')->where('id='.$sid)->save($data);
+
+        if ($info) {
+
+            $msg = [
+                'DeviceID' => $dcode,
+                'PackType' => "SetData",
+                'Vison'    => 0,
+                'Reday'    =>$data['ReDay'],
+            ];
+            $this->sendMsg($msg);
+            $a = 200;
+            return $a;
+        }
+
+    }
+
 //    public function updateNetStase($DeviceID,$NetStause)
 //    {
 //        $status_id = M('devices_statu')->where("DeviceID=" . $DeviceID)->getField('id');
