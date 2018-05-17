@@ -405,6 +405,7 @@ class PayController extends HomebaseController {
     {
         try {
             $p = I('p',1);
+            $_GET['p']=$p;
             $status =I('status',0);
             //  0 所有 1待付款 2 待发货 3代收货
             $status_arr=['1'=>0,'2'=>1,'3'=>2];
