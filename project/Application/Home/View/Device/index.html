@@ -41,47 +41,33 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>	
 	<script src="__PUBLIC__/Home/js/device/device.js"></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+        var vConsole = new VConsole();
         device_administrate.device_code={{$list|json_encode}};
 
 		//微信接口
 		wx.config({
-		    debug: false,
-		    appId: '',    //企业号
-		    timestamp: '',//生成签名的时间戳
-		    nonceStr: '',//生成签名的随机串
-		    signature: '',//签名，见附录1	
-		    jsApiList: ''// 所有要调用的 API 都要加到这个列表中
+		    debug: true,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+		    jsApiList: [
+		    	// 所有要调用的 API 都要加到这个列表中
+		    	'scanQRCode'
+		    ]
 		});	
-		// 扫码绑定设备
 		// 扫码绑定设备
 		$("#devices-add").on('click','p',function(){
 			wx.scanQRCode({
 			    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 			    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
 			    success: function (res) {
-			    	// alert(res.resultStr);
+			    	console.log(res.resultStr);
 			    	if (res.errMsg === "scanQRCode:ok"){
-				    	// 当needResult 为 1 时，扫码返回的结果
-					    $.ajax({
-					    	url:"",
-					    	type:"post",
-					    	// data:{device_code:res.resultStr},
-					    	data:"",
-					    	dataType:'json',
-					    	success:function(data){
-								// alert(data.msg);
-								// location.href="{{:U('Home/VipCenter/personalInformation')}}";		
-					    	},
-					    	error:function(jqXHR, textStatus, errorThrown){
-
-			    				alert("绑定失败" + jqXHR.status + textStatus + errorThrown);
-					    		//console.log(jqXHR.status);
-					    	}
-					    });
-					    // alert(res.resultStr);
+				    	// 跳转到个人信息页面(先验证手机号有无水机订单)
+			    		location.href = '{{:U("Home/Users/infoedit")}}' + '?deviceid=' + res.resultStr;
 				    }
 				}
 			});
