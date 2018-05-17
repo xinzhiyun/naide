@@ -24,19 +24,19 @@ class OrdersController extends CommonController
             $map['o.order_id'] = array('like','%'.trim(I('post.order_id')).'%');
         }
         if (trim(I('post.nickname'))) {
-            $map['w.nickname'] = array('like','%'.trim(I('post.nickname')).'%');
+            $map['o.name'] = array('like','%'.trim(I('post.nickname')).'%');
         }
         if (trim(I('post.total_num'))) {
             $map['o.total_num'] = trim(I('post.total_num'));
         }
         if (trim(I('post.name'))) {
-            $map['e.name'] = array('like','%'.trim(I('post.name')).'%');
+            $map['o.name'] = array('like','%'.trim(I('post.name')).'%');
         }
         if (trim(I('post.phone'))) {
-            $map['e.phone'] = array('like','%'.trim(I('post.phone')).'%');
+            $map['o.phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
         if (trim(I('post.addres'))) {
-            $map['e.addres'] = array('like','%'.trim(I('post.addres')).'%');
+            $map['o.addres'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
         if(empty(session('adminuser.is_admin'))){
@@ -67,7 +67,6 @@ class OrdersController extends CommonController
             }
             return false;
         });
-         dump($map);
 
         $order = M('order');
         // PHPExcel 导出数据 
@@ -77,7 +76,7 @@ class OrdersController extends CommonController
                         ->join('__DEVICES__ d on o.device_id = d.id','LEFT')
                         ->join('pub_users u on o.user_id = u.id','LEFT')
                         ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
-                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
+//                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                        ->join('pub_binding b on o.device_id = b.did','LEFT')
                         ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                         ->order('o.created_at desc')
