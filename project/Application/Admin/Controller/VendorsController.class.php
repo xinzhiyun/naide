@@ -471,23 +471,25 @@ class VendorsController extends CommonController
     {   
         // dump($data);die;
         $device = D('devices');
-        $bind = M('binding');
+//        $bind = M('binding');
         $device->startTrans();
         $arr = I('post.');
         $arr['operator'] = session('adminuser.name');
         foreach ($data as $key => $val) {
             $map['device_code'] = $val['A'];
-            $res = $device->where($map)->field('id,binding_statu')->find();
+            $res = $device->where($map)->field('id,binding_statu,vid')->find();
             if(empty($res)){
                 $this->error($map['device_code'].'设备不存在，请检查后再重新设置');
             } else {
-                $bind_res = $bind->where('did='.$res['id'])->find();
-                if( $res['binding_statu'] || $bind_res ) $this->error($map['device_code'].'已设置归属');
+//                $bind_res = $bind->where('did='.$res['id'])->find();
+                if( $res['binding_statu'] || $res['vid'] ) $this->error($map['device_code'].'已设置归属');
             }
-            $arr['did'] = $res['id'];
-            $arr['addtime'] = time();
+//            $arr['did'] = $res['id'];
+//            $arr['addtime'] = time();
             $statu['binding_statu'] = 1;
-            $bind->add($arr);
+            $statu['binding_statu'] = 1;
+
+//            $bind->add($arr);
             $device_statu = $device->where('id='.$arr['did'])->save($statu);
             if( !$device_statu ) {
                 $device->rollback();

@@ -132,7 +132,7 @@ class DevicesController extends CommonController
 
         $devices = D('Devices')->getDevicesInfo($map);
         
-
+//dump($devices);
         $assign = [
             'deviceInfo' => $devices,
         ];

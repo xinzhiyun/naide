@@ -72,7 +72,7 @@ class DevicesModel extends Model
             ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
             ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
-            ->field("statu.*,d.device_code,type.*,vendors.*,d.name dname,d.phone,d.address,d.id,d.uid,u.open_id")
+            ->field("statu.*,d.device_code,type.*,vendors.*,u.name uname,u.phone,d.address,d.id,d.uid,u.open_id")
             ->order('d.id asc')
             ->limit($page->firstRow.','.$page->listRows)
             ->select();
@@ -85,7 +85,6 @@ class DevicesModel extends Model
 //            'updatetime'=>['date','Y-m-d H:i:s']
         ];
         $data = replace_array_value($data,$arr);
-
         // echo M()->getLastSql();die;
         // 分配返回数据
         $assign = [

@@ -87,7 +87,8 @@
                                         <td>否</td>
                                     </if>
                                     <td>{{$data.iccid}}</td>
-                                    <td><a class="btn-link detail" href="{{:U('admin/users/user_info',array('open_id'=>$data['open_id']))}}">{{$data.dname}}
+                                    <td><a class="btn-link detail"
+                                           href="{{:U('admin/users/user_info')}}?id={{$data['uid']}}">{{$data.uname}}
                                     </a></td>
                                     <td>{{$data.phone}}</td>
                                     <td>{{$data.address}}</td>

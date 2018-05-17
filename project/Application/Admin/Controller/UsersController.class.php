@@ -164,7 +164,8 @@ class UsersController extends CommonController
         $uid = I('id');
         if(empty($uid)) E('数据错误');
 
-//        $userinfo = M('users')->find($uid);
+        $userinfo = M('users')->find($uid);
+
         $devices=M('devices')
             ->alias('d')
             ->where('uid='.$uid)
@@ -197,6 +198,7 @@ class UsersController extends CommonController
         $assign = [
             'flow'     => $flow,
             'devices' =>$devices,
+            'userinfo'=>$userinfo
         ];
 
         $this->assign($assign);

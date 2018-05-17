@@ -6,7 +6,7 @@
         <div class="tableBox">
             <div class="titleBar">用户管理/<span>用户详情</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:history.go(-1)" class="btn btn-info">&lt;&lt;返回</a></div>
             
-            <h1 class="text-center __user">当前用户：</h1>
+            <h1 class="text-center __user">当前用户：{{$userinfo['name']}}</h1>
             <input type="hidden" value='{{$user}}' class="_inp">
             <input type="hidden" value='{{$flow}}' class="_inp">
             <input type="hidden" value='{{$userinfo}}' class="_inp">
