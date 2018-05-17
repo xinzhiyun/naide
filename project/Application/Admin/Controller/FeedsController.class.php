@@ -48,10 +48,10 @@ class FeedsController extends CommonController
             }
             return false;
         });
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
-//        dump($map);exit;
+
 
         $user = M('feeds');
         // PHPExcel 导出数据
@@ -59,16 +59,14 @@ class FeedsController extends CommonController
             $data = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__VENDORS__ v ON bd.vid = v.id')
                         ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
-            $arr = ['addtime'=>'Y-m-d H:i:s'];
-            replace_value($data,$arr);
+            $arr = ['addtime'=>['date','Y-m-d H:i:s']];
+            $data = replace_array_value($data,$arr);
             $filename = '建议列表数据';
             $title = '建议列表';
             $cellName = ['建议id','用户id','用户昵称','手机','反馈内容','报修时间'];
-            // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
             return ;
