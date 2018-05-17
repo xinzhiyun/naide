@@ -92,7 +92,8 @@ class DeviceController extends HomebaseController
 
             //***  待后期添加逻辑 检查设备码的类型 检索此设备类型的订单
 
-            $order = M('order')->where($map)->field('id,district,province,city,district,address,vid,uid,name,phone')->select();
+            $order = M('order')->where($map)->field('id,district,describe,province,city,district,address,vid,uid,name,phone')
+                ->select();
 
 
             $this->ajaxReturn(array(
