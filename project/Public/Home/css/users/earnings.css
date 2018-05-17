@@ -45,9 +45,8 @@ a {
 }
 #main {
 	width: 100%;
-	height: 62vh;
+	height: 78vh;
 	border-top: 1vh solid rgb(129,205,244);
-	border-bottom: 1vh solid rgb(129,205,244);
 	overflow-x: hidden;
 	overflow-y: scroll;
 }

@@ -34,11 +34,11 @@
 				<span v-text='e.way'></span>
 			</li>
 		</ul>
-		<ul id='footer'>
+		<!-- <ul id='footer'>
 			<li>甲级成员：<span v-text='levelJ'></span></li>
 			<li>乙级成员：<span v-text='levelY'></span></li>
 			<li>累计：<span v-text='totalscore'></span>分</li>
-		</ul>
+		</ul> -->
 	</div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
@@ -55,31 +55,55 @@
 				return {	
 					account: '--',		// 账户名
 					eList: [
-						{name: '雷神',inmoney: '100元现金',way: '推广'},
-						{name: '猪八戒',inmoney: '100天租赁',way: '推广'},
-						{name: '钢铁侠',inmoney: '100天租赁',way: '推广'},
-						{name: '一拳超人',inmoney: '100元现金',way: '推广'},
-						{name: '孙悟饭',inmoney: '100天租赁',way: '推广'},
-						{name: '杰诺斯',inmoney: '100天租赁',way: '推广'},
-						{name: '第一',inmoney: '100元现金',way: '推广'},
-						{name: '风云雄霸天下',inmoney: '100天租赁',way: '推广'},
-						{name: '电饭锅',inmoney: '100天租赁',way: '推广'},
-						{name: '小花',inmoney: '100元现金',way: '推广'},
-						{name: '小名',inmoney: '100天租赁',way: '推广'},
-						{name: '虾条',inmoney: '100天租赁',way: '推广'},
+						{name: '',inmoney: '加载中...',way: ''},
 					],
 					levelJ: 0,			// 甲级成员
 					levelY: 0,			// 乙级成员
 					totalscore: 0		// 累计分
 				}
 			},
-			mounted() {
-				this.account = '嗯嗯';
-				this.levelJ = '2';
-				this.levelY = '1';
-				this.totalscore = '250';
+			created() {
+				var that = this;
+				// 获取数据
+				that.getList(1, function(data){
+					that.eList = [];	// 清空数据
+					// that.account = account;
+					data.forEach(function(item, index){
+						if(item.status == 1){
+							// 钱
+							item.increase += '元现金';
+						}else if(item.status == 2){
+							// 时间
+							item.increase += '天租赁'
+						}
+						that.eList.push({
+							name: item.user_name,
+							inmoney: item.increase,
+							way: '推广'
+						})
+					})
+				})
 			},
-			methods: {}
+			mounted() {},
+			methods: {
+				getList: function(page, callback){
+					page = page || 1;
+					$.ajax({
+						url: '{{:U("Api/Users/earnings")}}',
+						// data: {page: page},
+						type: 'get',
+						success: function(res){
+							console.log('res: ',res);
+							if(res.code == 200){
+								callback(res.data);
+							}
+						},
+						error: function(err){
+							console.log('err: ',err);
+						}
+					})
+				}
+			}
 		})
 	</script>
 </body>

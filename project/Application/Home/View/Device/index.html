@@ -65,12 +65,37 @@
 			    success: function (res) {
 			    	console.log(res.resultStr);
 			    	if (res.errMsg === "scanQRCode:ok"){
-				    	// 跳转到个人信息页面(先验证手机号有无水机订单)
-			    		location.href = '{{:U("Home/Users/infoedit")}}' + '?deviceid=' + res.resultStr;
+			    		// 查询设备是否存在或者是否被绑定
+			    		getOrder(res.resultStr, function(){
+			    			// 跳转到个人信息页面(先验证手机号有无水机订单)
+				    		location.href = '{{:U("Home/Users/infoedit")}}' + '?deviceid=' + res.resultStr;
+			    		})
+					    	
 				    }
 				}
 			});
 		});
+		// 获取订单信息
+		function getOrder(deviceid, callback){
+			$.ajax({
+				url: '{{:U("Home/Device/waterOrder")}}',
+				data: {deviceid: deviceid},
+				type: 'post',
+				success: function(res){
+					console.log('res: ',res);
+					if(res.status == 200){
+						callback();
+						
+					}else{
+						noticeFn({text: res.msg, time: 1500});
+					}
+				},
+				error: function(err){
+					console.log('err: ',err);
+					noticeFn({text: '系统出现错误，请稍后再试'});
+				}
+			})
+		}
 	</script>
 </body>
 </html>
