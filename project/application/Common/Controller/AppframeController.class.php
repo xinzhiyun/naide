@@ -10,7 +10,11 @@ class AppframeController extends Controller {
             $this->display($a);
         }
     }
-
+    function _initialize()
+    {
+        @parent::_initialize();
+        $_GET['p'] = I('p', 1);
+    }
 
     public function to_json($e)
     {
