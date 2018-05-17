@@ -1,0 +1,103 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">系统设置/<span>经销商费用审核</span></div>
+            <table class="table table-bordered table-hover">
+                <form action="{{:U('Admin/Menu/order')}}" method="post">
+                <thead>
+                    <tr>
+                        <th width="5%">
+                            排序
+                        </th>
+                        <th>经销商</th>
+                        <th>原初装费(单位元)</th>
+                        <th>原年服务费(单位元)</th>
+                        <th>原设备分享佣金(单台)(单位元)</th>
+                        <th>待审-初装费(单位元)</th>
+                        <th>待审-服务费(单位元)</th>
+                        <th>待审-备分享佣金(单台)(单位元)</th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <foreach name="list" item="v">
+                        <tr>
+                            <td>
+                                <input class="input-medium text-center" style="width:40px;height:25px;" type="text"
+                                name="{{$v['id']}}" value="{{$v['order_number']}}" >
+                            </td>
+                            <td>{{$v['name']}}</td>
+
+                            <td>{{$v['install_price']}}</td>
+                            <td>{{$v['service_price']}}</td>
+                            <td>{{$v['commission']}}</td>
+                            <td>{{$v['install_price_ex']}}</td>
+                            <td>{{$v['service_price_ex']}}</td>
+                            <td>{{$v['commission_ex']}}</td>
+                            <td>
+                                <a href="javascript:;" data-id="{{$v['id']}}" onclick="edit(this,1)">
+                                    允许
+                                </a>
+                                |
+                                <a data-id="{{$v['id']}}" onclick="edit(this,0)" href="javascript:;">
+                                    禁止
+                                </a>
+                            </td>
+                        </tr>
+                    </foreach>
+                </tbody>
+                </form>
+            </table>
+            <script>
+                $('.pagination ul a').unwrap('div').wrap('<li></li>');
+                $('.pagination ul span').wrap('<li class="active"></li>')
+            </script>
+        </div>
+
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div> 
+<script>
+
+
+
+// 修改菜单
+function edit(obj,rel) {
+    var _this=$(obj);
+    var id = $(obj).attr('data-id');
+    var tit = (rel==1)?"确定审核通过?" : "确定驳回请求?"
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        layer.confirm(tit, {icon: 3, title:'温馨提示'}, function(index){
+            $.ajax({
+                url: "{{:U('Admin/System/setdealeraction')}}",
+                data: {id:id,rel:rel},
+                type: "post",
+                datatype: "json",
+                success: function(res){
+                    console.log('请求成功: ',res);
+                    if(res.status == 200) {
+                        layuiHint('修改成功');
+                        setTimeout(function(){
+                            location.href = '{{:U("Admin/System/setdealer")}}';
+                        },500);
+                    }else if(res.status == 201) {
+                        layuiHint('请重试');
+                    }
+                },
+                error: function(err){
+                    console.log('请求失败: ',err);
+                    layuiHint('提交失败，请稍后再试!');
+                }
+            })
+            layer.close(index);
+        });
+    });
+}
+
+</script>
