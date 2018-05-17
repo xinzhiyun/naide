@@ -22,7 +22,7 @@ class FeedsController extends CommonController
         require_once VENDOR_PATH.'PHPExcel.php';
         $phpExcel = new \PHPExcel();
 
-        $map = '';
+        $map = [];
         $name = trim(I('post.name'));
         $phone = trim(I('post.phone'));
         if (!empty($name)){
@@ -32,8 +32,8 @@ class FeedsController extends CommonController
             $map['d.phone'] = array('like','%'.$phone.'%');
         }
 
-         $minaddtime = strtotime(trim(I('post.minaddtime')))?:null;
-         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:null;
+         $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
+         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
          if (is_numeric($maxaddtime)) {
              $map['f.addtime'][] = array('elt',$maxaddtime);
          }
