@@ -48,16 +48,17 @@ class VendorsController extends CommonController
         // PHPExcel 导出数据
         if (I('output') == 1) {
             $data = $user->where($map)
-                        ->field('id,user,name,phone,email,address,idcard,leavel,addtime')
+                        ->field('id,user,name,phone,email,address,idcard,addtime')
                         ->select();
             $arr = [
-                'addtime'=>'Y-m-d H:i:s',
-                'leavel' => ['超级管理员','一级经销商','二级经销商']
+                'addtime'=>['date','Y-m-d H:i:s']
+//                'leavel' => ['超级管理员','一级经销商','二级经销商']
             ];
-            replace_value($data,$arr);
+
+            $data = replace_array_value($data,$arr);
             $filename = '经销商列表数据';
             $title = '经销商列表';
-            $cellName = ['用户Id','账号','昵称','手机号','邮箱','地址','身份证号','管理级别','最新添加时间'];
+            $cellName = ['用户Id','账号','昵称','手机号','邮箱','地址','身份证号','最新添加时间'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
