@@ -73,17 +73,15 @@ class OrdersController extends CommonController
         if (I('output') == 1) {
             $data = $order->where($map)
                         ->alias('o')
-                        ->join('__DEVICES__ d on o.device_id = d.id','LEFT')
-                        ->join('pub_users u on o.user_id = u.id','LEFT')
-                        ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
+                        ->join('__DEVICES__ d on o.did = d.id','LEFT')
+                        ->join('pub_users u on o.uid = u.id','LEFT')
+//                        ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                        ->join('pub_binding b on o.device_id = b.did','LEFT')
                         ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                         ->order('o.created_at desc')
-                        ->field([
-                            'o.order_id','w.nickname','v.name vname','o.total_num','o.total_price','e.name','e.phone','e.addres','o.is_pay',
-                            'o.is_receipt','o.is_ship','o.created_at'
-                        ])
+                        ->field(['o.order_id','o.name','v.name vname','o.money','o.name s','o
+                            .phone','o.address','o.is_pay','o.created_at'])
                         ->select();
             // 数组中枚举数值替换
             $arr = [
@@ -118,7 +116,7 @@ class OrdersController extends CommonController
 
             $filename = '订单列表数据';
             $title = '订单列表';
-            $cellName = ['订单编号','下单用户','经销商名称','购买商品数量','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
+            $cellName = ['订单编号','下单用户','经销商名称','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
@@ -233,7 +231,7 @@ class OrdersController extends CommonController
         $type=['1'=>'水机租赁订单','2'=>'水机充值套餐'];
         $order['type'] = $type[$order['type']];
 
-        
+
         $this->assign('order',$order);
         $this->display();
     }
