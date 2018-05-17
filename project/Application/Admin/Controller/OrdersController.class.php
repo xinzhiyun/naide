@@ -188,32 +188,57 @@ class OrdersController extends CommonController
         }
         
     }
+//
+//    /**
+//     * 订单详情
+//     * @author 潘宏钢 <619328391@qq.com>
+//     */
+//    public function detail($order_id)
+//    {
+//        if(empty($order_id))$this->error('信息错误！');
+//
+//        $orders = M("order");
+//        $order  = $orders->where('order_id='.$order_id)->find();
+//        $tmp[]=$order;
+//        $arr=array(
+//            'type'=>['1'=>'水机订单','2'=>'充值套餐'],
+//            'created_at'=>['date','Y-m-d H:i:s'],
+//            'status'=>['代付款','已付款','已发货','已收货','已完成','9'=>'禁用'],
+//            'money'=>['price'],
+//            'is_pay'=>['未支付','已支付'],
+//
+//
+//        );
+//        $order = replace_array_value($tmp,$arr)[0];
+//
+//        $this->ajaxReturn($order,'JSON');
+//
+//    }
 
-    /**
-     * 订单详情
-     * @author 潘宏钢 <619328391@qq.com>
-     */
-    public function detail($order_id)
+    public function order_detail()
     {
+        $order_id = I('order_id');
+        if(empty($order_id))$this->error('信息错误！');
+        $order = M("order")->where('order_id='.$order_id)->find();
 
-        $orders = D("orders");
-         $order = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->select();
-        $filter = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->join('LEFT JOIN pub_order_filter ON pub_orders.order_id = pub_order_filter.order_id')
-                      ->field('pub_order_filter.*')
-                      ->select();
-        $setmeal = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->join('LEFT JOIN pub_order_setmeal ON pub_orders.order_id = pub_order_setmeal.order_id')
-                      ->field('pub_order_setmeal.*')
-                      ->select();              
-       
-        $info['order'] = $order; 
-        $info['filter'] = $filter; 
-        $info['setmeal'] = $setmeal; 
+
+        $paytype =['1'=>'微信支付'];
+        $order['paytype'] = $paytype[$order['paytype']];
+        $is_pay=['未支付','已支付'];
+        $order['is_pay'] = $is_pay[$order['is_pay']];
+
+        $order['pmode'] = ($order['type']==1)?'快递':'在线充值';
+        $status=['代付款','已付款','已发货','已收货','已完成','9'=>'禁用'];
+        $order['status'] = $status[$order['status']];
+        $type=['1'=>'水机租赁订单','2'=>'水机充值套餐'];
+        $order['type'] = $type[$order['type']];
+
         
-        // $list = $orders->where('pub_orders.order_id='.$order_id)->getAll();
-        // dump($info);
-        $this->ajaxReturn($info,'JSON');
-
+        $this->assign('order',$order);
+        $this->display();
     }
+    
+    
  
     
     
