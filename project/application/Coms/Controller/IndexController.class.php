@@ -6,11 +6,6 @@ use Common\Controller\ComsbaseController;
  */
 class IndexController extends ComsbaseController {
 
-	public function index() {
-
-    	// $this->display(":index");
-    	$this->display();
-    }
 
 }
 

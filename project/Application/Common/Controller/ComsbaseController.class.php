@@ -7,8 +7,13 @@ class ComsbaseController extends AppframeController {
 
 	function _initialize() {
 		parent::_initialize();
+		$user= M('vendors')->field('user,phone,id,is_vendors,is_service,name')->find(101); //模拟用户
+        session('comsuser',$user);
+//        dump(session('comsuser'));
 
-        $this->check_login();
+//        $this->check_login();
+//        $this->check_user();
+        $this->assign('user',$user);
 	}
 	
 	/**

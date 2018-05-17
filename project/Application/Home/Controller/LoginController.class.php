@@ -1,7 +1,8 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\AppframeController;
-use Common\Tool\Device;
+use Common\Tool\Sms;
+
 /**
  * 首页
  */

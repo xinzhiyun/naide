@@ -147,5 +147,9 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/index/index.js"></script>
+	<script !src="">
+		var user = {{$user|json_encode}};
+		console.log(user);
+	</script>
 </body>
 </html>
