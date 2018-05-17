@@ -205,7 +205,7 @@ var product_pay = new Vue({
 				// 判断是否返回数据成功
 				if(res.msg == 0) {
 					// 当有数据时
-					if(res.res  != "") {
+					if(res.res != "") {
 						for(var i = 0; i < res.res.length; i++) {
 							_this.all_pay.push(res.res[i]);
 						}
