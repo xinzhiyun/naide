@@ -288,7 +288,7 @@ class VendorsController extends CommonController
         // 搜索功能
         $phone = trim(I('post.phone'));
         if (!empty($phone)) {
-            $map['d.phone'] = array('like','%'.$phone.'%');
+            $map['v.phone'] = array('like','%'.$phone.'%');
         }
 
         $device_code = trim(I('post.device_code'));
@@ -327,17 +327,18 @@ class VendorsController extends CommonController
         if (I('output') == 1) {
             $data = $device_model->alias('d')->where($map)
                 ->join('__VENDORS__ v ON d.vid = v.id')
-                ->field('v.id,d.id,d.device_code,v.name,v.phone,d.addtime')
+                ->field('v.id,d.id did,d.device_code,v.name,v.phone,d.bindingtime')
                 ->order('d.bindingtime desc')
                 ->select();
             foreach ($data as $key=>$val) {
                 array_unshift($data[$key],$key+1);
             }
-            $arr = ['addtime'=>['date','Y-m-d H:i:s']];
+
+            $arr = ['bindingtime'=>['date','Y-m-d H:i:s']];
             $data = replace_array_value($data,$arr);
             $filename = '设备归属列表数据';
             $title = '设备归属列表';
-            $cellName = ['绑定编号','经销商id','设备id','设备编码','经销商姓名','经销商手机','添加时间'];
+            $cellName = ['绑定编号','经销商id','设备id','设备编码','经销商姓名','经销商手机','绑定时间'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
