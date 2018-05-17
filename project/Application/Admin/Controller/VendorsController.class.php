@@ -192,12 +192,12 @@ class VendorsController extends CommonController
      */
     public function del($id)
     {
-        $userinfo = M('vendors')->where("id=".$id)->select();
+        $userinfo = M('vendors')->find($id);
 
-        if ($userinfo[0]['leavel'] == 0 ) {
+        if ($userinfo['is_admin'] == 1 ) {
             $this->error('不能删除超级管理员！');
         }else{
-            $res = M('binding')->where("vid=".$id)->select();
+            $res = M('devices')->where("vid=".$id)->select();
             if(!empty($res)){
                 $this->error('已绑定设备，不可删除');
                 return false;
@@ -257,11 +257,11 @@ class VendorsController extends CommonController
                 // 获取经销商信息
                 $case = $_SESSION['adminuser']['is_vendors'];
 
-                if($case==1){
-                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
-                }else{
+//                if($case==1 ){
+//                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+//                }else{
                     $user = D('vendors')->getAll();
-                }
+//                }
                 // 获取设备信息
                 $devices = M('devices')->where('binding_statu=0')->select();
 
