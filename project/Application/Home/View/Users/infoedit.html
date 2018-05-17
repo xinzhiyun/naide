@@ -40,7 +40,7 @@
 						<textarea class='am-u-sm-8 addr' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
 					</div>
 					<div class='item am-g'>
-						<i class="iconfont icon-phone fblue"></i>
+						<i class="iconfont icon-device fblue"></i>
 						<span class='am-u-sm-4'>绑定套餐：</span>
 						<input type="hidden" name='orderid' class='orderid'>
 						<select name="meal" id="meal">
@@ -53,7 +53,9 @@
 		</form>
 		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 		<script src="__PUBLIC__/Home/js/public.js"></script>
+		<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 		<script>
+        	var vConsole = new VConsole();
 			$(function(){
 				// 获取设备id
 				var deviceid = getQuery().deviceid;

@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/device/css/device.css">
 </head>
 <body>
-{{$a}}
 	<div class="device_administrate_bg" id="device_administrate_vue" v-cloak>
 		<div>所有设备</div>
 		<div>
@@ -48,7 +47,7 @@
 
 		//微信接口
 		wx.config({
-		    debug: true,
+		    debug: false,
 			appId: '{{$wxinfo["appId"]}}', //企业号
 			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
 			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
