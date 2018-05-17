@@ -42,22 +42,7 @@
 				return {	
 					account: '--',		// 账户名
 					tList: [
-						{name: '小李飞刀',addtime: '1523936714'},
-						{name: '雷神',addtime: '1523933714'},
-						{name: '葫芦娃',addtime: '1523932714'},
-						{name: '猪八戒',addtime: '1523931714'},
-						{name: '一拳超人',addtime: '1523906714'},
-						{name: '杰诺斯',addtime: '1523936714'},
-						{name: '小花',addtime: '1523936714'},
-						{name: '小明',addtime: '1523933714'},
-						{name: '虾条',addtime: '1523932714'},
-						{name: '火腿',addtime: '1523931714'},
-						{name: '炸弹',addtime: '1523906714'},
-						{name: '小明',addtime: '1523933714'},
-						{name: '虾条',addtime: '1523932714'},
-						{name: '火腿',addtime: '1523931714'},
-						{name: '炸弹',addtime: '1523906714'},
-						{name: '小李飞刀',addtime: '1523936714'},
+						// {name: '小李飞刀',addtime: '1523936714'},
 					],
 					teamNum: 0,			// 团队成员
 				}
@@ -72,7 +57,7 @@
 						res.data.addtime = getLocalTime(res.data.addtime);
 					})
 				})
-					
+				
 			},
 			mounted() {
 				// this.teamNum = '3';
@@ -84,7 +69,7 @@
 			methods: {
 				getList: function(callback){
 					$.ajax({
-						url: '',
+						url: '{{:U("Api/Users/team")}}',
 						type: 'post',
 						success: function(res){
 							console.log('res: ',res);

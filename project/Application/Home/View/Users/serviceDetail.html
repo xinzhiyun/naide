@@ -17,19 +17,19 @@
             <ul>
                 <li>
                     <span>用户名：</span> 
-                    <span>嗯呢</span>
+                    <span v-text='userList.name'>嗯呢</span>
                 </li>
                 <li>
                     <span>手机号码：</span> 
-                    <span>135-2564-8952</span>
+                    <span v-text='userList.phone'>135-2564-8952</span>
                 </li>
                 <li>
                     <span>设备编码：</span> 
-                    <span>868575025659808</span>
+                    <span v-text='userList.device_code'>868575025659808</span>
                 </li>
                 <li class="userAddr">
                     <span>维护地址：</span> 
-                    <span>广东广州番禺区，钟村文化广场5巷21号(七天超市)</span>
+                    <span v-text='userList.addr'>广东广州番禺区，钟村文化广场5巷21号(七天超市)</span>
                 </li>
             </ul>
         </div>
@@ -39,19 +39,19 @@
                 <p>服务信息</p>
                 <ul>
                     <li>
-                        <span>工单号：</span><span>2018042025652</span>
+                        <span>工单号：</span><span v-text='devicesList.workid'>2018042025652</span>
                     </li>
                     <li>
-                        <span>安装人员：</span><span>咕噜</span>
+                        <span>安装人员：</span><span v-text='devicesList.pname'>咕噜</span>
                     </li>
                     <li>
-                        <span>手机号码：</span><span>135-3658-3467</span>
+                        <span>手机号码：</span><span v-text='devicesList.pphone'>135-3658-3467</span>
                     </li>
                     <li>
-                        <span>服务内容：</span><span>滤芯 (2级)</span>
+                        <span>服务内容：</span><span v-text='devicesList.content'>滤芯 (2级)</span>
                     </li>
                     <li>
-                        <span>上门时间：</span><span>2018-03-31</span>
+                        <span>上门时间：</span><span v-text='devicesList.time'>2018-03-31</span>
                     </li>
                 </ul>
             </div>
@@ -61,10 +61,26 @@
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
-    <script src="__PUBLIC__/Home/js/service/serviceDetail.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+    <script>
+        // 获取服务记录详情
+        function getDetail(callback){
+            $.ajax({
+                url: '{{:U("Api/Users/service_del")}}',
+                type: 'get',
+                data: {workid: getQuery().workid},
+                success: function(res){
+                    console.log('res: ',res);
+                    if(res.code == 200){
+                        callback(res.data);
+                    }
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                    noticeFn({text: '查询出错'});
+                }
+            })
+        }
     </script>
+    <script src="__PUBLIC__/Home/js/service/serviceDetail.js"></script>
 </body>
 </html>

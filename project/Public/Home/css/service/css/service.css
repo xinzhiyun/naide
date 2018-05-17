@@ -31,9 +31,13 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000327}}
 .main .userInfo .userLi {
-  height: 1.92rem;
-  line-height: 1.92rem;
+
+  padding: 2vmin 0;
   border-bottom: 1px solid #F3F4F6;
+}
+.main .userInfo .userLi .am-g {
+    display: flex;
+    align-items: center;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000331}}
 .main .userInfo .userLi a {
@@ -59,14 +63,13 @@
   color: #b3b3b3;
   position: absolute;
   right: .2rem;
-  top: .05rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 0.74666667rem;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000355}}
 .main .userInfo .userLi:nth-child(1) {
-  height: 1.92rem;
   font-size: 0.59733333rem;
-  line-height: 1.92rem;
   border-bottom: 1px solid #F3F4F6;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000360}}
