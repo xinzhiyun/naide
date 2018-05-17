@@ -256,7 +256,7 @@ class VendorsController extends CommonController
 
             if(!empty($_SESSION['adminuser'])){
                 // 获取经销商信息
-               
+
                 if(empty(session('adminuser.is_admin'))){
                     $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
                 }else{
@@ -298,12 +298,11 @@ class VendorsController extends CommonController
 
         $name = trim(I('post.name'));
         if (!empty($name)) {
-            $map['d.name'] = array('like','%'.$name.'%');
+            $map['v.name'] = array('like','%'.$name.'%');
         }
 
-
         if(empty(session('adminuser.is_admin'))){
-            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+            $map['v.id'] = $_SESSION['adminuser']['id'];
         }
          $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
          $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
@@ -326,11 +325,10 @@ class VendorsController extends CommonController
         $device_model = M('devices');
         // PHPExcel 导出数据
         if (I('output') == 1) {
-            $data = $binding->where($map)
-                ->join('pub_vendors ON pub_binding.vid = pub_vendors.id')
-                ->join('pub_devices ON pub_binding.did = pub_devices.id')
-                ->field('pub_vendors.id,pub_binding.did,pub_devices.device_code,pub_vendors.name,pub_vendors.phone,pub_binding.addtime')
-                ->order('pub_binding.addtime desc')
+            $data = $device_model->alias('d')->where($map)
+                ->join('__VENDORS__ v ON d.vid = v.id')
+                ->field('v.id,d.id,d.device_code,v.name,v.phone,d.addtime')
+                ->order('d.bindingtime desc')
                 ->select();
             foreach ($data as $key=>$val) {
                 array_unshift($data[$key],$key+1);
@@ -350,7 +348,7 @@ class VendorsController extends CommonController
         $total = $device_model
             ->where($map)
             ->alias('d')
-            ->join('pub_vendors v ON d.vid = v.id')
+            ->join('__VENDORS__ v ON d.vid = v.id')
             ->field('v.name,v.phone,d.device_code')
             ->count();
         $page  = new \Think\Page($total,8);
@@ -359,7 +357,7 @@ class VendorsController extends CommonController
         $bindinglist = $device_model->where($map)
                             ->alias('d')
                             ->limit($page->firstRow.','.$page->listRows)
-                            ->join('pub_vendors v ON d.vid = v.id')
+                            ->join('__VENDORS__ v ON d.vid = v.id')
                             ->field('d.vid,d.id did,v.name,v.phone,d.device_code')
                             ->order('d.bindingtime desc')
                             ->select();

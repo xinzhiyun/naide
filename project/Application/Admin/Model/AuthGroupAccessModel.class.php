@@ -25,7 +25,7 @@ class AuthGroupAccessModel extends BaseModel{
 		$data=$this
 			->field('u.id,u.user,u.email,aga.group_id,ag.title')
 			->alias('aga')
-			->join('pub_vendors u ON aga.uid=u.id','RIGHT')
+			->join('__VENDORS__ u ON aga.uid=u.id','RIGHT')
 			->join('pub_auth_group_access ag ON aga.group_id=ag.id','LEFT')
 			->select();
 		// 获取第一条数据

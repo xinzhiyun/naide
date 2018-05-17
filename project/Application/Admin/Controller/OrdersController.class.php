@@ -77,7 +77,7 @@ class OrdersController extends CommonController
                         ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
                         ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                        ->join('pub_binding b on o.device_id = b.did','LEFT')
-                        ->join('pub_vendors v on o.vid = v.id','LEFT')
+                        ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                         ->order('o.created_at desc')
                         ->field([
                             'o.order_id','w.nickname','v.name vname','o.total_num','o.total_price','e.name','e.phone','e.addres','o.is_pay',
@@ -132,7 +132,7 @@ class OrdersController extends CommonController
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on o.vid = v.id','LEFT')
+                    ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                     ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
@@ -145,7 +145,7 @@ class OrdersController extends CommonController
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on o.vid = v.id','LEFT')
+                    ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                     ->limit($page->firstRow.','.$page->listRows)
                     ->field(['o.*','v.name vname'])
                     ->order('o.created_at desc')
