@@ -230,80 +230,11 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
-	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	<script>
-	 
-		// 微信接口
-		wx.config({
-			debug: false,
-			appId: '{{$wxinfo["appId"]}}', //企业号
-			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
-			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
-			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
-			jsApiList: [
-			// 所有要调用的 API 都要加到这个列表中
-			'chooseWXPay'
-			]
-		});
-		var orderPage = 1;
-		// 分页获取数据
-		function getList(page, status, callback){
-			// 订单状态: 0 所有， 1 待付款， 2 待发货， 3 待收货
-			status = status || 0;
-			page = page || orderPage;
-			$.ajax({
-				url: '{{:U("Home/Pay/orderlist")}}',
-				type: 'post',
-				data: {p: page, status: status},
-				success: function(res){
-					console.log('res: ',res);
-					if(res.status == 200){
-						// 有数据
-						callback(res.list);
-
-					}else{
-						noticeFn({text: res.msg});
-					}
-				},
-				error: function(err){
-					console.log('err: ',err);
-					noticeFn({text: '系统出现问题，请稍后再试'});
-				}
-			})
-		}
-
-
-		// 微信支付方法
-		function weixinPay(res){
-			var type = Object.prototype.toString.call(res);
-			if(type === '[object Object]'){
-				res = JSON.stringify(res);
-			}
-			WeixinJSBridge.invoke(
-				'getBrandWCPayRequest',
-				JSON.parse(res),
-				function(res){
-                    // WeixinJSBridge.log(res.err_msg);
-                    // alert(res.err_code+res.err_desc+res.err_msg);
-					if (res.err_msg.substr(-2) == 'ok') {
-						// 付款成功，跳转前台主页
-						noticeFn({text: "付款成功"});
-                        var url = getURL("Home", "Pay/paySuccCom");
-						location.href = url + "?index";
-					} else if (res.err_msg.substr(-6) == 'cancel') {
-						// 取消付款
-					}else{
-						// 付款失败
-						// 跳转到待付款订单页面
-						noticeFn({text: "付款失败"});
-                        var url  = getURL("Home", "Pay/payFailed");
-						location.href = url + "?index";
-					}
-				}
-			);
-		};
-	</script>
 	<script src="__PUBLIC__/Home/js/pay/order.js"></script>
+	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script defer>
+		var back2home = document.getElementsByClassName('back2home');
+		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+	</script>
 </body>
 </html>
