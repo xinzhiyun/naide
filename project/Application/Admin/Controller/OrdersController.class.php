@@ -17,7 +17,7 @@ class OrdersController extends CommonController
     public function index()
     {	
 
-        $map = '';
+        $map = [];
         // 搜索功能
 
         if (trim(I('post.order_id'))) {
@@ -67,12 +67,14 @@ class OrdersController extends CommonController
             }
             return false;
         });
+         dump($map);
+
         $order = M('order');
         // PHPExcel 导出数据 
         if (I('output') == 1) {
             $data = $order->where($map)
                         ->alias('o')
-                        ->join('pub_devices d on o.device_id = d.id','LEFT')
+                        ->join('__DEVICES__ d on o.device_id = d.id','LEFT')
                         ->join('pub_users u on o.user_id = u.id','LEFT')
                         ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
                         ->join('pub_express_information e ON o.express_id = e.id','LEFT')
@@ -127,7 +129,7 @@ class OrdersController extends CommonController
         $total = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.did = d.id','LEFT')
+                    ->join('__DEVICES__ d on o.did = d.id','LEFT')
 //                    ->join('pub_users u on o.uid = u.id','LEFT')
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
@@ -140,7 +142,7 @@ class OrdersController extends CommonController
         $list = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.did = d.id','LEFT')
+                    ->join('__DEVICES__ d on o.did = d.id','LEFT')
 //                    ->join('pub_users u on o.uid = u.id','LEFT')
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')

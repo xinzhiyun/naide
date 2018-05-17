@@ -108,12 +108,11 @@ class DevicesModel extends Model
          if(empty(session('adminuser.is_admin'))){
              $map=[
                  'd.addtime'=>array(array('gt',$firstat),array('lt',$lastat), 'and'),
-                 'b.vid'=>$_SESSION['adminuser']['id'],
+                 'd.vid'=>$_SESSION['adminuser']['id'],
              ];
              $data = $this
                  ->where($map)
                  ->alias('d')
-                 ->join('__BINDING__ b on d.id = b.did','LEFT')
                  ->select();
          }else{
              $map['addtime'] = array(array('gt',$firstat),array('lt',$lastat), 'and');

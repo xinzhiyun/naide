@@ -591,7 +591,7 @@ class VendorsController extends CommonController
 
         $showOffice['vid'] = $vid;
 
-        $vendor = M('binding')->where($showOffice)->find();
+        $vendor = M('devices')->where($showOffice)->find();
         if(!empty($vendor)){
             $showLeavel['id'] = ['neq',$vid];
             $officeLeavel = $vendors->where($showLeavel)->select();
@@ -625,7 +625,7 @@ class VendorsController extends CommonController
         $whereData['vid'] = $oldid;
         // 准备修改数据
         $saveData['vid']  = $newid;
-        $vendors = M('binding')->where($whereData)->save($saveData);
+        $vendors = M('devices')->where($whereData)->save($saveData);
         if($vendors){
             $message     = ['code' => 200, 'message' => '分公司交接成功'];
         }else{
