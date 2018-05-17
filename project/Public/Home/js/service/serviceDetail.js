@@ -1,11 +1,43 @@
 // 实例化vue
-new Vue({
+var detail = new Vue({
     el: ".main",
     data: {
         // 用户列表
-        userList: {},
+        userList: {
+	    	name: '--',
+	    	phone: '--',
+	    	device_code: '--',
+	    	addr: '--',
+	    },
         // 设备列表
-        devicesList: {},
+        devicesList: {
+        	workid: '--',
+        	pname: '--',
+        	pphone: '--',
+        	content:'--',
+        	time: '--',
+        },
+    },
+    created() {
+    	// 获取工单详情
+    	getDetail(function(res){
+    		console.log('res: ',res);
+    		// 用户信息
+    		detail.userList = {
+    			name: res.name,
+		    	phone: res.phone,
+		    	device_code: res.device_code,
+		    	addr: res.time,
+    		}
+    		// 安装师傅信息
+    		detail.devicesList = {
+	        	workid: res.no,
+	        	pname: res.pname,
+	        	pphone: res.pphone,
+	        	content: res.content,
+	        	time: res.time,
+    		}
+    	})
     },
     methods: {
 
