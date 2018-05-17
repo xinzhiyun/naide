@@ -11,9 +11,6 @@ use Think\Controller;
  */
 class DevicesController extends CommonController
 {
-
-
-
     public function __construct()
     {
         parent::__construct();
@@ -108,7 +105,7 @@ class DevicesController extends CommonController
                 ->alias('d')
                 ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
 //                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
-                ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+                ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
                 ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
                 ->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
                 ->order('d.id asc')
@@ -204,22 +201,12 @@ class DevicesController extends CommonController
             ->field("statu.*,vendors.*,type.*,d.*")
             ->find();
 
-//        // 滤芯信息
-//        $filter = D('devices')
-//            ->where($map)
-//            ->alias('d')
-//            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-//            ->field('type.*')
-//            ->find();
-        
-//        $data['filterInfo'] = $this->getFilterDetail($filter);
-        $data['filterInfo'] = Device::get_filter_info($data['statu']['type_id']);
+        $data['filterInfo'] = Device::get_filter($map['device_code']);
 
         // 获取经销商信息
         $data['vendor'] = D('devices')
             ->where($map)
             ->alias('d')
-//            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
             ->join('__VENDORS__ v ON d.vid=v.id', 'LEFT')
             ->field('v.*')
             ->find();
