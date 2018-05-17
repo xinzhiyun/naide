@@ -72,8 +72,9 @@ class DeviceController extends HomebaseController
             } else {
                 $map['uid'] = $uid;
             }
-            $map['is_work'] = 0;
-            $map['is_pay'] = 1;
+            $map['is_work'] = 0;//未使用的
+            $map['type'] = 1;//水机订单
+            $map['is_pay'] = 1;//已支付的
 
             $order = M('order')->where($map)->field('id,district,province,city,district,address,vid,uid,name,phone')->select();
 
