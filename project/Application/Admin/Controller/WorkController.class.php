@@ -61,8 +61,8 @@ class WorkController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
-            $map['pub_binding.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['pub_devices.vid'] = $_SESSION['adminuser']['id'];
 
         }
         $type = D('work');
@@ -71,7 +71,7 @@ class WorkController extends CommonController
             $data = $type->where($map)
                 ->alias('w')
                 ->join('pub_devices ON w.device_code = pub_devices.device_code','LEFT')
-                ->join('pub_binding ON pub_devices.id = pub_binding.did ','LEFT')
+//                ->join('pub_binding ON pub_devices.id = pub_binding.did ','LEFT')
                 ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
                 ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
                 ->field('w.number,pub_personnel.name,pub_personnel.phone,w.type,w.content,w.address,w.result,w.create_at,w.time,pub_repair.address raddress,w.province,w.city,w.district')

@@ -12,8 +12,8 @@ class UsersController extends CommonController
 {
     public function get_map()
     {
-        if($this->get_level()){
-            $ma['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $ma['d.vid'] = $_SESSION['adminuser']['id'];
             $users=M('devices')
             ->where($ma)
             ->alias('d')
@@ -55,8 +55,8 @@ class UsersController extends CommonController
         // if (empty($maxupdatetime) && $maxupdatetime < 0) {
         //     $map['u.created_at'] = array(array('egt',$minupdatetime));
         // }
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
 
         }
         $user = D('users');
@@ -280,8 +280,8 @@ class UsersController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
 
         $flow = M('flow');

@@ -94,7 +94,7 @@ class DevicesController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
+        if(empty(session('adminuser.is_admin'))){
             $map['vendors.id'] = $_SESSION['adminuser']['id'];
         }
         $user = D('Devices');

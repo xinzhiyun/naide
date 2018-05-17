@@ -151,8 +151,8 @@ class FeedsController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
 
 //        dump($map);die;
@@ -166,8 +166,8 @@ class FeedsController extends CommonController
                         ->field('f.uid,d.device_code,d.name,d.phone,f.content,f.address,f.status,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
-            $arr = ['addtime'=>'Y-m-d H:i:s','status'=>['待处理','已处理完成','正在处理中','任务进行中']];
-            replace_value($data,$arr);
+            $arr = ['addtime'=>['date','Y-m-d H:i:s'],'status'=>['待处理','已处理完成','正在处理中','任务进行中']];
+            $data = replace_array_value($data,$arr);
             $filename = '报修列表数据';
             $title = '报修列表';
             $cellName = ['用户id','设备编码','用户昵称','经销商手机','报修内容','报修地址','状态','报修时间'];

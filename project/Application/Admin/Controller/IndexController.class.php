@@ -10,7 +10,7 @@ class IndexController extends CommonController {
 
 			$devices = D('Devices')->getTotalByEveryDay();
 	    	// 滤芯订单数量（已发货及未发货数量->以发货及未发货列表）
-            if($_SESSION['adminuser']['leavel']>0){
+            if(empty(session('adminuser.is_admin'))){
                 $map['b.vid'] = $_SESSION['adminuser']['id'];
                 $order_filters = D('Orders')
                     ->where($map)

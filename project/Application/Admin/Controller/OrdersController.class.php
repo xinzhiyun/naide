@@ -39,8 +39,8 @@ class OrdersController extends CommonController
             $map['e.addres'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
-        if($this->get_level()){
-            $map['b.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['o.vid'] = $_SESSION['adminuser']['id'];
         }
 
         $mintotal_price = trim(I('post.mintotal_price'))?:null;
@@ -76,8 +76,8 @@ class OrdersController extends CommonController
                         ->join('pub_users u on o.user_id = u.id','LEFT')
                         ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
                         ->join('pub_express_information e ON o.express_id = e.id','LEFT')
-                        ->join('pub_binding b on o.device_id = b.did','LEFT')
-                        ->join('pub_vendors v on b.vid = v.id','LEFT')
+//                        ->join('pub_binding b on o.device_id = b.did','LEFT')
+                        ->join('pub_vendors v on o.vid = v.id','LEFT')
                         ->order('o.created_at desc')
                         ->field([
                             'o.order_id','w.nickname','v.name vname','o.total_num','o.total_price','e.name','e.phone','e.addres','o.is_pay',

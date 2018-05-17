@@ -105,7 +105,7 @@ class DevicesModel extends Model
 
 
         // $map['_query'] = "status=1";
-         if($_SESSION['adminuser']['leavel']>0){
+         if(empty(session('adminuser.is_admin'))){
              $map=[
                  'd.addtime'=>array(array('gt',$firstat),array('lt',$lastat), 'and'),
                  'b.vid'=>$_SESSION['adminuser']['id'],

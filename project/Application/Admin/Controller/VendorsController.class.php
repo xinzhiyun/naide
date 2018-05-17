@@ -256,13 +256,14 @@ class VendorsController extends CommonController
 
             if(!empty($_SESSION['adminuser'])){
                 // 获取经销商信息
-                $case = $_SESSION['adminuser']['is_vendors'];
+                //$case = $_SESSION['adminuser']['is_vendors'];
 
-//                if($case==1 ){
-//                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
-//                }else{
+                if(empty(session('adminuser.is_admin'))){
                     $user = D('vendors')->getAll();
-//                }
+                }else{
+                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+
+                }
                 // 获取设备信息
                 $devices = M('devices')->where('binding_statu=0')->select();
 
@@ -302,9 +303,9 @@ class VendorsController extends CommonController
         }
 
 
-//        if($this->get_level()){
-//            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
-//        }
+        if(empty(session('adminuser.is_admin'))){
+            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+        }
          $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
          $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
 
@@ -335,8 +336,8 @@ class VendorsController extends CommonController
             foreach ($data as $key=>$val) {
                 array_unshift($data[$key],$key+1);
             }
-            $arr = ['addtime'=>'Y-m-d H:i:s'];
-            replace_value($data,$arr);
+            $arr = ['addtime'=>['date','Y-m-d H:i:s']];
+            $data = replace_array_value($data,$arr);
             $filename = '设备归属列表数据';
             $title = '设备归属列表';
             $cellName = ['绑定编号','经销商id','设备id','设备编码','经销商姓名','经销商手机','添加时间'];
