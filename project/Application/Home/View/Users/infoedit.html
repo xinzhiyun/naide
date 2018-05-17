@@ -14,20 +14,19 @@
 			<div class="container">
 				<h3>个人信息</h3>
 				<div>
+					<div class='item am-g'>
+						<i class="iconfont icon-device fblue"></i>
+						<span class='am-u-sm-4'>绑定套餐：</span>
+						<input type="hidden" name='orderid' class='orderid'>
+						<select name="meal" id="meal">
+							<!-- <option value=""></option> -->
+						</select>
+					</div>
 					<input type="hidden" name="deviceid">
 					<div class='item am-g'>
 						<i class="iconfont icon-user fblue"></i>
 						<span class='am-u-sm-4'>姓&emsp;&emsp;名：</span>
 						<input class="name am-u-sm-8" type="text" placeholder="请输入姓名" name="name" value=""> 
-					</div>
-					<div class='item am-g'>
-						<i class="iconfont icon-xingbie fblue"></i>
-						<span class='am-u-sm-4'>性&emsp;&emsp;别：</span>
-						<input type="hidden" name='sex'>
-						<select class="sex am-u-sm-8">
-							<option value="man" >男</option>
-							<option value="woman" >女</option>
-						</select>
 					</div>
 					<div class='item am-g'>
 						<i class="iconfont icon-phone fblue"></i>
@@ -39,14 +38,6 @@
 						<span class='am-u-sm-4'>安装地址：</span>
 						<textarea class='am-u-sm-8 addr' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
 					</div>
-					<div class='item am-g'>
-						<i class="iconfont icon-device fblue"></i>
-						<span class='am-u-sm-4'>绑定套餐：</span>
-						<input type="hidden" name='orderid' class='orderid'>
-						<select name="meal" id="meal">
-							<!-- <option value=""></option> -->
-						</select>
-					</div>
 				</div>
 				<div class="save bgblue" style="z-index:9999;">保存</div>
 			</div>
@@ -57,19 +48,31 @@
 		<script>
         	var vConsole = new VConsole();
 			$(function(){
+				var mealArr = [];	// 记录订单信息
 				// 获取设备id
 				var deviceid = getQuery().deviceid;
 				$('.input[name="deviceid"]').val(deviceid);
 				// 获取订单信息
-				getOrder(function(res){
+				getOrder(deviceid, function(res){
+					console.log('res: ',res);
+					mealArr = res;		// 保存订单信息
 					var html = '<option value="0">请选择</option>';
 					// 遍历订单中的套餐信息（一个订单只有一种套餐）
 					res.forEach(function(meal, index){
-						html += '<option orderid="'+ meal.orderid +'" value="'+ meal.name +'">'+ meal.name +'</option>';
+						html += '<option index="'+ index +'" orderid="'+ meal.id +'" value="'+ meal.name +'">'+ meal.name +'</option>';
 					})
 					$('#meal').html(html);
 				})
-
+				// 选择套餐，实时修改个人信息
+				$('#meal').on('change', function(){
+					var selectOP = $(this).find('option:selected').attr('index');
+					console.log('mealArr: ',mealArr);
+					console.log('mealArr[selectOP]: ',mealArr[selectOP]);
+					// 更新信息
+					$('.name').val(mealArr[selectOP].name);
+					$('.phone').val(mealArr[selectOP].phone);
+					$('.addr').val(mealArr[selectOP].address);
+				})
 				var name = '', sex = '', phone = '', addr = '';
 
 				// 点击保存
@@ -79,7 +82,6 @@
 					var phoneEle = $('.phone');
 					var addrEle = $('.addr');
 					name = trimFn(nameEle.val());
-					sex = $('.sex>option:selected')[0].innerText;
 					phone = trimFn($('.phone').val());
 					addr = trimFn($('.addr').val());
 
@@ -127,11 +129,9 @@
 						$('.orderid').val(meal);
 					}
 
-					// console.log(name, sex, phone, addr);
-					$('input[name="sex"]').val(sex);
+					// console.log(name, phone, addr);
 
 					console.log($('input[name="name"]').val(),
-					$('input[name="sex"]').val(),
 					$('input[name="phone"]').val(),
 					$('textarea[name="addr"]').val(),
 					$('.input[name="deviceid"]').val(),
@@ -147,16 +147,22 @@
 				})
 
 				// 获取订单信息
-				function getOrder(callback){
+				function getOrder(deviceid, callback){
 					$.ajax({
-						url: '',
+						url: '{{:U("Home/Device/waterOrder")}}',
+						data: {deviceid: deviceid},
 						type: 'post',
 						success: function(res){
 							console.log('res: ',res);
-							callback();
+							if(res.status == 200){
+								callback(res.order);
+							}else{
+								noticeFn({text: '没有查到您的订单购买记录，无法绑定设备', time: 1500});
+							}
 						},
 						error: function(err){
 							console.log('err: ',err);
+							noticeFn({text: '系统出现错误，请稍后再试'});
 						}
 					})
 				}

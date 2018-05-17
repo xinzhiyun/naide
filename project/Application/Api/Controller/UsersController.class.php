@@ -96,8 +96,15 @@ class UsersController extends  HomebaseController
         $page  = new \Think\Page($total,20);
         $pageButton =$page->show();
         $list = M('distr')->where($map)->limit($page->firstRow.','.$page->listRows)->select();
+        $code_info =  M('users')->field('code')->where(['id'=>$_SESSION['homeuser']['id']])->find();
+
+        //儿子 甲级成员
+        $to_code_count = M('users')->where(['to_code'=>$code_info['code']])->count();
+        //孙子 乙级成员
+       $parent_code_count = M('users')->where(['parent_code'=>$code_info['code']])->count();
+
         if ($list) {
-            $this->ajaxReturn(['code'=>200,'data'=>$list,'page'=>$page->totalPages]);
+            $this->ajaxReturn(['code'=>200,'data'=>$list,'page'=>$page->totalPages,'to_count'=>$to_code_count,'parent_count'=>$parent_code_count]);
         } else {
             $this->ajaxReturn(['code'=>400]);
         }
