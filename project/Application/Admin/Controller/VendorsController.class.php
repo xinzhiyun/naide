@@ -256,12 +256,11 @@ class VendorsController extends CommonController
 
             if(!empty($_SESSION['adminuser'])){
                 // 获取经销商信息
-                //$case = $_SESSION['adminuser']['is_vendors'];
-
+               
                 if(empty(session('adminuser.is_admin'))){
-                    $user = D('vendors')->getAll();
-                }else{
                     $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+                }else{
+                    $user = D('vendors')->getAll();
 
                 }
                 // 获取设备信息
