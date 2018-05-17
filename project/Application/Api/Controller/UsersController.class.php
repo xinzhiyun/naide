@@ -97,7 +97,11 @@ class UsersController extends  HomebaseController
         $pageButton =$page->show();
         $list = M('distr')->where($map)->limit($page->firstRow.','.$page->listRows)->select();
         $code_info =  M('users')->field('code')->where(['id'=>$_SESSION['homeuser']['id']])->find();
-
+        foreach ($list as $k => $v) {
+          $uid_info = M('order')->field('uid')->where(['order_id'=>$v['order_id']])->find();
+          $user_name = M('users')->field('name')->where(['id'=>$uid_info['uid']])->find();
+          $list[$k]['user_name'] = $user_name['name'];
+        }
         //儿子 甲级成员
         $to_code_count = M('users')->where(['to_code'=>$code_info['code']])->count();
         //孙子 乙级成员
