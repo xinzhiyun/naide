@@ -15,318 +15,40 @@ var $_GET = (function() {
 		return {};
 	}
 })();
-if($_GET.status == undefined){
-	$(".line_check").css("left"," 0.42666667rem");
-	$(".pay_page").show().siblings().show();
-}else if($_GET.status == "1"){
-	$(".line_check").css("left"," 3.94666667rem");
-	$(".pay_page").show().siblings().hide();
-}else if($_GET.status == "2"){
-	$(".line_check").css("left"," 7.57333333rem");
-	$(".send_page").show().siblings().hide();
-}else if($_GET.status == "3"){
-	$(".line_check").css("left"," 11.41333333rem");
-	$(".take_page").show().siblings().hide();
-}
+// if($_GET.status == undefined){
+// 	$(".line_check").css("left"," 0.42666667rem");
+// 	$(".pay_page").show().siblings().show();
+// }else if($_GET.status == "1"){
+// 	$(".line_check").css("left"," 3.94666667rem");
+// 	$(".pay_page").show().siblings().hide();
+// }else if($_GET.status == "2"){
+// 	$(".line_check").css("left"," 7.57333333rem");
+// 	$(".send_page").show().siblings().hide();
+// }else if($_GET.status == "3"){
+// 	$(".line_check").css("left"," 11.41333333rem");
+// 	$(".take_page").show().siblings().hide();
+// }
 var product_pay = new Vue({
 	el:"#app",
 	data:{
 		end_price:"",
-	//待付款   
+		//待付款 待发货 待收货
 		all_pay:[
-			{
-				product_info:[
-					{
-						product_pic : "../../Public//images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:1,//产品购买件数
-						each_product_total : ""//单品总价
-					}
-				],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "320.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				order_count:0,//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 20.00,//邮费
-				num:""
-			},
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:3,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "220.00",//产品单价
-						product_count:4,//产品购买件数
-						each_product_total : ""//单品总价
-					}
-					],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "220.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				order_count:"",//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 30.00,//邮费
-				num:""
-			},
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:5,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "150.00",//产品单价
-						product_count:6,//产品购买件数
-						each_product_total : ""//单品总价
-					}
-					],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				order_count:"",//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 40.00,//邮费
-				num:""
-			}
 		],
-
-	//待发货
-		all_send:[
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:1,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-				],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:3,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				courier_number : "12345678",//顺丰快递单号
-				order_count:0,//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 20.00,//邮费
-				// num:""
-			},
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:4,//产品购买件数
-						each_product_total : ""//单品总价
-					}
-					],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:5,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				order_count:0,//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 20.00,//邮费
-				// num:""
-			}
-		],
-
-	//待收货
-		all_take:[
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:2,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-				],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:2,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				courier_number : "12345678",//顺丰快递单号
-				order_count:0,//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 20.00,//邮费
-				// num:""
-			},
-			{
-				product_info:[
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:3,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-					{
-						product_pic : "../../Public/frontEnd/images/ro_01_03.png",//产品图片
-						product_name : "RO膜",//产品名
-						product_describe : "RO膜即是RO反渗透膜,该水厂技术负责人介绍最后一步说用的是RO。",//产品描述
-						product_price :  "120.00",//产品单价
-						product_count:4,//产品购买件数
-						each_product_total : ""//单品总价
-					},
-				],
-				flow_info:[
-					{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:5,//流量包购买件数
-						each_flow_total : ""//单品总价
-					},			{
-						flow_name : "200元套餐含2000L流量",
-						flow_price :  "120.00",//流量包单价
-						flow_count:6,//流量包购买件数
-						each_flow_total : ""//单品总价
-					}
-				],
-				order_time : "2017年10月20日",//订单时间
-				order_number : "454649874649475",//订单编号
-				courier_number : "12345678",//顺丰快递单号
-				order_count:0,//订单总件数
-				order_total : 0,//订单总价
-				product_total:0,//产品总价
-				flow_total:0,//流量总价
-				franking : 30.00,//邮费
-				// num:""
-			},
-		],
-
+		
+		//待发货
+		// all_send:[
+		// ],
+		
+		//待收货
+		// all_take:[
+		// ],
+		
 		num:"",
+		// 分页请求
+		p: 1 ,
+		// 请求ajax
+		getAjax: "",
 	},
 	computed:{
 		// 确认支付总金额
@@ -372,46 +94,46 @@ var product_pay = new Vue({
 		// 事件对象（公共）
 		e:function(ev){
 			var e = ev || event;
-		    e.preventDefault();
-		    el = e.currenTarget || e.srcElement;
-		    return $(el);
+			e.preventDefault();
+			el = e.currenTarget || e.srcElement;
+			return $(el);
 		},
 		// 跳转页面改变url（公共）
-		url:function(num){
-			var url = window.document.location.href.toString();
-			var href = url.split("?")[0];
-			if(num == ""){
-				history.replaceState({}, null, href);
-			}else{
-				history.replaceState({}, null, href +"?index="+ num);
-			}
-		},
-		touchStart:function(ev){
-			product_pay.e(ev);
-			var num = $(el).attr("num");
-			product_pay.url(num);
-			if(num == ""){
-				$(".line_check").css("left"," 0.42666667rem");
-				$(".pay_page").css("display","block");
-				$(".send_page").css("display","block");
-				$(".take_page").css("display","block");
-			}else if(num == "1"){
-				$(".line_check").css("left"," 3.94666667rem");
-				$(".pay_page").css("display","block");
-				$(".send_page").css("display","none");
-				$(".take_page").css("display","none");
-			}else if(num == "2"){
-				$(".line_check").css("left"," 7.57333333rem");
-				$(".send_page").css("display","block");
-				$(".pay_page").css("display","none");
-				$(".take_page").css("display","none");
-			}else if(num == "3"){
-				$(".line_check").css("left"," 11.41333333rem");
-				$(".take_page").css("display","block");
-				$(".pay_page").css("display","none");
-				$(".send_page").css("display","none");
-			}
-		},
+		// url:function(num){
+		// 	var url = window.document.location.href.toString();
+		// 	var href = url.split("?")[0];
+		// 	if(num == ""){
+		// 		history.replaceState({}, null, href);
+		// 	}else{
+		// 		history.replaceState({}, null, href +"?index="+ num);
+		// 	}
+		// },
+		// touchStart:function(ev){
+		// 	product_pay.e(ev);
+		// 	var num = $(el).attr("num");
+		// 	product_pay.url(num);
+		// 	if(num == ""){
+		// 		$(".line_check").css("left"," 0.42666667rem");
+		// 		$(".pay_page").css("display","block");
+		// 		$(".send_page").css("display","block");
+		// 		$(".take_page").css("display","block");
+		// 	}else if(num == "1"){
+		// 		$(".line_check").css("left"," 3.94666667rem");
+		// 		$(".pay_page").css("display","block");
+		// 		$(".send_page").css("display","none");
+		// 		$(".take_page").css("display","none");
+		// 	}else if(num == "2"){
+		// 		$(".line_check").css("left"," 7.57333333rem");
+		// 		$(".send_page").css("display","block");
+		// 		$(".pay_page").css("display","none");
+		// 		$(".take_page").css("display","none");
+		// 	}else if(num == "3"){
+		// 		$(".line_check").css("left"," 11.41333333rem");
+		// 		$(".take_page").css("display","block");
+		// 		$(".pay_page").css("display","none");
+		// 		$(".send_page").css("display","none");
+		// 	}
+		// },
 		// 取消订单
 		cancel_show:function(index){
 			var $_this = this;
@@ -428,7 +150,7 @@ var product_pay = new Vue({
 				// $_this.all_pay.splice(index,1);
 				// console.log($_this.all_pay[index]);
 				$(".cancel_bg").hide();
-
+				
 			});
 		},
 		// 支付订单
@@ -447,7 +169,7 @@ var product_pay = new Vue({
 		//立即支付
 		immediate_pay:function(){
 			if($("#select_i").attr("class") !="iconfont icon-not_Selected-copy select-copy"){
-					// 点击立即支付，获取指定支付的产品信息
+				// 点击立即支付，获取指定支付的产品信息
 				var pay_product_info = this.all_pay[this.num];//支付产品信息
 				var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
 				$(".pay_bg").hide();
@@ -473,14 +195,100 @@ var product_pay = new Vue({
 			// $(el).css("color","#f00");
 			// 点击提醒发货，发送后台成功后，在页面提醒用户
 			noticeFn({text: '已提醒卖家发货',time: '1500'});
+		},
+		// 加载更多
+		getMore: function() {
+			var _this = this;
+			_this.p++;
+			console.log(_this.p)
+			_this.getAjax(function(res) {
+				// 判断是否返回数据成功
+				if(res.msg == 0) {
+					// 当有数据时
+					if(res.res  != "") {
+						for(var i = 0; i < res.res.length; i++) {
+							_this.all_pay.push(res.res[i]);
+						}
+						
+						console.log(_this.all_pay)
+					}else {
+						noticeFn({text: "暂无更多数据啦!"});
+						$(".loadMore").css("display", "none");//无更多数据隐藏
+					}
+					
+				}else {
+					// 数据返回失败时
+					$("#app").html("<div>数据加载出错啦！请稍后重试。</div>");
+					noticeFn({text: res.text});
+				}
+			}, _this.p);
 		}
 	},
 	mounted(){
+		var _this = this;
 		// 循环3个页面
-		var info = [this.all_pay,this.all_send,this.all_take];
-		for(var i = 0;i<info.length;i++){
-			this.totalCount(info[i]);
+		// var info = [this.all_pay,this.all_send,this.all_take];
+		// for(var i = 0;i<info.length;i++){
+		// 	this.totalCount(info[i]);
+		// }
+		console.log(data_status);
+		_this.getAjax = function(callback, p) {
+			console.log("分页", p)
+			// 获取订单信息
+			var orderUrl = getURL("Home", "Pay/orderlist");
+			$.ajax({
+				url: orderUrl,
+				type: "post",
+				data: {status:data_status,p:p},
+				success: function(res) {
+					console.log("成功", res);
+					if(res.status == 200) {
+						// 返回的参数
+						/*
+						id	order表ID	是
+						order_id	订单ID	是
+						type	订单类型	是
+						created_at	订单创建时间	是
+						express	快递公司	是	
+						mca	快递单号	是
+						status	订单状态 0代付款 1已付款 2已发货 3已收货 4已完成 9禁用 大于2才有快递	是
+						goods_img	水机订单-商品图片	是	
+						goods_title	水机订单-商品标题	是	
+						goods_detail	水机订单-商品描述	是
+						goods_price	水机订单-商品价格	是	
+						goods_num	水机订单-商品数量	是	
+						money	订单价格	是
+						describe	套餐-描述
+						*/
+						callback({res: res.list, msg: 0});
+					}else {
+						// noticeFn({text: "系统出错，请稍后再试!"});
+						callback({res: "", text: "系统出错，请稍后再试!", msg:1});
+					}
+				},
+				error: function(res) {
+					console.log("失败", res);
+					// noticeFn({text: "系统出错，请稍后再试!"});
+					callback({res: "", text: "系统出错，请稍后再试!", msg:1});
+				}
+			})
 		}
+		_this.getAjax(function(res) {
+			// 判断是否返回数据成功
+			if(res.msg == 0) {
+				// 当有数据时
+				if(res.res) {
+					_this.all_pay = res.res;
+				}else {
+					$("#app").html("<div>暂无订单，快去添加吧!</div>");
+				}
+				
+			}else {
+				// 数据返回失败时
+				$("#app").html("<div>数据加载出错啦！请稍后重试。</div>");
+				noticeFn({text: res.text});
+			}
+		}, _this.p);
 	}
 });
 $(function(){
