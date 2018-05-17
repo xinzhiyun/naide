@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/Home/css/users/infoedit.css">
 	</head>
 	<body>
-		<form id='form' action="" method="post" >
+		<form id='form' action="{{:U('Home/Device/infoedit')}}" method="post" >
 			<div class="container">
 				<h3>个人信息</h3>
 				<div>
@@ -22,7 +22,7 @@
 							<!-- <option value=""></option> -->
 						</select>
 					</div>
-					<input type="hidden" name="deviceid">
+					<input type="hidden" name="deviceid" value="">
 					<div class='item am-g'>
 						<i class="iconfont icon-user fblue"></i>
 						<span class='am-u-sm-4'>姓&emsp;&emsp;名：</span>
@@ -51,7 +51,7 @@
 				var mealArr = [];	// 记录订单信息
 				// 获取设备id
 				var deviceid = getQuery().deviceid;
-				$('.input[name="deviceid"]').val(deviceid);
+				$('input[name="deviceid"]').val(deviceid);
 				// 获取订单信息
 				getOrder(deviceid, function(res){
 					console.log('res: ',res);
@@ -68,10 +68,16 @@
 					var selectOP = $(this).find('option:selected').attr('index');
 					console.log('mealArr: ',mealArr);
 					console.log('mealArr[selectOP]: ',mealArr[selectOP]);
+					if(!mealArr[selectOP].city){
+						mealArr[selectOP].city = '';
+					}
+					if(!mealArr[selectOP].district){
+						mealArr[selectOP].district = '';
+					}
 					// 更新信息
 					$('.name').val(mealArr[selectOP].name);
 					$('.phone').val(mealArr[selectOP].phone);
-					$('.addr').val(mealArr[selectOP].address);
+					$('.addr').val(mealArr[selectOP].province + mealArr[selectOP].city + mealArr[selectOP].district + mealArr[selectOP].address);
 				})
 				var name = '', sex = '', phone = '', addr = '';
 
@@ -134,16 +140,16 @@
 					console.log($('input[name="name"]').val(),
 					$('input[name="phone"]').val(),
 					$('textarea[name="addr"]').val(),
-					$('.input[name="deviceid"]').val(),
+					$('input[name="deviceid"]').val(),
 					$('.orderid').val())
 
 					noticeFn({text: '绑定成功'});
-					// // 替换历史记录
-					// history.replceState({}, null, '{{:U("Home/Users/mine")}}');
-					// setTimeout(function(){
-					// 	// 提交数据
-					// 	$('#form').submit();
-					// },500);
+					// 替换历史记录
+					// history.replaceState({}, null, '{{:U("Home/Users/mine")}}');
+					setTimeout(function(){
+						// 提交数据
+						$('#form').submit();
+					},500);
 				})
 
 				// 获取订单信息

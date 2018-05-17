@@ -327,6 +327,20 @@ var product_pay = new Vue({
 		],
 
 		num:"",
+		// 订单状态点击记录
+		clickState: {
+			0: false,
+			1: false,
+			2: false,
+			3: false
+		},
+		// 页码记录
+		pageState: {
+			0: 1,		// 全部订单的当前页码
+			1: 1,		// 待支付订单的当前页码
+			2: 1,		// 待发货订单的当前页码
+			3: 1		// 待收获订单的当前页码
+		}
 	},
 	computed:{
 		// 确认支付总金额
@@ -388,28 +402,46 @@ var product_pay = new Vue({
 		},
 		touchStart:function(ev){
 			product_pay.e(ev);
+			// 订单状态 0: 全部，1：待付款，2：待发货，3：待收货
 			var num = $(el).attr("num");
 			product_pay.url(num);
-			if(num == ""){
+			if(num == ""){	// 全部
 				$(".line_check").css("left"," 0.42666667rem");
 				$(".pay_page").css("display","block");
 				$(".send_page").css("display","block");
 				$(".take_page").css("display","block");
-			}else if(num == "1"){
+				// 订单状态点击
+				num = "0";
+
+			}else if(num == "1"){	// 待付款
 				$(".line_check").css("left"," 3.94666667rem");
 				$(".pay_page").css("display","block");
 				$(".send_page").css("display","none");
 				$(".take_page").css("display","none");
-			}else if(num == "2"){
+
+			}else if(num == "2"){	// 待发货
 				$(".line_check").css("left"," 7.57333333rem");
 				$(".send_page").css("display","block");
 				$(".pay_page").css("display","none");
 				$(".take_page").css("display","none");
-			}else if(num == "3"){
+
+			}else if(num == "3"){	// 待收货
 				$(".line_check").css("left"," 11.41333333rem");
 				$(".take_page").css("display","block");
 				$(".pay_page").css("display","none");
 				$(".send_page").css("display","none");
+
+			}
+			console.log('product_pay.clickState: ',product_pay.clickState);
+			console.log('product_pay.clickState[num]: ',num ,product_pay.clickState[num]);
+			console.log('pageState: ',product_pay.pageState);
+			console.log('pageState[num]: ',num ,product_pay.pageState[num]);
+			// 未点击过则请求数据
+			if(!product_pay.clickState[num]){
+				// 订单状态点击
+				product_pay.clickState[num] = true;
+				// 获取数据
+				getList(product_pay.pageState[num], num, function(res){});
 			}
 		},
 		// 取消订单
