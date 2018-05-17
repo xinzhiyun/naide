@@ -178,7 +178,7 @@ var product_pay = new Vue({
 			}else{
 				noticeFn({text: '未选择付款方式！',time: '1500'});
 			}
-		},
+		}, 
 		// 微信支付方式（select字体图标）
 		weixin:function(){
 			var a = "iconfont icon-selected-copy select-copy";//选中
