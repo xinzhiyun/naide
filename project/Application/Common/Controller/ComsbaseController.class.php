@@ -8,15 +8,16 @@ class ComsbaseController extends AppframeController {
 	function _initialize() {
 		parent::_initialize();
 
+        $this->check_login();
 	}
 	
 	/**
 	 * 检查用户登录
 	 */
 	protected function check_login(){
-	    $session_user=session('user');
+	    $session_user=session('comsuser');
 		if(empty($session_user)){
-			$this->error('您还没有登录！',leuu('user/login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+			$this->error('您还没有登录！',U('Coms/Login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
 		}
 	}
 
