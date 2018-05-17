@@ -62,14 +62,42 @@
 					teamNum: 0,			// 团队成员
 				}
 			},
-			mounted() {
-				this.teamNum = '3';
-				for(var i=0; i<this.tList.length; i++){
-					// 转换时间
-					this.tList[i].addtime = getLocalTime(this.tList[i].addtime);
-				}
+			created() {
+				var that = this;
+				// 获取数据
+				that.getList(function(res){
+					that.tList = res;
+					// 转换时间戳
+					that.tList.forEach(function(item, index){
+						res.data.addtime = getLocalTime(res.data.addtime);
+					})
+				})
+					
 			},
-			methods: {}
+			mounted() {
+				// this.teamNum = '3';
+				// for(var i=0; i<this.tList.length; i++){
+				// 	// 转换时间
+				// 	this.tList[i].addtime = getLocalTime(this.tList[i].addtime);
+				// }
+			},
+			methods: {
+				getList: function(callback){
+					$.ajax({
+						url: '',
+						type: 'post',
+						success: function(res){
+							console.log('res: ',res);
+							if(res.code == 200){
+								callback(res.data);
+							}
+						},
+						error: function(err){
+							console.log('err: ',err);
+						}
+					})
+				}
+			}
 		})
 	</script>
 </body>

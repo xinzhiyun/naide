@@ -12,8 +12,6 @@ var _fresh = document.getElementById('refresh');			// loading
 // 容器原有的行内样式
 var _elemStyle = _fresh.getAttribute('style');
 var _callback;
-// 加载的提示文字
-var text = document.getElementsByClassName('refresh_text');
 /**
  * 用法：
    <script src='javascripts/downfresh.js'></script>
@@ -83,7 +81,6 @@ downFresh.prototype = {
 			_fresh.setAttribute('style',
 				_elemStyle + ';margin-top:'+ len/3 +'px;'
 			);
-			text[0].innerHTML = '';
 		}
 		// console.log(_elem.scrollTop + _elem.clientHeight == _elem.scrollHeight);
 		if(startY > moveY){
@@ -104,7 +101,6 @@ downFresh.prototype = {
 				_elemStyle + ';margin-top:'+ len/3 +'px;'
 			);
 			flag = true;		// 滑动结束标志
-			text[0].innerHTML = '';
 		}else{
 
 			_fresh.setAttribute('style',
