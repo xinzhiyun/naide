@@ -437,4 +437,102 @@ class PayController extends AppframeController {
         }
     }
 
+
+
+
+    /**
+     * 用户水机购买前-信息录入
+     */
+    public function userbuy()
+    {
+        try {
+
+            $data = I('post.');
+            if (empty(session('waterOrder.code'))) {
+                E('邀请码不能为空', 201);
+            } else {
+                $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
+                if( empty($users_code['code'])) {
+                    E('无法找到该邀请码', 201);
+                }
+            }
+            if (empty($data['uname'])) {
+                E('姓名不能为空', 201);
+            } else {
+                $reg['name'] = $data['uname'];
+            }
+
+            if (empty($data['uphone'])) {
+                E('手机号不能为空', 201);
+            } else {
+                $reg['user'] = $data['uphone'];
+            }
+
+            if (isset($data['has'])) {
+                if (!empty($data['upwd'])) {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }else{
+                if (empty($data['upwd'])) {
+                    E('密码不能为空', 201);
+                } else {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }
+
+
+            if (empty($data['address'])) {
+                E('地址不能为空', 201);
+            } else {
+                session('waterOrder.address',$data['address']);
+            }
+
+
+            $m =  M('users');
+            $info = $m->where('user='.$reg['user'])->find();
+
+            if (empty($info)) {
+                $data['created_at']=time();
+                $reg['code'] = $this->create_guid();
+                //老父亲
+                $reg['to_code'] = $users_code['code'];
+                //老爷爷
+                $reg['parent_code'] = $users_code['to_code'];
+
+                $res = $m->add($reg);
+
+                if($res)$uid = $res;
+            } else {
+                $reg['updated_at']=time();
+                $res = $m->where('id='.$info['id'])->save($reg);
+                $uid = $info['id'];
+            }
+
+            if($res){
+                session('waterOrder.sid',$data['sid']);
+                session('waterOrder.uid',$uid);
+                session('waterOrder.name',$reg['name']);
+                session('waterOrder.phone',$reg['user']);
+            } else {
+                //用户注册失败
+                E('用户注册失败', 201);
+            }
+            E('注册成功', 200);
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
+    public function buyinfo()
+    {
+        if(session('waterOrder.has')==1){
+            $homeuser = session('homeuser');
+            session('waterOrder.uid',$homeuser['id']);
+            session('waterOrder.name',$homeuser['name']);
+            session('waterOrder.phone',$homeuser['user']);
+        }
+        $this->display();
+    }
+
 }

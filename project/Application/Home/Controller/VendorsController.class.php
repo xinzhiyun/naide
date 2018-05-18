@@ -1,9 +1,9 @@
 <?php
 namespace Home\Controller;
-use Common\Controller\HomebaseController;
+use Common\Controller\AppframeController;
 use Common\Tool\Sms;
 
-class VendorsController extends HomebaseController {
+class VendorsController extends AppframeController {
 
     public $model;
     public function __construct()
