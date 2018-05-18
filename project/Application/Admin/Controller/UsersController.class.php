@@ -333,84 +333,35 @@ class UsersController extends CommonController
         $this->assign('button',$pageButton);
         $this->display();
     }
-
-
-    /*
-        设备解绑流程：
-            1. 获取设备编号
-            3.     
-        
-
-
-     */
+    
     // 解除用户绑定
     public function unbind()
     {
-        $code['device_code'] = I('post.device_code');
+        $code['id'] = I('post.device_code');
+
         // $code['device_code'] = 992833445596778;
         $data = [
             'uid' => null,
             'name' => null,
             'address' => null,
             'phone' => null,
+            'bindingtime'=>null,
         ];
         $device = M('devices');
-        $current_devices = M('current_devices');
 
         $deviceInfo = $device->where($code)->find();
-        $did = $deviceInfo['id'];
         $uid = $deviceInfo['uid'];
-        $device->startTrans();
-        $current_devices->startTrans();
-        $current_device = $current_devices->where('did='.$did)->find();
-        // print_r($current_device);die;
-        if(!empty($current_device)){
-            $bind_device = $device->where('uid='.$uid)->select();
-            
-            if(count($bind_device) == 1){
-                
-                $current_status = $current_devices->where('did='.$did)->delete();
-            } else {
-                foreach ($bind_device as $key => $value) {
-                    $device_tmp[$key] = $value['id'];
-                    if($value['id'] == $did){
-                        unset($device_tmp[$key]);
-                    }
-                    $device_tmp[0] = $device_tmp[$key];
-                }
-                $current_status = $current_devices->where('uid='.$uid)->save(['did'=>$device_tmp[0]]);
-            }
-            if($current_status){
-                $current_devices->commit();
-            } else {
-                $current_devices->rollback();
-                $this->ajaxReturn(['code'=>201,'msg'=>'解绑失败']);
-            }
+
+        $res = $device->where($code)->save($data);
+
+        $device_tmp = $device->where('uid='.$uid)->find();
+        if(!empty($device_tmp)){
+            $device->where('id='.$device_tmp['id'])->save(['default'=>1]);
         }
 
-        $status['status'] = 0;
-        $orders = M('orders')->where('device_id='.$deviceInfo['id'])->find();
-        $flow = M('flow')->where('did='.$deviceInfo['id'])->find();
-        // 订单记录判断回滚
-        if($order){
-            $orders_status = M('orders')->where('device_id='.$deviceInfo['id'])->save($status);
-        } else {
-            $orders_status = true;
-        }
-
-        if($flow){
-            $flow_status = M('flow')->where('did='.$deviceInfo['id'])->save($status);
-        } else {
-            $flow_status = true;
-        }
-
-        $device_status = $device->where('id='.$deviceInfo['id'])->save($data);
-        // 设备状态判断回滚
-        if($device_status && $orders_status){
-            $device->commit();
+        if($res){
             $this->ajaxReturn(['code'=>200,'msg'=>'解绑成功']);
         } else {
-            $device->rollback();
             $this->ajaxReturn(['code'=>203,'msg'=>'解绑失败']);
         }
     }
