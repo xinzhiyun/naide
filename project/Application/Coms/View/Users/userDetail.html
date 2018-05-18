@@ -90,8 +90,8 @@
         // 获取数据
         ;(function getDetail(){
             $.ajax({
-                url: '',
-                type: 'post',
+                url: '{{:U("Coms/Users/userDetail")}}',
+                type: 'get',
                 data: {uid: getQuery().uid},
                 success: function(res){
                     console.log('res: ',res);
