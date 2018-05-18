@@ -1,5 +1,5 @@
 // 实例化vue
-new Vue({
+var detail = new Vue({
     el: ".main",
     data: {
         // 用户列表
@@ -34,7 +34,7 @@ function circle(obj, color, percent) {
                 circle.setText(value);
             }
 
-        }
+        } 
     });
     bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
     bar.text.style.fontSize = '.5rem';
