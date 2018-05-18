@@ -75,7 +75,7 @@ class VendorsController extends CommonController
         $arr=[
             'status'=>['禁用','正常','待审核','null'=>'未知'],
         ];
-        $userlist = replace_array_value($userlist,$arr);
+        $userlist = replace_array_value($userlist,$arr,'_html');
 
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
@@ -137,6 +137,25 @@ class VendorsController extends CommonController
             }
         }else{
             $this->display();
+        }
+    }
+
+    /**
+     * 状态编辑
+     */
+    public function editstatus()
+    {
+        $id=I('id');
+        if(empty($id)){
+            $this->success('修改成功！！！',U('Vendors/index'));
+        }
+        $status=I('status');
+
+        $res = M('vendors')->where('id='.$id)->save(['status'=>$status]);
+        if ($res) {
+            $this->success('修改成功！！！',U('Vendors/index'));
+        } else {
+            $this->error('修改失败！');
         }
     }
 
