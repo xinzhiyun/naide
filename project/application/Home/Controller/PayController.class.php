@@ -163,7 +163,7 @@ class PayController extends AppframeController {
             session('waterOrder.tid',$info['tid']);
             session('waterOrder.flow',$info['flow']);
             $goodsInfo=array(
-                'imgSrc'=>'../../Public/images/bj.png',
+                'imgSrc'=>'/Public/Home/images/bj.png',
                 'goodsTitle'=>'耐得饮水机',
                 'goodsDetail'=>'精钢速热YD1515S-X',
                 'goodsPrice'=>$info['money'],
