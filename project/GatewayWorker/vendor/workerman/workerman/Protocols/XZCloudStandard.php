@@ -48,6 +48,10 @@ class XZCloudStandard
     const PureTDS='PureTDS'; //原水
     const Temperature='Temperature'; // 温度
     const FilerNum='FilerNum'; // 滤芯个数
+    const SumPump='SumPump'; //泵累计工作时间(秒)
+    const CurTime='CurTime'; //
+
+
 
     const ReFlowFilter1='ReFlowFilter1'; // 滤芯1剩余流量 
     const ReDayFilter1='ReDayFilter1'; // 滤芯1剩余天数
@@ -109,8 +113,8 @@ class XZCloudStandard
         [self::Reday,'n'],
         [self::SumFlow,'n'],
         [self::SumDay,'n'],
-        ["SumPump",'N'],
-        ['CurTime','N'],
+        [self::SumPump,'N'],
+        [self::CurTime,'N'],
         [self::FilterMode,'C'],
         [self::FilerNum,'C'],
         
@@ -162,7 +166,7 @@ class XZCloudStandard
         [self::Reday,'n'],
         [self::SumFlow,'n'],
         [self::SumDay,'n'],
-        ["SumPump",'N'],
+        [self::SumPump,'N'],
         [self::RawTDS,'n'],
         [self::PureTDS,'n'],
         [self::Temperature,'C'],

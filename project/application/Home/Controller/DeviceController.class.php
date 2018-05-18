@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
+use Common\Tool\Device;
 
 /**
  * Class DeviceController
@@ -51,17 +52,8 @@ class DeviceController extends HomebaseController
         }
     }
 
-    /**
-     * 设备绑定
-     */
-    public function bind()
-    {
 
-    }
-
-    /**
-     * 查询是否有设备订单
-     */
+    
     /**
      * 查询是否有设备订单
      */
@@ -91,7 +83,8 @@ class DeviceController extends HomebaseController
             $map['type'] = 1;//水机订单
             $map['is_pay'] = 1;//已支付的
 
-            //***  待后期添加逻辑 检查设备码的类型 检索此设备类型的订单
+            $type_id = Device::get_devices_info($data,'type_id');
+            $map['type_id'] = $type_id;//设备类型
 
             $order = M('order')->where($map)->field('id,district,describe,province,city,district,address,vid,uid,name,phone')
                 ->select();
@@ -106,6 +99,7 @@ class DeviceController extends HomebaseController
             $this->to_json($e);
         }
     }
+
     //绑定设备个人信息
     public function infoedit() {
         try{
@@ -117,34 +111,38 @@ class DeviceController extends HomebaseController
             $data['phone'] = I('post.phone');
             $data['address'] = I('post.addr');
 
+            $devices_statu_model    = M('devices_statu');
+            $devices_model          = M('devices');
+            $order_model            = M('order');
+
             $map['id']  = I('post.orderid');
             $map['is_work'] = 0;
-            $info = M('order')->where($map)->find();
+            $order_info = $order_model->where($map)->find();
 
-
-            if ($info) {
+            if ($order_info) {
                 //查找设备ID
-                $diMap['device_code'] = $data['deviceid'];
+                $diMap['device_code'] = trim($data['deviceid']);
                 $diMap['uid'] =  array('exp',' is NULL');
-                $di_info = M('devices')->where($diMap)->find();
+                $di_info = $devices_model->where($diMap)->find();
 
                 if ($di_info) {
                     $data['uid'] = session('homeuser.id');
                     $data['bindtime'] = time();
                     $data['default'] = 1;
-                    session('homeuser.did',$di_info['id']);
-                    M('devices')->where(['uid'=>$data['uid']])->save(['default'=>0]);
-                    //初始化设备
+                    $devices_model->where(['uid'=>$data['uid']])->save(['default'=>0]);
 
-
-                    $dev = M('devices')->where(['device_code'=>$data['deviceid']])->save($data);
+                    $dev = $devices_model->where(['device_code'=>$data['deviceid']])->save($data);
                     if ($dev) {
-                        $order_info = M('order')->where(['id'=>$map['id']])->save(['did'=>session('homeuser.id'),'is_work'=>1]);
+                        $devices_statu_res = self::device_init($diMap['device_code'],$order_info); //初始化设备
 
-                        if ($order_info) {
-                            E('绑定成功',200);
-                        } else {
-                            E('绑定失败',401);
+                        if($devices_statu_res){
+                            $order_info = $order_model->where(['id'=>$map['id']])->save(['did'=>session('homeuser.id'),'is_work'=>1]);
+                            if ($order_info) {
+                                session('homeuser.did',$di_info['id']);
+                                E('绑定成功',200);
+                            } else {
+                                E('绑定失败',401);
+                            }
                         }
                     }
                 } else {
@@ -157,7 +155,49 @@ class DeviceController extends HomebaseController
         } catch (\Exception $e) {
             $this->to_json($e);
         }
+    }
 
+    /**
+     * 设备初始化
+     * @param $device_code
+     */
+    public static function device_init($device_code,$order)
+    {
+        $devices_statu_model = M('devices_statu');
+
+        $devices_statu_data=array(
+            'LeasingMode'=>2,
+            'FilterMode'=>0,
+            'AliveStause'=>1,
+            'ReDay'=>$order_info['flow'],
+            'SumPump'=>0,
+            'SumFlow'=>0,
+            'SumDay'=>0,
+            'data_statu'=>2,
+            'updatetime'=>time()
+        );
+
+        $filter = Device::get_filter_info($device_code,true);
+        if(!empty($filter)){
+            $devices_statu_data = array_merge($devices_statu_data,$filter);
+        }
+
+        $devices_statu = $devices_statu_model->where('DeviceID='.$device_code)->find();
+
+        if (empty($devices_statu)) {
+            $devices_statu_data['DeviceID'] = $device_code;
+            $devices_statu_data['addtime']  = time();
+
+            $devices_statu_res = $devices_statu_model->add($devices_statu_data);
+        } else {
+            $devices_statu_res = $devices_statu_model
+                ->where('id='.$devices_statu['id'])
+                ->save($devices_statu_data);
+        }
+        if($devices_statu_res){
+            return true;
+        }
+        return false;
 
     }
 

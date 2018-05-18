@@ -15,6 +15,7 @@ class ActionController extends Controller
 
     public function test()
     {
+
 //
 //        $message['DeviceID'] = '868575025672249';
 //        $message['PackType'] = "SetData";
@@ -24,7 +25,7 @@ class ActionController extends Controller
 ////        $this->get_filter_info('868575025659121');
 ////
 ///
-        $this->check_info(174);
+//        $this->check_info(174);
 //        $this->sendMsg($message);
     }
 
