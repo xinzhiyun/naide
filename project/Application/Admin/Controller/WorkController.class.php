@@ -102,20 +102,20 @@ class WorkController extends CommonController
 
         $total =$type->where($map)
             ->alias('w')
-            ->join('__DEVICES__ d ON w.device_code = d.device_code','LEFT')
-            ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
-            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
+//            ->join('__DEVICES__ d ON w.did = d.id','LEFT')
+            ->join('pub_personnel ON w.pid = pub_personnel.id ','LEFT')
+//            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
             ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
         // echo M()->getLastSql();
         $data = $type->where($map)
             ->alias('w')
-            ->join('__DEVICES__ d ON w.device_code= d.device_code','LEFT')
-            ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
-            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
-            ->field('__DEVICES__.*,w.*,pub_personnel.name pname,pub_personnel.phone pphone,pub_repair.address raddress')
-            ->order('w.result asc,w.create_at desc')
+//            ->join('__DEVICES__ d ON w.did= d.id','LEFT')
+            ->join('pub_personnel ON w.pid = pub_personnel.id ','LEFT')
+//            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
+            ->field('w.*,pub_personnel.name pname,pub_personnel.phone pphone')
+            ->order('w.status asc,w.addtime desc')
             ->limit($page->firstRow.','.$page->listRows)->getAll();
         //exit();
         $this->assign('list',$data);
@@ -123,27 +123,96 @@ class WorkController extends CommonController
         $this->display();
     }
 
+    /**
+     * 获取安装人员
+     */
+    public function getpersonnel()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['vid'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['v_id'] = $data['vid'];
+            }
+            $personnelData = M('personnel')->where($map)->field('id,name,phone')->select();
+
+            $this->ajaxReturn(array(
+                'status'=>200,
+                'data'=>$personnelData,
+                'msg'=>'创建成功',
+            ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
+    /**
+     * 获取安装人员
+     */
+    public function setpersonnel()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['wid'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $data['wid'];
+            }
+
+            if (empty($data['pid'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['pid'] = $data['pid'];
+            }
+            if (empty($data['pphone'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['pphone'] = $data['pphone'];
+            }
+            if (empty($data['pname'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['pname'] = $data['pname'];
+            }
+
+            $save['status'] = 1;
+
+            $res = M('work')->where($map)->save($save);
+
+           if($res){
+               E('派遣成功','200');
+           }else{
+               E('派遣失败,请重试','201');
+           }
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
     public function add()
     {
         if (IS_POST) {
-            I('repair_id') ? $data['repair_id'] = I('repair_id'):'';
+//            I('repair_id') ? $data['repair_id'] = I('repair_id'):'';
             $data['device_code'] = I('dcode');
-            I('personnel_id') ? $data['personnel_id'] = I('personnel_id'):'';
+            I('personnel_id') ? $data['pid'] = I('personnel_id'):'';
             $data['type'] = I('type');
             $data['content'] = I('content');
             I('s_province') ? $data['province'] = I('s_province'):'';
             I('s_city') ? $data['city'] = I('s_city'):'';
             I('s_county') ? $data['district'] = I('s_county'):'';
             I('add_ress') ? $data['address'] = I('add_ress'):'';
-            I('time') ? $data['time'] = strtotime(I('time')):'';
-            $data['create_at'] = time();
+//            I('time') ? $data['time'] = strtotime(I('time')):'';
+            $data['addtime'] = time();
+            $data['playtime']= time();
+            $save['status'] = 1;
 
-            I('kname') ? $data['kname'] = I('kname'):'';
-            I('kphone') ? $data['kphone'] = I('kphone'):'';
+            I('kname') ? $data['name'] = I('kname'):'';
+            I('kphone') ? $data['phone'] = I('kphone'):'';
             // dump(I('post.'));die;
             $device_type = D('work');
             
-            $data['number'] = $this->getWorkNumber();
+            $data['no'] = get_work_no();
             $info = $device_type->create();
             if($info){
                 if($data['type'] == 1){
@@ -154,12 +223,13 @@ class WorkController extends CommonController
                         $this->error('工单地址不能为空！');
                     }
                 }
-                if($data['type'] == 0){
-                    if($device_type->where(['device_code'=>$data['device_code']])->find()){
-                        $this->error('设备已经安装过了！');
-                    }
-                }
+//                if($data['type'] == 0){
+//                    if($device_type->where(['device_code'=>$data['device_code']])->find()){
+//                        $this->error('设备已经安装过了！');
+//                    }
+//                }
                 $res = $device_type->add($data);
+
                 if ($res) {
                     $this->success('工单添加成功啦！！！',U('work/index'));
                 } else {
@@ -173,10 +243,8 @@ class WorkController extends CommonController
 
         }else{
             $map['id'] = I('id');
-            $repairData = M('Repair')->where($map)->field('device_code,address')->find();
             $where['v_id'] = session('adminuser.id');
             $personnelData = M('personnel')->where($where)->field('id,name,phone')->select();
-            // dump($repairData);
             $assign = [
                 'repairId' => $map['id'],
                 'repairData' => $repairData,
@@ -186,6 +254,7 @@ class WorkController extends CommonController
             $this->display();
         }
     }
+
 
     public function edit($id,$result)
     {
@@ -247,18 +316,18 @@ class WorkController extends CommonController
         }
     }
 
-    /**
-     * 生成工单编号
-     * @return [type] [description]
-     */
-    protected function getWorkNumber()
-    {
-
-        do {
-
-            $workNumber =  date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-
-        } while(D('work')->where('number='.$workNumber)->getField('id'));
-        return $workNumber;
-    }
+//    /**
+//     * 生成工单编号
+//     * @return [type] [description]
+//     */
+//    protected function getWorkNumber()
+//    {
+//
+//        do {
+//
+//            $workNumber =  date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+//
+//        } while(D('work')->where('number='.$workNumber)->getField('id'));
+//        return $workNumber;
+//    }
 }

@@ -51,10 +51,12 @@
                     <th>处理人电话</th>
                     <th>维护类型</th>
                     <th>工作内容</th>
-                    <th>地址</th>
-                    <th>处理结果</th>
-                    <th>处理时间</th>
+                    <th>客户信息</th>
+                    <th>预约时间</th>
                     <th>创建时间</th>
+                    <th>处理时间</th>
+                    <th>完成时间</th>
+                    <th>工单状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -62,22 +64,26 @@
                     <notempty name="list">
                     <foreach name="list" item="vo" key="key">
                     <tr>
-                        <td>{{$vo.number}}</td>
+                        <td>{{$vo.no}}</td>
                         <td>{{$vo.pname}}</td>
                         <td>{{$vo.pphone}}</td>
                         <td>{{$vo.type}}</td>
-                        <td>{{$vo.content}}</td>
+                        <td><?php if($vo['device_code']){ echo '设备:'.$vo['device_code'].'<br>';} ?>{{$vo.content}}</td>
                         <?php $address = $vo['province'].$vo['city'].$vo['district'].$vo['address']; ?>
-                        <td>{{$vo['type'] === '维修' ? $vo['raddress']:$address}}</td>
-                        <td>{{$vo.result}}</td>
-                        <td><?php if($vo['time']){ echo date('Y-m-d H:i:s',$vo['time']);} ?></td>
-                        <td>{{$vo.create_at|date='Y-m-d H:i:s',###}}</td>
-                        <td>
-                            <switch name="vo.result">
-                                <case value="未处理"><a class="handleBtn" ruleId="{{$vo.id}}">正在进行中</a></case>
-                                <case value="正在处理"><a href="__URL__/edit/id/{{$vo.id}}/result/2">任务完成</a></case>
-                                <default />
-                            </switch>
+                        <td>{{$vo.name}} {{$vo.phone}}<br>{{$address}}</td>
+                        <td>{{$vo.time}}<br>{{$vo.period}}</td>
+                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                        <td><?php if($vo['playtime']){ echo date('Y-m-d H:i:s',$vo['playtime']);} ?></td>
+                        <td><?php if($vo['passtime']){ echo date('Y-m-d H:i:s',$vo['passtime']);} ?></td>
+                        <td><switch name="vo.status">
+                                <case value="0">待处理</case>
+                                <case value="1">进行中</case>
+                                <case value="2">工单已完成</case>
+                            <default />
+                        </switch></td>
+                        <td data-wid='{{$vo.id}}' data-vid='{{$vo.vid}}'>
+                            <?php if(empty($vo['pid'])) {echo "<a class='_play'>派工单</a>";}elseif($vo['status']==1){
+                                echo "<a class='_play'>完成工单</a>"; } ?>
                         </td>
                     </tr>
                     </foreach>
@@ -165,22 +171,106 @@
                         location.href = '{{:U("Admin/Work/index")}}';
 
                     })
-                    // 处理按钮
-                    $(".handleBtn").click(function(){
+                    // 排工单
+                    $("._play").click(function(){
                         var _this=$(this);
-                        var id = $(this).attr('ruleId');
-                        layui.use('layer', function(){
-                            var layer = layui.layer;
-                            layer.confirm('确定现在处理该条数据?', {icon: 3, title:'温馨提示'}, function(index){
-                                window.location.href='{{:U('edit')}}?id='+id+'&result=1';
-                                layer.close(index);
-                                
-                            });
-                        });
-                    });
+                        var wid = $(this).parents('td').attr('data-wid');
+                        var vid = $(this).parents('td').attr('data-vid');
+                        $("#personnel_wid").val(wid);
+                        $.ajax({
+                            url: "{{:U('Admin/Work/getpersonnel')}}",
+                            data: {vid:vid},
+                            type: "post",
+                            datatype: "json",
+                            success: function(res){
+                                console.log('请求成功: ',res);
+                                if(res.data.length==0){
+                                    layuiHint("无可派遣的安装人员!!");
+                                }
+                                if(res.status == 200) {
+                                    var tpl='<option value="">--请选择--</option>';
+                                    for(var i = 0; i < res.data.length; i++) {
+                                        tpl
+                                            +='<option data-name="'+res.data[i].name+'" data-phone="'+res.data[i].phone+'" value="'+res.data[i].id+'">'+res.data[i].name+'-'+res.data[i].phone+'</option>';
+                                    }
+                                    $("#personnel_sel").html(tpl);
+                                }else if(res.status == 201) {
+                                    layuiHint(res.msg);
+                                }
+                            },
+                            error: function(err){
+                                console.log('请求失败: ',err);
+                                layuiHint('请求失败，请稍后再试!');
+                            }
+                        })
+                        $('#bjy-edit').modal('show');
+                    })
+
+                    function sajax() {
+                        var wid = $("#personnel_wid").val();
+                        var obj = $("#personnel_sel option:checked");
+                        var pname = obj.attr('data-name');
+                        var pphone = obj.attr('data-phone');
+                        var pid = obj.val();
+
+                        $.ajax({
+                            url: "{{:U('Admin/Work/setpersonnel')}}",
+                            data: {wid:wid,pname:pname,pphone:pphone,pid:pid},
+                            type: "post",
+                            datatype: "json",
+                            success: function(res){
+                                console.log('请求成功: ',res);
+                                if(res.status == 200) {
+                                    layuiHint('修改成功');
+                                    setTimeout(function(){
+                                        location.href = '{{:U("Admin/work/index")}}';
+                                    },500);
+                                }else if(res.status == 201) {
+                                    layuiHint('请重试');
+                                }
+                            },
+                            error: function(err){
+                                console.log('请求失败: ',err);
+                                layuiHint('提交失败，请稍后再试!');
+                            }
+                        })
+                    }
                     
                 /**************** 搜索关键字保留 -- 结束 ******************/
             </script>
+        </div>
+        <div class="modal fade" id="bjy-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" style="width:660px;height:350px">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            请选择派遣人员
+                        </h4>
+                    </div>
+                    <div class="modal-body"  style="margin-top: 20px" >
+                        <input type="hidden" name="key">
+                        <table class="table table-striped table-bordered table-hover table-condensed">
+                            <tr><th style="padding: 10px"   id="show_desc"></th></tr>
+                            <tr><td style="padding: 30px 20px" >
+                                <select class="form-control"  name="pid" id="personnel_sel">
+                                    <option value="">--请选择--</option>
+                                </select>
+                                <input class="input-xlarge" style="margin: 10px" type="hidden" id="personnel_wid"
+                                       name="wid" >
+                            </td>
+                            </tr>
+
+                        </table>
+                        <div class="text-right">
+                            <input class="btn btn-success" onclick="sajax()" type="submit" value="提交">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- footer part -->
         <include file="Public/footer" />
