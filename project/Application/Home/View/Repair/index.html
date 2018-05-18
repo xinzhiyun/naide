@@ -130,7 +130,7 @@
 					</div>
 					<!-- 信息确认部分结束 -->
 					
-					<input type="button" value="提交" id="repair-sub" class="bgblue" @click="submit_text()">
+					<input type="button" value="提交" id="repair-sub" class="bgblue sure" @click="submit_text()">
 				</div>
 		</form>
 		<!-- 预约时段蒙版开始部分 -->
@@ -218,7 +218,7 @@
 				]
 			});
 			// var result = []; // 放入图片
-
+			var picNum = 0;
 			// 上传图片 参数：图片路径-res.src  后台图片id-res.media_Id
 			$("#file_input").on("click", function() {
 				if($(".pic_2").children().length == 2) {
@@ -229,8 +229,7 @@
 				wxuploadimg(function(res) {
 					console.log('res: ',res);
 					// 预览图片
-					$(".pic_2").append('<div class="am-u-sm-4" style="position:relative;" index="'+ res['media_Id'] +'"><img src="'+ res['src']+ '" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>');
-					repair_bg_vue.infoAll['pic'].push(res.media_Id);
+					$(".pic_2").append('<div class="am-u-sm-4 upimg" style="position:relative;" index="'+ res['media_Id'] +'"><img src="'+ res['src']+ '" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>');
 					
 					console.log('repair_bg_vue.infoAll["pic"]: ',repair_bg_vue.infoAll['pic']);
 					// 上传图片
@@ -240,9 +239,18 @@
 						data: {type: 1, mode: 1, key: res.media_Id},
 						success: function(res){
 							console.log('res: ',res);
+							if(res.status == 200){
+								++picNum;
+								repair_bg_vue.infoAll['pic'].push(res.path);
+							}else{
+								// 上传图片失败，这里应该删除页面中的预览图
+								noticeFn({text: res.msg});
+								delPic(picNum + 1);
+							}
 						},
 						error: function(err){
 							console.log('err: ',err);
+							noticeFn({text: '系统遇到问题，请稍后再试'});
 						}
 					})
 				})
@@ -252,6 +260,12 @@
 				// alert($(this))
 				$(this).parent().remove();
 			});
+
+			// 删除图片
+			function delPic(index){
+				console.log('index: ',index);
+				$('.upimg').eq(index).remove();
+			}
 			
 			
 			// var result,div;   
@@ -292,7 +306,7 @@
 
 			var ajaxURL = getURL("Home", "Repair/add");
 			$.ajax({
-				url: ajaxURL,
+				url: '{{:U("Home/Repair/add")}}',
 				data: infoAll,//页面所有需要传后台的数据
 				type: "post",
 				success: function(res) {
