@@ -80,15 +80,29 @@
             </div>
         </div>
         </volist>
-
-
     </div>
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Home/js/progressbar.min.js"></script>
     <script src="__PUBLIC__/Coms/js/users/userDetail.js"></script>
-
-
+    <script>
+        // 获取数据
+        ;(function getDetail(){
+            $.ajax({
+                url: '{{:U("Coms/Users/userDetail")}}',
+                type: 'get',
+                data: {uid: getQuery().uid},
+                success: function(res){
+                    console.log('res: ',res);
+                    detail.userList = [];
+                    detail.devicesList = [];
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                }
+            })
+        })();
+    </script>
 </body>
 </html>

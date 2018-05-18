@@ -14,7 +14,7 @@
         <form action="" method="post" id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入手机号/设备编码">
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入手机号/设备编码" v-model='searchword'>
             </div>
         </form>
         <div class="userInfo">
@@ -22,66 +22,49 @@
                 <!-- 头部 -->
                 <li class="userLi clearfix">
                     <ol cass="am-g doc-am-g">
-                        <li class="am-u-sm-4">设备编码</li>
-                        <li class="am-u-sm-4">用户</li>
-                        <li class="am-u-sm-4">绑定时间</li>
+                        <li class="am-u-sm-6">用户</li>
+                        <li class="am-u-sm-6">绑定时间</li>
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi">
-                    <a href="{{:U('Coms/Users/userDetail')}}" class="clearfix">
+                <li class="userLi" v-for='u in userList' @click='godetail(u.uid)'>
+                    <a class="clearfix">
                         <ol cass="am-g">
-                            <li class="am-u-sm-4">868575025659808</li>
-                            <li class="am-u-sm-4">嗯呢</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                            <li class="am-u-sm-6"><span v-text='u.name'>嗯呢</span></li>
+                            <li class="am-u-sm-6 nextIcon">
+                                <span v-text='u.bindtime'>2018-02-17</span>
+                                <span class="iconfont icon-xiangyou1"></span>
                             </li>
                         </ol>
                     </a>
                 </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">868575025659808</li>
-                            <li class="am-u-sm-4">嗯呢</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">868575025659808</li>
-                            <li class="am-u-sm-4">嗯呢</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">868575025659808</li>
-                            <li class="am-u-sm-4">嗯呢</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
+                <div class='loadmore' @touchend='loadmore'>加载更多...</div>
             </ul>
         </div>
     </div>
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
-    <script src="__PUBLIC__/Coms/js/users/users.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+    <script>
+        // 获取用户列表数据
+        function getData(page, callback){
+            // page: 请求的页码
+            $.ajax({
+                url: '{{:U("Coms/Users/user_list")}}',
+                type: 'get',
+                data: {p: page},
+                success: function(res){
+                    console.log('res: ',res);
+                    if(res.status == 200){
+                        callback(res.list);
+                    }
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                }
+            })
+        }
     </script>
+    <script src="__PUBLIC__/Coms/js/users/users.js"></script>
 </body>
 </html>

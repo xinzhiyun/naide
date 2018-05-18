@@ -1,9 +1,30 @@
 // 实例化vue
-new Vue({
+var users = new Vue({
     el: ".main",
-    data: {
-        // 用户列表
-        userList: {},
+    data() {
+        return {
+            searchword: '',
+            page: '1',
+            // 用户列表
+            userList: [{
+                name: '加载中...',
+                bindtime: '加载中...',
+            }],
+        }
+    },
+    created() {
+        // 请求数据
+        getData(1, function(res){
+            users.userList = [];    // 清空
+            res.forEach(function(item, index){
+                users.userList.push({
+                    name: item.name,
+                    uid: item.uid,
+                    bindtime: item.bindtime
+                })
+            })
+            
+        })
     },
     methods: {
         // 点击搜索小图标提交表单
@@ -11,7 +32,7 @@ new Vue({
             // alert(234)
             $.ajax({
                 url: "",
-                data: {datas: $("input[name='searchInfo']".val())},
+                data: {datas: users.searchword},
                 type: "post",
                 success: function(res) {
                     
@@ -19,6 +40,31 @@ new Vue({
                 error: function(res) {
                     
                 }
+            })
+        },
+        // 详情页面
+        godetail(uid) {
+            console.log('uid: ',uid);
+            var url = getURL('Coms','Users/userDetail');
+            location.href = url + '?uid=' + uid;
+        },
+        // 加载更多
+        loadmore (){
+            console.log(users.page);
+            // 请求页码数据
+            getData(users.page + 1, function(res){
+                if(!res){   
+                    $('.loadmore').hide();
+                    noticeFn({text: '没有更多数据了'});
+                    return
+                }
+                res.forEach(function(item, index){
+                    users.userList.push({
+                        name: item.name,
+                        uid: item.uid,
+                        bindtime: item.bindtime
+                    })
+                })
             })
         }
     }
