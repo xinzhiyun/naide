@@ -12,8 +12,8 @@ class UsersController extends CommonController
 {
     public function get_map()
     {
-        if($this->get_level()){
-            $ma['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $ma['d.vid'] = $_SESSION['adminuser']['id'];
             $users=M('devices')
             ->where($ma)
             ->alias('d')
@@ -36,9 +36,10 @@ class UsersController extends CommonController
         if(trim(I('post.address'))){
             $map['d.address'] = array('like','%'.trim(I('post.address')).'%');
         }
-        trim(I('post.nickname')) ? $map['w.nickname'] = array('like','%'.trim(I('post.nickname')).'%'): '';
+        trim(I('post.nickname')) ? $map['u.name'] = array('like','%'.trim(I('post.nickname')).'%'): '';
         trim(I('post.device_code')) ? $map['d.device_code'] = array('like','%'.trim(I('post.device_code')).'%'): '';
-        trim(I('post.phone')) ? $map['d.phone'] = array('like','%'.trim(I('post.phone')).'%'): '';
+//        trim(I('post.phone')) ? $map['d.phone'] = array('like','%'.trim(I('post.phone')).'%'): '';
+        trim(I('post.phone')) ? $map['u.user'] = array('like','%'.trim(I('post.phone')).'%'): '';
         trim(I('post.login_ip')) ? $map['u.login_ip'] = array('like','%'.trim(I('post.login_ip')).'%'): '';
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
@@ -55,8 +56,8 @@ class UsersController extends CommonController
         // if (empty($maxupdatetime) && $maxupdatetime < 0) {
         //     $map['u.created_at'] = array(array('egt',$minupdatetime));
         // }
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
 
         }
         $user = D('users');
@@ -65,11 +66,8 @@ class UsersController extends CommonController
             $data = $user
             ->where($map)
             ->alias('u')
-            ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
-            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
-            ->join('__DEVICES__ d ON cd.did=d.id', 'LEFT')
-//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
-            ->field('u.id,w.nickname,d.device_code,d.phone,d.address,u.login_time,u.login_ip,d.bindtime')
+            ->join('__DEVICES__ d ON u.id=d.uid and d.default=1', 'LEFT')
+            ->field('u.id,u.name,d.device_code,u.user,d.address,u.login_time,u.login_ip,d.bindtime')
             ->order('u.created_at desc')
             ->select();
             $arr = ['bindtime'=>['date','Y-m-d H:i:s'],'login_time'=>['date','Y-m-d H:i:s']];
@@ -82,32 +80,25 @@ class UsersController extends CommonController
             $myexcel->output();
             return ;
         }        
-
         $total = $user
             ->where($map)
             ->alias('u')
-            ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
-//            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
             ->join('__DEVICES__ d ON u.id=d.uid', 'LEFT')
-//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
-//            ->field('d.device_code,d.name,d.address,d.phone,w.*,u.*,cd.uid,cd.did,d.updatetime')
-            ->count();
+            ->count('u.id');
         $page  = new \Think\Page($total,10);
         $pageButton =$page->show();
 
         $userlist = $user
             ->where($map)
             ->alias('u')
-            ->join('__WECHAT__ w ON u.open_id=w.open_id', 'LEFT')
-//            ->join('__CURRENT_DEVICES__ cd ON u.id=cd.uid', 'LEFT')
-            ->join('__DEVICES__ d ON d.uid=u.id AND d.default=1', 'LEFT')
-//            ->join('__BINDING__ bd ON d.id = bd.did ', 'LEFT')
+            ->join('__DEVICES__ d ON d.uid=u.id and d.default=1', 'LEFT')
             ->field('d.device_code,u.id,u.name,u.user phone,d.address,d.uid,d.bindtime')
-//            ->field('d.device_code,.name,d.address,d.phone,u.*,w.nickname,cd.uid,cd.did,d.updatetime')
+            ->field('d.device_code,d.address,u.user phone,u.name,u.id,d.id did,d.updatetime')
             ->limit($page->firstRow.','.$page->listRows)
             ->order('u.id desc')
             ->select();
             // ->getAll();
+
 
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
@@ -164,7 +155,8 @@ class UsersController extends CommonController
         $uid = I('id');
         if(empty($uid)) E('数据错误');
 
-//        $userinfo = M('users')->find($uid);
+        $userinfo = M('users')->find($uid);
+
         $devices=M('devices')
             ->alias('d')
             ->where('uid='.$uid)
@@ -197,6 +189,7 @@ class UsersController extends CommonController
         $assign = [
             'flow'     => $flow,
             'devices' =>$devices,
+            'userinfo'=>$userinfo
         ];
 
         $this->assign($assign);
@@ -278,8 +271,8 @@ class UsersController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
 
         $flow = M('flow');

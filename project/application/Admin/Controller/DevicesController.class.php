@@ -11,9 +11,6 @@ use Think\Controller;
  */
 class DevicesController extends CommonController
 {
-
-
-
     public function __construct()
     {
         parent::__construct();
@@ -97,7 +94,7 @@ class DevicesController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
+        if(empty(session('adminuser.is_admin'))){
             $map['vendors.id'] = $_SESSION['adminuser']['id'];
         }
         $user = D('Devices');
@@ -107,8 +104,7 @@ class DevicesController extends CommonController
                 ->where($map)
                 ->alias('d')
                 ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-//                ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
-                ->join("__VENDORS__ vendors ON bind.vid=vendors.id", 'LEFT')
+                ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
                 ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
                 ->field("d.device_code,vendors.name vname,statu.iccid,d.name,d.phone,d.address,statu.leasingmode,statu.reday,statu.reflow,statu.devicestause,statu.NetStause,statu.filtermode,type.typename,statu.updatetime")
                 ->order('d.id asc')
@@ -135,7 +131,7 @@ class DevicesController extends CommonController
 
         $devices = D('Devices')->getDevicesInfo($map);
         
-
+//dump($devices);
         $assign = [
             'deviceInfo' => $devices,
         ];
@@ -198,28 +194,17 @@ class DevicesController extends CommonController
             ->where($map)
             ->alias('d')
             ->join("__DEVICES_STATU__ statu ON d.device_code=statu.DeviceID", 'LEFT')
-//            ->join("__BINDING__ bind ON d.id=bind.did", 'LEFT')
             ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
             ->field("statu.*,vendors.*,type.*,d.*")
             ->find();
 
-//        // 滤芯信息
-//        $filter = D('devices')
-//            ->where($map)
-//            ->alias('d')
-//            ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
-//            ->field('type.*')
-//            ->find();
-        
-//        $data['filterInfo'] = $this->getFilterDetail($filter);
-        $data['filterInfo'] = Device::get_filter_info($data['statu']['type_id']);
+        $data['filterInfo'] = Device::get_filter($map['device_code']);
 
         // 获取经销商信息
         $data['vendor'] = D('devices')
             ->where($map)
             ->alias('d')
-//            ->join('__BINDING__ bind ON d.id=bind.did', 'LEFT')
             ->join('__VENDORS__ v ON d.vid=v.id', 'LEFT')
             ->field('v.*')
             ->find();
@@ -395,18 +380,19 @@ class DevicesController extends CommonController
     // 解除绑定
     public function remove()
     {
-        $code = I('get.');
+        $code = I('device_code');
         if(empty($code)){
             $this->error('设备编码错误');
         }
-        $res = M('devices')->where($code)->find();
-        if($res['uid']) $this->error("已绑定了用户，不可解除绑定");
-        if($res) $delBind = M('binding')->where('did='.$res['id'])->delete();
-        if($res || $delBind){
-            $data['binding_statu'] = 0;
-            $data = M('devices')->where($code)->save($data);
-        }
-        if(!$data) $this->error('解绑失败');
+        $did = Device::get_devices_info($code,'id');
+
+        $data['binding_statu'] = 0;
+        $data['uid'] = 0;
+        $data['default'] = 0;
+
+        $res = M('devices')->where('id='.$did)->save($data);
+
+        if(!$res) $this->error('解绑失败');
         $this->success('解绑成功');
 
     }

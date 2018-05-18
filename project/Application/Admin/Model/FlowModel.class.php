@@ -30,7 +30,7 @@ class FlowModel extends Model
         $map['addtime'] = array(array('gt',$firstat),array('lt',$lastat), 'and');
         $map['_query'] = "status=1";
 
-        if($_SESSION['adminuser']['leavel']>0){
+        if(empty(session('adminuser.is_admin'))){
             $map=[
                 'f.addtime' => array(array('gt',$firstat),array('lt',$lastat), 'and'),
                 'f.status' => "1",
@@ -39,7 +39,7 @@ class FlowModel extends Model
             $data = $this
                 ->where($map)
                 ->alias('f')
-                ->join('__BINDING__ b on f.did = b.did','LEFT')
+                ->join('__DEVICES__ d on f.did = b.did','LEFT')
                 ->select();
         }else{
             $data = $this->where($map)->select();

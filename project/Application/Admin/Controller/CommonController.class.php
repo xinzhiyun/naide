@@ -54,6 +54,8 @@ class CommonController extends AdminbaseController
     // 经销商权限 
     public function get_level()
     {
+        echo '<h1>方法已停用,请联系李振东</h1>';
+        exit;
 
         if($_SESSION['adminuser']['leavel'] > 0){
             return true;

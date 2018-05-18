@@ -62,7 +62,7 @@
 					var html = '<option value="0">请选择</option>';
 					// 遍历订单中的套餐信息（一个订单只有一种套餐）
 					res.forEach(function(meal, index){
-						html += '<option index="'+ index +'" orderid="'+ meal.id +'" value="'+ meal.name +'">'+ meal.name +'</option>';
+						html += '<option index="'+ index +'" orderid="'+ meal.id +'" value="'+ meal.describe +'">'+ meal.describe +'</option>';
 					})
 					$('#meal').html(html);
 				})

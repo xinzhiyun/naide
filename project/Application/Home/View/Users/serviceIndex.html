@@ -14,60 +14,27 @@
         <form action="" method="post" id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入工单号/设备编码">
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入工单号/设备编码" v-model='searchword'>
             </div>
         </form>
         <div class="userInfo">
             <ul>
                 <!-- 头部 -->
                 <li class="userLi clearfix">
-                    <ol cass="am-g doc-am-g">
+                    <ol class="am-g doc-am-g">
                         <li class="am-u-sm-4">工单号</li>
                         <li class="am-u-sm-4">状态</li>
-                        <li class="am-u-sm-4">绑定时间</li>
+                        <li class="am-u-sm-4">预约时间</li>
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">2018040225652</li>
-                            <li class="am-u-sm-4">进行中</li>
+                <li class="userLi" v-for='u in userList'>
+                    <a @click='servicedetail(u.workid)' class="clearfix">
+                        <ol class="am-g">
+                            <li class="am-u-sm-4"><span v-html='u.workid'>2018040225652</span></li>
+                            <li class="am-u-sm-4"><span v-html='u.status'>进行中</span></li>
                             <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">2018040225652</li>
-                            <li class="am-u-sm-4">进行中</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">2018040225652</li>
-                            <li class="am-u-sm-4">已完成</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">2018040225652</li>
-                            <li class="am-u-sm-4">已完成</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
+                                <span v-html='u.addtime'>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
                             </li>
                         </ol>
                     </a>
@@ -78,10 +45,59 @@
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
-    <script src="__PUBLIC__/Home/js/service/service.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+    <script>
+        // 获取数据
+        function getList(callback){
+            $.ajax({
+                url: '{{:U("Api/Users/service_record")}}',
+                type: "post",
+                success: function(res) {
+                    console.log('res: ',res);
+                    if(res.code == 200){
+                        callback(res.data);
+
+                    }else{
+                        $('.nextIcon').hide();
+                        service.userList = [{
+                            workid: '&emsp;',
+                            status: '查无数据',
+                            addtime: '&emsp;'            
+                        }];
+                    }
+                },
+                error: function(err) {
+                    console.log('err: ',err);
+                }
+            })
+        }
+
+        // 搜索数据
+        function searchFn(searchword, callback){
+            $.ajax({
+                url: '',
+                data: {searchword: searchword},
+                type: "post",
+                success: function(res) {
+                    console.log('res: ',res);
+                    if(res.code == 200){
+                        callback(res.data);
+
+                    }else{
+                        $('.nextIcon').hide();
+                        service.userList = [{
+                            workid: '&emsp;',
+                            status: '查无数据',
+                            addtime: '&emsp;'            
+                        }];
+                    }
+                },
+                error: function(err) {
+                    console.log('err: ',err);
+                }
+            })
+        }
+
     </script>
+    <script src="__PUBLIC__/Home/js/service/service.js"></script>
 </body>
 </html>

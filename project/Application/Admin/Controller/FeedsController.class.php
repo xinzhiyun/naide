@@ -22,7 +22,7 @@ class FeedsController extends CommonController
         require_once VENDOR_PATH.'PHPExcel.php';
         $phpExcel = new \PHPExcel();
 
-        $map = '';
+        $map = [];
         $name = trim(I('post.name'));
         $phone = trim(I('post.phone'));
         if (!empty($name)){
@@ -32,8 +32,8 @@ class FeedsController extends CommonController
             $map['d.phone'] = array('like','%'.$phone.'%');
         }
 
-         $minaddtime = strtotime(trim(I('post.minaddtime')))?:null;
-         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:null;
+         $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
+         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
          if (is_numeric($maxaddtime)) {
              $map['f.addtime'][] = array('elt',$maxaddtime);
          }
@@ -48,10 +48,10 @@ class FeedsController extends CommonController
             }
             return false;
         });
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
-//        dump($map);exit;
+
 
         $user = M('feeds');
         // PHPExcel 导出数据
@@ -59,16 +59,14 @@ class FeedsController extends CommonController
             $data = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->join('__VENDORS__ v ON bd.vid = v.id')
                         ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
-            $arr = ['addtime'=>'Y-m-d H:i:s'];
-            replace_value($data,$arr);
+            $arr = ['addtime'=>['date','Y-m-d H:i:s']];
+            $data = replace_array_value($data,$arr);
             $filename = '建议列表数据';
             $title = '建议列表';
             $cellName = ['建议id','用户id','用户昵称','手机','反馈内容','报修时间'];
-            // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
             return ;
@@ -153,8 +151,8 @@ class FeedsController extends CommonController
             return false;
         });
 
-        if($this->get_level()){
-            $map['bd.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['d.vid'] = $_SESSION['adminuser']['id'];
         }
 
 //        dump($map);die;
@@ -168,8 +166,8 @@ class FeedsController extends CommonController
                         ->field('f.uid,d.device_code,d.name,d.phone,f.content,f.address,f.status,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
-            $arr = ['addtime'=>'Y-m-d H:i:s','status'=>['待处理','已处理完成','正在处理中','任务进行中']];
-            replace_value($data,$arr);
+            $arr = ['addtime'=>['date','Y-m-d H:i:s'],'status'=>['待处理','已处理完成','正在处理中','任务进行中']];
+            $data = replace_array_value($data,$arr);
             $filename = '报修列表数据';
             $title = '报修列表';
             $cellName = ['用户id','设备编码','用户昵称','经销商手机','报修内容','报修地址','状态','报修时间'];

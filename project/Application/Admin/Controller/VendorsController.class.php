@@ -48,16 +48,17 @@ class VendorsController extends CommonController
         // PHPExcel 导出数据
         if (I('output') == 1) {
             $data = $user->where($map)
-                        ->field('id,user,name,phone,email,address,idcard,leavel,addtime')
+                        ->field('id,user,name,phone,email,address,idcard,addtime')
                         ->select();
             $arr = [
-                'addtime'=>'Y-m-d H:i:s',
-                'leavel' => ['超级管理员','一级经销商','二级经销商']
+                'addtime'=>['date','Y-m-d H:i:s']
+//                'leavel' => ['超级管理员','一级经销商','二级经销商']
             ];
-            replace_value($data,$arr);
+
+            $data = replace_array_value($data,$arr);
             $filename = '经销商列表数据';
             $title = '经销商列表';
-            $cellName = ['用户Id','账号','昵称','手机号','邮箱','地址','身份证号','管理级别','最新添加时间'];
+            $cellName = ['用户Id','账号','昵称','手机号','邮箱','地址','身份证号','最新添加时间'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
@@ -192,12 +193,12 @@ class VendorsController extends CommonController
      */
     public function del($id)
     {
-        $userinfo = M('vendors')->where("id=".$id)->select();
+        $userinfo = M('vendors')->find($id);
 
-        if ($userinfo[0]['leavel'] == 0 ) {
+        if ($userinfo['is_admin'] == 1 ) {
             $this->error('不能删除超级管理员！');
         }else{
-            $res = M('binding')->where("vid=".$id)->select();
+            $res = M('devices')->where("vid=".$id)->select();
             if(!empty($res)){
                 $this->error('已绑定设备，不可删除');
                 return false;
@@ -255,12 +256,12 @@ class VendorsController extends CommonController
 
             if(!empty($_SESSION['adminuser'])){
                 // 获取经销商信息
-                $case = $_SESSION['adminuser']['is_vendors'];
 
-                if($case==1){
+                if(empty(session('adminuser.is_admin'))){
                     $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
                 }else{
                     $user = D('vendors')->getAll();
+
                 }
                 // 获取设备信息
                 $devices = M('devices')->where('binding_statu=0')->select();
@@ -287,7 +288,7 @@ class VendorsController extends CommonController
         // 搜索功能
         $phone = trim(I('post.phone'));
         if (!empty($phone)) {
-            $map['d.phone'] = array('like','%'.$phone.'%');
+            $map['v.phone'] = array('like','%'.$phone.'%');
         }
 
         $device_code = trim(I('post.device_code'));
@@ -297,13 +298,12 @@ class VendorsController extends CommonController
 
         $name = trim(I('post.name'));
         if (!empty($name)) {
-            $map['d.name'] = array('like','%'.$name.'%');
+            $map['v.name'] = array('like','%'.$name.'%');
         }
 
-
-//        if($this->get_level()){
-//            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
-//        }
+        if(empty(session('adminuser.is_admin'))){
+            $map['v.id'] = $_SESSION['adminuser']['id'];
+        }
          $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
          $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
 
@@ -325,20 +325,20 @@ class VendorsController extends CommonController
         $device_model = M('devices');
         // PHPExcel 导出数据
         if (I('output') == 1) {
-            $data = $binding->where($map)
-                ->join('pub_vendors ON pub_binding.vid = pub_vendors.id')
-                ->join('pub_devices ON pub_binding.did = pub_devices.id')
-                ->field('pub_vendors.id,pub_binding.did,pub_devices.device_code,pub_vendors.name,pub_vendors.phone,pub_binding.addtime')
-                ->order('pub_binding.addtime desc')
+            $data = $device_model->alias('d')->where($map)
+                ->join('__VENDORS__ v ON d.vid = v.id')
+                ->field('v.id,d.id did,d.device_code,v.name,v.phone,d.bindingtime')
+                ->order('d.bindingtime desc')
                 ->select();
             foreach ($data as $key=>$val) {
                 array_unshift($data[$key],$key+1);
             }
-            $arr = ['addtime'=>'Y-m-d H:i:s'];
-            replace_value($data,$arr);
+
+            $arr = ['bindingtime'=>['date','Y-m-d H:i:s']];
+            $data = replace_array_value($data,$arr);
             $filename = '设备归属列表数据';
             $title = '设备归属列表';
-            $cellName = ['绑定编号','经销商id','设备id','设备编码','经销商姓名','经销商手机','添加时间'];
+            $cellName = ['绑定编号','经销商id','设备id','设备编码','经销商姓名','经销商手机','绑定时间'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
@@ -349,7 +349,7 @@ class VendorsController extends CommonController
         $total = $device_model
             ->where($map)
             ->alias('d')
-            ->join('pub_vendors v ON d.vid = v.id')
+            ->join('__VENDORS__ v ON d.vid = v.id')
             ->field('v.name,v.phone,d.device_code')
             ->count();
         $page  = new \Think\Page($total,8);
@@ -358,7 +358,7 @@ class VendorsController extends CommonController
         $bindinglist = $device_model->where($map)
                             ->alias('d')
                             ->limit($page->firstRow.','.$page->listRows)
-                            ->join('pub_vendors v ON d.vid = v.id')
+                            ->join('__VENDORS__ v ON d.vid = v.id')
                             ->field('d.vid,d.id did,v.name,v.phone,d.device_code')
                             ->order('d.bindingtime desc')
                             ->select();
@@ -470,23 +470,25 @@ class VendorsController extends CommonController
     {   
         // dump($data);die;
         $device = D('devices');
-        $bind = M('binding');
+//        $bind = M('binding');
         $device->startTrans();
         $arr = I('post.');
         $arr['operator'] = session('adminuser.name');
         foreach ($data as $key => $val) {
             $map['device_code'] = $val['A'];
-            $res = $device->where($map)->field('id,binding_statu')->find();
+            $res = $device->where($map)->field('id,binding_statu,vid')->find();
             if(empty($res)){
                 $this->error($map['device_code'].'设备不存在，请检查后再重新设置');
             } else {
-                $bind_res = $bind->where('did='.$res['id'])->find();
-                if( $res['binding_statu'] || $bind_res ) $this->error($map['device_code'].'已设置归属');
+//                $bind_res = $bind->where('did='.$res['id'])->find();
+                if( $res['binding_statu'] || $res['vid'] ) $this->error($map['device_code'].'已设置归属');
             }
-            $arr['did'] = $res['id'];
-            $arr['addtime'] = time();
+//            $arr['did'] = $res['id'];
+//            $arr['addtime'] = time();
             $statu['binding_statu'] = 1;
-            $bind->add($arr);
+            $statu['binding_statu'] = 1;
+
+//            $bind->add($arr);
             $device_statu = $device->where('id='.$arr['did'])->save($statu);
             if( !$device_statu ) {
                 $device->rollback();
@@ -589,7 +591,7 @@ class VendorsController extends CommonController
 
         $showOffice['vid'] = $vid;
 
-        $vendor = M('binding')->where($showOffice)->find();
+        $vendor = M('devices')->where($showOffice)->find();
         if(!empty($vendor)){
             $showLeavel['id'] = ['neq',$vid];
             $officeLeavel = $vendors->where($showLeavel)->select();
@@ -623,7 +625,7 @@ class VendorsController extends CommonController
         $whereData['vid'] = $oldid;
         // 准备修改数据
         $saveData['vid']  = $newid;
-        $vendors = M('binding')->where($whereData)->save($saveData);
+        $vendors = M('devices')->where($whereData)->save($saveData);
         if($vendors){
             $message     = ['code' => 200, 'message' => '分公司交接成功'];
         }else{

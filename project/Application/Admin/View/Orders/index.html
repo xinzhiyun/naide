@@ -60,7 +60,7 @@
                     <notempty name="list">
                         <foreach name="list" item="vo" key="key">
                         <tr>
-                            <td><a href="__URL__/order_detail.html#{{$vo.order_id}}">{{$vo.order_id}}</a></td>
+                            <td><a href="__URL__/order_detail.html?order_id={{$vo.order_id}}">{{$vo.order_id}}</a></td>
                             <td>{{$vo.type}}</td>
                             <td>{{$vo.name}}</td>
                             <td>{{$vo.phone}}</td>
@@ -72,12 +72,12 @@
                             <td>
                                 <if condition="$vo['is_pay'] eq 0 "> 待付款
                                 <elseif condition="$vo['is_pay'] eq 2 "/>订单已取消
-                                <elseif condition="$vo['is_receipt'] eq 0 "/>
+                                <elseif condition="$vo['status'] eq 1 "/>
                                     <a href="javascript:void(0)">
                                         <span style="color:red" class="_send">待发货</span>
                                     </a>
-                                <elseif condition="$vo['is_ship'] eq 0 "/>待收货
-                                <elseif condition="$vo['is_ship'] eq 1 "/>已收货
+                                <elseif condition="$vo['status'] eq 2 "/>待收货
+                                <elseif condition="$vo['status'] eq 3 "/>已收货
                                 <else /> 订单完成
                                 </if>
                                 <input type="hidden" name="order_id" value="{{$vo.order_id}}">

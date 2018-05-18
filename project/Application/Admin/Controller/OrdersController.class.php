@@ -17,30 +17,30 @@ class OrdersController extends CommonController
     public function index()
     {	
 
-        $map = '';
+        $map = [];
         // 搜索功能
 
         if (trim(I('post.order_id'))) {
             $map['o.order_id'] = array('like','%'.trim(I('post.order_id')).'%');
         }
         if (trim(I('post.nickname'))) {
-            $map['w.nickname'] = array('like','%'.trim(I('post.nickname')).'%');
+            $map['o.name'] = array('like','%'.trim(I('post.nickname')).'%');
         }
         if (trim(I('post.total_num'))) {
             $map['o.total_num'] = trim(I('post.total_num'));
         }
         if (trim(I('post.name'))) {
-            $map['e.name'] = array('like','%'.trim(I('post.name')).'%');
+            $map['o.name'] = array('like','%'.trim(I('post.name')).'%');
         }
         if (trim(I('post.phone'))) {
-            $map['e.phone'] = array('like','%'.trim(I('post.phone')).'%');
+            $map['o.phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
         if (trim(I('post.addres'))) {
-            $map['e.addres'] = array('like','%'.trim(I('post.addres')).'%');
+            $map['o.addres'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
-        if($this->get_level()){
-            $map['b.vid'] = $_SESSION['adminuser']['id'];
+        if(empty(session('adminuser.is_admin'))){
+            $map['o.vid'] = $_SESSION['adminuser']['id'];
         }
 
         $mintotal_price = trim(I('post.mintotal_price'))?:null;
@@ -67,22 +67,21 @@ class OrdersController extends CommonController
             }
             return false;
         });
+
         $order = M('order');
         // PHPExcel 导出数据 
         if (I('output') == 1) {
             $data = $order->where($map)
                         ->alias('o')
-                        ->join('pub_devices d on o.device_id = d.id','LEFT')
-                        ->join('pub_users u on o.user_id = u.id','LEFT')
-                        ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
-                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
-                        ->join('pub_binding b on o.device_id = b.did','LEFT')
-                        ->join('pub_vendors v on b.vid = v.id','LEFT')
+                        ->join('__DEVICES__ d on o.did = d.id','LEFT')
+                        ->join('pub_users u on o.uid = u.id','LEFT')
+//                        ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
+//                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
+//                        ->join('pub_binding b on o.device_id = b.did','LEFT')
+                        ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                         ->order('o.created_at desc')
-                        ->field([
-                            'o.order_id','w.nickname','v.name vname','o.total_num','o.total_price','e.name','e.phone','e.addres','o.is_pay',
-                            'o.is_receipt','o.is_ship','o.created_at'
-                        ])
+                        ->field(['o.order_id','o.name','v.name vname','o.money','o.name s','o
+                            .phone','o.address','o.is_pay','o.created_at'])
                         ->select();
             // 数组中枚举数值替换
             $arr = [
@@ -117,7 +116,7 @@ class OrdersController extends CommonController
 
             $filename = '订单列表数据';
             $title = '订单列表';
-            $cellName = ['订单编号','下单用户','经销商名称','购买商品数量','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
+            $cellName = ['订单编号','下单用户','经销商名称','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
@@ -127,12 +126,12 @@ class OrdersController extends CommonController
         $total = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.did = d.id','LEFT')
+                    ->join('__DEVICES__ d on o.did = d.id','LEFT')
 //                    ->join('pub_users u on o.uid = u.id','LEFT')
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on o.vid = v.id','LEFT')
+                    ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                     ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
@@ -140,12 +139,12 @@ class OrdersController extends CommonController
         $list = $order
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_devices d on o.did = d.id','LEFT')
+                    ->join('__DEVICES__ d on o.did = d.id','LEFT')
 //                    ->join('pub_users u on o.uid = u.id','LEFT')
 //                    ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                    ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                    ->join('pub_binding b on o.device_id = b.did','LEFT')
-                    ->join('pub_vendors v on o.vid = v.id','LEFT')
+                    ->join('__VENDORS__ v on o.vid = v.id','LEFT')
                     ->limit($page->firstRow.','.$page->listRows)
                     ->field(['o.*','v.name vname'])
                     ->order('o.created_at desc')
@@ -187,32 +186,57 @@ class OrdersController extends CommonController
         }
         
     }
+//
+//    /**
+//     * 订单详情
+//     * @author 潘宏钢 <619328391@qq.com>
+//     */
+//    public function detail($order_id)
+//    {
+//        if(empty($order_id))$this->error('信息错误！');
+//
+//        $orders = M("order");
+//        $order  = $orders->where('order_id='.$order_id)->find();
+//        $tmp[]=$order;
+//        $arr=array(
+//            'type'=>['1'=>'水机订单','2'=>'充值套餐'],
+//            'created_at'=>['date','Y-m-d H:i:s'],
+//            'status'=>['代付款','已付款','已发货','已收货','已完成','9'=>'禁用'],
+//            'money'=>['price'],
+//            'is_pay'=>['未支付','已支付'],
+//
+//
+//        );
+//        $order = replace_array_value($tmp,$arr)[0];
+//
+//        $this->ajaxReturn($order,'JSON');
+//
+//    }
 
-    /**
-     * 订单详情
-     * @author 潘宏钢 <619328391@qq.com>
-     */
-    public function detail($order_id)
+    public function order_detail()
     {
+        $order_id = I('order_id');
+        if(empty($order_id))$this->error('信息错误！');
+        $order = M("order")->where('order_id='.$order_id)->find();
 
-        $orders = D("orders");
-         $order = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->select();
-        $filter = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->join('LEFT JOIN pub_order_filter ON pub_orders.order_id = pub_order_filter.order_id')
-                      ->field('pub_order_filter.*')
-                      ->select();
-        $setmeal = $orders->where('pub_orders.order_id='.$order_id.' AND status=1')->join('LEFT JOIN pub_order_setmeal ON pub_orders.order_id = pub_order_setmeal.order_id')
-                      ->field('pub_order_setmeal.*')
-                      ->select();              
-       
-        $info['order'] = $order; 
-        $info['filter'] = $filter; 
-        $info['setmeal'] = $setmeal; 
-        
-        // $list = $orders->where('pub_orders.order_id='.$order_id)->getAll();
-        // dump($info);
-        $this->ajaxReturn($info,'JSON');
 
+        $paytype =['1'=>'微信支付'];
+        $order['paytype'] = $paytype[$order['paytype']];
+        $is_pay=['未支付','已支付'];
+        $order['is_pay'] = $is_pay[$order['is_pay']];
+
+        $order['pmode'] = ($order['type']==1)?'快递':'在线充值';
+        $status=['代付款','已付款','已发货','已收货','已完成','9'=>'禁用'];
+        $order['status'] = $status[$order['status']];
+        $type=['1'=>'水机租赁订单','2'=>'水机充值套餐'];
+        $order['type'] = $type[$order['type']];
+
+
+        $this->assign('order',$order);
+        $this->display();
     }
+    
+    
  
     
     

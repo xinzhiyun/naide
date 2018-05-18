@@ -29,7 +29,7 @@ class SetmealController extends CommonController
             'typename' => trim(I('post.typename')),
             'remodel' => trim(I('post.remodel')),
             'flow' => trim(I('post.flow')),
-//
+            'type' => trim(I('post.type')),
         );
         if (trim(I('post.describe'))) {
             $map['pub_setmeal.describe'] =  array('like','%'.trim(I('post.describe')).'%');

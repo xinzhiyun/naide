@@ -72,7 +72,7 @@ class DevicesModel extends Model
             ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
             ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
-            ->field("statu.*,d.device_code,type.*,vendors.*,d.name dname,d.phone,d.address,d.id,d.uid,u.open_id")
+            ->field("statu.*,d.device_code,type.*,vendors.*,u.name uname,u.phone,d.address,d.id,d.uid,u.open_id")
             ->order('d.id asc')
             ->limit($page->firstRow.','.$page->listRows)
             ->select();
@@ -85,7 +85,6 @@ class DevicesModel extends Model
 //            'updatetime'=>['date','Y-m-d H:i:s']
         ];
         $data = replace_array_value($data,$arr);
-
         // echo M()->getLastSql();die;
         // 分配返回数据
         $assign = [
@@ -106,15 +105,14 @@ class DevicesModel extends Model
 
 
         // $map['_query'] = "status=1";
-         if($_SESSION['adminuser']['leavel']>0){
+         if(empty(session('adminuser.is_admin'))){
              $map=[
                  'd.addtime'=>array(array('gt',$firstat),array('lt',$lastat), 'and'),
-                 'b.vid'=>$_SESSION['adminuser']['id'],
+                 'd.vid'=>$_SESSION['adminuser']['id'],
              ];
              $data = $this
                  ->where($map)
                  ->alias('d')
-                 ->join('__BINDING__ b on d.id = b.did','LEFT')
                  ->select();
          }else{
              $map['addtime'] = array(array('gt',$firstat),array('lt',$lastat), 'and');

@@ -51,7 +51,7 @@ $(function() {
             re_password	重复密码
             code	验证码
         */
-        var url = getURL("Home", "login/reg");
+        var url = getURL("Coms", "login/reg");
         // 提交表单
         $.ajax({
             url: url,
@@ -88,7 +88,7 @@ $(function() {
             }else {
                 // md5加密手机号码取8位，从2截取。
                 var md5 = hex_md5(phone.substr(2, 8));
-                var url = getURL("Home", "login/send");
+                var url = getURL("Coms", "login/send");
                 // 获取验证码
                 $.ajax({
                     url: url,

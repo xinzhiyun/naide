@@ -215,7 +215,6 @@ var product_pay = new Vue({
 						noticeFn({text: "暂无更多数据啦!"});
 						$(".loadMore").css("display", "none");//无更多数据隐藏
 					}
-					
 				}else {
 					// 数据返回失败时
 					$("#app").html("<div>数据加载出错啦！请稍后重试。</div>");

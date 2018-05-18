@@ -21,7 +21,7 @@ class PersonnelController extends CommonController
             $map['phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
 
-        if($this->get_level()){
+        if(empty(session('adminuser.is_admin')))){
             $map['v_id'] = $_SESSION['adminuser']['id'];
         }
 

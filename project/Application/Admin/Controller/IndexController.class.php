@@ -10,12 +10,12 @@ class IndexController extends CommonController {
 
 			$devices = D('Devices')->getTotalByEveryDay();
 	    	// 滤芯订单数量（已发货及未发货数量->以发货及未发货列表）
-            if($_SESSION['adminuser']['leavel']>0){
-                $map['b.vid'] = $_SESSION['adminuser']['id'];
+            if(empty(session('adminuser.is_admin'))){
+                $map['d.vid'] = $_SESSION['adminuser']['id'];
                 $order_filters = D('Orders')
                     ->where($map)
                     ->alias('o')
-                    ->join('pub_binding b on o.device_id = b.did','LEFT')
+                    ->join('__DEVICES__ d on o.did = d.id','LEFT')
                     ->field('distinct(order_id)')
                     ->select();
                 $order_filter['total'] = count($order_filters);
@@ -24,14 +24,14 @@ class IndexController extends CommonController {
                 $repairs['total'] = D('Repair')
                     ->where($map)
                     ->alias('r')
-                    ->join('__BINDING__ b on r.did = b.did','LEFT')
+                    ->join('__DEVICES__ d on r.did = d.id','LEFT')
                     ->count();
 
                 // 建议数量统计->建议列表
                 $feeds['total'] = D('Feeds')
                     ->where($map)
                     ->alias('f')
-                    ->join('__BINDING__ b on f.did = b.did','LEFT')
+                    ->join('__DEVICES__ d on f.did = d.did','LEFT')
                     ->count();
             } else {
                 $order_filters = D('Orders')
