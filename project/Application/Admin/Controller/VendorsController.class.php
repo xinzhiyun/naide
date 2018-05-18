@@ -475,7 +475,7 @@ class VendorsController extends CommonController
         $arr = I('post.');
         $arr['operator'] = session('adminuser.name');
         foreach ($data as $key => $val) {
-            $map['device_code'] = $val['A'];
+            $map['device_code'] = trim($val['A']);
             $res = $device->where($map)->field('id,binding_statu,vid')->find();
             if(empty($res)){
                 $this->error($map['device_code'].'设备不存在，请检查后再重新设置');
@@ -486,10 +486,10 @@ class VendorsController extends CommonController
 //            $arr['did'] = $res['id'];
 //            $arr['addtime'] = time();
             $statu['binding_statu'] = 1;
-            $statu['binding_statu'] = 1;
+            $statu['bindingtime'] = time();
 
 //            $bind->add($arr);
-            $device_statu = $device->where('id='.$arr['did'])->save($statu);
+            $device_statu = $device->where('id='.$res['id'])->save($statu);
             if( !$device_statu ) {
                 $device->rollback();
                 $this->error('设置失败');
