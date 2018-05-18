@@ -122,7 +122,7 @@ class UsersController extends ComsbaseController {
         ),'JSON');
     }
         public function  userDetail() {
-        $map['uid'] = 38;
+        $map['uid'] = I('get.uid');
         $dev_list =  M('devices')->field('device_code,bindtime')->where($map)->select();
         if ($dev_list) {
             $user_info = M('users')->field('name,phone')->where(['id'=>$map['uid']])->find();
@@ -182,6 +182,12 @@ class UsersController extends ComsbaseController {
             }
 
         }
+    }
+    //服务记录
+    public function service_record() {
+        $map['v_id'] = session('comsuser.id');
+        $per_list = M('personnel')->where($map)->select();
+
     }
 }
 
