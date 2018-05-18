@@ -480,7 +480,7 @@ body {
 }
 .shareContents {
 	width: 100%;
-	height: 36%;
+	height: 36vh;
 	position: fixed;
 	bottom: 0;
 	margin-bottom: -100%;

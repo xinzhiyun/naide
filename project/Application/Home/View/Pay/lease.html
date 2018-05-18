@@ -121,11 +121,11 @@
 									// 判断路径是否有has
 									if(window.location.search) {
 										if(window.location.search.indexOf("has") != -1) {
-											location.href = '{{:U("Home/Users/buyinfo")}}' + '?has';
+											location.href = '{{:U("Home/Pay/buyinfo")}}' + '?has';
 										}
 									}else {
 										// 成功跳转下一个页面
-										location.href = '{{:U("Home/Users/buyinfo")}}';
+										location.href = '{{:U("Home/Pay/buyinfo")}}';
 									}
 									
 								}else if(res.status == 201){

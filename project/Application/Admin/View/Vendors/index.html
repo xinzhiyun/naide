@@ -73,9 +73,16 @@
                         <td>{{$vo.email}}</td>
                         <td>{{$vo.address}}</td>
                         <!--<td>{{$vo.idcard}}</td>-->
-                        <td>{{$vo.status}}</td>
+                        <td>{{$vo.status_html}}</td>
                         <!--<td>{{$vo.is_vendors}}</td>-->
                         <td>
+                            <switch name="vo.status">
+                                <case value="0"><a href="__URL__/editstatus/id/{{$vo.id}}/status/1">启用</a></case>
+                                <case value="1"><a href="__URL__/editstatus/id/{{$vo.id}}/status/0">禁用</a></case>
+                                <case value="2"><a href="__URL__/editstatus/id/{{$vo.id}}/status/1">通过</a></case>
+                                <default />
+
+                            </switch>
                             <a href="__URL__/show_detail/id/{{$vo.id}}">详情</a>
                             <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
                             <a href="javascript:void(0)" url="__URL__/del/id/{{$vo.id}}" class="_del">删除</a>

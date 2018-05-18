@@ -11,25 +11,7 @@ class WechatController extends Controller
      */
     public function notify()
     {
-//        $xml=file_get_contents('php://input', 'r');
-        $xml = "<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
-<attach><![CDATA[20180516152646985513848135758534]]></attach>
-<bank_type><![CDATA[CFT]]></bank_type>
-<cash_fee><![CDATA[1]]></cash_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[Y]]></is_subscribe>
-<mch_id><![CDATA[1247894201]]></mch_id>
-<nonce_str><![CDATA[tdikx9pioauxvygdm0qiui1yeaiejm22]]></nonce_str>
-<openid><![CDATA[ocea2uHn9T1OEUQTuDVnfdtJT7wE]]></openid>
-<out_trade_no><![CDATA[20180516152646985513848135758534]]></out_trade_no>
-<result_code><![CDATA[SUCCESS]]></result_code>
-<return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[611A8B5F86B1E70F90D97024880E1ABE]]></sign>
-<time_end><![CDATA[20180516192412]]></time_end>
-<total_fee>1</total_fee>
-<trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[4200000119201805161311723117]]></transaction_id>
-</xml>";
+        $xml=file_get_contents('php://input', 'r');
 
 //        Log::write($xml,'水机支付回调xml');
 
@@ -37,7 +19,7 @@ class WechatController extends Controller
             //解析微信返回数据数组格式
             $result = WeiXin::notifyData($xml);
 
-//            Log::write(json_encode($result),'水机支付回调');
+            Log::write(json_encode($result),'水机支付回调');
             if(!empty($result['out_trade_no'])){
                 // 获取传回来的订单号
                 $map['order_id'] = $result['out_trade_no'];
@@ -52,7 +34,7 @@ class WechatController extends Controller
                     $data=array(
                         'is_pay'=>1
                     );
-                    $order_res = $order->where('id='.$orderData['id'])->find($data);
+                    $order_res = $order->where('id='.$orderData['id'])->save($data);
                     if(!empty($order_res)) {
                         //查找该经销商的佣金金额
                         $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');

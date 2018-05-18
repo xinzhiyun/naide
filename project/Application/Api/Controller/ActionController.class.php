@@ -23,7 +23,8 @@ class ActionController extends Controller
 ////
 ////        $this->get_filter_info('868575025659121');
 ////
-//////        $this->check_info(94);
+///
+        $this->check_info(174);
 //        $this->sendMsg($message);
     }
 
@@ -299,6 +300,7 @@ class ActionController extends Controller
     public function check_info($id)
     {
         $data = M('devices_statu')->find($id);
+
         if (isset($data['data_statu']) && $data['data_statu'] > 0 ){
             $msg = $this->get_data($data);
 
@@ -336,33 +338,18 @@ class ActionController extends Controller
 //        $filter_life=$this->get_filter_info($data['deviceid']);
         $type_id = Device::get_devices_info($data['deviceid'],'type_id');
 
-        $filter_life =  Device::get_filter_info($type_id);
-        if(empty($filter_life)) return false;
-       
         if ($msg['PackNum'] == 5) { //设备更新
-            for ($i = 1; $i <= count($filter_life); $i++) {
-                $msg['ReFlowFilter'. $i]     = $data['reflowfilter'.$i];
-                $msg['ReDayFilter'. $i]      = $data['redayfilter'.$i];
-                $msg['FlowLifeFilter'. $i]   = $filter_life[$i-1]['flowlife'];
-                $msg['DayLifeFiter'. $i]     = $filter_life[$i-1]['timelife'];
-            }
-        }
-
-        if ($msg['PackNum']==6) {  //设备激活
+            $filter_life = Device::get_filter_info($data['deviceid']);
+        } elseif($msg['PackNum'] == 6) {
+            $filter_life = Device::get_filter_info($data['deviceid'],true);
             $msg['AliveStause'] = 1;
             $msg['SumFlow']     = 0;
             $msg['SumDay']      = 0;
-
-            $filenum=count($filter_life);
-            for ($i = 1; $i <= $filenum ; $i++) {
-                $msg['ReFlowFilter'. $i]     = $filter_life[$i-1]['flowlife'];
-                $msg['ReDayFilter'. $i]      = $filter_life[$i-1]['timelife'];
-                $msg['FlowLifeFilter'. $i]   = $filter_life[$i-1]['flowlife'];
-                $msg['DayLifeFiter'. $i]     = $filter_life[$i-1]['timelife'];
-            }
-            $msg['FilerNum'] = $filenum;
         }
-        return $msg;
+
+        if(empty($filter_life)) { $filter_life = []; }
+
+        return array_merge($msg,$filter_life);
     }
 
     /**
@@ -454,7 +441,7 @@ class ActionController extends Controller
         $message['PackNum']  = 6;
         $type_id = Device::get_devices_info($dcode,'type_id');
 
-        $filter =  Device::get_filter_info($type_id);
+        $filter =  Device::get_filter_info($dcode);
         foreach ($filter as $key =>$value) {
             $i =$key+1;
             $sdata[ 'ReFlowFilter'.$i]      =$value['flowlife'];

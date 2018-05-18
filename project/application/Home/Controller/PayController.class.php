@@ -1,13 +1,13 @@
 <?php
 namespace Home\Controller;
-use Common\Controller\HomebaseController;
+use Common\Controller\AppframeController;
 use Common\Tool\Device;
 use Common\Tool\WeiXin;
-use Home\Controller\WechatController;
+
 use Think\Log;
 
 
-class PayController extends HomebaseController {
+class PayController extends AppframeController {
 
     //------水机商品购买-start------------------------
     //      水机订单信息  $_SESSION['waterOrder']
@@ -63,12 +63,12 @@ class PayController extends HomebaseController {
                     'name'=>$waterOrder['name'],
                     'province'=>$waterOrder['province'],
                     'city'=>$waterOrder['city'],
-                    'district'=>'水机订单'.$waterOrder['district'],
+                    'district'=>$waterOrder['district'],
                     'address'=>$waterOrder['address'],
-                    'vid'=>$waterOrder['sid'],
+                    'wvid'=>$waterOrder['sid'],
                     'setmeal_id'=>$waterOrder['setMealId'],
                     'type_id'=>$waterOrder['tid'],
-                    'describe'=>$waterOrder['describe'],
+                    'describe'=>'水机订单:'.$waterOrder['describe'],
                     'goods_img'=>$waterOrder['goodsInfo']['imgSrc'],
                     'goods_title'=>$waterOrder['goodsInfo']['goodsTitle'],
                     'goods_detail'=>$waterOrder['goodsInfo']['goodsDetail'],
@@ -163,7 +163,7 @@ class PayController extends HomebaseController {
             session('waterOrder.tid',$info['tid']);
             session('waterOrder.flow',$info['flow']);
             $goodsInfo=array(
-                'imgSrc'=>'../../Public/images/bj.png',
+                'imgSrc'=>'/Public/Home/images/share1.jpg',
                 'goodsTitle'=>'耐得饮水机',
                 'goodsDetail'=>'精钢速热YD1515S-X',
                 'goodsPrice'=>$info['money'],
@@ -435,6 +435,131 @@ class PayController extends HomebaseController {
         } catch (\Exception $e) {
             $this->to_json($e);
         }
+    }
+
+
+
+
+    /**
+     * 用户水机购买前-信息录入
+     */
+    public function userbuy()
+    {
+        try {
+
+            $data = I('post.');
+            if (empty(session('waterOrder.code'))) {
+                E('邀请码不能为空', 201);
+            } else {
+                $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
+                if( empty($users_code['code'])) {
+                    E('无法找到该邀请码', 201);
+                }
+            }
+            if (empty($data['uname'])) {
+                E('姓名不能为空', 201);
+            } else {
+                $reg['name'] = $data['uname'];
+            }
+
+            if (empty($data['uphone'])) {
+                E('手机号不能为空', 201);
+            } else {
+                $reg['user'] = $data['uphone'];
+            }
+
+            if (isset($data['has'])) {
+                if (!empty($data['upwd'])) {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }else{
+                if (empty($data['upwd'])) {
+                    E('密码不能为空', 201);
+                } else {
+                    $reg['password'] = md5(md5($data['upwd']));
+                }
+            }
+
+
+            if (empty($data['address'])) {
+                E('地址不能为空', 201);
+            } else {
+                session('waterOrder.address',$data['address']);
+            }
+
+
+            $m =  M('users');
+            $info = $m->where('user='.$reg['user'])->find();
+
+            if (empty($info)) {
+                $data['created_at']=time();
+                $reg['code'] = $this->create_guid();
+                //老父亲
+                $reg['to_code'] = $users_code['code'];
+                //老爷爷
+                $reg['parent_code'] = $users_code['to_code'];
+
+                $res = $m->add($reg);
+
+                if($res)$uid = $res;
+            } else {
+                $reg['updated_at']=time();
+                $res = $m->where('id='.$info['id'])->save($reg);
+                $uid = $info['id'];
+            }
+
+            if($res){
+                session('waterOrder.sid',$data['sid']);
+                session('waterOrder.uid',$uid);
+                session('waterOrder.name',$reg['name']);
+                session('waterOrder.phone',$reg['user']);
+            } else {
+                //用户注册失败
+                E('用户注册失败', 201);
+            }
+            E('注册成功', 200);
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
+    //每个用户的邀请码
+    function create_guid($namespace = '') {
+        static $guid = '';
+        $uid = uniqid("", true);
+        $data = $namespace;
+        $data .= $_SERVER['REQUEST_TIME'];
+        $data .= $_SERVER['HTTP_USER_AGENT'];
+        $data .= $_SERVER['LOCAL_ADDR'];
+        $data .= $_SERVER['LOCAL_PORT'];
+        $data .= $_SERVER['REMOTE_ADDR'];
+        $data .= $_SERVER['REMOTE_PORT'];
+        $hash = strtoupper(hash('ripemd128', $uid . $guid . md5($data)));
+        $guid = substr($hash,  0,  8) .
+            '-' .
+            substr($hash,  8,  4) .
+            '-' .
+            substr($hash, 12,  4) .
+            '-' .
+            substr($hash, 16,  4) .
+            '-' .
+            substr($hash, 20, 12) ;
+
+
+        return $guid;
+
+    }
+
+    public function buyinfo()
+    {
+        if(session('waterOrder.has')==1){
+            $homeuser = session('homeuser');
+            session('waterOrder.uid',$homeuser['id']);
+            session('waterOrder.name',$homeuser['name']);
+            session('waterOrder.phone',$homeuser['user']);
+        }
+        $this->display();
     }
 
 }

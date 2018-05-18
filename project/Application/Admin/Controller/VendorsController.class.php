@@ -75,7 +75,7 @@ class VendorsController extends CommonController
         $arr=[
             'status'=>['禁用','正常','待审核','null'=>'未知'],
         ];
-        $userlist = replace_array_value($userlist,$arr);
+        $userlist = replace_array_value($userlist,$arr,'_html');
 
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
@@ -140,6 +140,25 @@ class VendorsController extends CommonController
         }
     }
 
+    /**
+     * 状态编辑
+     */
+    public function editstatus()
+    {
+        $id=I('id');
+        if(empty($id)){
+            $this->success('修改成功！！！',U('Vendors/index'));
+        }
+        $status=I('status');
+
+        $res = M('vendors')->where('id='.$id)->save(['status'=>$status]);
+        if ($res) {
+            $this->success('修改成功！！！',U('Vendors/index'));
+        } else {
+            $this->error('修改失败！');
+        }
+    }
+
 
     /**
      * 编辑经销商方法
@@ -153,8 +172,16 @@ class VendorsController extends CommonController
             //将三级联动地址拼接具体地址再写入数据库
             $_POST['address'] = $_POST['address'].$_POST['addr'];
 
-            // dump($_POST);die;
 
+            if(empty($_POST['is_admin'])) {
+                $_POST['is_admin']=0;
+            }
+            if(empty($_POST['is_vendors'])) {
+                $_POST['is_vendors']=0;
+            }
+            if(empty($_POST['is_service'])) {
+                $_POST['is_service']=0;
+            }
 
             $user = D('vendors');
             if(empty($_POST['password'])) {
@@ -475,7 +502,7 @@ class VendorsController extends CommonController
         $arr = I('post.');
         $arr['operator'] = session('adminuser.name');
         foreach ($data as $key => $val) {
-            $map['device_code'] = $val['A'];
+            $map['device_code'] = trim($val['A']);
             $res = $device->where($map)->field('id,binding_statu,vid')->find();
             if(empty($res)){
                 $this->error($map['device_code'].'设备不存在，请检查后再重新设置');
@@ -486,10 +513,10 @@ class VendorsController extends CommonController
 //            $arr['did'] = $res['id'];
 //            $arr['addtime'] = time();
             $statu['binding_statu'] = 1;
-            $statu['binding_statu'] = 1;
+            $statu['bindingtime'] = time();
 
 //            $bind->add($arr);
-            $device_statu = $device->where('id='.$arr['did'])->save($statu);
+            $device_statu = $device->where('id='.$res['id'])->save($statu);
             if( !$device_statu ) {
                 $device->rollback();
                 $this->error('设置失败');
