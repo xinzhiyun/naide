@@ -81,6 +81,7 @@ class DeviceController extends HomebaseController
                 }
             }
             $uid = session('homeuser.id');
+
             if (empty($uid)) {
                 E('数据错误!', 201);
             } else {
@@ -88,13 +89,12 @@ class DeviceController extends HomebaseController
             }
             $map['is_work'] = 0;//未使用的
             $map['type'] = 1;//水机订单
-            $map['is_play'] = 1;//已支付的
+            $map['is_pay'] = 1;//已支付的
 
             //***  待后期添加逻辑 检查设备码的类型 检索此设备类型的订单
 
             $order = M('order')->where($map)->field('id,district,describe,province,city,district,address,vid,uid,name,phone')
                 ->select();
-
 
             $this->ajaxReturn(array(
                 'status'=>200,
@@ -132,6 +132,10 @@ class DeviceController extends HomebaseController
                 if ($di_info) {
                     $data['uid'] = session('homeuser.id');
                     $data['bindtime'] = time();
+                    $data['default'] = 1;
+                    session('homeuser.did',$di_info['id']);
+                    M('devices')->where(['uid'=>$data['uid']])->save(['default'=>0]);
+
                     $dev = M('devices')->where(['device_code'=>$data['deviceid']])->save($data);
                     if ($dev) {
                         $order_info = M('order')->where(['id'=>$map['id']])->save(['did'=>session('homeuser.id'),'is_work'=>1]);
@@ -141,7 +145,6 @@ class DeviceController extends HomebaseController
                         } else {
                             E('绑定失败',401);
                         }
-
                     }
                 } else {
                     E('无数据',40);
