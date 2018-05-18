@@ -15,24 +15,7 @@ class WechatController extends Controller
         $xml=file_get_contents('php://input', 'r');
 
         Log::write($xml,'水机支付回调xml');
-$xml='<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
-<attach><![CDATA[20180519152666060950858062526945]]></attach>
-<bank_type><![CDATA[CFT]]></bank_type>
-<cash_fee><![CDATA[1]]></cash_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[Y]]></is_subscribe>
-<mch_id><![CDATA[1247894201]]></mch_id>
-<nonce_str><![CDATA[ojrimvdabi2b4ci9zr7nuokta9dikqfx]]></nonce_str>
-<openid><![CDATA[ocea2uHn9T1OEUQTuDVnfdtJT7wE]]></openid>
-<out_trade_no><![CDATA[20180519152666060950858062526945]]></out_trade_no>
-<result_code><![CDATA[SUCCESS]]></result_code>
-<return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[943A353C0AA6A02A1CF7D5A59B2186C8]]></sign>
-<time_end><![CDATA[20180519002324]]></time_end>
-<total_fee>1</total_fee>
-<trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[4200000131201805192822794037]]></transaction_id>
-</xml>';
+
         if($xml) {
             //解析微信返回数据数组格式
             $result = WeiXin::notifyData($xml);
@@ -53,8 +36,8 @@ $xml='<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
                         'is_pay'=>1
                     );
 
-//                    $order_res = $order->where('id='.$orderData['id'])->save($data);
-                    $order_res = $order->where('id='.$orderData['id'])->find($data);
+                    $order_res = $order->where('id='.$orderData['id'])->save($data);
+//                    $order_res = $order->where('id='.$orderData['id'])->find($data);
                     if(!empty($order_res)) {
 
                         //设备充值
