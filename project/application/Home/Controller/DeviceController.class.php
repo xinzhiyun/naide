@@ -86,8 +86,7 @@ class DeviceController extends HomebaseController
             $type_id = Device::get_devices_info($data,'type_id');
             $map['type_id'] = $type_id;//设备类型
 
-            $order = M('order')->where($map)->field('id,district,describe,province,city,district,address,vid,uid,name,phone')
-                ->select();
+            $order = M('order')->where($map)->field('id,district,describe,province,city,district,address,vid,uid,name,phone')->select();
 
             $this->ajaxReturn(array(
                 'status'=>200,
