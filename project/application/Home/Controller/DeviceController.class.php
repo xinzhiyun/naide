@@ -116,8 +116,7 @@ class DeviceController extends HomebaseController
             $data['district'] = I('post.district');
             $data['phone'] = I('post.phone');
             $data['address'] = I('post.addr');
-//            $data['deviceid'] = '123456789012345';
-//            $data['orderid'] = I('post.orderid');
+
             $map['id']  = I('post.orderid');
             $map['is_work'] = 0;
             $info = M('order')->where($map)->find();
@@ -135,6 +134,8 @@ class DeviceController extends HomebaseController
                     $data['default'] = 1;
                     session('homeuser.did',$di_info['id']);
                     M('devices')->where(['uid'=>$data['uid']])->save(['default'=>0]);
+                    //初始化设备
+
 
                     $dev = M('devices')->where(['device_code'=>$data['deviceid']])->save($data);
                     if ($dev) {

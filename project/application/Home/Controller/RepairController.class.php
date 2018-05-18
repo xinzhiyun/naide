@@ -2,6 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
 use Common\Tool\Device;
+use Think\Log;
 
 /**
  * 报修
@@ -27,7 +28,7 @@ class RepairController extends HomebaseController
         try {
             if (IS_POST) {
                 $data = I('post.');
-
+                Log::write(json_encode($data),'报修');
                 $arr = array(
                     'no'=>get_work_no(),
                     'time'=>$data["time"],
@@ -43,7 +44,7 @@ class RepairController extends HomebaseController
                     'city'=>$data['city'],
                     'district'=>$data['district'],
                     'address'=>$data['address'],
-                    'picpath'=>$data['pic'],
+                    'picpath'=>serialize($data['pic']),
                     'addtime' => time(),
                 );
 

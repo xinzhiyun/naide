@@ -171,7 +171,43 @@ class WeiXin
             // 签名错误 或 支付未成功
             $result=false;
         }
+    }
 
+    /**
+     * 下载微信图片
+     */
+    public static function downloadPic($dir,$key)
+    {
+        $path_info = '/Public/Pic/'.trim($dir,'/').'/'.date('Y-m-d',time());
+        if(empty($key)) return false;
+        $file=md5($key).".jpg";
+
+        $dir =rtrim(THINK_PATH,"ThinkPHP/").$path_info;
+        if(!is_dir($dir)){
+            mkdir($dir,0777,true);
+        }
+        $path_info = $path_info.'/'.$file;
+
+        $path = './'.trim($path_info,'/');
+
+        $ACCESS_TOKEN = self::getAccessToken();
+
+        $url="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$ACCESS_TOKEN&media_id=$key";
+        // $url = "http://img.taopic.com/uploads/allimg/140729/240450-140HZP45790.jpg";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        $file = curl_exec($ch);
+        curl_close($ch);
+
+        $resource = fopen($path, 'w+');
+        fwrite($resource, $file);
+        fclose($resource);
+        return $path_info;
 
     }
+
+
+
 }

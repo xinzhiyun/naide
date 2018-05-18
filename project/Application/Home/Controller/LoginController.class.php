@@ -2,6 +2,8 @@
 namespace Home\Controller;
 use Common\Controller\AppframeController;
 use Common\Tool\Sms;
+use Common\Tool\WeiXin;
+use Think\Log;
 
 /**
  * 首页
@@ -15,30 +17,41 @@ class LoginController extends AppframeController {
     {
         try {
             $data = I('post.');
+            Log::write(json_encode($data),'文件');
             if (empty($data['type'])) {
                 E('数据不完整', 201);
             }
             if (empty($data['mode'])) {
                 E('数据不完整', 201);
             }
+            //type 1 报修
+            $type = array(
+                '1'=>'repair'
+            );
+            $dir = $type[$data['type']]??'tmp';
 
             if ($data['mode']==1) {//微信上传
                 if (empty($data['key'])) {
                     E('数据不完整', 201);
                 }
-
-
+                //{"type":"1","mode":"1","key":"BKgayEnb8kSDDYpTiF5b5Ft4EayPUI3jfHjExdVyHx1IYfwLWkrmvEeu-LU4aFQi"}
+                $path = WeiXin::downloadPic($dir,$data['key']);
 
             }else{
 
             }
 
+            if($path){
+                $this->ajaxReturn(array(
+                    'status'=>200,
+                    'path'=>$path,
+                    'msg'=>'上传成功',
+                ),'JSON');
+            }else{
+                E('上传失败',201);
+            }
 
-            $this->ajaxReturn(array(
-                'status'=>200,
-                'order_id'=>$order_sn,
-                'msg'=>'创建成功',
-            ),'JSON');
+
         } catch (\Exception $e) {
             $this->to_json($e);
         }
