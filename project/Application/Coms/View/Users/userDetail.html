@@ -88,12 +88,13 @@
                             // 按设备分离数据
                             detail.devicesList.type_name.push([]);
                             for(var filter in item.type_name){
+
                                 // 过滤出有数据的滤芯项目（实际的滤芯数量）
                                 if(filter.indexOf('filter') > -1 && item.type_name[filter]){
+                                    var _index = filter.indexOf('filter') + 6;
                                     detail.devicesList.type_name[index].push({
                                         name: item.type_name[filter],
-                                        addtime: getLocalTime(filter.addtime),
-                                        typename: filter.typename
+                                        index: filter.substring(_index,)
                                     })
                                     console.log('filter: ',filter);
                                 }
