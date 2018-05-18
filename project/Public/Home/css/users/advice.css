@@ -52,7 +52,7 @@ body {
     margin: 0;
 }
 #advice-container .btn {
-	width: 96%;
+	width: 96vw;
 	position: absolute;
 	padding: 2vh 0;
 	bottom: 0;
