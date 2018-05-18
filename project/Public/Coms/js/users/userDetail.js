@@ -9,13 +9,65 @@ var detail = new Vue({
             devicesList: [],
         }
     },
-    methods: {
+    created() {
+        var colorList = ["#51CEE4", "#F8A56D", "#42D5B8", "#AD6BD0", "#F08686"];
+        var perflow, perday;
+        getDetail(function(userList, devicesList){
+            detail.userList = userList;
+            detail.devicesList = devicesList;
+            detail.devicesList.type_name = [];
+            detail.devicesList['filter'] = [];
+            // 数据转换
+            detail.devicesList.forEach(function(item, index){
+                console.log('item: ',item);
+                // 按设备分离数据
+                detail.devicesList['filter'].push([]);
+                for(var filter in item.type_name){
 
-    }
+                    // 过滤出有数据的滤芯项目（实际的滤芯数量）
+                    if(filter.indexOf('filter') > -1 && item.type_name[filter]){
+                        // 遍历滤芯数据
+                        var _index = filter.indexOf('filter') + 6;
+                        // 天数，流量剩余比例
+                        perday = item.dev_status["ReDayFilter" + filter.substring(_index,)]/item.dev_status["DayLifeFiter" + filter.substring(_index,)];
+                        perflow = item.dev_status["ReFlowFilter" + filter.substring(_index,)]/item.dev_status["FlowLifeFilter" + filter.substring(_index,)];
+                        detail.devicesList['filter'][index].push({
+                            index: filter.substring(_index,),
+                            name: item.type_name[filter],
+                            dayLife: item.dev_status["DayLifeFiter" + filter.substring(_index,)],
+                            reday: item.dev_status["ReDayFilter" + filter.substring(_index,)],
+                            flowLife: item.dev_status["FlowLifeFilter" + filter.substring(_index,)],
+                            reflow: item.dev_status["ReFlowFilter" + filter.substring(_index,)],
+                        })
+                        // 调用设备详情小圆圈
+                        ;(function(container, colorindex){
+                            console.log('colorindex: ',colorindex);
+                            console.log('colorList[colorindex]: ',colorList[colorindex]);
+                            console.log('container: ',container);
+                            console.log('per: ',1 - Math.floor(Math.max(perday, perflow)*100)/100/100);
+                            setTimeout(function(){
+                                circle(container, colorList[colorindex], 1 - Math.floor(Math.max(perday, perflow)*100)/100/100);
+                            },0);
+                        })("#container" + index + (filter.substring(_index,) - 0 - 1), (filter.substring(_index,) - 0 - 1));
+                        // console.log('filter: ',filter);
+                    }
+                }
+                console.log("detail.devicesList['filter']: ",detail.devicesList['filter']);
+                // 时间转换
+                item.bindtime = getLocalTime(item.bindtime);
+            })
+            console.log('detail.userList: ',detail.userList);
+            console.log('detail.devicesList: ',detail.devicesList);
+
+        })
+    },
+    mounted() {},
+    methods: {}
 });
+
 // 设备详情 小圆圈
-function circle(obj, color, percent) {
-    var bar = new ProgressBar.Circle(obj, {
+function circle(el, color, percent) {
+    var bar = new ProgressBar.Circle(el, {
         color: '#aaa',
         strokeWidth: 7,
         trailWidth: 5,
@@ -42,14 +94,3 @@ function circle(obj, color, percent) {
     bar.text.style.fontSize = '.5rem';
     bar.animate(percent);  // 占得百分比  
 }
-// 调用设备详情小圆圈
-// circle('container1', "#51CEE4", .7);
-// circle('container2', "#42D5B8", .7);
-// circle('container3', "#AD6BD0", .7);
-// circle('container4', "#F08686", .7);
-// circle('container5', "#F8A56D", .7);
-// circle('container6', "#51CEE4", .7);
-// circle('container7', "#42D5B8", .7);
-// circle('container8', "#AD6BD0", .7);
-// circle('container9', "#F08686", .7);
-// circle('container10', "#F8A56D", .7);

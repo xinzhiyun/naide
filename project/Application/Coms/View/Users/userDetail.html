@@ -54,10 +54,10 @@
                 <div class="serviceStatus">
                     <span class="serviceTitle">滤芯详情：</span>
                     <ul class="am-avg-sm-3 am-thumbnails">
-                        <li class="am-thumbnail" v-for='(f, ind) in d.type_name'>
-                            <p v-if='f.indexOf("filter") > -1' :id='"container" + ind'>
+                        <li class="am-thumbnail" v-for='(f, ind) in devicesList.filter[index]'>
+                            <p :id='"container" + index + ind'>
                             </p>
-                            <span v-if='f.indexOf("filter") > -1' v-text='f'></span>
+                            <span v-text='f.name'></span>
                         </li>
                     </ul>
                 </div>
@@ -68,10 +68,9 @@
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Home/js/progressbar.min.js"></script>
-    <script src="__PUBLIC__/Coms/js/users/userDetail.js"></script>
     <script>
         // 获取数据
-        ;(function getDetail(){
+        function getDetail(callback){
             $.ajax({
                 url: '{{:U("Coms/Users/userDetailTo")}}',
                 type: 'get',
@@ -79,38 +78,16 @@
                 success: function(res){
                     console.log('res: ',res);
                     if(res.code == 200){
-                        detail.userList = res.user_data;
-                        detail.devicesList = res.data;
-                        detail.devicesList.type_name = [];
-                        // 转换时间
-                        detail.devicesList.forEach(function(item, index){
-                            console.log('item: ',item);
-                            // 按设备分离数据
-                            detail.devicesList.type_name.push([]);
-                            for(var filter in item.type_name){
-
-                                // 过滤出有数据的滤芯项目（实际的滤芯数量）
-                                if(filter.indexOf('filter') > -1 && item.type_name[filter]){
-                                    var _index = filter.indexOf('filter') + 6;
-                                    detail.devicesList.type_name[index].push({
-                                        name: item.type_name[filter],
-                                        index: filter.substring(_index,)
-                                    })
-                                    console.log('filter: ',filter);
-                                }
-                            }
-                            console.log('detail.devicesList.type_name: ',detail.devicesList.type_name);
-                            item.bindtime = getLocalTime(item.bindtime);
-                        })
-                        console.log('detail.userList: ',detail.userList);
-                        console.log('detail.devicesList: ',detail.devicesList);
+                        callback(res.user_data, res.data);
+                        
                     }
                 },
                 error: function(err){
                     console.log('err: ',err);
                 }
             })
-        })();
+        }
     </script>
+    <script src="__PUBLIC__/Coms/js/users/userDetail.js"></script>
 </body>
 </html>

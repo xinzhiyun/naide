@@ -74,16 +74,8 @@
   margin: 0;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/users\/less\/userDetail\.less}line{font-family:\0000356}}
-.main .deviceInfo .serviceStatus ul li #container1,
-.main .deviceInfo .serviceStatus ul li #container2,
-.main .deviceInfo .serviceStatus ul li #container3,
-.main .deviceInfo .serviceStatus ul li #container4,
-.main .deviceInfo .serviceStatus ul li #container5,
-.main .deviceInfo .serviceStatus ul li #container6,
-.main .deviceInfo .serviceStatus ul li #container7,
-.main .deviceInfo .serviceStatus ul li #container8,
-.main .deviceInfo .serviceStatus ul li #container9,
-.main .deviceInfo .serviceStatus ul li #container10 {
+
+[id*='container'] {
   width: 2.13333333rem;
   height: 2.13333333rem;
   position: relative;
