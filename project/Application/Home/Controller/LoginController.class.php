@@ -83,6 +83,7 @@ class LoginController extends AppframeController {
                 session('homeuser.id',$info['id']);
                 session('homeuser.phone',$info['user']);
                 session('homeuser.name',$info['name']);
+                session('homeuser.code',$info['code']);
 
                 $this->ajaxReturn(array(
                     'PHPSESSID'=>cookie('PHPSESSID'),
