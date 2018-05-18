@@ -188,12 +188,102 @@ class UsersController extends ComsbaseController {
 
         }
     }
-    //服务记录
+    //服务记录列表
     public function service_record() {
-        $map['v_id'] = session('comsuser.id');
-        $per_list = M('personnel')->where($map)->select();
+        $map['vid'] = session('comsuser.id');
+        $per_list = M('work')->field('status,no,addtime')->where($map)->select();
+        if ($per_list) {
+            $tone = M('work')->where(['vid'=>$map['vid'],'type'=>0])->count();
+            $ttwo= M('work')->where(['vid'=>$map['vid'],'type'=>1])->count();
+            $tf= M('work')->where(['vid'=>$map['vid'],'type'=>2])->count();
 
+            $this->ajaxReturn(['code'=>200,'data'=>$per_list,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
     }
+    //服务记录详情
+    public function sevice_details() {
+        $map  = I('get.');
+        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
+        if ($work_info) {
+            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
+            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+    //待办任务
+    public function todo_sevice() {
+
+        $map['v_id'] = session('comsuser.id');
+        $ma['id'] = I('get.id');
+        $per_name = M('personnel')->field('id,name')->where($map)->select();
+        if ($per_name) {
+            $this->ajaxReturn(['code'=>200,'data'=>$per_name]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+        foreach ($per_name as $v) {
+
+            if ($v['id'] == $ma['id']) {
+                $status = 1;
+            }
+
+        }
+        if ($status == 1) {
+            $tone = M('work')->where(['pid'=>$ma['id'],'type'=>0])->count();
+            $ttwo= M('work')->where(['pid'=>$ma['id'],'type'=>1])->count();
+            $tf= M('work')->where(['pid'=>$ma['id'],'type'=>2])->count();
+            $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+    //待办任务统计
+    public function count_sevice() {
+        $map['v_id'] = session('comsuser.id');
+        $ma['id'] = I('get.id');
+        $per_name = M('personnel')->field('id,name')->where($map)->select();
+        if ($per_name) {
+            foreach ($per_name as $v) {
+
+                if ($v['id'] == $ma['id']) {
+                    $status = 1;
+                }
+
+            }
+            if ($status == 1) {
+                $tone = M('work')->where(['pid'=>$ma['id'],'type'=>0])->count();
+                $ttwo= M('work')->where(['pid'=>$ma['id'],'type'=>1])->count();
+                $tf= M('work')->where(['pid'=>$ma['id'],'type'=>2])->count();
+                $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+            } else {
+                $this->ajaxReturn(['code'=>400]);
+            }
+        } else {
+            $this->ajaxReturn(['code'=>401]);
+        }
+    }
+    //待办任务列表
+    public function sevice_list() {
+        $map['pid'] = 45;
+        $map['type'] = 1;
+        $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
+        if ($list) {
+            $this->ajaxReturn(['code'=>200,'data'=>$list]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+    //任务详情
+    public function details() {
+        $map['pid'] = 45;
+        $map['id'] = 130;
+        $info = M('work')->where($map)->find();
+        dump($info);
+    }
+
 }
 
 
