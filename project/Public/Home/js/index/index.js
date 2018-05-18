@@ -2,6 +2,7 @@ var home = new Vue({
 	el: '#home',
 	data() {
 		return {
+			code: '',			// 用户码，分享的时候用
 			dataList: '',		//websocket接收的数据
 			deviceId: '',		// 设备编码
 			tdsPure: '--',		// 纯水tds
@@ -210,6 +211,12 @@ var home = new Vue({
 			}
 			// 发送数据
 			sendmsg(data);
+		},
+		// 分享
+		shareFn: function(){
+			// type: 1 发送给微信好友，2 发送到微博，3 分享到朋友圈，
+			// 4 分享到QQ，5 分享到QQ空间，6 添加到微信收藏
+			wxShare(home.code);
 		}
 	}
 })
