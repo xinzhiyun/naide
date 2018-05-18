@@ -80,10 +80,13 @@
                     if(res.code == 200){
                         callback(res.user_data, res.data);
                         
+                    }else{
+                        noticeFn({text: res.msg});
                     }
                 },
                 error: function(err){
                     console.log('err: ',err);
+                    noticeFn({text: '系统出错，请稍后再试'});
                 }
             })
         }
