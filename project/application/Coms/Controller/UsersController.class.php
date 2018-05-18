@@ -121,9 +121,15 @@ class UsersController extends ComsbaseController {
             'msg'=>'ok',
         ),'JSON');
     }
-        public function  userDetail() {
+    public function  userDetail() {
+            $this->display();
+    }
+    //用户设备详情
+    public function userDetailTo() {
         $map['uid'] = I('get.uid');
+
         $dev_list =  M('devices')->field('device_code,bindtime')->where($map)->select();
+
         if ($dev_list) {
             $user_info = M('users')->field('name,phone')->where(['id'=>$map['uid']])->find();
             foreach ($dev_list as $k => $v) {
@@ -138,12 +144,11 @@ class UsersController extends ComsbaseController {
                 $dev_list[$k]['reflow'] = M('devices_statu')->field('RawTDS,PureTDS')->where(['id'=>$did])->find();
             }
 
-
-//            dump($dev_list);
 //            $this->assign('dev_list',$dev_list);
 //            $this->assign('user_info',$user_info);
-//            $this->display();
+
             $this->ajaxReturn(['code'=>200,'data'=>$dev_list,'user_data'=>$user_info,'msg'=>'成功']);
+            $this->display();
         } else {
             $this->ajaxReturn(['code'=>400]);
         }
