@@ -1,13 +1,13 @@
 <?php
 namespace Home\Controller;
-use Common\Controller\HomebaseController;
+use Common\Controller\AppframeController;
 use Common\Tool\Device;
 use Common\Tool\WeiXin;
-use Home\Controller\WechatController;
+
 use Think\Log;
 
 
-class PayController extends HomebaseController {
+class PayController extends AppframeController {
 
     //------水机商品购买-start------------------------
     //      水机订单信息  $_SESSION['waterOrder']
