@@ -57,7 +57,19 @@ class UsersController extends ComsbaseController {
             'msg'=>'ok',
         ),'JSON');
     }
-
+    //加载他的用户
+    public function of_users() {
+        $vid = session('comsuser.id');
+        $map['vid'] = $vid;
+        $map['is_pay'] = 1;
+        $map['is_work'] = 1;
+        $order_list = M('order')->field('uid')->where($map)->select();
+        if ($order_list) {
+            M()
+        } else {
+            $this->ajaxReturn(['code'=>400,'msg'=>'暂无用户']);
+        }
+    }
     /**
      * 加载工作人员
      */
@@ -104,7 +116,7 @@ class UsersController extends ComsbaseController {
             'msg'=>'ok',
         ),'JSON');
     }
-    public function  userDetail() {
+        public function  userDetail() {
         $map['uid'] = 38;
         $dev_list =  M('devices')->field('device_code,bindtime')->where($map)->select();
         if ($dev_list) {
