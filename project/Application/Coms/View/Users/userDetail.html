@@ -17,69 +17,52 @@
             <ul>
                 <li>
                     <span>用户名：</span>
-                    <span>{{$user_info.name}}</span>
+                    <span v-text='userList.name'></span>
                 </li>
                 <li>
                     <span>手机号码：</span>
-                    <span>{{$user_info.phone}}</span>
+                    <span v-if='!userList.phone'>手机号为空</span>
+                    <span v-if='userList.phone' v-text='userList.phone'></span>
                 </li>
 
             </ul>
         </div>
-        <volist name="dev_list" id="vo">
         <!-- 设备信息 -->
-        <div class="deviceInfo">
+        <div class="deviceInfo" v-for='(d, index) in devicesList'>
             <div>
-                <p>设备-{{$i}}</p>
+                <p>设备-<span v-text='index+1'></span></p>
                 <ul>
                     <li>
-                        <span>设备编码：</span><span>{{$vo.device_code}}</span>
+                        <span>设备编码：</span><span v-text='d.device_code'></span>
                     </li>
                     <li>
-                        <span>绑定时间：</span><span>{{$vo['bindtime']|date="Y-m-d",###}}</span>
+                        <span>绑定时间：</span><span v-text='d.bindtime'></span>
                     </li>
                     <li>
-                        <span>原水TDS值：</span><span>{{$vo['reflow']['rawtds']}}</span>
+                        <span>原水TDS值：</span>
+                            <span v-if='!d.reflow' v-text='"查无数据"'></span>
+                            <span v-if='d.reflow' v-text='d.reflow.rawtds'></span>
+                        </span>
                     </li>
                     <li>
-                        <span>纯水TDS值：</span><span>{{$vo['reflow']['puretds']}}</span>
+                        <span>纯水TDS值：</span>
+                        <span v-if='!d.reflow' v-text='"查无数据"'></span>
+                        <span v-if='d.reflow' v-text='d.reflow.puretds'></span>
                     </li>
 
                 </ul>
                 <div class="serviceStatus">
                     <span class="serviceTitle">滤芯详情：</span>
                     <ul class="am-avg-sm-3 am-thumbnails">
-
-                        <li class="am-thumbnail">
-                            <p class="container1">
+                        <li class="am-thumbnail" v-for='(f, ind) in d.type_name'>
+                            <p v-if='f.indexOf("filter") > -1' :id='"container" + ind'>
                             </p>
-                            <span>{{$vo.type_name.filter1}}</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p class="container2">
-                            </p>
-                            <span>{{$vo.type_name.filter2}}</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p class="container3">
-                            </p>
-                            <span>{{$vo.type_name.filter3}}</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p class="container4">
-                            </p>
-                            <span>{{$vo.type_name.filter4}}</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p class="container5">
-                            </p>
-                            <span>{{$vo.type_name.filter5}}</span>
+                            <span v-if='f.indexOf("filter") > -1' v-text='f'></span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        </volist>
     </div>
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
@@ -90,13 +73,38 @@
         // 获取数据
         ;(function getDetail(){
             $.ajax({
-                url: '{{:U("Coms/Users/userDetail")}}',
+                url: '{{:U("Coms/Users/userDetailTo")}}',
                 type: 'get',
                 data: {uid: getQuery().uid},
                 success: function(res){
                     console.log('res: ',res);
-                    detail.userList = [];
-                    detail.devicesList = [];
+                    if(res.code == 200){
+                        detail.userList = res.user_data;
+                        detail.devicesList = res.data;
+                        detail.devicesList.type_name = [];
+                        // 转换时间
+                        detail.devicesList.forEach(function(item, index){
+                            console.log('item: ',item);
+                            // 按设备分离数据
+                            detail.devicesList.type_name.push([]);
+                            for(var filter in item.type_name){
+
+                                // 过滤出有数据的滤芯项目（实际的滤芯数量）
+                                if(filter.indexOf('filter') > -1 && item.type_name[filter]){
+                                    var _index = filter.indexOf('filter') + 6;
+                                    detail.devicesList.type_name[index].push({
+                                        name: item.type_name[filter],
+                                        index: filter.substring(_index,)
+                                    })
+                                    console.log('filter: ',filter);
+                                }
+                            }
+                            console.log('detail.devicesList.type_name: ',detail.devicesList.type_name);
+                            item.bindtime = getLocalTime(item.bindtime);
+                        })
+                        console.log('detail.userList: ',detail.userList);
+                        console.log('detail.devicesList: ',detail.devicesList);
+                    }
                 },
                 error: function(err){
                     console.log('err: ',err);

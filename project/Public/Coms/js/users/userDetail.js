@@ -1,11 +1,13 @@
 // 实例化vue
 var detail = new Vue({
     el: ".main",
-    data: {
-        // 用户列表
-        userList: {},
-        // 设备列表
-        devicesList: {},
+    data() {
+        return {
+            // 用户列表
+            userList: {},
+            // 设备列表
+            devicesList: [],
+        }
     },
     methods: {
 
@@ -41,13 +43,13 @@ function circle(obj, color, percent) {
     bar.animate(percent);  // 占得百分比  
 }
 // 调用设备详情小圆圈
-circle($('.container1'), "#51CEE4", .7);
-circle($('.container2'), "#42D5B8", .7);
-circle($('.container3'), "#AD6BD0", .7);
-circle($('.container4'), "#F08686", .7);
-circle($('.container5'), "#F8A56D", .7);
-circle($('.container6'), "#51CEE4", .7);
-circle($('.container7'), "#42D5B8", .7);
-circle($('.container8'), "#AD6BD0", .7);
-circle($('.container9'), "#F08686", .7);
-circle($('.container10'), "#F8A56D", .7);
+// circle('container1', "#51CEE4", .7);
+// circle('container2', "#42D5B8", .7);
+// circle('container3', "#AD6BD0", .7);
+// circle('container4', "#F08686", .7);
+// circle('container5', "#F8A56D", .7);
+// circle('container6', "#51CEE4", .7);
+// circle('container7', "#42D5B8", .7);
+// circle('container8', "#AD6BD0", .7);
+// circle('container9', "#F08686", .7);
+// circle('container10', "#F8A56D", .7);
