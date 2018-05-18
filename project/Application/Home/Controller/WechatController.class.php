@@ -1,5 +1,6 @@
 <?php
 namespace Home\Controller;
+use Common\Tool\Device;
 use Think\Controller;
 use Common\Tool\WeiXin;
 use Think\Log;
@@ -27,7 +28,7 @@ class WechatController extends Controller
 
                 $order = M('order');
                 // 查询订单是否已处理
-                $orderData = $order->where($map)->field('uid,vid,is_pay,money,id')->find();
+                $orderData = $order->where($map)->field('uid,vid,is_pay,money,id,type,did,flow')->find();
 
                 // 如果订单未处理，订单支付金额等于订单实际金额(&& $orderData['money'] == $result['total_fee'])
                 if(empty($orderData['is_pay']) ){
@@ -36,6 +37,16 @@ class WechatController extends Controller
                     );
                     $order_res = $order->where('id='.$orderData['id'])->save($data);
                     if(!empty($order_res)) {
+
+                        //设备充值
+                        if($orderData['type']==2){
+                            $device_code = Device::get_devices_sn( $order['did'] );
+
+                            R('Api/Action/pullDay', [$device_code, $orderData['flow']]);
+                        }
+
+
+
                         //查找该经销商的佣金金额
                         $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
                         //查找邀请人和被邀请人

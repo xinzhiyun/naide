@@ -41,6 +41,8 @@ class ActionController extends Controller
             $mes  = Gateway::getSession($client_id);
             $message['DeviceID']  = trim($mes['DeviceID']);
         }
+        Log::write(json_encode($message),'信息分发');
+
         // 判断数据传输的对象
         if( $message['soure']=='Close')
         {
