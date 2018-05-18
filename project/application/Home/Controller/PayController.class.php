@@ -65,7 +65,7 @@ class PayController extends AppframeController {
                     'city'=>$waterOrder['city'],
                     'district'=>$waterOrder['district'],
                     'address'=>$waterOrder['address'],
-                    'vid'=>$waterOrder['sid'],
+                    'wvid'=>$waterOrder['sid'],
                     'setmeal_id'=>$waterOrder['setMealId'],
                     'type_id'=>$waterOrder['tid'],
                     'describe'=>'水机订单:'.$waterOrder['describe'],
