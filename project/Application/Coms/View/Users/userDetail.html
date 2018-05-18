@@ -16,130 +16,93 @@
             <p>用户信息</p>
             <ul>
                 <li>
-                    <span>用户名：</span> 
-                    <span>嗯呢</span>
+                    <span>用户名：</span>
+                    <span>{{$user_info.name}}</span>
                 </li>
                 <li>
-                    <span>手机号码：</span> 
-                    <span>135-2564-8952</span>
+                    <span>手机号码：</span>
+                    <span>{{$user_info.phone}}</span>
                 </li>
-                <li class="userAddr">
-                    <span>住址：</span> 
-                    <span>广东广州番禺区，钟村文化广场5巷21号(七天超市)</span>
-                </li>
+
             </ul>
         </div>
+        <volist name="dev_list" id="vo">
         <!-- 设备信息 -->
         <div class="deviceInfo">
             <div>
-                <p>设备-1</p>
+                <p>设备-{{$i}}</p>
                 <ul>
                     <li>
-                        <span>设备编码：</span><span>868575025659808</span>
+                        <span>设备编码：</span><span>{{$vo.device_code}}</span>
                     </li>
                     <li>
-                        <span>绑定时间：</span><span>2018-03-31</span>
+                        <span>绑定时间：</span><span>{{$vo['bindtime']|date="Y-m-d",###}}</span>
                     </li>
                     <li>
-                        <span>原水TDS值：</span><span>65285ppm</span>
+                        <span>原水TDS值：</span><span>{{$vo['reflow']['rawtds']}}</span>
                     </li>
                     <li>
-                        <span>纯水TDS值：</span><span>365ppm</span>
+                        <span>纯水TDS值：</span><span>{{$vo['reflow']['puretds']}}</span>
                     </li>
-                    
+
                 </ul>
                 <div class="serviceStatus">
                     <span class="serviceTitle">滤芯详情：</span>
-                    <ul class="am-avg-sm-3 am-thumbnails clearfix">
+                    <ul class="am-avg-sm-3 am-thumbnails">
+
                         <li class="am-thumbnail">
-                            <p id="container1">
+                            <p class="container1">
                             </p>
-                            <span>RO膜</span>
+                            <span>{{$vo.type_name.filter1}}</span>
                         </li>
                         <li class="am-thumbnail">
-                            <p id="container2">
+                            <p class="container2">
                             </p>
-                            <span>后置活性炭</span>
+                            <span>{{$vo.type_name.filter2}}</span>
                         </li>
                         <li class="am-thumbnail">
-                            <p id="container3">
+                            <p class="container3">
                             </p>
-                            <span>滤芯3</span>
+                            <span>{{$vo.type_name.filter3}}</span>
                         </li>
                         <li class="am-thumbnail">
-                            <p id="container4">
+                            <p class="container4">
                             </p>
-                            <span>滤芯4</span>
+                            <span>{{$vo.type_name.filter4}}</span>
                         </li>
                         <li class="am-thumbnail">
-                            <p id="container5">
+                            <p class="container5">
                             </p>
-                            <span>滤芯5</span>
+                            <span>{{$vo.type_name.filter5}}</span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        
-        <div class="deviceInfo">
-            <div>
-                <p>设备-2</p>
-                <ul>
-                    <li>
-                        <span>设备编码：</span><span>868575025659808</span>
-                    </li>
-                    <li>
-                        <span>绑定时间：</span><span>2018-03-31</span>
-                    </li>
-                    <li>
-                        <span>原水TDS值：</span><span>65285ppm</span>
-                    </li>
-                    <li>
-                        <span>纯水TDS值：</span><span>365ppm</span>
-                    </li>
-                    
-                </ul>
-                <div class="serviceStatus">
-                    <span class="serviceTitle">滤芯详情：</span>
-                    <ul class="am-avg-sm-3 am-thumbnails clearfix">
-                        <li class="am-thumbnail">
-                            <p id="container6">
-                            </p>
-                            <span>RO膜</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p id="container7">
-                            </p>
-                            <span>后置活性炭</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p id="container8">
-                            </p>
-                            <span>滤芯3</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p id="container9">
-                            </p>
-                            <span>滤芯4</span>
-                        </li>
-                        <li class="am-thumbnail">
-                            <p id="container10">
-                            </p>
-                            <span>滤芯5</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        </volist>
     </div>
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Home/js/progressbar.min.js"></script>
     <script src="__PUBLIC__/Coms/js/users/userDetail.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+    <script>
+        // 获取数据
+        ;(function getDetail(){
+            $.ajax({
+                url: '{{:U("Coms/Users/userDetail")}}',
+                type: 'get',
+                data: {uid: getQuery().uid},
+                success: function(res){
+                    console.log('res: ',res);
+                    detail.userList = [];
+                    detail.devicesList = [];
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                }
+            })
+        })();
     </script>
 </body>
 </html>

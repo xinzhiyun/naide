@@ -135,9 +135,10 @@ class UsersController extends  HomebaseController
         $code =  M('users')->where($map)->getField('code');
         $codeMap['to_code|parent_code'] = $code;
         $code_list = M('users')->field('name,created_at')->where($codeMap)->select();
+        $count = M('users')->field('name,created_at')->where($codeMap)->count();
 
         if ($code_list) {
-            $this->ajaxReturn(['code'=>200,'data'=>$code_list]);
+            $this->ajaxReturn(['code'=>200,'data'=>$code_list,'count'=>$count]);
         } else {
             $this->ajaxReturn(['code'=>400]);
         }

@@ -104,7 +104,7 @@ class WorkController extends CommonController
             ->alias('w')
             ->join('__DEVICES__ d ON w.device_code = d.device_code','LEFT')
             ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
-            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')           
+            ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
             ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
