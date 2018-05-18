@@ -8,6 +8,41 @@ use Common\Tool\Sms;
  */
 class LoginController extends AppframeController {
 
+    /**
+     * 文件上传接口
+     */
+    public function upload()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['type'])) {
+                E('数据不完整', 201);
+            }
+            if (empty($data['mode'])) {
+                E('数据不完整', 201);
+            }
+
+            if ($data['mode']==1) {//微信上传
+                if (empty($data['key'])) {
+                    E('数据不完整', 201);
+                }
+
+
+
+            }else{
+
+            }
+
+
+            $this->ajaxReturn(array(
+                'status'=>200,
+                'order_id'=>$order_sn,
+                'msg'=>'创建成功',
+            ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
 
     /**
      * 用户录入
