@@ -122,7 +122,7 @@
 			</ul>
 		</div>
 		<!-- 分享 -->
-		<div class="share" :style='homeStyle' @click='sharePanel'>分享</div>
+		<!-- <div class="share" :style='homeStyle' @click='sharePanel'>分享</div> -->
 		<!-- 分享面板 -->
 		<div class="shareContent">
 			<ul class="shareContents" :id="share">
@@ -311,11 +311,13 @@
 				'onMenuShareWeibo',
 				'onMenuShareQZone'
 		    ]
-		});
-
+		});	
+		// 分享的用户码标识
+		home.code = "{{$_SESSION['homeuser']['code']}}";
+		console.log('home.code: ',home.code);
 		var option = {
 			title: '购买水机',
-			link: 'http://ddjz.ddjz88.com/home/pay/lease/code/' + home.code,
+			link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + home.code + '/',
 			desc: '购买使用耐的净水机',
 			img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
 			shareTimeline: function(){

@@ -46,6 +46,10 @@ var users = new Vue({
         godetail(uid) {
             console.log('uid: ',uid);
             var url = getURL('Coms','Users/userDetail');
+            if(!uid){
+                noticeFn({text: '系统出错，请稍后再试'});
+                return;  
+            } 
             location.href = url + '?uid=' + uid;
         },
         // 加载更多
