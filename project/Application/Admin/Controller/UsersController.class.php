@@ -333,7 +333,7 @@ class UsersController extends CommonController
         $this->assign('button',$pageButton);
         $this->display();
     }
-    
+
     // 解除用户绑定
     public function unbind()
     {
