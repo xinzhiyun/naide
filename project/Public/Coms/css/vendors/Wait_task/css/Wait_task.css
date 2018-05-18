@@ -235,6 +235,7 @@ li {
   border-radius: 0.10666667rem;
 }
 .mask_bg_public {
+  display: none;
   position: absolute;
   bottom: 0;
   left: 0;

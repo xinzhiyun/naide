@@ -2,7 +2,7 @@ var wait_task = new Vue({
 	el:"#wait_task_vue",
 	data:{
 		// 待办任务页面
-		task:[
+		task:[ 
 			{
 				task_text:"待安装",
 				task_number:"15",
@@ -40,7 +40,7 @@ var wait_task = new Vue({
 				task_name:"卡拉马",
 				task_cell_phone:"13526452877",
 				task_date:"2018-03-31"
-			}
+			} 
 		],
 		// 服务详情页面
 		service_details_info:{
@@ -57,6 +57,22 @@ var wait_task = new Vue({
 		plan_personnel_info_bg:{
 			new_work_order:"2018033125662",
 			install_personnel_info:[
+				{
+					install_personnel:"安装人员1号",
+					contact_number:"13526458755"
+				},
+				{
+					install_personnel:"安装人员2号",
+					contact_number:"13526458755"
+				},
+				{
+					install_personnel:"安装人员3号",
+					contact_number:"13526458755"
+				},
+				{
+					install_personnel:"安装人员4号",
+					contact_number:"13526458755"
+				},
 				{
 					install_personnel:"安装人员1号",
 					contact_number:"13526458755"
