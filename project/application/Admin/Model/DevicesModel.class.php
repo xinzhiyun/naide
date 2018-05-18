@@ -72,11 +72,10 @@ class DevicesModel extends Model
             ->join("__VENDORS__ vendors ON d.vid=vendors.id", 'LEFT')
             ->join("__DEVICE_TYPE__ type ON d.type_id=type.id", 'LEFT')
             ->join('__USERS__ u ON u.id=d.uid', 'LEFT')
-            ->field("statu.*,d.device_code,type.*,vendors.*,u.name uname,u.phone,d.address,d.id,d.uid,u.open_id")
+            ->field("statu.*,d.device_code,type.*,vendors.*,u.name uname,d.phone,d.address,d.id,d.uid,u.open_id")
             ->order('d.id asc')
             ->limit($page->firstRow.','.$page->listRows)
             ->select();
-
         $arr = [
 //            'leasingmode' => ['零售型','按流量计费','按时间计费','时长和流量套餐'],
 //            'devicestause' => ['制水','冲洗','水满','缺水','漏水','检修','欠费停机','关机','开机'],
