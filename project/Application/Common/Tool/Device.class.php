@@ -147,7 +147,7 @@ class Device extends Redis
         ')->find($ds_id);
 
         if(empty($filter_data)){return false;}
-
+        $msg=[];
         $filter_life = count($res);
         if ($model) {
             for ($i = 1; $i <= $filter_life; $i++) {
