@@ -58,11 +58,13 @@ class WechatController extends Controller
                         $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
                         //查找邀请人和被邀请人
                         $money = M('users')->field('to_code,parent_code')->where(['id' => $orderData['uid']])->find();
-                        $day = 2;
+//                        查找比例
+                        $system =  M('system')->field('device_life,commission_ratio1,commission_ratio2')->find();
+                        $day = $system['device_life'];
                         //佣金
-                        $increase = 100;
-                        $a_commission = $increase * 0.2;
-                        $b_commission = $increase * 0.8;
+                        $increase = $com_info*100;
+                        $a_commission = $increase * ($system['commission_ratio2']/100);
+                        $b_commission = $increase * ($system['commission_ratio1']/100);
 
 
                         //查找邀请人
