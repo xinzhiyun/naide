@@ -65,7 +65,12 @@ class UsersController extends ComsbaseController {
         $map['is_work'] = 1;
         $order_list = M('order')->field('uid')->where($map)->select();
         if ($order_list) {
-            M()
+            foreach ($order_list as $k => $v) {
+
+                $order_list[$k]['username']= M('users')->field('name,created_at')->where(['id'=>$v['uid']])->find();
+            }
+            $this->ajaxReturn(['code'=>200,'data'=>$order_list]);
+
         } else {
             $this->ajaxReturn(['code'=>400,'msg'=>'暂无用户']);
         }
