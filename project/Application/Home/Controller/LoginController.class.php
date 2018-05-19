@@ -176,7 +176,16 @@ class LoginController extends AppframeController {
         }
     }
 
-
+    /*
+     * 验证手机号是否存在
+     */
+    public function phone() {
+        $map['phone'] = I('post.phone');
+        $info = M('users')->where($map)->find();
+        if ($info) {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
 }
 
 
