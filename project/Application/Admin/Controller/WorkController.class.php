@@ -27,7 +27,7 @@ class WorkController extends CommonController
             'w.type' => trim(I('post.type')),
             'w.result' => trim(I('post.result')),
         );
-        $map['w.number'] = trim(I('post.number')) ? array('like','%'.trim(I('post.number')).'%'): '';
+        $map['w.no'] = trim(I('post.number')) ? array('like','%'.trim(I('post.number')).'%'): '';
         $map['pub_personnel.name'] = trim(I('post.name')) ?  array('like','%'.trim(I('post.name')).'%'): '';
         $map['pub_personnel.phone'] = trim(I('post.phone')) ? array('like','%'.trim(I('post.phone')).'%'):'';
         /* 修改搜索地址失败的 */
@@ -61,10 +61,12 @@ class WorkController extends CommonController
             return false;
         });
 
-        if(empty(session('adminuser.is_admin'))){
-            $map['d.vid'] = $_SESSION['adminuser']['id'];
+        if(!empty(session('adminuser.is_admin'))){
+//            $map['d.vid'] = $_SESSION['adminuser']['id'];
+            $map['w.vid'] = $_SESSION['adminuser']['id'];
 
         }
+
         $type = D('work');
         // PHPExcel 导出数据
         if (I('output') == 1) {
@@ -72,8 +74,8 @@ class WorkController extends CommonController
                 ->alias('w')
                 ->join('__DEVICES__ d ON w.device_code = __DEVICES__.device_code','LEFT')
                 ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
-                ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
-                ->field('w.number,pub_personnel.name,pub_personnel.phone,w.type,w.content,w.address,w.result,w.create_at,w.time,pub_repair.address raddress,w.province,w.city,w.district')
+//                ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
+                ->field('w.no,pub_personnel.name,pub_personnel.phone,w.type,w.content,w.address,w.result,w.create_at,w.time,pub_repair.address raddress,w.province,w.city,w.district')
                 ->order('w.result asc,w.create_at desc')
                 ->getAll();
             $arr = [
@@ -117,6 +119,7 @@ class WorkController extends CommonController
             ->field('w.*,pub_personnel.name pname,pub_personnel.phone pphone')
             ->order('w.status asc,w.addtime desc')
             ->limit($page->firstRow.','.$page->listRows)->getAll();
+
         //exit();
         $this->assign('list',$data);
         $this->assign('button',$pageButton);

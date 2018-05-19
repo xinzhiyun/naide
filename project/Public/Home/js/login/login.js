@@ -66,7 +66,11 @@ $(function() {
                 console.log("提交成功", res);
                 if(res.status == 200) {
                     noticeFn({text: "提交成功"});
-                    window.location.href = "{{:U('Login/index.html')}}";
+
+                    setTimeout( function(){
+                        window.location.href = getURL('Home','Login/index')
+                    },500)
+
                 }else {
                     noticeFn({text: "系统出错，请稍后再试!"});
                 }
