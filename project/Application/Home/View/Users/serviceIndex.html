@@ -59,6 +59,8 @@
                         callback(res.data);
 
                     }else{
+                        noticeFn({text: '查无数据'});
+                        $('.loadmore').hide();
                         $('.nextIcon').hide();
                     }
                 },
