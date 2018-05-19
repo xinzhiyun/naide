@@ -39,6 +39,7 @@
                         </ol>
                     </a>
                 </li>
+                <div class='loadmore' @touchend='getmore'>加载更多</div>
             </ul>
         </div>
     </div>
@@ -47,9 +48,10 @@
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script>
         // 获取数据
-        function getList(callback){
+        function getList(page, callback){
             $.ajax({
                 url: '{{:U("Api/Users/service_record")}}',
+                data: {p: page},
                 type: "post",
                 success: function(res) {
                     console.log('res: ',res);
@@ -58,11 +60,6 @@
 
                     }else{
                         $('.nextIcon').hide();
-                        service.userList = [{
-                            workid: '&emsp;',
-                            status: '查无数据',
-                            addtime: '&emsp;'            
-                        }];
                     }
                 },
                 error: function(err) {

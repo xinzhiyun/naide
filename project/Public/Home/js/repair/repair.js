@@ -208,6 +208,8 @@ var repair_bg_vue = new Vue({
 		},
 		// 服务类型
 		serve_type:function(ev){
+			// 关闭软键盘
+			document.activeElement.blur();
 			var repair_ul = $("#repair_ul");
 			var mask = $(".repair_bg");
 			repair_bg_vue.select_public(repair_ul,mask);

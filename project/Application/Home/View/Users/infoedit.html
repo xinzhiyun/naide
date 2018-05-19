@@ -14,7 +14,7 @@
 			<div class="container">
 				<h3>个人信息</h3>
 				<div>
-					<div class='item am-g'>
+					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-device fblue"></i>
 						<span class='am-u-sm-4'>绑定套餐：</span>
 						<input type="hidden" name='orderid' class='orderid'>
@@ -23,17 +23,22 @@
 						</select>
 					</div>
 					<input type="hidden" name="deviceid" value="">
-					<div class='item am-g'>
+					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-user fblue"></i>
 						<span class='am-u-sm-4'>姓&emsp;&emsp;名：</span>
 						<input class="name am-u-sm-8" type="text" placeholder="请输入姓名" name="name" value=""> 
 					</div>
-					<div class='item am-g'>
+					<div class='item am-g' style='display: none;'>
+						<i class="iconfont icon-mima fblue"></i>
+						<span class='am-u-sm-4'>密&emsp;&emsp;码：</span>
+						<input class="pwd am-u-sm-8" type="text" placeholder="请输入密码" name="pwd" value="">
+					</div>
+					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-phone fblue"></i>
 						<span class='am-u-sm-4'>手机号码：</span>
 						<input class="phone am-u-sm-8" type="text" placeholder="请输入手机号码" name="phone" value="">
 					</div>
-					<div class='item am-g'>
+					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-addr fblue"></i>  
 						<span class='am-u-sm-4'>安装地址：</span>
 						<textarea class='am-u-sm-8 addr' name="addr" placeholder="请输入详细的安装地址"  cols="30" rows="4" value=""></textarea>
@@ -55,17 +60,29 @@
 				// 获取设备id
 				var deviceid = getQuery().deviceid;
 				$('input[name="deviceid"]').val(deviceid);
-				// 获取订单信息
-				getOrder(deviceid, function(res){
-					console.log('res: ',res);
-					mealArr = res;		// 保存订单信息
-					var html = '<option value="0">请选择</option>';
-					// 遍历订单中的套餐信息（一个订单只有一种套餐）
-					res.forEach(function(meal, index){
-						html += '<option index="'+ index +'" orderid="'+ meal.id +'" value="'+ meal.describe +'">'+ meal.describe +'</option>';
+				if(!getQuery().edit){
+					// 填写购买信息
+					$('#meal').parent().show();
+					$('.phone').parent().show();
+					$('.addr').parent().show();
+
+					// 获取订单信息
+					getOrder(deviceid, function(res){
+						console.log('res: ',res);
+						mealArr = res;		// 保存订单信息
+						var html = '<option value="0">请选择</option>';
+						// 遍历订单中的套餐信息（一个订单只有一种套餐）
+						res.forEach(function(meal, index){
+							html += '<option index="'+ index +'" orderid="'+ meal.id +'" value="'+ meal.describe +'">'+ meal.describe +'</option>';
+						})
+						$('#meal').html(html);
 					})
-					$('#meal').html(html);
-				})
+				}else{
+					// 编辑信息
+					$('.name').parent().show();
+					$('.pwd').parent().show();
+					
+				}
 				// 选择套餐，实时修改个人信息
 				$('#meal').on('change', function(){
 					var selectOP = $(this).find('option:selected').attr('index');
@@ -85,70 +102,84 @@
 					$('.city').val(mealArr[selectOP].city);
 					$('.district').val(mealArr[selectOP].district);
 				})
-				var name = '', sex = '', phone = '', addr = '';
+				var name = '', sex = '', phone = '', addr = '', pwd = '';
 
 				// 点击保存
 				$('.save').click(function(){
-					var meal = $('#meal>option:selected').attr('orderid');
-					var nameEle = $('.name');
-					var phoneEle = $('.phone');
-					var addrEle = $('.addr');
-					name = trimFn(nameEle.val());
-					phone = trimFn($('.phone').val());
-					addr = trimFn($('.addr').val());
 
-					if(!name){
-						noticeFn({text: '请输入姓名'});
-						nameEle.css({border: '1px solid red'});
-						return
-					}else if(!nameCheck(name)){
-						noticeFn({text: '姓名只能由中文、英文、数字、下划线组成'});
-						nameEle.css({border: '1px solid red'});
-						return
+					if(!getQuery().edit){
+						// 购买设备信息填写
+						$('.pwd').removeAttr('name');
+
+						var meal = $('#meal>option:selected').attr('orderid');
+						var nameEle = $('.name');
+						var phoneEle = $('.phone');
+						var addrEle = $('.addr');
+						name = trimFn(nameEle.val());
+						phone = trimFn($('.phone').val());
+						addr = trimFn($('.addr').val());
+
+						if(!name){
+							noticeFn({text: '请输入姓名'});
+							nameEle.css({border: '1px solid red'});
+							return
+						}else if(!nameCheck(name)){
+							noticeFn({text: '姓名只能由中文、英文、数字、下划线组成'});
+							nameEle.css({border: '1px solid red'});
+							return
+						}else{
+							nameEle.css({border: 'none'});
+						}
+
+						if(!phone){
+							noticeFn({text: '请输入手机号码'});
+							phoneEle.css({border: '1px solid red'});
+							return
+						}else if(!phoneCheck(phone)){
+							noticeFn({text: '请输入正确的手机号码'});
+							phoneEle.css({border: '1px solid red'});
+							return
+						}else{
+							phoneEle.css({border: 'none'});
+						}
+
+						if(!addr){
+							noticeFn({text: '请输入地址'});
+							addrEle.css({border: '1px solid red'});
+							return
+						}else if(!nameCheck(addr)){
+							noticeFn({text: '地址只能由中文、英文、数字、下划线组成'});
+							addrEle.css({border: '1px solid red'});
+							return
+						}else{
+							addrEle.css({border: 'none'});
+						}
+
+						// 选择套餐，绑定订单
+						if(!meal){
+							noticeFn({text: '请选择需要绑定的套餐！'});
+							return
+						}else{
+							$('.orderid').val(meal);
+						}
+
+						// console.log(name, phone, addr);
+
+						console.log($('input[name="name"]').val(),
+						$('input[name="phone"]').val(),
+						$('textarea[name="addr"]').val(),
+						$('input[name="deviceid"]').val(),
+						$('.orderid').val())
+
 					}else{
-						nameEle.css({border: 'none'});
+						// 编辑信息
+						$('#meal').removeAttr('name');
+						$('.phone').removeAttr('name');
+						$('.addr').removeAttr('name');
+
+						name = $('.name').val();
+						pwd = $('.pwd').val();
 					}
-
-					if(!phone){
-						noticeFn({text: '请输入手机号码'});
-						phoneEle.css({border: '1px solid red'});
-						return
-					}else if(!phoneCheck(phone)){
-						noticeFn({text: '请输入正确的手机号码'});
-						phoneEle.css({border: '1px solid red'});
-						return
-					}else{
-						phoneEle.css({border: 'none'});
-					}
-
-					if(!addr){
-						noticeFn({text: '请输入地址'});
-						addrEle.css({border: '1px solid red'});
-						return
-					}else if(!nameCheck(addr)){
-						noticeFn({text: '地址只能由中文、英文、数字、下划线组成'});
-						addrEle.css({border: '1px solid red'});
-						return
-					}else{
-						addrEle.css({border: 'none'});
-					}
-
-					// 选择套餐，绑定订单
-					if(!meal){
-						noticeFn({text: '请选择需要绑定的套餐！'});
-						return
-					}else{
-						$('.orderid').val(meal);
-					}
-
-					// console.log(name, phone, addr);
-
-					console.log($('input[name="name"]').val(),
-					$('input[name="phone"]').val(),
-					$('textarea[name="addr"]').val(),
-					$('input[name="deviceid"]').val(),
-					$('.orderid').val())
-
 					
 					var formdata = new FormData($('#form')[0]);
 					// 提交数据
@@ -164,7 +195,7 @@
 							if(res.status == 200){
 								noticeFn({text: '绑定成功'});
 								// 替换历史记录
-								history.replaceState({}, null, '{{:U("Home/Users/	mine")}}');
+								history.replaceState({}, null, '{{:U("Home/Users/mine")}}');
 								setTimeout(function(){
 									location.href = location.href;
 								},500);
@@ -190,8 +221,9 @@
 							console.log('res: ',res);
 							if(res.status == 200){
 								callback(res.order);
+
 							}else{
-								noticeFn({text: '没有查到您的订单购买记录，无法绑定设备', time: 1500});
+								noticeFn({text: '没有查到您的订单购买记录，<br />无法绑定设备，请先买设备后再绑定', time: 1500});
 							}
 						},
 						error: function(err){

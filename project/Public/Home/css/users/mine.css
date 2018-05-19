@@ -114,7 +114,7 @@ h3 {
 }
 .icon-downdown:active,
 .icon-upup:active {
-	border-radius: 50%;
+	border-radius: 20px;
 	background: rgba(0,0,0,.1);
 }
 #mine .iconfont.fright {

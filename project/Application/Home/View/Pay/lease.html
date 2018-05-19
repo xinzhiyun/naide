@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/pay/css/lease.css">
 </head>
-<body>
+<body> 
 	<div class="main" v-cloak>
 		<!-- <ul id='share'> 
 			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
@@ -62,10 +62,130 @@
 <script src="__PUBLIC__/Home/js/public.js"></script>
 <script src="__PUBLIC__/Home/js/vue.min.js"></script>
 <!-- <script src="__PUBLIC__/Home/js/pay/lease.js"></script> -->
+<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 <script>
+    var vConsole = new VConsole();
+    // 微信配置
+	wx.config({
+	    debug: true,
+	    appId: '{{$wxinfo["appId"]}}',
+	    timestamp: '{{$wxinfo["timestamp"]}}',
+	    nonceStr: '{{$wxinfo["nonceStr"]}}',
+	    signature: '{{$wxinfo["signature"]}}',
+	    jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ',
+			'onMenuShareWeibo',
+			'onMenuShareQZone'
+	    ]
+	});
+	console.log('code: ',getQuery().code);
+	var option = {
+		title: '购买水机',
+		link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + getQuery().code,
+		desc: '购买使用耐的净水机',
+		img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
+		shareTimeline: function(){
+			//分享到朋友圈
+			wx.onMenuShareTimeline({
+			    title: option.title, // 分享标题
+			    link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			    imgUrl: option.img, // 分享图标
+			    success: function () {
+			    // 用户确认分享后执行的回调函数
+				}
+			})
+		},
+		shareAppMessage: function(callback){
+			//分享给朋友
+			wx.onMenuShareAppMessage({
+				title: option.title, // 分享标题
+				desc: option.desc, // 分享描述
+				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: option.img, // 分享图标
+				type: '', // 分享类型,music、video或link，不填默认为link
+				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				success: function (res) {
+				// 用户确认分享后执行的回调函数
+				},
+				cancel: function () {
+				// 用户取消分享后执行的回调函数
+				}
+			});
+		},
+		shareQQ: function(){
+			// 获取“分享到QQ”按钮点击状态及自定义分享内容接口
+			wx.onMenuShareQQ({
+				title: option.title, // 分享标题
+				desc: option.desc, // 分享描述
+				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: option.img, // 分享图标
+				success: function () {
+				// 用户确认分享后执行的回调函数
+				},
+				cancel: function () {
+				// 用户取消分享后执行的回调函数
+				}
+			});
+		},
+		shareWeibo: function(){
+			// 获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+			wx.onMenuShareWeibo({
+				title: option.title, // 分享标题
+				desc: option.desc, // 分享描述
+				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: option.img, // 分享图标
+				success: function () {
+				// 用户确认分享后执行的回调函数
+				},
+				cancel: function () {
+				// 用户取消分享后执行的回调函数
+				}
+			});
+		},
+		shareQZone: function(){
+			// 获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
+			wx.onMenuShareQZone({
+				title: option.title, // 分享标题
+				desc: option.desc, // 分享描述
+				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: option.img, // 分享图标
+				success: function () {
+				// 用户确认分享后执行的回调函数
+				},
+				cancel: function () {
+				// 用户取消分享后执行的回调函数
+				}
+			});
+		}
+
+	}
+
+	wx.ready(function(){
+		//分享到朋友圈
+		option.shareTimeline();
+
+		//分享给朋友
+		option.shareAppMessage();
+
+		// “分享到QQ”
+		option.shareQQ();
+		
+		// “分享到腾讯微博”
+		option.shareWeibo();
+		
+		// “分享到QQ空间”
+		option.shareQZone();
+
+	});
+</script>
+<script>
+    // var vConsole = new VConsole();
 	var code = "{{$_GET['code']}}";
 
-	
 	window.onload = function() {
 		// 窗口高度
 		var clientHeight = document.documentElement.clientHeight + 'px';
@@ -118,17 +238,17 @@
 								_this.succFlag = true;
 								console.log("成功",res);
 								if(res.status == 200) {
+									console.log(location.search)
 									// 判断路径是否有has
-									if(window.location.search) {
-										if(window.location.search.indexOf("has") != -1) {
-											location.href = '{{:U("Home/Pay/buyinfo")}}' + '?has';
-										}
+									if(location.search.indexOf("?has") != -1) {
+										location.href = '{{:U("Home/Pay/buyinfo")}}' + '?has&code=' + getQuery().code;
+										
 									}else {
 										// 成功跳转下一个页面
-										location.href = '{{:U("Home/Pay/buyinfo")}}';
+										location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
 									}
 									
-								}else if(res.status == 201){
+								}else{
 									noticeFn({text: res.msg});
 								}
 								

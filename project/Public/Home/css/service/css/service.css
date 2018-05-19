@@ -26,8 +26,24 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000324}}
 .main .userInfo {
+}
+.main .userInfo>ul {
+  min-height: 83vh;
+  padding-bottom: 10vmin;
   background: white;
-  height: 83vh;
+  transform: translate3d(0,0,0);
+}
+.loadmore {
+  width: 100vw;
+  height: 10vmin;
+  position: fixed;
+  line-height: 10vmin;
+  bottom: 0;
+  text-align: center;
+  background: #f6f6f6;
+}
+.loadmore:active {
+  background: #f1f1f1;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/service\/less\/service\.less}line{font-family:\0000327}}
 .main .userInfo .userLi {

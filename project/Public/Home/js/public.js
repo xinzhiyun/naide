@@ -325,8 +325,15 @@ var noticeFn = function(obj){
     
     // 防止多次点击, 弹框跳动
     if(noticeSpan.innerHTML){
-        notice.style.transform = 'scale(1.2)';
-        notice.style.transform = 'scale(1)';
+        
+        notice.setAttribute('style',
+            'transform:scale(1.4);'
+        );
+        setTimeout(function(){
+            notice.setAttribute('style',
+                'transition: .3s ease;transform:scale(1);'
+            );
+        },0)
         
         // 防止多次点击, 弹框跳动
         clearTimeout(noticeint);
@@ -347,13 +354,9 @@ var noticeFn = function(obj){
     noticeSpan.style.background = obj.bgcolor;
 
     notice.setAttribute('style',
-        'display:block;opacity:0;transform:scale(1.1);'
+        'display:block;transform:scale(1);'
     );
-    setTimeout(function(){
-        notice.setAttribute('style',
-            'opacity:1;transition: .3s ease;transform:scale(1);'
-        );
-    },0)
+
     // 自动消失
     noticeint = setTimeout(function(){
         notice.style.opacity = '.5';

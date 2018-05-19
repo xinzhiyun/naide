@@ -92,10 +92,13 @@ $(function() {
             }else {
                 // md5加密手机号码取8位，从2截取。
                 var md5 = hex_md5(phone.substr(2, 8));
-                var url = getURL("Home", "login/send");
+                var _url = getURL("Home", "Login/send");
+                setTimeout(function(){
+                    noticeFn({text: '验证码已发送, 请注意查收'});
+                },100);
                 // 获取验证码
                 $.ajax({
-                    url: url,
+                    url: _url,
                     type: "post",
                     data: {
                         phone:phone,

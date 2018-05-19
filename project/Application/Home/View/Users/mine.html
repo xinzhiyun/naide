@@ -25,21 +25,21 @@
 					</p>
 					<p>
 						<span v-text='uname'>&emsp;</span> 
-						<span class="infoedit" ><a href="{{:U('Home/Users/infoedit')}}">编辑</a></span></p>
+						<span class="infoedit" ><a @touchend='edit' >编辑</a></span></p>
 					<p class='oldmoney'>余额: <span v-text='umoney'></span> </p>
 				</div>
 				<div class="mDetail">
 			 		<p>余&emsp;&emsp;额: <span class="umoney" v-text='umoney'></span> </p>
-			 		<p>设备编码: <span class="device_code" v-text='device_code'></span> </p>
+			 		<!-- <p>设备编码: <span class="device_code" v-text='device_code'></span> </p>
 			 		<p class="cfix">
 			 			<span>地&emsp;&emsp;址: </span>
 			 			<span class='uAddr' v-text='uAddress'></span>
-			 		</p>
+			 		</p> -->
 			 		<p>手机号码: <span class="uPhone" v-text='uPhone'></span> </p>
 				</div>
-				<!-- <div class="arrow" @click='showInfo($event)'>
+				<div class="arrow" @click='showInfo($event)'>
 					<i class="iconfont icon-downdown" :index='arrowindex' id='arrowIcon' style='color:#276F99;'></i>
-				</div> -->
+				</div>
 			</div>
 			<div id="mBottom">
 				<div class="mbItem">
@@ -193,6 +193,10 @@
 						$('#mTop').css({background: "url('__PUBLIC__/Home/images/mine02.jpg') 100% 100%/100%"});
 
 					}
+				},
+				// 编辑
+				edit: function(){
+					location.href = "{{:U('Home/Users/infoedit')}}" + "?edit=1";
 				}
 			}
 		})

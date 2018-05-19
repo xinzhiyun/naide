@@ -12,6 +12,7 @@
 </head>
 <body>
 	<form action='' id='form' method='POST' class='am-container'>
+		<input type="hidden" name='code'>
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3 nowrap'>收&nbsp;&nbsp;货&nbsp;&nbsp;人</label>
 			<input type="text" class='am-u-sm-9 uname' name='uname' placeholder="请输入收货人">
@@ -102,10 +103,12 @@
 	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
-		var back2home = document.getElementsByClassName('back2home');
-		back2home[0].innerHTML = '';
-		
+		var vconsole = new VConsole();
+		document.querySelector('.back2home').style.display = 'none';
+		// 邀请码
+		$('input[name="code"]').val(getQuery().code);
 		// 请求服务站数据
 		function getService(province , city , district, callback){
 			$.ajax({
@@ -278,7 +281,7 @@
 								},500);
 							}else if(res.status == 201) {
 								noticeFn({text:'请完善录入信息!'});
-							}
+							} 
 						},
 						error: function(err){
 							console.log('请求失败: ',err);

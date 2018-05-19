@@ -29,7 +29,7 @@
 						<li>
 							<p class="fblue" style="text-align:center;">服务内容</p>
 						</li>
-						<li>	
+						<!-- <li>	
 							<div class="am-u-sm-3 fs-l">预约时间：</div>
 							<div class="am-u-sm-3">&nbsp;</div>
 							<input type="text" class="am-u-sm-5 bespeak_time" :placeholder="time_now" id="my-start-2" value=""/>
@@ -40,7 +40,7 @@
 							<div class="am-u-sm-4">&nbsp;</div>
 							<div class="am-u-sm-4 fs-r text_top" id="repair_time" @touchend="bespeak_time">&nbsp;</div>
 							<i class="am-u-sm-1 iconfont icon-xiangyou1"></i>
-						</li>
+						</li> -->
 						<li>
 							<div class="am-u-sm-3 fs-l">服务类型：</div>
 							<div class="am-u-sm-4">&nbsp;</div>
@@ -129,9 +129,10 @@
 						</div>
 					</div>
 					<!-- 信息确认部分结束 -->
+					<label for="">&nbsp;&nbsp;服务电话：<a href="tel:" class='teltel'></a></label>
 					
 					<input type="button" value="提交" id="repair-sub" class="bgblue sure" @click="submit_text()">
-				</div>
+				</div>	
 		</form>
 		<!-- 预约时段蒙版开始部分 -->
 		<div class="mask_bg time_bg">
