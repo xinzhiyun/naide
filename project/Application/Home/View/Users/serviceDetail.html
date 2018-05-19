@@ -21,7 +21,8 @@
                 </li>
                 <li>
                     <span>手机号码：</span> 
-                    <span v-text='userList.phone'>135-2564-8952</span>
+                    <a :href="'tel:'+userList.phone" v-text='userList.phone'></a>
+                    <!-- <span v-text='userList.phone'>135-2564-8952</span> -->
                 </li>
                 <li>
                     <span>设备编码：</span> 
@@ -45,7 +46,10 @@
                         <span>安装人员：</span><span v-text='devicesList.pname'>咕噜</span>
                     </li>
                     <li>
-                        <span>手机号码：</span><span v-text='devicesList.pphone'>135-3658-3467</span>
+                        <span>手机号码：
+                            <span class='cfix'><a class='fright' :href="'tel:'+devicesList.pphone" v-text='devicesList.pphone'></a></span>
+                        </span>
+                        <!-- <span>手机号码：</span><span v-text='devicesList.pphone'>135-3658-3467</span> -->
                     </li>
                     <li>
                         <span>服务内容：</span><span v-text='devicesList.content'>滤芯 (2级)</span>

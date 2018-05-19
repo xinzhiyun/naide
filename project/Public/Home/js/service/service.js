@@ -11,19 +11,21 @@ var service = new Vue({
                 addtime: '&emsp;'            
             }],
             page: '1',
+            statusList: {
+                0: '未处理',
+                1: '<span style="color:#43f0c8;">进行中</span>',
+                2: '<span style="color:#4398f0;">完成</span>'
+            },
+            load: false
         }
     },
     created() {
-        var statusList = {
-            0: '未处理',
-            1: '<span style="color:#43f0c8;">进行中</span>',
-            2: '<span style="color:#4398f0;">完成</span>'
-        };
         // 请求数据
         getList(1, function(res){
+            service.load = true;
             service.userList = [];  // 清空
             res.forEach(function(item, index){
-                item.status = statusList[item.status];
+                item.status = service.statusList[item.status];
                 item.no = item.no || '&emsp;';
                 item.addtime = getLocalTime(item.addtime) || '&emsp;';
                 service.userList.push({
@@ -48,25 +50,24 @@ var service = new Vue({
         },
         // 请求更多数据
         getmore() {
-            var statusList = {
-                0: '未处理',
-                1: '<span style="color:#43f0c8;">进行中</span>',
-                2: '<span style="color:#4398f0;">完成</span>'
-            };
-            // 请求数据
-            getList(service.page + 1, function(res){
-                service.page++;     // 页码
-                res.forEach(function(item, index){
-                    item.status = statusList[item.status];
-                    item.no = item.no || '&emsp;';
-                    item.addtime = getLocalTime(item.addtime) || '&emsp;';
-                    service.userList.push({
-                        workid: item.no,
-                        status: item.status,
-                        addtime: item.addtime
+            if(service.load){
+                service.load = false;
+                // 请求数据
+                getList(service.page + 1, function(res){
+                    service.load = true;
+                    service.page++;     // 页码
+                    res.forEach(function(item, index){
+                        item.status = service.statusList[item.status];
+                        item.no = item.no || '&emsp;';
+                        item.addtime = getLocalTime(item.addtime) || '&emsp;';
+                        service.userList.push({
+                            workid: item.no,
+                            status: item.status,
+                            addtime: item.addtime
+                        });
                     });
                 });
-            });
+            }
         }
     }
 });
