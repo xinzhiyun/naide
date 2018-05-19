@@ -53,6 +53,7 @@
 		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 		<script src="__PUBLIC__/Home/js/public.js"></script>
 		<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+		<script src="__PUBLIC__/Home/js/md5.js"></script>
 		<script>
         	var vConsole = new VConsole();
 			$(function(){
@@ -78,6 +79,9 @@
 						$('#meal').html(html);
 					})
 				}else{
+					setTimeout(function(){
+						noticeFn({text: '保存后，密码将覆盖原登录密码！', time: 2000});
+					},0);
 					// 编辑信息
 					$('.name').parent().show();
 					$('.pwd').parent().show();
@@ -103,19 +107,18 @@
 					$('.district').val(mealArr[selectOP].district);
 				})
 				var name = '', sex = '', phone = '', addr = '', pwd = '';
-
 				// 点击保存
 				$('.save').click(function(){
+					var nameEle = $('.name');
+					name = trimFn(nameEle.val());
 
 					if(!getQuery().edit){
 						// 购买设备信息填写
 						$('.pwd').removeAttr('name');
 
 						var meal = $('#meal>option:selected').attr('orderid');
-						var nameEle = $('.name');
 						var phoneEle = $('.phone');
 						var addrEle = $('.addr');
-						name = trimFn(nameEle.val());
 						phone = trimFn($('.phone').val());
 						addr = trimFn($('.addr').val());
 
@@ -176,9 +179,33 @@
 						$('#meal').removeAttr('name');
 						$('.phone').removeAttr('name');
 						$('.addr').removeAttr('name');
+						$('.province').removeAttr('name');
+						$('.city').removeAttr('name');
+						$('.district').removeAttr('name');
+						$('.orderid').removeAttr('name');
+						$('input[name="deviceid"]').removeAttr('name');
 
 						name = $('.name').val();
 						pwd = $('.pwd').val();
+						if(!name){
+							noticeFn({text: '请输入姓名'});
+							nameEle.css({border: '1px solid red'});
+							return
+						}else if(!nameCheck(name)){
+							noticeFn({text: '姓名只能由中文、英文、数字、下划线组成'});
+							nameEle.css({border: '1px solid red'});
+							return
+						}else{
+							nameEle.css({border: 'none'});
+						}
+
+						if(!pwd){
+							// 不修改密码
+							$(".pwd").removeAttr('name');
+						}else{
+							// 密码 md5 转换
+							$('.pwd').val(hex_md5(pwd));
+						}
 					}
 					
 					var formdata = new FormData($('#form')[0]);
