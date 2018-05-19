@@ -128,6 +128,7 @@ class DeviceController extends HomebaseController
                     $data['uid'] = session('homeuser.id');
                     $data['bindtime'] = time();
                     $data['default'] = 1;
+                    $data['wvid']=$order_info['wvid'];
                     $devices_model->where(['uid'=>$data['uid']])->save(['default'=>0]);
 
                     $dev = $devices_model->where(['device_code'=>$data['deviceid']])->save($data);

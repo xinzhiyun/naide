@@ -10,6 +10,7 @@ var repair_bg_vue = new Vue({
 			city: info.city, //市
 			district: info.district, //区
 			detailed_add:info.address,//详细地址
+            // wvid:info.wvid,//服务站ID
 		},
 		time_now:'',
 		content: '',
@@ -162,7 +163,8 @@ var repair_bg_vue = new Vue({
 				content: info_middle.beizhu, 
 				// pic: picId,
 				did: info.did, 
-				uid: info.uid, 
+				uid: info.uid,
+                wvid:info.wvid,
 				name: info_bottom.linkman, 
 				phone: info_bottom.contact_number, 
 				device_code: info_top.device_code, 

@@ -28,7 +28,7 @@ class WechatController extends Controller
 
                 $order = M('order');
                 // 查询订单是否已处理
-                $orderData = $order->where($map)->field('uid,vid,is_pay,money,id,type,did,flow')->find();
+                $orderData = $order->where($map)->find();
 
                 // 如果订单未处理，订单支付金额等于订单实际金额(&& $orderData['money'] == $result['total_fee'])
                 if(empty($orderData['is_pay']) ){
@@ -48,13 +48,49 @@ class WechatController extends Controller
                             R('Api/Action/pullDay', [$device_code, $orderData['flow']]);
                         }
 
+                        //发起工单(安装)
+                        if( $orderData['type']==2) {
+                            $work_data = array(
+                                'no'=>get_work_no(),
+                                'type'=>0,
+                                'content'=>'新购水机-安装',
+                                'uid'=>$orderData["uid"],
+                                'name'=>$orderData["name"],
+                                'phone'=>$orderData["phone"],
+                                'province'=>$orderData["province"],
+                                'city'=>$orderData['city'],
+                                'district'=>$orderData['district'],
+                                'address'=>$orderData['address'],
+                                'vid'=>$orderData['wvid'],
+                                'addtime' => time(),
+                            );
+                            if (M('work')->add($work_data)) {
+                                Log::write(json_encode($work_data),'订单回调:新购水机-安装');
+                            }
+                        }
 
+                        $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
+
+                        //充值流水
+                        $flow_data=array(
+                            'did'=>$orderData['did'],
+                            'order_id'=>$result['out_trade_no'],
+                            'money'=>$result['total_fee'],
+                            'mode'=>1,
+                            'flow'=>$orderData['flow'],
+                            'num'=>1,
+                            'describe'=>$orderData['describe'],
+                            'currentflow'=>$ReDay,
+                            'addtime'=>time(),
+                            'status'=>1
+                        );
+                        M('flow')->add($flow_data);
 
                         //查找该经销商的佣金金额
                         $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
                         //查找邀请人和被邀请人
                         $money = M('users')->field('to_code,parent_code')->where(['id' => $orderData['uid']])->find();
-//                        查找比例
+                        //查找比例
                         $system =  M('system')->field('device_life,commission_ratio1,commission_ratio2')->find();
                         $day = $system['device_life'];
                         //佣金

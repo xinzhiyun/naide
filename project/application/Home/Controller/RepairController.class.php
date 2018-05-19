@@ -14,7 +14,7 @@ class RepairController extends HomebaseController
     public function index()
     {
         $did = session('homeuser.did');
-        $info = M('devices')->field('name,phone,uid,device_code,id did,province,city,district,address')->find($did);
+        $info = M('devices')->field('name,phone,uid,device_code,id did,province,city,district,address,wvid')->find($did);
 
         $this->assign('info',json_encode($info));
         $this->display();
@@ -31,8 +31,8 @@ class RepairController extends HomebaseController
                 Log::write(json_encode($data),'报修');
                 $arr = array(
                     'no'=>get_work_no(),
-                    'time'=>$data["time"],
-                    'period'=>$data["period"],
+//                    'time'=>$data["time"],
+//                    'period'=>$data["period"],
                     'type'=>$data["type"],
                     'content'=>$data["content"],
                     'did' => $data["did"],
@@ -45,6 +45,7 @@ class RepairController extends HomebaseController
                     'district'=>$data['district'],
                     'address'=>$data['address'],
                     'picpath'=>serialize($data['pic']),
+                    'vid'=>$data['wvid'],
                     'addtime' => time(),
                 );
 
