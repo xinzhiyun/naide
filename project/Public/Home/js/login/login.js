@@ -95,7 +95,7 @@ $(function() {
                 var _url = getURL("Home", "Login/send");
                 setTimeout(function(){
                     noticeFn({text: '验证码已发送, 请注意查收'});
-                },100);
+                },10);
                 // 获取验证码
                 $.ajax({
                     url: _url,
