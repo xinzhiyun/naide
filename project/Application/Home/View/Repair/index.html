@@ -51,7 +51,7 @@
 					<ul>
 						<li>
 							<span @click="dian">备注信息：</span>
-							<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题...(可不填)" id="comments" class="text_middle"></textarea>
+							<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题..." id="comments" class="text_middle" v-model='content'></textarea>
 						</li>
 						<li class="file_li">
 							<!-- 上传图片 -->
@@ -130,147 +130,270 @@
 					</div>
 					<!-- 信息确认部分结束 -->
 					
-					<input type="button" value="提交" id="repair-sub" class="bgblue" @click="submit_text()">
+					<input type="button" value="提交" id="repair-sub" class="bgblue sure" @click="submit_text()">
 				</div>
-			</form>
-			<!-- 预约时段蒙版开始部分 -->
-			<div class="mask_bg time_bg">
-				<div class="mask_bottom">
-					<p class="fblue">预约时段</p>
-					<ul id="time_ul">
-						<li class="no_selected"></li>
-						<li id="check time_selected">上午 09:00-11:00</li>
-						<li class="no_selected">下午 14:00-17:00</li>
-					</ul>
-					<ul>
-						<li></li>
-					</ul>
-				</div>
+		</form>
+		<!-- 预约时段蒙版开始部分 -->
+		<div class="mask_bg time_bg">
+			<div class="mask_bottom">
+				<p class="fblue">预约时段</p>
+				<ul id="time_ul">
+					<li class="no_selected"></li>
+					<li id="check time_selected">上午 09:00-11:00</li>
+					<li class="no_selected">下午 14:00-17:00</li>
+				</ul>
+				<ul>
+					<li></li>
+				</ul>
 			</div>
-			<!-- 预约时段蒙版结束部分 -->
-			
-			<!-- 维修蒙版开始部分 -->
-			<div class="mask_bg repair_bg">
-				<div class="mask_bottom">
-					<p class="fblue">服务类型</p>
-					<ul id='repair_ul'>
-						<li class="no_selected">安装</li>
-						<li id="repai_selected">维修</li>
-						<li class="no_selected">维护</li>
-					</ul>
-					<ul>
-						<li></li>
-					</ul>
-				</div>
-			</div>
-			<!-- 维修蒙版结束部分 -->
 		</div>
-		<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-		<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
-		<script src="__PUBLIC__/Home/js/public.js"></script>
-		<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-		<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
-		<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
-		<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
-		<script src="__PUBLIC__/Home/js/wx_imgUpload.js"></script>
-		<script defer>
-			var back2home = document.getElementsByClassName('back2home');
-			// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-			
-			$(function(){
-				// 日历插件
-				var nowTemp = new Date();
-				var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
-				var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
-				var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
-				var $myStart2 = $('#my-start-2');
-				var checkin = $myStart2.datepicker({
-					onRender: function(date, viewMode) {
-						// 默认 days 视图，与当前日期比较
-						var viewDate = nowDay;
-						switch (viewMode) {
-							// moths 视图，与当前月份比较
-							case 1:
-							viewDate = nowMoth;
-							break;
-							// years 视图，与当前年份比较
-							case 2:
-							viewDate = nowYear;
-							break;
-						}
-						return date.valueOf() < viewDate ? 'am-disabled' : '';
+		<!-- 预约时段蒙版结束部分 -->
+		
+		<!-- 维修蒙版开始部分 -->
+		<div class="mask_bg repair_bg">
+			<div class="mask_bottom">
+				<p class="fblue">服务类型</p>
+				<ul id='repair_ul'>
+					<li class="no_selected">安装</li>
+					<li id="repai_selected">维修</li>
+					<li class="no_selected">维护</li>
+				</ul>
+				<ul>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<!-- 维修蒙版结束部分 -->
+	</div>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
+	<script src="__PUBLIC__/Home/js/repair/repair.js"></script>
+	<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
+	<script src="__PUBLIC__/Home/js/wx_imgUpload.js"></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<script>
+    	var vConsole = new VConsole();
+		
+		$(function(){
+			// 日历插件
+			var nowTemp = new Date();
+			var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+			var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+			var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+			var $myStart2 = $('#my-start-2');
+			var checkin = $myStart2.datepicker({
+				onRender: function(date, viewMode) {
+					// 默认 days 视图，与当前日期比较
+					var viewDate = nowDay;
+					switch (viewMode) {
+						// moths 视图，与当前月份比较
+						case 1:
+						viewDate = nowMoth;
+						break;
+						// years 视图，与当前年份比较
+						case 2:
+						viewDate = nowYear;
+						break;
 					}
-				})
-				
-				//微信接口
-				wx.config({
-					debug: false,
-					appId: '{{$wxinfo["appId"]}}',
-					timestamp: '{{$wxinfo["timestamp"]}}',
-					nonceStr: '{{$wxinfo["nonceStr"]}}',
-					signature: '{{$wxinfo["signature"]}}',
-					jsApiList: [
-					// 所有要调用的 API 都要加到这个列表中
-					'chooseImage',
-					'uploadImage',
-					'getLocalImgData',
-					'downloadImage'
-					]
-				});
-				// var result = []; // 放入图片
-
-				// 上传图片 参数：图片路径-res.src  后台图片id-res.media_Id
-				$("#file_input").on("click", function() {
-					if($(".pic_2").children().length == 2) {
-						noticeFn({text: '只能上传两张图片喔'});
-						return false;
-					}
-					wxuploadimg(function(res) {
-
-						$(".pic_2").children().append('<div class="am-u-sm-4" style="position:relative;" index="'+res.media_Id+'"><img src="'+res['src']+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>')
-						
-					})
-				});
-				// 删除图片
-				$(".file_li").on("click","#chacha",function(){
-					alert($(this))
-					$(this).parent().remove();
-				});
-				
-				
-				// var result,div;   
-				// if(typeof FileReader==='undefined'){   
-				// 	result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
-				// 	input.setAttribute('disabled','disabled');  
-				// }else{   
-					
-				// 	input.addEventListener('change',readFile,false);
-				// }　　　　　   
-				// function readFile(){   
-				// 	if($(".file_li").children("div").length == 3){
-				// 		noticeFn({text: '限制最多只能上传2张图片',time: '1500'});
-				// 	}else{
-				// 		for(var i=0;i<this.files.length;i++){  
-				// 			// match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。 
-				// 			if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
-				// 				return alert("上传的图片格式不正确，请重新选择")
-				// 			　　　　　　　　　}   
-				// 			var reader = new FileReader();
-				// 			reader.readAsDataURL(this.files[i]);   
-				// 			reader.onload = function(e){   
-				// 				result = '<div id="result" class="am-u-sm-4" style="position:relative;"><img src="'+this.result+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>';   
-				// 				div = document.createElement('div');   
-				// 				div.innerHTML = result;   
-				// 				document.getElementById('Pic_file').after(div);  　
-				// 				// console.log(this.result);　　　　　　
-				// 			}   
-				// 		}   
-				// 	}
-				// } 
-				
-				
+					return date.valueOf() < viewDate ? 'am-disabled' : '';
+				}
 			})
 			
-		</script>
-	</body>
-	</html>
+			//微信接口
+			wx.config({
+				debug: false,
+				appId: '{{$wxinfo["appId"]}}',
+				timestamp: '{{$wxinfo["timestamp"]}}',
+				nonceStr: '{{$wxinfo["nonceStr"]}}',
+				signature: '{{$wxinfo["signature"]}}',
+				jsApiList: [
+				// 所有要调用的 API 都要加到这个列表中
+				'chooseImage',
+				'uploadImage',
+				'getLocalImgData',
+				'downloadImage'
+				]
+			});
+			// var result = []; // 放入图片
+			var picNum = 0;
+			// 上传图片 参数：图片路径-res.src  后台图片id-res.media_Id
+			$("#file_input").on("click", function() {
+				if($(".pic_2").children().length == 2) {
+					noticeFn({text: '只能上传两张图片喔'});
+					return false;
+				}
+				// 选择上传图片
+				wxuploadimg(function(res) {
+					console.log('res: ',res);
+					// 预览图片
+					$(".pic_2").append('<div class="am-u-sm-4 upimg" style="position:relative;" index="'+ res['media_Id'] +'"><img src="'+ res['src']+ '" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>');
+					
+					console.log('repair_bg_vue.infoAll["pic"]: ',repair_bg_vue.infoAll['pic']);
+					// 上传图片
+					$.ajax({
+						url: '{{:U("Home/Login/upload")}}',
+						type: 'post',
+						data: {type: 1, mode: 1, key: res.media_Id},
+						success: function(res){
+							console.log('res: ',res);
+							if(res.status == 200){
+								++picNum;
+								repair_bg_vue.infoAll['pic'].push(res.path);
+							}else{
+								// 上传图片失败，这里应该删除页面中的预览图
+								noticeFn({text: res.msg});
+								delPic(picNum + 1);
+							}
+						},
+						error: function(err){
+							console.log('err: ',err);
+							noticeFn({text: '系统遇到问题，请稍后再试'});
+						}
+					})
+				})
+			});
+			// 删除图片
+			$(".file_li").on("click","#chacha",function(){
+				// alert($(this))
+				$(this).parent().remove();
+			});
+
+			// 删除图片
+			function delPic(index){
+				console.log('index: ',index);
+				$('.upimg').eq(index).remove();
+			}
+			
+			
+			// var result,div;   
+			// if(typeof FileReader==='undefined'){   
+			// 	result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
+			// 	input.setAttribute('disabled','disabled');  
+			// }else{   
+				
+			// 	input.addEventListener('change',readFile,false);
+			// }　　　　　   
+			// function readFile(){   
+			// 	if($(".file_li").children("div").length == 3){
+			// 		noticeFn({text: '限制最多只能上传2张图片',time: '1500'});
+			// 	}else{
+			// 		for(var i=0;i<this.files.length;i++){  
+			// 			// match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。 
+			// 			if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
+			// 				return alert("上传的图片格式不正确，请重新选择")
+			// 			　　　　　　　　　}   
+			// 			var reader = new FileReader();
+			// 			reader.readAsDataURL(this.files[i]);   
+			// 			reader.onload = function(e){   
+			// 				result = '<div id="result" class="am-u-sm-4" style="position:relative;"><img src="'+this.result+'" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>';   
+			// 				div = document.createElement('div');   
+			// 				div.innerHTML = result;   
+			// 				document.getElementById('Pic_file').after(div);  　
+			// 				// console.log(this.result);　　　　　　
+			// 			}   
+			// 		}   
+			// 	}
+			// } 
+			
+			
+		})
+		
+		// 提交报修数据
+		function repairUp(infoAll){
+
+			var ajaxURL = getURL("Home", "Repair/add");
+			$.ajax({
+				url: '{{:U("Home/Repair/add")}}',
+				data: infoAll,//页面所有需要传后台的数据
+				type: "post",
+				success: function(res) {
+					console.log("提交成功", res);
+					if(res.status == 200) {
+						noticeFn({text: '提交成功，请耐心等待服务', time: '1500'});//提交成功
+						setTimeout(function(){
+							// 返回首页
+							// location.href = getURL('Home', 'Index/index');
+						},500);
+					}else {
+						noticeFn({text: res.msg,time: '1500'});//提交失败
+					}
+				},
+				error: function(res) {
+					console.log("失败", res);
+				}
+			})
+		}
+	</script>
+	<script>
+		// var backdata = {};    // 需要上传给后台的图片id
+		// function wxuploadimg(callback){
+		//   takePicture(1);
+		//   // 获取图片
+		//   function takePicture(nums) {  
+		//    	wx.chooseImage({
+		//        	count: 1,  
+		//        	needResult: 1,  
+		//        	sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有  
+		//        	sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有  
+		//        	success: function (data) {                  
+		//            	localIds = data.localIds[0];   // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片        
+		           	                  
+		//            	var num1 = nums;
+		//            	wxuploadImage(localIds,num1);
+		//        	},  
+		//        	fail: function (res) {  
+		//        		console.log('失败：',JSON.stringify(res));
+		//        	}    
+		//    	});  
+		   
+		//   } 
+		//   // 上传图片
+		//   function wxuploadImage(e,num) {
+
+		//     wx.uploadImage({  
+		//         localId: e, // 需要上传的图片的本地ID，由chooseImage接口获得  
+		//         isShowProgressTips: 1, // 默认为1，显示进度提示  
+		//         success: function (res) {                                        
+		//             backdata['media_Id'] = res.serverId;
+		//             wxgetLocalImgData(localIds,num);
+		            
+		//         },  
+		//         fail: function (error) {  
+		//             picPath = '';  
+		//             localIds = '';  
+		//         }          
+		//     });
+		//   }
+
+		//   // 下载图片(本地显示)
+		//   function wxgetLocalImgData(e,num){
+
+		//       if(window.__wxjs_is_wkwebview){
+		//   	    wx.getLocalImgData({
+		//   	        localId: e, // 图片的localID
+		//   	        success: function (res) {                    
+		//               var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+		//               localData = localData.replace('jgp', 'jpeg');//iOS 系统里面得到的数据，类型为 image/jgp,因此需要替换一下                                            
+		  			      
+		//               backdata['src'] = localData;
+		//   	        },
+		//   	        fail:function(res){
+		//   	          	alert("显示失败");
+		//   	        }
+		//   	    });
+		//       }else{
+		//           backdata['src'] = e;
+		          
+		//       }
+
+		//     // 回调
+		//     callback(backdata);
+		  	
+		//   }
+		// }
+	</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomebaseController;
 use Common\Tool\Device;
+use Think\Log;
 
 /**
  * 报修
@@ -13,7 +14,7 @@ class RepairController extends HomebaseController
     public function index()
     {
         $did = session('homeuser.did');
-        $info = M('devices')->field('name,phone,uid,device_code,id did,province,city,district,address')->find($did);
+        $info = M('devices')->field('name,phone,uid,device_code,id did,province,city,district,address,wvid')->find($did);
 
         $this->assign('info',json_encode($info));
         $this->display();
@@ -27,11 +28,11 @@ class RepairController extends HomebaseController
         try {
             if (IS_POST) {
                 $data = I('post.');
-
+                Log::write(json_encode($data),'报修');
                 $arr = array(
                     'no'=>get_work_no(),
-                    'time'=>$data["time"],
-                    'period'=>$data["period"],
+//                    'time'=>$data["time"],
+//                    'period'=>$data["period"],
                     'type'=>$data["type"],
                     'content'=>$data["content"],
                     'did' => $data["did"],
@@ -43,7 +44,8 @@ class RepairController extends HomebaseController
                     'city'=>$data['city'],
                     'district'=>$data['district'],
                     'address'=>$data['address'],
-                    'picpath'=>$data['pic'],
+                    'picpath'=>serialize($data['pic']),
+                    'vid'=>$data['wvid'],
                     'addtime' => time(),
                 );
 

@@ -2,12 +2,60 @@
 namespace Home\Controller;
 use Common\Controller\AppframeController;
 use Common\Tool\Sms;
+use Common\Tool\WeiXin;
+use Think\Log;
 
 /**
  * 首页
  */
 class LoginController extends AppframeController {
 
+    /**
+     * 文件上传接口
+     */
+    public function upload()
+    {
+        try {
+            $data = I('post.');
+            Log::write(json_encode($data),'文件');
+            if (empty($data['type'])) {
+                E('数据不完整', 201);
+            }
+            if (empty($data['mode'])) {
+                E('数据不完整', 201);
+            }
+            //type 1 报修
+            $type = array(
+                '1'=>'repair'
+            );
+            $dir = $type[$data['type']]??'tmp';
+
+            if ($data['mode']==1) {//微信上传
+                if (empty($data['key'])) {
+                    E('数据不完整', 201);
+                }
+                //{"type":"1","mode":"1","key":"BKgayEnb8kSDDYpTiF5b5Ft4EayPUI3jfHjExdVyHx1IYfwLWkrmvEeu-LU4aFQi"}
+                $path = WeiXin::downloadPic($dir,$data['key']);
+
+            }else{
+
+            }
+
+            if($path){
+                $this->ajaxReturn(array(
+                    'status'=>200,
+                    'path'=>$path,
+                    'msg'=>'上传成功',
+                ),'JSON');
+            }else{
+                E('上传失败',201);
+            }
+
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
 
     /**
      * 用户录入
@@ -83,6 +131,11 @@ class LoginController extends AppframeController {
                 session('homeuser.id',$info['id']);
                 session('homeuser.phone',$info['user']);
                 session('homeuser.name',$info['name']);
+                if(empty($info['code'])){
+                    $re['code'] = R('Pay/create_guid');
+                    $m->where('id='.$info['id'])->save($re);
+                }
+                session('homeuser.code',$re['code']);
 
                 $this->ajaxReturn(array(
                     'PHPSESSID'=>cookie('PHPSESSID'),

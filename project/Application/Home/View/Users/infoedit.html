@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="__PUBLIC__/Home/css/users/infoedit.css">
 	</head>
 	<body>
-		<form id='form' action="{{:U('Home/Device/infoedit')}}" method="post" >
+		<form id='form' action="" method="post" >
 			<div class="container">
 				<h3>个人信息</h3>
 				<div>
@@ -149,13 +149,35 @@
 					$('input[name="deviceid"]').val(),
 					$('.orderid').val())
 
-					noticeFn({text: '绑定成功'});
-					// 替换历史记录
-					// history.replaceState({}, null, '{{:U("Home/Users/mine")}}');
-					setTimeout(function(){
-						// 提交数据
-						$('#form').submit();
-					},500);
+					
+					var formdata = new FormData($('#form')[0]);
+					// 提交数据
+					$.ajax({
+						url: "{{:U('Home/Device/infoedit')}}",
+						type: 'post',
+						data: formdata,
+						async: false,
+						contentType: false,
+						processData: false,
+						success: function(res){
+							console.log('res: ',res);
+							if(res.status == 200){
+								noticeFn({text: '绑定成功'});
+								// 替换历史记录
+								history.replaceState({}, null, '{{:U("Home/Users/	mine")}}');
+								setTimeout(function(){
+									location.href = location.href;
+								},500);
+							}else{
+								noticeFn({text: res.msg});
+							}
+						},
+						error: function(err){
+							console.log('err: ',err);
+							noticeFn({text: '系统遇到问题，请稍后再试'});
+						}
+					})
+							
 				})
 
 				// 获取订单信息

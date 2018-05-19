@@ -10,8 +10,13 @@ var repair_bg_vue = new Vue({
 			city: info.city, //市
 			district: info.district, //区
 			detailed_add:info.address,//详细地址
+            // wvid:info.wvid,//服务站ID
 		},
-		time_now:''
+		time_now:'',
+		content: '',
+		infoAll: {	// 提交的信息
+			pic: [],
+		},		
 	},
 	methods:{
 		dian:function(){
@@ -54,16 +59,20 @@ var repair_bg_vue = new Vue({
 				noticeFn({text: '未选择预约时间',time: '1000'});
 				return;
 			}
+			if(!repair_bg_vue.content){
+				noticeFn({text: '请描述你遇到的问题！',time: '1000'});
+				return;
+			}
 			// 服务类型
 			if($("#repair_t").html() == "&nbsp;") {
 				noticeFn({text: '未选择服务类型',time: '1000'});
 				return;
 			}
 			// 图片 请不要删
-			if($(".pic_2").children().length == '') {
-				noticeFn({text: '请上传问题图片!',time: '1000'});
-				return;
-			}
+			// if($(".pic_2").children().length == '') {
+			// 	noticeFn({text: '请上传问题图片!',time: '1000'});
+			// 	return;
+			// }
 			// 姓名不能修改为空
 			if($("input[name='username']").val() == '') {
 				noticeFn({text: '姓名不能为空!',time: '1000'});
@@ -141,33 +150,35 @@ var repair_bg_vue = new Vue({
 				address		维修地址-详情			 device_code	设备编号
 			以上全为必填项
 			*/
-			var infoAll = {
-				// 服务内容
-				serviceContent: {time: time.bespeak_time, period: info_top.time_interval, type: info_top.serve_type, content: info_middle.beizhu, pic: picId}, 
-				// 信息确认
-				userInfo: {did: info.did, uid: info.uid, name: info_bottom.linkman, phone: info_bottom.contact_number, device_code: info_top.device_code, province: _this.info_confirm.province, city: _this.info_confirm.city, district: _this.info_confirm.district, address: info_bottom.detailed_add}
-			};
-			console.log("后台需要的参数", infoAll);
-			
-			var ajaxURL = getURL("Home", "Repair/add");
-			$.ajax({
-				url: ajaxURL,
-				data: {datas:infoAll},//页面所有需要传后台的数据
-				type: "post",
-				success: function(res) {
-					console.log("提交成功", res);
-					if(res.status == 200) {
-						noticeFn({text: res.info,time: '1500'});//提交成功
-						// 返回首页
-						// window.location.href = "{{:U('Home/index')}}";
-					}else {
-						noticeFn({text: '提交失败,请重试!',time: '1500'});//提交失败
-					}
-				},
-				error: function(res) {
-					console.log("失败", res);					
-				}
-			})
+			// var infoAll = {
+			// 	// 服务内容
+			// 	serviceContent: {time: time.bespeak_time, period: info_top.time_interval, type: info_top.serve_type, content: info_middle.beizhu, pic: picId}, 
+			// 	// 信息确认
+			// 	userInfo: {did: info.did, uid: info.uid, name: info_bottom.linkman, phone: info_bottom.contact_number, device_code: info_top.device_code, province: _this.info_confirm.province, city: _this.info_confirm.city, district: _this.info_confirm.district, address: info_bottom.detailed_add}
+			// };
+			var upinfo = {
+				time: time.bespeak_time, 
+				period: info_top.time_interval, 
+				type: info_top.serve_type, 
+				content: info_middle.beizhu, 
+				// pic: picId,
+				did: info.did, 
+				uid: info.uid,
+                wvid:info.wvid,
+				name: info_bottom.linkman, 
+				phone: info_bottom.contact_number, 
+				device_code: info_top.device_code, 
+				province: _this.info_confirm.province, 
+				city: _this.info_confirm.city, 
+				district: _this.info_confirm.district, 
+				address: info_bottom.detailed_add
+			}
+			for(var i in upinfo){
+				repair_bg_vue.infoAll[i] = upinfo[i];
+			}
+			console.log("后台要的参数", repair_bg_vue.infoAll);
+			// 提交报修数据
+			repairUp(repair_bg_vue.infoAll);
 		},	
 		e:function(ev){
 			var e = ev || event;

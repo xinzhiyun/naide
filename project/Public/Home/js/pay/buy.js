@@ -44,7 +44,8 @@ new Vue({
 				price: $(".selectedMeal").attr("mealMoney"),
 				flow: $(".selectedMeal").attr("flow"),
 				num: 1,
-				uid: _this.userInfo.uid,
+                uid: _this.userInfo.uid,
+                did: _this.userInfo.did,
 				sid: _this.userInfo.vid,
 				tid: $(".selectedMeal").attr("tId")
 			};

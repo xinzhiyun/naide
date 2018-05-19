@@ -60,8 +60,9 @@
 <script>
 	// 消费者主页套餐购买
 	console.log(location.search)
-	if(location.search.indexOf("index") != -1) {	
-		var p = "<p><a href='{{:U('Home/index')}}'>返回首页</a></p>";
+	if(location.search.indexOf("index") != -1) {
+	    var URL = "{{:U('/Home/index')}}";
+		var p = "<p><a href='"+URL+"'>返回首页</a></p>";
 		$(".selectDo").append(p);
 	}
 </script>

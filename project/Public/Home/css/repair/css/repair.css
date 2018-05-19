@@ -184,6 +184,10 @@ textarea {
   outline: none;
   border: none;
   display: block;
+  position: relative;
+}
+.sure:active {
+  background: #126eaf;
 }
 .mask_bg {
   position: absolute;

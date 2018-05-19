@@ -63,9 +63,18 @@ body {
 .main .userInfo form p:last-child button {
   width: 100%;
   height: 1.87733333rem;
+  position: relative;
   background-color: #0090ff;
   border-radius: 0.08533333rem;
   color: white;
   border: none;
   font-size: 0.72533333rem;
+}
+.loginBtn:active::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  background: rgba(0,0,0,.2);
 }
