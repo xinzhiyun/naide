@@ -246,7 +246,10 @@ class UsersController extends ComsbaseController {
         $tone = M('work')->where(['vid'=>$id,'type'=>0])->count();
         $ttwo= M('work')->where(['vid'=>$id,'type'=>1])->count();
         $tf= M('work')->where(['vid'=>$id,'type'=>2])->count();
-        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+//        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+        $this->assign('tone',json_encode($tone));
+        $this->assign('ttwo',json_encode($ttwo));
+        $this->assign('tf',json_encode($tf));
     }
     //待办任务列表
     public function sevice_list() {
@@ -263,7 +266,7 @@ class UsersController extends ComsbaseController {
     public function details() {
 
         $map['id'] = I('post.id');
-        $id = session('comsuser.id');
+//        $id = session('comsuser.id');
         $info = M('work')->where($map)->find();
         if ($info) {
             $this->ajaxReturn(['code'=>200,'data'=>$info]);
