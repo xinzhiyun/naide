@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>物联网云平台</title>
+    <title>{{$web.admin_title|default="物联网云平台"}}</title>
     <!-- jquery -->
     <!-- bootstrap css -->
     <link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap.css" media="screen" />
@@ -92,7 +92,7 @@
 </head> 
 <body class="bodyBg">
     <div class="row-fluid" id="header">
-        <div class="headerLeft fl"><a class="logo" href="{{:U('Admin/Index/index')}}">物联网云平台</a></div>
+        <div class="headerLeft fl"><a class="logo" href="{{:U('Admin/Index/index')}}">{{$web.admin_title|default="物联网云平台"}}</a></div>
         <div class="headerRight fr">
             <p class="hintTxt"></p> 
             <div>
