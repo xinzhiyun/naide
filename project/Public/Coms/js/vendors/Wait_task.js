@@ -142,10 +142,13 @@ var wait_task = new Vue({
 				// console.log("成功",res);
 				if(res.msg == 0){
 					// 数据返回成功
-					sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
+					// sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
+					console.log(res.res)
+					for(var i = 0;i<res.res.length;i++){
+						_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
 				}
 			},_this.url);
-			$("#plan_personnel_mask_bg").show();
+			$("#plan_personnel_mask_bg").show(800);
 		},
 		// 选中安装人员
 		pitch_on:function(index_personnel,even){
@@ -218,12 +221,12 @@ var wait_task = new Vue({
 			_this.plan_personnel_info_bg.new_work_order = detail.no;
 		}
 		// 安装人员（蒙版）
-		var per = JSON.parse(sessionStorage.getItem("install_personnel_info"));
-		if(per){
-			for(var i = 0;i<per.length;i++){
-				_this.plan_personnel_info_bg.install_personnel_info.push(per[i]);
-				console.log(per[i])
-			}
-		}
+		// var per = JSON.parse(sessionStorage.getItem("install_personnel_info"));
+		// if(per){
+		// 	for(var i = 0;i<per.length;i++){
+		// 		_this.plan_personnel_info_bg.install_personnel_info.push(per[i]);
+		// 		console.log(per[i])
+		// 	}
+		// }
 	}
 })
