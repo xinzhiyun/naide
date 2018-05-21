@@ -143,7 +143,7 @@
                         <?php $address = $vo['province'].$vo['city'].$vo['district'].$vo['address']; ?>
                         <td>{{$vo.name}} {{$vo.phone}}<br>{{$address}}</td>
                         <td>{{$vo.time}}<br>{{$vo.period}}</td>
-                        <td>{{$vo.addtime|date='Y-m-d',###}}<br>{{$vo.addtime|date='H:i:s',###}}</td>
+                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
                         <td><?php if($vo['playtime']){ echo date('Y-m-d',$vo['playtime']).'<br>'.date('H:i:s',$vo['playtime']);} ?></td>
                         <td><?php if($vo['passtime']){ echo date('Y-m-d H:i:s',$vo['passtime']);} ?></td>
                         <td><switch name="vo.status">
