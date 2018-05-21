@@ -400,7 +400,9 @@ class PayController extends AppframeController {
                 ->field('id,order_id,type,created_at,express,mca,status,goods_img,goods_title,goods_detail,goods_price,goods_num,money,describe')
                 ->order('created_at desc')
                 ->select();
-
+            foreach ($list as $k=>$v) {
+                $list[$k]['money'] = $v['money']/100;
+            }
             $this->ajaxReturn(array(
                 'status'=>200,
                 'p'=>$p,
@@ -537,7 +539,7 @@ class PayController extends AppframeController {
             session('waterOrder.phone',$homeuser['user']);
 
         }
-        $this->assign('id',$homeuser['id']);
+        $this->assign('id',json_encode($homeuser['id']));
         $this->display();
     }
 
