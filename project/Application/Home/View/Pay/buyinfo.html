@@ -9,6 +9,10 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.datetimepicker.css">
+	<script>
+		var uid = {{$id}};
+		console.log("用户id",uid)
+	</script>
 </head>
 <body>
 	<form action='' id='form' method='POST' class='am-container'>
@@ -21,7 +25,7 @@
 			<label for="" class='am-u-sm-3'>手机号码</label>
 			<input type="text" class='am-u-sm-9 uphone' name='uphone' placeholder="请输入手机号">
 		</div>
-		<div class='am-g am-text-middle'>
+		<div class='am-g am-text-middle passwordSet'>
 			<label for="" class='am-u-sm-3'>设置密码</label>
 			<input type="password" class='am-u-sm-7 upwd' name='upwd' placeholder="请输入密码">
 			<span class='am-u-sm-2 am-icon-eye-slash' id='seepwd'></span>
@@ -103,12 +107,17 @@
 	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
-	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
 	<script>
-		var vconsole = new VConsole();
+		// var vconsole = new VConsole();
+		
 		document.querySelector('.back2home').style.display = 'none';
 		// 邀请码
 		$('input[name="code"]').val(getQuery().code);
+		// 判断用户是否存在
+		if(uid) {
+			$(".passwordSet").css("display", "none");
+		}
 		// 请求服务站数据
 		function getService(province , city , district, callback){
 			$.ajax({
@@ -192,15 +201,26 @@
 					var nameEle = $('.uname'), 
 					phoneEle = $('.uphone'), 
 					addrEle = $('.uaddress'), 
-					addrdetEle = $('.uaddrdetail'), 
-					pwdEle = $('.upwd');
-					
+					addrdetEle = $('.uaddrdetail');
+
 					var uname = trimFn($('.uname').val()),
 					uphone = trimFn($('.uphone').val()),
-					upwd = trimFn($('.upwd').val()),
 					uaddress = trimFn($('.uaddress').text()),
 					uaddrdetail = trimFn($('.uaddrdetail').val()),
 					uService = $('.serviceF88').attr("index");
+
+					if(!$(".passwordSet").is(':hidden')) {
+						var pwdEle = $('.upwd');
+						var upwd = trimFn($('.upwd').val());
+						//验证密码
+						if(!upwd){
+							noticeFn({text:'请输入密码！'});
+							pwdEle.css({border: '1px solid red'});
+							return
+						}else{
+							pwdEle.css({border: 'none'});
+						}
+					}
 					
 					//验证收货人
 					if(!uname){
@@ -228,14 +248,7 @@
 						phoneEle.css({border: 'none'});
 					}
 					
-					//验证密码
-					if(!upwd){
-						noticeFn({text:'请输入密码！'});
-						pwdEle.css({border: '1px solid red'});
-						return
-					}else{
-						pwdEle.css({border: 'none'});
-					}
+					
 					
 					//验证地区
 					if(!uaddress){
