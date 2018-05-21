@@ -247,9 +247,9 @@ class UsersController extends ComsbaseController {
         $ttwo= M('work')->where(['vid'=>$id,'type'=>1])->count();
         $tf= M('work')->where(['vid'=>$id,'type'=>2])->count();
 //        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
-        $this->assign('tone',$tone);
-        $this->assign('ttwo',$ttwo);
-        $this->assign('tf',$tf);
+        $this->assign('tone',json_encode($tone));
+        $this->assign('ttwo',json_encode($ttwo));
+        $this->assign('tf',json_encode($tf));
     }
     //待办任务列表
     public function sevice_list() {
