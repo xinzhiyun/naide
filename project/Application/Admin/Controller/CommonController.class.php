@@ -16,7 +16,8 @@ class CommonController extends AdminbaseController
      * @author 潘宏钢 <619328391@qq.com>
      */
     public function _initialize()
-    {	
+    {
+        parent::_initialize();
     	// 登录检测
     	if(empty($_SESSION['adminuser'])) $this->redirect('Login/login');
 
