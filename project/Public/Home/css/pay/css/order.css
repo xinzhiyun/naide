@@ -71,8 +71,8 @@
 .obligation_container .obligation_content p:nth-child(1),
 .obligation_container .obligation_content p:nth-child(2),
 .obligation_container .obligation_content p:nth-child(3) {
-  height: 1.38666667rem;
-  line-height: 1.38666667rem;
+  /*height: 1.38666667rem;*/
+  /*line-height: 1.38666667rem;*/
   font-size: 0.64rem;
   color: #8b8b8b;
 }
