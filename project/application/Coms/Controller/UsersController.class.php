@@ -263,7 +263,7 @@ class UsersController extends ComsbaseController {
     public function details() {
 
         $map['id'] = I('post.id');
-        $id = session('comsuser.id');
+//        $id = session('comsuser.id');
         $info = M('work')->where($map)->find();
         if ($info) {
             $this->ajaxReturn(['code'=>200,'data'=>$info]);
