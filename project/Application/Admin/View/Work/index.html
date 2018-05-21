@@ -118,10 +118,10 @@
                     <th>描述</th>
                     <th>图片</th>
                     <th>客户信息</th>
-                    <th>预约时间</th>
-                    <th>创建时间</th>
-                    <th>处理时间</th>
-                    <th>完成时间</th>
+                    <!--<th>预约时间</th>-->
+                    <!--<th>创建时间</th>-->
+                    <!--<th>处理时间</th>-->
+                    <th>工单时间</th>
                     <th>工单状态</th>
                     <th>操作</th>
                 </tr>
@@ -142,10 +142,10 @@
                         </td>
                         <?php $address = $vo['province'].$vo['city'].$vo['district'].$vo['address']; ?>
                         <td>{{$vo.name}} {{$vo.phone}}<br>{{$address}}</td>
-                        <td>{{$vo.time}}<br>{{$vo.period}}</td>
-                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
-                        <td><?php if($vo['playtime']){ echo date('Y-m-d',$vo['playtime']).'<br>'.date('H:i:s',$vo['playtime']);} ?></td>
-                        <td><?php if($vo['passtime']){ echo date('Y-m-d H:i:s',$vo['passtime']);} ?></td>
+                        <td>发起时间:{{$vo.addtime|date='Y-m-d H:i:s',###}}<br/>
+                            预约时间:{{$vo.time}} {{$vo.period}}<br/>
+                            预约时间:<?php if($vo['playtime']){ echo date('Y-m-d H:i:s',$vo['playtime']);} ?><br/>
+                            处理时间:<?php if($vo['passtime']){ echo date('Y-m-d H:i:s',$vo['passtime']);} ?></td>
                         <td><switch name="vo.status">
                                 <case value="0">待处理</case>
                                 <case value="1">进行中</case>
