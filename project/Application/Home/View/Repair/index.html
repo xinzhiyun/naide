@@ -11,13 +11,6 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	<script>
-		// 用户信息
-		var info = {{$info}};
-		console.log("后台传来用户信息", info)
-		// 省市区
-		var addPCA = info.province + info.city + info.district;
-	</script>
 </head>
 <body style="overflow:auto">
 	<div class="repair-all_bg" id="repair_vue" v-cloak>
@@ -177,7 +170,27 @@
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
     	var vConsole = new VConsole();
-		
+		// 用户信息
+		var info = {{$info}};
+		console.log(info)
+		if(info){
+			// 省市区
+			var addPCA = info.province + info.city + info.district;
+			repair_bg_vue.info_confirm = {
+				linkman:info.name,//联系人
+				contact_number:info.phone,//联系电话
+				device_code:info.device_code,//设备编码
+				addPCA:addPCA ,//省市区
+				province: info.province, //省
+				city: info.city, //市
+				district: info.district, //区
+				detailed_add:info.address,//详细地址
+	            // wvid:info.wvid,//服务站ID
+			}
+		}else{
+			repair_bg_vue.info_confirm = "";
+		}
+		console.log("后台传来用户信息", info)
 		$(function(){
 			// 日历插件
 			var nowTemp = new Date();
