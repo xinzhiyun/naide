@@ -425,7 +425,8 @@ class PayController extends AppframeController {
         try {
             $uid = $_SESSION['homeuser']['id'];
             $data = I('post.');
-            $info = M('users')->where(['id'=>$uid])->getField('to_code');
+            $info = M('users')->where(['id'=>$uid])->find();
+
             if (empty($info)) {
                 if (empty(session('waterOrder.code'))) {
                     E('邀请码不能为空', 201);
@@ -434,6 +435,17 @@ class PayController extends AppframeController {
                     if( empty($users_code['code'])) {
                         E('无法找到该邀请码', 201);
                     }
+                }
+                if (empty($data['uname'])) {
+                    E('姓名不能为空', 201);
+                } else {
+                    $reg['name'] = $data['uname'];
+                }
+
+                if (empty($data['uphone'])) {
+                    E('手机号不能为空', 201);
+                } else {
+                    $reg['user'] = $data['uphone'];
                 }
                 if (isset($data['has'])) {
                     if (!empty($data['upwd'])) {
@@ -449,17 +461,7 @@ class PayController extends AppframeController {
 
             }
 
-            if (empty($data['uname'])) {
-                E('姓名不能为空', 201);
-            } else {
-                $reg['name'] = $data['uname'];
-            }
 
-            if (empty($data['uphone'])) {
-                E('手机号不能为空', 201);
-            } else {
-                $reg['user'] = $data['uphone'];
-            }
 
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
@@ -471,6 +473,7 @@ class PayController extends AppframeController {
 //            $info = $m->where('user='.$reg['user'])->find();
 
             if (empty($info)) {
+
                 $data['created_at']=time();
                 $reg['code'] = $this->create_guid();
                 //老父亲
@@ -482,7 +485,9 @@ class PayController extends AppframeController {
 
                 if($res)$uid = $res;
             } else {
+
                 $reg['updated_at']=time();
+
                 $res = $m->where('id='.$info['id'])->save($reg);
                 $uid = $info['id'];
             }
