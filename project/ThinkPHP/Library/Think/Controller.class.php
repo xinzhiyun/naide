@@ -41,6 +41,14 @@ abstract class Controller {
             $this->_initialize();
     }
 
+    public function _initialize()
+    {
+        $web=M('system')->find();
+        $this->assign('web',$web);
+    }
+    
+    
+
     /**
      * 模板显示 调用内置的模板引擎显示方法，
      * @access protected

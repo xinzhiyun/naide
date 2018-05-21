@@ -29,14 +29,11 @@ class CommonController extends AdminbaseController
 
         // 分配菜单权限
         $nav_data=D('AdminMenu')->getTreeData('level','order_number,id');
-        $web=M('system')->find();
+
         $assign=array(
             'nav_data'=>$nav_data,
-            'web'=>$web
             );
         $this->assign($assign);
-
-
 
         //处理分页搜索条件使用POST方式提交
         $_POST = array_merge($_POST,$_GET);
