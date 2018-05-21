@@ -19,7 +19,7 @@ class RepairController extends HomebaseController
         if ($info) {
             $this->assign('info',json_encode($info));
         } else {
-            $this->ajaxReturn(['code'=>400,'data' => $info]);
+            $this->assign(['code'=>400,'data' => $info]);
         }
 
 
