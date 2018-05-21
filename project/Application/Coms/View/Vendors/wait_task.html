@@ -8,8 +8,14 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.min.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<script>
+		// 待办数量
+		var tone = "{{$tone}}";//安装
+		var ttwo = "{{$ttwo}}";//维修
+		var tf = "{{$tf}}";//维护
+	</script>
 </head>
-<body>
+<body>   
 <div id="wait_task_vue">
 
 <!-- 待办任务页面部分开始 -->
@@ -27,7 +33,7 @@
 	</div> 
 <!-- 待办任务页面部分结束 -->
 
-<!-- 待安装页面部分开始 -->
+<!-- 待办任务列表部分开始 -->
 	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
 		<form action="" method="post" id="form1">
@@ -45,18 +51,18 @@
 			</div>
 			<div class="install_user_content">
 				<ul>
-					<li v-for="(each_task_user,index) in task_user" @click="service_details(index)">
-						<span>{{each_task_user.task_name}}</span>
-						<span>{{each_task_user.task_cell_phone}}</span>
-						<span>{{each_task_user.task_date}}<i class="iconfont icon-xiangyou1"></i></span>
+					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
+						<span>{{each_sevice_list.name}}</span>
+						<span>{{each_sevice_list.phone}}</span>
+						<span>{{each_sevice_list.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-<!-- 待安装页面部分结束 -->
+<!-- 待办任务列表部分结束 -->
 
-<!-- 服务详情页面部分开始 -->
+<!-- 任务详情页面部分开始 -->
 	<div id="service_details_bg">
 		<!-- 用户信息 -->
 		<div class="service_details_public">
@@ -65,21 +71,25 @@
 				<ul>
 					<li class="bottom_line_h">
 						<p class="left">用户名：</p>
-						<p class="right">{{service_details_info.user_name}}</p>
+						<p class="right">{{service_details_info.name}}</p>
 					</li>
 					<li class="bottom_line_h">
 						<p class="left">手机号码：</p>
-						<p class="right">{{service_details_info.user_phone_number}}</p>
+						<p class="right">{{service_details_info.phone}}</p>
 					</li>
 					<li class="bottom_line_h">
 						<p class="left">设备编码：</p>
-						<p class="right">{{service_details_info.user_device_code}}</p>
+						<p class="right">{{service_details_info.device_code}}</p>
 					</li>
 				</ul>
 			</div>
 			<div class="service_div_three_public">
 				<p class="left">维护地址：</p>
-				<p class="right">{{service_details_info.user_maintenance_add}}</p>
+				<p class="right" style="width:25rem">
+					{{service_details_info.province}}
+					{{service_details_info.district}}
+					{{service_details_info.address}}
+				</p>
 			</div>
 		</div>
 		<!-- 请求内容 -->
@@ -89,19 +99,21 @@
 				<ul>
 					<li class="bottom_line_h">
 						<p class="left">请求时间：</p>
-						<p class="right">{{service_details_info.user_request_date}}</p>
+						<p class="right">{{service_details_info.time}}</p>
 					</li>
 					<li class="bottom_line_h">
 						<p class="left">类型：</p>
-						<p class="right">{{service_details_info.user_type}}</p>
+						<p class="right" v-if="service_details_info.type == 0">安装</p>
+						<p class="right" v-if="service_details_info.type == 1">维修</p>
+						<p class="right" v-if="service_details_info.type == 2">维护</p>
 					</li>
 					<li class="bottom_line_h">
 						<p class="left">内容：</p>
-						<p class="right">{{service_details_info.user_content}}</p>
+						<p class="right">{{service_details_info.content}}</p>
 					</li>
 					<li class="bottom_line_h">
 						<p class="left">来源：</p>
-						<p class="right">{{service_details_info.user_origin}}</p>
+						<p class="right">{{service_details_info.pid}}</p>
 					</li>
 				</ul>
 			</div>
@@ -110,7 +122,7 @@
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
 	</div>
-<!-- 服务详情页面部分结束 -->
+<!-- 任务详情页面部分结束 -->
 
 <!-- 派工信息页面部分开始 -->
 	<div id="plan_personnel_info_bg" class="all_div_bg">
@@ -122,7 +134,7 @@
 				</li>
 				<li class="bottom_line_h">
 					<p class="left">安装人员：</p>
-					<p class="right_font" @click="select_masking()" id="select_personnel">选择</p>
+					<p class="right_font" @click="select_masking()" id="select_personnel" style="margin-right:0.7rem">选择</p>
 					<i class="iconfont icon-xiangxia2 position_i" @click="select_masking()"></i>
 				</li>
 				<li class="bottom_line_h">
@@ -142,7 +154,7 @@
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
-				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.install_personnel}}</li>
+				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.name}}</li>
 			</ul>
 		</div>
 	</div>
@@ -208,26 +220,7 @@
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
-			    if(chineseCheck(trimFn(wait_task.search)) || phoneCheck(wait_task.search)){
-			    	console.log(wait_task.search);
-				    console.log($("input[name='Info']").val());
-				    // 将用户输入的信息发送后台搜索
-				    $.ajax({
-				        url: "",
-				        data: {datas: $("input[name='Info']").val()},
-				        type: "post",
-				        success: function(res) {
-				            
-				        },
-				        error: function(res) {
-				            
-				        }
-				    })
-			    }else{
-			    	noticeFn({text:'请输入正确的用户名或者手机号码!'});
-	        		return;
-			    }
-			    
+			    wait_task.sub_pub();
 			})
 		});
 	</script>
