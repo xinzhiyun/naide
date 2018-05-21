@@ -246,6 +246,15 @@ var repair_bg_vue = new Vue({
 		var date=myDate.getDate(); 
 		var now=year+'-'+p(month)+"-"+p(date);
 		this.time_now = now;
+
+		if(!info) {
+			noticefn({text: "暂无设备，请前往添加！"});
+			$("#repair_vue").html("<div>暂无设备，请前往添加</div>")
+			setTimeOut(function () {
+				location.href = "{{Home/Device/index}}";
+            }, 600);
+;		}
+
 		
 		
 		// // 初始化Web Uploader

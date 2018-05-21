@@ -146,5 +146,17 @@ class UsersController extends  HomebaseController
     public function waterOrder() {
 
     }
+    //修改个人信息
+    public function edit_users() {
+        $map['id'] =  $_SESSION['homeuser']['id'];
+        $data['name'] = I('post.name');
+        $data['password'] = md5(I('post.pwd'));
+        $info = M('users')->where($map)->save($data);
+        if ($info) {
+            $this->ajaxReturn(['code'=>200,'msg'=>'修改成功']);
+        } else {
+            $this->ajaxReturn(['code'=>400,'msg'=>'修改失败']);
+        }
+    }
 
 }

@@ -14,12 +14,12 @@ class RepairController extends HomebaseController
     public function index()
     {
         $did = session('homeuser.did');
-
+        $info = '';
         $info = M('devices')->where(['id'=>$did])->field('name,phone,uid,device_code,id did,province,city,district,address,wvid')->find();
         if ($info) {
             $this->assign('info',json_encode($info));
         } else {
-            $this->ajaxReturn(['code'=>400]);
+            $this->assign('info',$info);
         }
 
 

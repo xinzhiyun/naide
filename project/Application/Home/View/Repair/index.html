@@ -12,11 +12,12 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 	<script>
-		// 用户信息
-		var info = {{$info}};
-		console.log("后台传来用户信息", info)
-		// 省市区
-		var addPCA = info.province + info.city + info.district;
+        // 用户信息
+        var info = {{$info}};
+        if(info) {
+            // 省市区
+            addPCA = info.province + info.city + info.district;
+		}
 	</script>
 </head>
 <body style="overflow:auto">
@@ -62,8 +63,8 @@
 							</div>
 							<!-- 存放图片 -->
 							<div class="pic_2 am-u-sm-8">
-								<!-- <div class="am-u-sm-6" style="position:relative;" index="234234234234"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div> -->
-								<!-- <div class="am-u-sm-6" style="position:relative;" index="028347928347"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div> -->
+								 <!--<div class="am-u-sm-6" style="position:relative;" index="234234234234"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div>-->
+								 <!--<div chachalass="am-u-sm-6" style="position:relative;" index="028347928347"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div>-->
 							</div>
 						</li>
 					</ul>
@@ -177,7 +178,25 @@
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
     	var vConsole = new VConsole();
-		
+		var repair_bg_vue = {};
+		if(info){
+			// 省市区
+			addPCA = info.province + info.city + info.district;
+			repair_bg_vue.info_confirm = {
+				linkman:info.name,//联系人
+				contact_number:info.phone,//联系电话
+				device_code:info.device_code,//设备编码
+				addPCA:addPCA ,//省市区
+				province: info.province, //省
+				city: info.city, //市
+				district: info.district, //区
+				detailed_add:info.address,//详细地址
+	            // wvid:info.wvid,//服务站ID
+			}
+		}else{
+			repair_bg_vue.info_confirm = "";
+		}
+		console.log("后台传来用户信息", info)
 		$(function(){
 			// 日历插件
 			var nowTemp = new Date();

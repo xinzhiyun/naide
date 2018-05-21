@@ -240,14 +240,7 @@ class UsersController extends ComsbaseController {
             $this->ajaxReturn(['code'=>400]);
         }
     }
-    //待办任务统计
-    public function count_sevice() {
-        $id = session('comsuser.id');
-        $tone = M('work')->where(['vid'=>$id,'type'=>0])->count();
-        $ttwo= M('work')->where(['vid'=>$id,'type'=>1])->count();
-        $tf= M('work')->where(['vid'=>$id,'type'=>2])->count();
-        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
-    }
+
     //待办任务列表
     public function sevice_list() {
         $map['vid'] = session('comsuser.id');
@@ -263,7 +256,7 @@ class UsersController extends ComsbaseController {
     public function details() {
 
         $map['id'] = I('post.id');
-        $id = session('comsuser.id');
+//        $id = session('comsuser.id');
         $info = M('work')->where($map)->find();
         if ($info) {
             $this->ajaxReturn(['code'=>200,'data'=>$info]);
