@@ -138,16 +138,23 @@ class PayController extends AppframeController {
     public function setMeal()
     {
         try {
+            //用户ID
+            $uid = $_SESSION['homeuser']['id'];
+            $to_code = M('users')->where(['id'=>$uid])->getField('to_code');
             $setMealId=I('setMealId');
             $code = I('code');
-            if (!empty($code)) {
-               $code = M('users')->field('code')->where(['code'=>$code])->find();
-               if (!empty($code['code'])) {
-                   session('waterOrder.code',$code['code']);
-               }
-            } else {
-                E('无效邀请码', 201);
+
+            if (empty($to_code)) {
+                if (!empty($code)) {
+                    $code = M('users')->field('code')->where(['code'=>$code])->find();
+                    if (!empty($code['code'])) {
+                        session('waterOrder.code',$code['code']);
+                    }
+                } else {
+                    E('无效邀请码', 201);
+                }
             }
+
             if(empty($setMealId)){
                 E('请选择套餐', 201);
             }
@@ -414,16 +421,32 @@ class PayController extends AppframeController {
     public function userbuy()
     {
         try {
-
+            $uid = $_SESSION['homeuser']['id'];
             $data = I('post.');
-            if (empty(session('waterOrder.code'))) {
-                E('邀请码不能为空', 201);
-            } else {
-                $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
-                if( empty($users_code['code'])) {
-                    E('无法找到该邀请码', 201);
+            $info = M('users')->where(['id'=>$uid])->getField('to_code');
+            if (empty($info)) {
+                if (empty(session('waterOrder.code'))) {
+                    E('邀请码不能为空', 201);
+                } else {
+                    $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
+                    if( empty($users_code['code'])) {
+                        E('无法找到该邀请码', 201);
+                    }
                 }
+                if (isset($data['has'])) {
+                    if (!empty($data['upwd'])) {
+                        $reg['password'] = md5(md5($data['upwd']));
+                    }
+                }else{
+                    if (empty($data['upwd'])) {
+                        E('密码不能为空', 201);
+                    } else {
+                        $reg['password'] = md5(md5($data['upwd']));
+                    }
+                }
+
             }
+
             if (empty($data['uname'])) {
                 E('姓名不能为空', 201);
             } else {
@@ -436,28 +459,14 @@ class PayController extends AppframeController {
                 $reg['user'] = $data['uphone'];
             }
 
-            if (isset($data['has'])) {
-                if (!empty($data['upwd'])) {
-                    $reg['password'] = md5(md5($data['upwd']));
-                }
-            }else{
-                if (empty($data['upwd'])) {
-                    E('密码不能为空', 201);
-                } else {
-                    $reg['password'] = md5(md5($data['upwd']));
-                }
-            }
-
-
             if (empty($data['address'])) {
                 E('地址不能为空', 201);
             } else {
                 session('waterOrder.address',$data['address']);
             }
 
-
             $m =  M('users');
-            $info = $m->where('user='.$reg['user'])->find();
+//            $info = $m->where('user='.$reg['user'])->find();
 
             if (empty($info)) {
                 $data['created_at']=time();
@@ -526,7 +535,9 @@ class PayController extends AppframeController {
             session('waterOrder.uid',$homeuser['id']);
             session('waterOrder.name',$homeuser['name']);
             session('waterOrder.phone',$homeuser['user']);
+
         }
+        $this->assign('id',$homeuser['id']);
         $this->display();
     }
 
