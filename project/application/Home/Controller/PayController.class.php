@@ -425,8 +425,12 @@ class PayController extends AppframeController {
         try {
             $uid = $_SESSION['homeuser']['id'];
             $data = I('post.');
+            //查找是否二次购买
             $info = M('users')->where(['id'=>$uid])->find();
-
+            $uphone = M('users')->where(['user'=>$data['uphone']])->find();
+            if ($uphone) {
+                E('该手机号已存在',201);
+            }
             if (empty($info)) {
                 if (empty(session('waterOrder.code'))) {
                     E('邀请码不能为空', 201);

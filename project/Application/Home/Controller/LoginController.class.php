@@ -183,7 +183,7 @@ class LoginController extends AppframeController {
         $map['phone'] = I('post.phone');
         $info = M('users')->where($map)->find();
         if ($info) {
-            $this->ajaxReturn(['code'=>400]);
+            $this->ajaxReturn(['code'=>200]);
         }
     }
 }
