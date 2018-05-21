@@ -156,12 +156,15 @@ class UsersController extends HomebaseController {
     {
         if (IS_POST) {
             // 接收用户输入数据
+            $did = $_SESSION['homeuser']['did'];
+            $vid = $did ? Device::get_devices_sn($_SESSION['homeuser']['did'],'vid'):'';
+
             $arr = array(
                 'content' => I('content'),
-                'uid' => $_SESSION['homeuser']['id'],
+                'uid' => $did,
                 'addtime' => time(),
                 'did' => $_SESSION['homeuser']['did'],
-                'vid'=>Device::get_devices_sn($_SESSION['homeuser']['did'],'vid'),
+                'vid'=> $vid,
             );
 
             // 实例化
