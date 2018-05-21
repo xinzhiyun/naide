@@ -1,6 +1,7 @@
 <include file="Public/header" />
 <div class="content">
     <include file="Public/nav" />
+
     <style type="text/css">
         /*报修图片*/
         #showImg {
@@ -153,7 +154,7 @@
                         </switch></td>
                         <td data-wid='{{$vo.id}}' data-vid='{{$vo.vid}}'>
                             <?php if(empty($vo['pid'])) {echo "<a class='_play'>派工单</a>";}elseif($vo['status']==1){
-                                echo "<a class='_play'>完成工单</a>"; } ?>
+                                echo "<a class=''>完成工单</a>"; } ?>
                         </td>
                     </tr>
                     </foreach>
@@ -283,9 +284,12 @@
                         var pphone = obj.attr('data-phone');
                         var pid = obj.val();
 
+                        var period = $("#period_sel option:checked").val();
+                        var time = $("#time_sel").val();
+
                         $.ajax({
                             url: "{{:U('Admin/Work/setpersonnel')}}",
-                            data: {wid:wid,pname:pname,pphone:pphone,pid:pid},
+                            data: {wid:wid,pname:pname,pphone:pphone,pid:pid,period:period,time:time},
                             type: "post",
                             datatype: "json",
                             success: function(res){
@@ -293,7 +297,7 @@
                                 if(res.status == 200) {
                                     layuiHint('修改成功');
                                     setTimeout(function(){
-                                        location.href = '{{:U("Admin/work/index")}}';
+                                        // location.href = '{{:U("Admin/work/index")}}';
                                     },500);
                                 }else if(res.status == 201) {
                                     layuiHint('请重试');
@@ -319,10 +323,11 @@
                 $('.closepic').click(function(){
                     $("#showImg").fadeOut();
                 })
+
             </script>
         </div>
         <div class="modal fade" id="bjy-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true" style="width:660px;height:350px">
+             aria-hidden="true" style="width:660px;height:400px">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -330,14 +335,33 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="myModalLabel">
-                            请选择派遣人员
+                            任务派遣
                         </h4>
                     </div>
-                    <div class="modal-body"  style="margin-top: 20px" >
+                    <div class="modal-body"  style="margin-top: 2px" >
                         <input type="hidden" name="key">
                         <table class="table table-striped table-bordered table-hover table-condensed">
                             <tr><th style="padding: 10px"   id="show_desc"></th></tr>
-                            <tr><td style="padding: 30px 20px" >
+                            <tr>
+                                <td>预约日期</td>
+                                <td>
+                                    <input type="text" class="layui-input" id="time_sel">
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预约时间</td>
+                                <td>
+                                    <select class="form-control"  name="pid" id="period_sel">
+                                        <option value="上午 09:00-11:00">上午 09:00-11:00</option>
+                                        <option value="下午 02:00-06:00">下午 02:00-06:00</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>人员选择</td>
+                                <td>
                                 <select class="form-control"  name="pid" id="personnel_sel">
                                     <option value="">--请选择--</option>
                                 </select>
@@ -357,6 +381,22 @@
 
         <!-- footer part -->
         <include file="Public/footer" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/layui2/css/layui.css" media="all">
+        <script type="text/javascript" src="__PUBLIC__/Admin/layui2/layui.js"></script>
+
     </div>
 </div>
+<script !src="">
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#time_sel' //指定元素
+        });
+    });
+
+
+</script>
+
 

@@ -179,6 +179,17 @@ class WorkController extends CommonController
                 $save['pname'] = $data['pname'];
             }
 
+            if (empty($data['period'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['period'] = $data['period'];
+            }
+            if (empty($data['time'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['time'] = $data['time'];
+            }
+
             $save['status'] = 1;
 
             $res = M('work')->where($map)->save($save);
