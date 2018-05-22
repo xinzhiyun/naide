@@ -56,6 +56,9 @@
                         <span>邮箱<sub style="color:red;margin-left: 5px;">*</sub></span>
                         <input type="text" name="email" placeholder="请输入邮箱...">
                     </div>
+                    <input type="hidden" class='province' name='province'>
+                    <input type="hidden" class='city' name='city'>
+                    <input type="hidden" class='district' name='district'>
                     <div class="control-group">
                         <span>地址<sub style="color:red;margin-left: 5px;">*</sub></span>
                         <div class="info">
@@ -88,6 +91,10 @@
 $(function(){
     //验证
     $('.oddbtn').on('click',function(){
+        $(".province").val($("#s_province").val());
+        $(".city").val($("#s_city").val());
+        $(".district").val($("#s_county").val());
+
         var user = $('input[name=user]').val().trim();
         var name = $('input[name=name]').val().trim();
         var phone = $('input[name=phone]').val().trim();
