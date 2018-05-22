@@ -160,9 +160,21 @@ class UsersController extends ComsbaseController {
         $personnel_list =M('personnel')->field('name,phone,create_time')->where($map)->select();
         if ($personnel_list) {
             $this->assign('data', json_encode($personnel_list));
-
         }
         $this->display();
+    }
+//    /安装人员详情
+    public function minstall_man_list() {
+        if (IS_POST) {
+            $map['v_id'] = session('comsuser.id');
+            $map['id'] = 55;
+            $per = M('personnel')->where($map)->find();
+            if ($per) {
+                $this->ajaxReturn(['code' => 200, 'data' => $per]);
+            } else {
+                $this->ajaxReturn(['code' => 400]);
+            }
+        }
     }
     //添加安装人员
     public function install_man_add() {
