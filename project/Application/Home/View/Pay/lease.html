@@ -66,6 +66,10 @@
 <script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 <script>
     var vConsole = new VConsole();
+    if(location.search.indexOf("?has") > -1){
+    	$('#navbar').show();
+    	$('body').css({paddingTop: '12vmin'});
+    }
     // 微信配置
 	wx.config({
 	    debug: false,
@@ -202,6 +206,7 @@
 				var _this = this;
 				// 请求套餐列表
 				$.get("{{:U('Home/pay/Waterlist')}}", function(res) {
+					console.log('Waterlist_res: ',res);
 					if(res.status == 200) {
 						_this.mealSet = res.list;
 						// 请求数据后调用获取对象函数
@@ -248,6 +253,9 @@
 										location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
 									}
 									
+								}else if(res.msg == '无效邀请码'){
+									// 成功跳转下一个页面
+									location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
 								}else{
 									noticeFn({text: res.msg});
 								}

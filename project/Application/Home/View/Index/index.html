@@ -317,7 +317,7 @@
 		console.log('home.code: ',home.code);
 		var option = {
 			title: '购买水机',
-			link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + home.code,
+			link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + "{{$_SESSION['homeuser']['code']}}",
 			desc: '购买使用耐的净水机',
 			img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
 			shareTimeline: function(){
