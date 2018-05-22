@@ -1,6 +1,7 @@
 <?php
 namespace Common\Controller;
 use Think\Controller;
+use Common\Tool\WeiXin;
 class AppframeController extends Controller {
 
     public function __call($a,$b)
@@ -14,6 +15,24 @@ class AppframeController extends Controller {
     {
         @parent::_initialize();
         $_GET['p'] = I('p', 1);
+
+        //微信信息
+        $is_weixin = is_weixin();
+        $is_weixin_s = $is_weixin?'true':'false';
+        $this->assign('is_weixin', $is_weixin_s);
+        if($is_weixin){
+
+            $signPackage = WeiXin::getSignPackage();
+            $this->assign('wxinfo',$signPackage);
+
+//            if(DEBUG){
+//                $_SESSION['open_id'] = 'ocea2uHn9T1OEUQTuDVnfdtJT7wE';
+//            }
+
+            if(empty($_SESSION['open_id'])){
+                $_SESSION['open_id'] = WeiXin::GetOpenid();
+            }
+        }
     }
 
     public function to_json($e)
