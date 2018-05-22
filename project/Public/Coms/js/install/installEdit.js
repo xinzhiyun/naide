@@ -4,15 +4,39 @@ var vm = new Vue({
     data: {
         // 用户信息
         userInfo: {
-            username: "张三",
-            telphone: "13526423652",
-            password: "123asd",
-            address: "广东省广州市天河区东圃镇",
+            // username: "张三",
+            // telphone: "13526423652",
+            // password: "123asd",
+            // address: "广东省广州市天河区东圃镇",
         },
     },
     methods: {
 
-    }
+    },
+    created:function(){
+        var id = location.search.split("=")[1];
+        console.log(id);
+        var url = getURL("Coms","users/minstall_man_list");
+        $.ajax({
+            url:url,
+            type:"post",
+            data:{id:id},
+            success:function(res){
+                console.log("成功",res);
+                if(res.code == 200){
+                    if(res.data != ""){
+                        // 成功返回数据
+                        vm.userInfo = res.data;
+                    }else{
+                        // 返回数据失败
+                    }
+                }
+            },
+            error:function(res){
+                console.log("失败",res)
+            }
+        })
+    },
 })
 // ajax请求数据
 $.ajax({

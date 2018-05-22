@@ -97,11 +97,11 @@ var service_log_vue = new Vue({
 							$(".install_user").hide();
 							$("#service_details_bg").show();
 					}else{
-						// callback({res:"",text:"系统出错，请稍候再试！",msg:1});
+						noticeFn({text:"系统出错，请稍候再试！"});
 					}
 				},
 				error:function(res){
-					// callback({res:"",text:"系统出错，请稍候再试！",msg:1});
+					noticeFn({text:"系统出错，请稍候再试！"});
 				}
 			})
 

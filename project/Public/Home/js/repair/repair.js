@@ -1,22 +1,24 @@
 var repair_bg_vue = new Vue({
 	el:"#repair_vue",
-	data:{
-		info_confirm:{
-			linkman:info.name,//联系人
-			contact_number:info.phone,//联系电话
-			device_code:info.device_code,//设备编码
-			addPCA:addPCA ,//省市区
-			province: info.province, //省
-			city: info.city, //市
-			district: info.district, //区
-			detailed_add:info.address,//详细地址
-            // wvid:info.wvid,//服务站ID
-		},
-		time_now:'',
-		content: '',
-		infoAll: {	// 提交的信息
-			pic: [],
-		},		
+	data(){
+		return {
+			info_confirm:{
+				linkman:info.name,//联系人
+				contact_number:info.phone,//联系电话
+				device_code:info.device_code,//设备编码
+				addPCA:addPCA ,//省市区
+				province: info.province, //省
+				city: info.city, //市
+				district: info.district, //区
+				detailed_add:info.address,//详细地址
+	            // wvid:info.wvid,//服务站ID
+			},
+			time_now:'',
+			comments: '',
+			infoAll: {	// 提交的信息
+				pic: [],
+			},	
+		}	
 	},
 	methods:{
 		dian:function(){
@@ -54,12 +56,12 @@ var repair_bg_vue = new Vue({
 		submit_text:function(){
 			var _this = this; //获取vm对象
 			// 判断信息填写完整后才执行ajax
-			// 预约时间
+			// 预约时间 
 			if($("#repair_time").html() == "&nbsp;") {
 				noticeFn({text: '未选择预约时间',time: '1000'});
 				return;
 			}
-			if(!repair_bg_vue.content){
+			if(!comments){
 				noticeFn({text: '请描述你遇到的问题！',time: '1000'});
 				return;
 			}
@@ -104,7 +106,8 @@ var repair_bg_vue = new Vue({
 			}
 
 			var a = $(".text_top");
-			var b = ["time_interval","serve_type", "device_code","addPCA"];//预约时段 服务类型 省市区 设备编码
+			// var b = ["time_interval", "device_code","addPCA","serve_type"];//预约时段 服务类型 省市区 设备编码
+			var b = ["serve_type","addPCA","device_code"];//预约时段 服务类型 省市区 设备编码
 
 			var e = $(".text_middle");
 			var f= ["beizhu"];	//备注
@@ -167,12 +170,13 @@ var repair_bg_vue = new Vue({
                 wvid:info.wvid,
 				name: info_bottom.linkman, 
 				phone: info_bottom.contact_number, 
-				device_code: info_top.device_code, 
+				device_code: info.device_code, 
 				province: _this.info_confirm.province, 
 				city: _this.info_confirm.city, 
 				district: _this.info_confirm.district, 
 				address: info_bottom.detailed_add
 			}
+			console.log('upinfo: ',upinfo);
 			for(var i in upinfo){
 				repair_bg_vue.infoAll[i] = upinfo[i];
 			}
