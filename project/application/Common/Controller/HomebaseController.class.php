@@ -16,11 +16,14 @@ class HomebaseController extends AppframeController
 
         //微信信息
         $is_weixin = is_weixin();
+
         $is_weixin_s = $is_weixin?'true':'false';
+
         $this->assign('is_weixin', $is_weixin_s);
         if($is_weixin){
 
             $signPackage = WeiXin::getSignPackage();
+
             $this->assign('wxinfo',$signPackage);
 
 //            if(DEBUG){
