@@ -111,12 +111,19 @@ var home = new Vue({
 				noticeFn({text: '当前设备状态不能冲洗!'});
 				return
 			}
-			home.ajson['PackType'] = 'SetData';
-			home.ajson['DeviceStause'] = '1';
-			home.ajson['type'] = '冲洗中';
-			home.ajson['curTime'] = '0';
-			// 发送数据包
-			that.sendMSG(home.ajson);
+			confirmFn('点击确认开始冲洗', function(res){
+				if(res){
+					home.ajson['PackType'] = 'SetData';
+					home.ajson['DeviceStause'] = '1';
+					home.ajson['type'] = '冲洗中';
+					home.ajson['curTime'] = '0';
+					// 发送数据包
+					that.sendMSG(home.ajson);
+					
+				}else{
+					noticeFn({text: '取消'});
+				}
+			});
 
 			// 设置水机状态
 			// home.statusIconName = home.statusIconClass[1];	// 水机状态图标

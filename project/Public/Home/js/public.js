@@ -313,7 +313,7 @@ var noticeFn = function(obj){
         用法：
         noticeFn({text:'哈哈很少见哈' + $(this)[0].innerText});
      */
-    //设置字体颜色
+    //设置字体颜色 
     obj.fcolor = obj.fcolor || '#fff';
     //设置背景颜色
     obj.bgcolor = obj.bgcolor || 'rgba(70,70,70,.9)';
@@ -354,7 +354,7 @@ var noticeFn = function(obj){
     noticeSpan.style.background = obj.bgcolor;
 
     notice.setAttribute('style',
-        'display:block;transform:scale(1);'
+        'display:block;opacity:1;transform:scale(1);'
     );
 
     // 自动消失
