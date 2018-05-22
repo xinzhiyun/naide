@@ -9,45 +9,14 @@ class HomebaseController extends AppframeController
 {
 
 	function _initialize() {
-//	    parent::_initialize();
+	    parent::_initialize();
 //        session('homeuser',null);exit;
 
         $homeuser = session('homeuser');
 
-        //微信信息
-        $is_weixin = is_weixin();
 
-        $is_weixin_s = $is_weixin?'true':'false';
-
-        $this->assign('is_weixin', $is_weixin_s);
-        if($is_weixin){
-
-            $signPackage = WeiXin::getSignPackage();
-
-            $this->assign('wxinfo',$signPackage);
-
-//            if(DEBUG){
-//                $_SESSION['open_id'] = 'ocea2uHn9T1OEUQTuDVnfdtJT7wE';
-//            }
-
-            if(empty($_SESSION['open_id'])){
-                $_SESSION['open_id'] = WeiXin::GetOpenid();
-            }
-
-            if (empty($homeuser)) {
-                redirect(U('/Home/Login/index'));exit;
-            }
-//            $user = M('users')->find(1);
-//
-//            session('homeuser',$user);
-
-
-        }else{
-
-            //临时虚拟用户
-            if (empty($homeuser)) {
-                redirect(U('/Home/Login/index'));exit;
-            }
+        if (empty($homeuser)) {
+            redirect(U('/Home/Login/index'));exit;
         }
 
         if(empty($homeuser['code'])){
