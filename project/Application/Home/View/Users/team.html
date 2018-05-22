@@ -20,7 +20,7 @@
 		<ul id='main'>
 			<li v-for='t in tList' class='cfix'>
 				<span class='fleft'>{{t.name}}</span>
-				<span class='fright'>{{t.addtime}}</span>
+				<span class='fright'>{{t.created_at}}</span>
 			</li>
 		</ul>
 		<ul id='footer'>
@@ -42,7 +42,7 @@
 				return {	
 					account: '--',		// 账户名
 					tList: [
-						// {name: '小李飞刀',addtime: '1523936714'},
+						// {name: '小李飞刀',created_at: '1523936714'},
 					],
 					teamNum: 0,			// 团队成员
 				}
@@ -54,7 +54,7 @@
 					that.tList = res;
 					// 转换时间戳
 					that.tList.forEach(function(item, index){
-						res.data.addtime = getLocalTime(res.data.addtime);
+						res.data.created_at = getLocalTime(res.data.created_at);
 					})
 				})
 				
@@ -63,7 +63,7 @@
 				// this.teamNum = '3';
 				// for(var i=0; i<this.tList.length; i++){
 				// 	// 转换时间
-				// 	this.tList[i].addtime = getLocalTime(this.tList[i].addtime);
+				// 	this.tList[i].created_at = getLocalTime(this.tList[i].created_at);
 				// }
 			},
 			methods: {

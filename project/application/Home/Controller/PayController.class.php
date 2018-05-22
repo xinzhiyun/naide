@@ -262,7 +262,7 @@ class PayController extends AppframeController {
                 E('用户信息错误,请刷新重试!', 201);
             }
             if (empty($data['did'])) {
-                E('用户信息错误,请刷新重试!', 201);
+                E('当前无设备信息,请刷新重试!', 201);
             }
 
             $setmeal = M('setmeal')->field('money,describe')->find($data['setMealId']);
@@ -409,6 +409,8 @@ class PayController extends AppframeController {
                 ->select();
             foreach ($list as $k=>$v) {
                 $list[$k]['money'] = $v['money']/100;
+                $list[$k]['created_at']=date('Y-m-d H:i:s',$list[$k]['created_at']);
+
             }
             $this->ajaxReturn(array(
                 'status'=>200,

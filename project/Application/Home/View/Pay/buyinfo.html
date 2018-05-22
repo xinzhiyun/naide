@@ -107,13 +107,28 @@
 	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
-	<!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
-		// var vconsole = new VConsole();
+		var vconsole = new VConsole();
 		
 		document.querySelector('.back2home').style.display = 'none';
 		// 邀请码
 		$('input[name="code"]').val(getQuery().code);
+		// 判断是否需要登录
+		if(location.search.indexOf("?has") == -1){
+			$('#confirmtrue').text('登录');
+			$('#confirmfalse').text('无账号');
+			confirmFn('已有账号？请登录（如果有账号而未点登录，密码将被重置）', function(res){
+				if(res){
+					// 登录
+					console.log('登录');
+					location.href = '{{:U("Home/Login/index")}}' + '?buy';
+				}else{
+					// 无账号
+					console.log('无账号');
+				}
+			});
+		}
 		// 判断用户是否存在
 		if(uid) {
 			$(".passwordSet").css("display", "none");
@@ -278,7 +293,7 @@
 					
 					var formdata = new FormData($('#form')[0]);
 					// 验证通过则 提交
-					$.ajax({
+					$.ajax({ 
 						url: '{{:U("Home/Pay/userbuy")}}',
 						data: formdata,
 						type: "post",
