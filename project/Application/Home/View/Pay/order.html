@@ -280,7 +280,7 @@
 			var type = Object.prototype.toString.call(res);
 			if(type === '[object Object]'){
 				res = JSON.stringify(res);
-			}
+			} 
 			WeixinJSBridge.invoke(
 				'getBrandWCPayRequest',
 				JSON.parse(res),

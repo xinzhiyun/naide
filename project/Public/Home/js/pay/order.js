@@ -154,7 +154,7 @@ var product_pay = new Vue({
 				
 			});
 		},
-		// 支付订单
+		// 支付订单 
 		pay_show:function(e, pay_index){
 			product_pay.orderid = e.currentTarget.getAttribute('orderid');
 			$(".pay_bg").show();
@@ -181,7 +181,7 @@ var product_pay = new Vue({
 					if(res.status == 200){
 						// 调用微信支付
 						weixinPay(res);
-						
+
 					}else{
 						noticeFn({text: res.msg});
 					}
