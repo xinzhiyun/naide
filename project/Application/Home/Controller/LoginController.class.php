@@ -87,8 +87,9 @@ class LoginController extends AppframeController {
             $m =  M('users');
             $info = $m->where('user='.$data['user'])->find();
             if (empty($info)) {
-                $data['created_at']=time();
-                $res = $m->add($data);
+//                $data['created_at']=time();
+//                $res = $m->add($data);
+                E('账号不存在!', 201);
             } else {
                 $res = $m->where('id='.$info['id'])->save($data);
             }

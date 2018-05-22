@@ -14,16 +14,21 @@ class RepairController extends HomebaseController
     public function index()
     {
         $did = session('homeuser.did');
-        $info = '';
-        $info = M('devices')->where(['id'=>$did])->field('name,phone,uid,device_code,id did,province,city,district,address,wvid')->find();
-        if ($info) {
-            $this->assign('info',json_encode($info));
-        } else {
-            $this->assign('info',$info);
+        $info = [];
+        if (!empty($did)) {
+            $info = M('devices')->where(['id'=>$did])->field('name,phone,uid,device_code,id did,province,city,district,address,wvid')->find();
+        }else{
+            $uid = session('homeuser.id');
+            $info = M('users')->where(['id'=>$uid])->field('user phone,id uid,name')->find();
+            $order= M('order')->where(['uid'=>$uid,'type'=>1])->field('province,city,district,address')->find();
+            if(empty($order)){
+                $order = ['province'=>'','city'=>'','district'=>'','address'=>''];
+            }
+            $info = array_merge($info,$order);
+            $info['device_code']='无';
         }
 
-
-
+        $this->assign('info',json_encode($info));
         $this->display();
     }
 
