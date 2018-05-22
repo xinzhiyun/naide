@@ -27,8 +27,8 @@ class RepairController extends HomebaseController
             $info = array_merge($info,$order);
             $info['device_code']='无';
         }
-        $this->assign('info',json_encode($info));
 
+        $this->assign('info',json_encode($info));
         $this->display();
     }
 
