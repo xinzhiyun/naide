@@ -441,7 +441,7 @@ class PayController extends AppframeController {
                 E('该手机号已存在',201);
             }
             if (empty($info)) {
-                if (empty(session('waterOrder.code'))) {
+                if (empty($data['to_code'])) {
                     E('邀请码不能为空', 201);
                 } else {
                     $users_code =  M('users')->field('code,to_code')->where(['code'=>session('waterOrder.code')])->find();
