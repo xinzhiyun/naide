@@ -140,9 +140,9 @@
                                 <img src="{{$v}}" class="img-thumbnail picture" width="50px" height="50px">
                             </foreach>
                         </td>
-                        <?php $address = $vo['province'].$vo['city'].$vo['district'].$vo['address']; ?>
-                        <td>{{$vo.name}} {{$vo.phone}}<br>{{$address}}</td>
-                        <td>发起时间:{{$vo.addtime|date='Y-m-d H:i:s',###}}<br/>
+                        <?php $addr = $vo['province'].$vo['city'].$vo['district']; ?>
+                        <td style="line-height: 20px;">{{$vo.name}} {{$vo.phone}}<br>{{$addr}}<br/>{{$vo.address}}</td>
+                        <td style="line-height: 20px;">发起时间:{{$vo.addtime|date='Y-m-d H:i:s',###}}<br/>
                             预约时间:{{$vo.time}} {{$vo.period}}<br/>
                             预约时间:<?php if($vo['playtime']){ echo date('Y-m-d H:i:s',$vo['playtime']);} ?><br/>
                             处理时间:<?php if($vo['passtime']){ echo date('Y-m-d H:i:s',$vo['passtime']);} ?></td>
