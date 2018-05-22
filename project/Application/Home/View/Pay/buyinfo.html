@@ -293,7 +293,7 @@
 									location.href = '{{:U("Home/Pay/firstHire")}}';
 								},500);
 							}else if(res.status == 201) {
-								noticeFn({text:'请完善录入信息!'});
+								noticeFn({text:res.msg});
 							} 
 						},
 						error: function(err){
