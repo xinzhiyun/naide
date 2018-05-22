@@ -60,6 +60,11 @@
 
                     }else{
                         noticeFn({text: '查无数据'});
+                        service.userList = [{
+                            workid: '&emsp;',
+                            status: '查无数据',
+                            addtime: '&emsp;'            
+                        }];
                         $('.loadmore').hide();
                         $('.nextIcon').hide();
                     }

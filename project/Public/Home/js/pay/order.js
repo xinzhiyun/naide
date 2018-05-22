@@ -49,6 +49,7 @@ var product_pay = new Vue({
 		p: 1 ,
 		// 请求ajax
 		getAjax: "",
+		orderid: '', 		// 待支付或取消的订单id
 	},
 	computed:{
 		// 确认支付总金额
@@ -153,8 +154,9 @@ var product_pay = new Vue({
 				
 			});
 		},
-		// 支付订单
-		pay_show:function(pay_index){
+		// 支付订单 
+		pay_show:function(e, pay_index){
+			product_pay.orderid = e.currentTarget.getAttribute('orderid');
 			$(".pay_bg").show();
 			$("body").css({"overflow":"hidden"});
 			$(".pay_hide").bind("touchstart",function(e){
@@ -162,19 +164,32 @@ var product_pay = new Vue({
 				$(".pay_bg").hide();
 				$("body").css({"overflow":"auto"});
 			});
-			this.num = pay_index;
+			this.end_price = e.currentTarget.getAttribute('money');
+			// console.log(this.end_price);
+			// this.num = pay_index;
 			// 点击哪条订单，将获取指定订单总金额
-			this.end_price = this.all_pay[this.num].order_total;
+			// this.end_price = this.all_pay[this.num].order_total;
 		},
 		//立即支付
-		immediate_pay:function(){
+		immediate_pay:function(e){
 			if($("#select_i").attr("class") !="iconfont icon-not_Selected-copy select-copy"){
 				// 点击立即支付，获取指定支付的产品信息
 				var pay_product_info = this.all_pay[this.num];//支付产品信息
 				var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
-				$(".pay_bg").hide();
-				$("body").css({"overflow":"auto"});
-				noticeFn({text: '支付成功！',time: '1500'});
+				console.log(product_pay.orderid);
+				getOrderInfo(product_pay.orderid, function(res){
+					if(res.status == 200){
+						// 调用微信支付
+						weixinPay(res);
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+				})
+						
+				// $(".pay_bg").hide();
+				// $("body").css({"overflow":"auto"});
+				// noticeFn({text: '支付成功！',time: '1500'});
 			}else{
 				noticeFn({text: '未选择付款方式！',time: '1500'});
 			}

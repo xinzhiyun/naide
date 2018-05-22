@@ -135,8 +135,9 @@ class LoginController extends AppframeController {
                 if(empty($info['code'])){
                     $re['code'] = R('Pay/create_guid');
                     $m->where('id='.$info['id'])->save($re);
+                    session('homeuser.code',$re['code']);
                 }
-                session('homeuser.code',$re['code']);
+                session('homeuser.code',$info['code']);
 
                 $this->ajaxReturn(array(
                     'PHPSESSID'=>cookie('PHPSESSID'),

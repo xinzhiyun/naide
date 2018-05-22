@@ -18,7 +18,7 @@
 		</div>
 		<input type="hidden" id="refreshed" value="no">
 		<div id="mine-first-container">
-			<div id="mTop">
+			<div id="mTop"> 
 				<div class="mine-pic">
 					<p>
 						<img class='userPic' src="__PUBLIC__/Home/images/icon.jpg" alt="">
@@ -105,7 +105,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="{{:U('Home/Pay/lease')}}?has">
+							<a class='cfix' @click='buy' alink="{{:U('Home/Pay/lease')}}?has">
 								<i class="iconfont icon-device fleft" style='color:#FF9800;'></i>
 								<span class='fleft'> 购买水机</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -176,6 +176,10 @@
 				
 			},
 			methods: {
+				buy: function(e){
+					var href = e.currentTarget.getAttribute('alink');
+					location.href = href + "&code=" + "{{$_SESSION['homeuser']['to_code']}}";
+				},
 				showInfo: function(e){
 					var arrowindex = e.target.getAttribute('index');
 					// console.log(e);

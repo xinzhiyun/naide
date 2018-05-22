@@ -1,161 +1,112 @@
 var service_log_vue = new Vue({
 	el:"#service_log_vue",
 	data:{
+		info:{},
 		// 安装
-		install:[
-			{
-				order_number:"2018040225601",//工单号
-				status:"进行中",//状态
-				binding_time:"2018-03-31",//绑定的时间
-				install_personnel:"嗯呢",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"安装",//安装类型
-				service_content:"安装到什么，安装到哪里",//安装内容
-				service_date:"2018-03-31",//安装时间
-
-			}
-		],
+		install:[],
 		// 维修
-		repair:[
-			{
-				order_number:"2018040225602",
-				status:"已完成",
-				binding_time:"2018-03-31",
-				install_personnel:"嗯呢",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"维修",//安装类型
-				service_content:"灯不亮",//安装内容
-				service_date:"2018-03-31",//安装时间
-			},
-			{
-				order_number:"201804022503",
-				status:"进行中",
-				binding_time:"2018-03-31",
-				install_personnel:"嗯呢",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"维修",//安装类型
-				service_content:"开关不亮",//安装内容
-				service_date:"2018-03-31",//安装时间
-			},
-		],
+		repair:[],
 		// 维护
-		maintenance:[
-			{
-				order_number:"2018040225604",
-				status:"已完成",
-				binding_time:"2018-03-31",
-				install_personnel:"哈哈",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"维护",//安装类型
-				service_content:"换芯-1级",//安装内容
-				service_date:"2018-03-31",//安装时间
-			},
-			{
-				order_number:"2018040225605",
-				status:"进行中",
-				binding_time:"2018-03-31",
-				install_personnel:"咔咔",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"维护",//安装类型
-				service_content:"换芯-2级",//安装内容
-				service_date:"2018-03-31",//安装时间
-			},
-			{
-				order_number:"2018040225606",
-				status:"已完成",
-				binding_time:"2018-03-31",
-				install_personnel:"卡吗",//安装人员
-				phone_number:"13526342511",//手机号码
-				service_type:"维护",//安装类型
-				service_content:"换芯-3级",//安装内容
-				service_date:"2018-03-31",//安装时间
-			},
-		],
+		maintenance:[],
 		// 服务详情页面
 		service_details_info:{},
 		code:"",
-		num: [1, 2, 3],//安装，维修，维护信息数量
+		num: [],//安装，维修，维护信息数量
+		getAjax:"",
+
 	},
 	methods:{
 		// 跳转页面改变url（公共）
-		url:function(num,number){
+		url:function(status,number){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
 			var href2 = url.split("&")[1];
 			// 判断第一次点击有没有刷新，
 			if(href2 == undefined){
-				location.href = location.href + "?index="+ num + "&" + number;
+				location.href = location.href + "?index="+ status + "&no=" + number;
 			}else{
-				history.replaceState({}, null, href +"?index="+ num + "&" + number);
+				history.replaceState({}, null, href +"?index="+ status + "&no=" + number);
 			}
 		},
 		// 服务详情页面，点击将选中的“整条信息”以实参的方式传入，赋值给“service_details_bg”服务详情页面
-		service_details_page:function(info,number){
-			service_log_vue.url("1",number);
-			var that = this;
-			$(".install_user").hide();
-			$("#service_details_bg").show();
-			that.service_details_info =  info;
-			// 将获取数据存入localStorage，避免页面刷新后数据为空
-			var info_all = JSON.stringify(info);
-			if(!window.localStorage){
-				alert("浏览器支持localStorage！");
-			}else{
-				var storage = window.localStorage;
-				for(var i = 0;i<localStorage.length;i++){
-					// 库中所有的键
-			        var storage_value_all = localStorage.key(i);
-			        var number_all = storage_value_all.split("_")[2];
-			        if(number_all == number){
-			        	that.service_details_info = JSON.parse(storage.getItem(localStorage.key(i)));
-			        }
-				}
-				storage.setItem("order_number_"+number,info_all);
-			}
+		sevice_details:function(status,number){
+			service_log_vue.url(status,number);
 		},
-		showModule:function(event){
-			var el = event.currentTarget || event.srcElement;
-			var $el = $(el);
-			var attr_name = $el.attr("class");
-			switch(attr_name){
-				case "all_page":
-					$(".install_ul").show().siblings().show();
-					$(".install_user").show();
-					$("#service_details_bg").hide();
-					break;
-				case "install":
-					$(".install_ul").show().siblings().hide();
-					$(".install_user").show();
-					$("#service_details_bg").hide();
-					break;
-				case "repair":
-					$(".repair_ul").show().siblings().hide();
-					$(".install_user").show();
-					$("#service_details_bg").hide();
-					break;
-				case "maintenance":
-					$(".maintenance_ul").show().siblings().hide();
-					$(".install_user").show();
-					$("#service_details_bg").hide();
-					break;
-			}
-		},
+		// showModule:function(event){
+		//  @click='showModule($event)'
+		// 	var el = event.currentTarget || event.srcElement;
+		// 	var $el = $(el);
+		// 	var attr_name = $el.attr("class");
+		// 	console.log(attr_name)
+		// 	switch(attr_name){
+		// 		case "all_page":
+		// 			$(".install_ul").show().siblings().show();
+		// 			$(".install_user").show();
+		// 			$("#service_details_bg").hide();
+		// 			break;
+		// 		case "install":
+		// 			$(".install_ul").show().siblings().hide();
+		// 			$(".install_user").show();
+		// 			$("#service_details_bg").hide();
+		// 			break;
+		// 		case "repair":
+		// 			$(".repair_ul").show().siblings().hide();
+		// 			$(".install_user").show();
+		// 			$("#service_details_bg").hide();
+		// 			break;
+		// 		case "maintenance":
+		// 			$(".maintenance_ul").show().siblings().hide();
+		// 			$(".install_user").show();
+		// 			$("#service_details_bg").hide();
+		// 			break;
+		// 	}
+		// },sevice_details
 	},
 	// 状态(字体样式)
 	created:function(){
+		var _this = this;
 		$(function(){
 			var a = $(".status").html();
 			var li_span = $(".install_user_content>ul>li .status");
 			for(var i = 0;i<li_span.length;i++){
 				if(li_span[i].innerHTML == "进行中"){
 					li_span[i].setAttribute("style","color:#f00");
-				}else{
+				}else if(li_span[i].innerHTML == "已完成"){
 					li_span[i].setAttribute("style","color:#4AD7BB");
+				}else if(li_span[i].innerHTML == "未处理"){
+					li_span[i].setAttribute("style","color:#000");
 				}
 			}
 		});
-	}
+		var url = window.document.location.href.toString();
+		var href = url.split("=")[1];
+		if(href){
+			var index = url.split("=")[1].split("&")[0];
+			var no = url.split("=")[2];
+			// var url = HTTP
+			var url = getURL("Coms","users/sevice_details.html?index="+index+"&no="+no);
+			console.log(url)
+			$.ajax({
+				url:url,
+				type:"get",
+				// data:data,
+				success:function(res){
+					if(res.code == 200){
+						console.log("成功",res)
+							_this.service_details_info=res.data;
+							$(".install_user").hide();
+							$("#service_details_bg").show();
+					}else{
+						// callback({res:"",text:"系统出错，请稍候再试！",msg:1});
+					}
+				},
+				error:function(res){
+					// callback({res:"",text:"系统出错，请稍候再试！",msg:1});
+				}
+			})
 
+		}
+	}
 });
 // $(".install_user").hide();
-// $("#service_details_bg").hide();
+// $("#service_details_bg").show();	      

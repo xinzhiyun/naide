@@ -90,8 +90,7 @@
 			<p id="replace_pay">订单编号：{{order_pay_info.order_id}}</p>
 			<p class="border_line">
 				<!-- 订单编号 -->
-				<span>订单时间：{{order_pay_info.created_at
-				}}</span>
+				<span>订单时间：{{order_pay_info.created_at}}</span>
 				<!-- 待付款 status=0 -->
 				<span v-if="order_pay_info.status == 0 && order_pay_info.type == 1">等待买家付款</span>
 				<!-- 待发货 status=1 -->
@@ -115,7 +114,7 @@
 					<div class="product_div1">{{order_pay_info.goods_detail}}</div>
 					<p>
 						<!-- 产品单价 -->
-						<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{order_pay_info.goods_price}}</span>
+						<span><i class="iconfont icon-rmb" style="fontSize:0.29866667rem;"></i>{{order_pay_info.goods_price/100}}</span>
 						<!-- 产品个数 -->
 						<span style="color:#f00;">X{{order_pay_info.goods_num}}</span>
 					</p>
@@ -144,8 +143,8 @@
 
 			<!-- 代付款时 status=0 -->
 			<div class="product_btn" v-if="order_pay_info.status == 0 && order_pay_info.type == 1">
-				<p class="cancel" @click="cancel_show(index_all)" style="lineHeight:0.9rem;">取消订单</p>
-				<p class="pay" @click="pay_show(index_all)" :num="index_all">支付订单</p>
+				<p class="cancel" @click="cancel_show(index_all)" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id'>取消订单</p>
+				<p class="pay" @click="pay_show($event,index_all)" :num="index_all" :orderid='order_pay_info.order_id' :money='order_pay_info.money'>支付订单</p>
 			</div>
 
 			<!-- 代发货时 status=1 -->
@@ -161,7 +160,7 @@
 						<i class="iconfont icon-chacha pay_hide" id="pay_i_chacha"></i>
 					</div>
 					<div class="pay_2">
-						<i class="iconfont icon-rmb" style="fontSize:1.25rem;"></i><span class="pay_totalPrice">{{confirm_pay}}</span>
+						<i class="iconfont icon-rmb" style="fontSize:1.25rem;"></i><span class="pay_totalPrice">{{end_price}}</span>
 					</div>
 					<div class="pay_3">支付方式</div>
 					<div class="pay_4" @click="weixin()">
@@ -258,11 +257,66 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src="__PUBLIC__/Home/js/pay/order.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
-	<script defer>
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
+	<script>
 		var vConsole = new VConsole();
+
+		//微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
+		// 微信支付方法
+		function weixinPay(res, callback){
+			var type = Object.prototype.toString.call(res);
+			if(type === '[object Object]'){
+				res = JSON.stringify(res);
+			} 
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				JSON.parse(res),
+				function(res){
+					console.log('payres: ', res);
+					if (res.err_msg.substr(-2) == 'ok') {
+		                // 付款成功
+						callback({status: 'ok'});
+						
+		            } else if (res.err_msg.substr(-6) == 'cancel') {
+		                // 取消付款
+						callback({status: 'cancel'});
+
+		            }else{
+		                // 付款失败
+						callback({status: 'fail'});
+		            }
+		        }
+		    );
+		};
+
+		// 请求订单信息，用于微信支付
+		function getOrderInfo(orderid, callback){
+			$.ajax({
+				url: '{{:U("Home/Pay/wxres")}}',
+				type: 'post',
+				data: {order_id: orderid},
+				success: function(res){
+					console.log('res: ',res);
+				},
+				error: function(err){
+					console.log('err: ',err);
+				}
+			})
+		}
 	</script>
+	<script src="__PUBLIC__/Home/js/pay/order.js"></script>
 </body>
 </html>
