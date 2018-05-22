@@ -18,9 +18,6 @@ class HomebaseController extends AppframeController
             redirect(U('/Home/Login/index'));exit;
         }
 
-        if(empty($_SESSION['open_id'])){
-            $_SESSION['open_id'] = WeiXin::GetOpenid();
-        }
 
         if(empty($homeuser['code'])){
             $re['code'] = R('Pay/create_guid');
@@ -49,6 +46,7 @@ class HomebaseController extends AppframeController
                     $devices_model->where('id='.$did)->save(['default'=>1]);
                 }
             }
+
             session('homeuser.did',$did);
         }
     }
