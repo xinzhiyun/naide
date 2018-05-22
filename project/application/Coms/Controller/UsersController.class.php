@@ -157,7 +157,7 @@ class UsersController extends ComsbaseController {
     //安装人员列表
     public function install_man_list() {
         $map['v_id'] = session('comsuser.id');
-        $personnel_list =M('personnel')->field('name,phone,create_time')->where($map)->select();
+        $personnel_list =M('personnel')->field('id,name,phone,create_time')->where($map)->select();
         if ($personnel_list) {
             $this->assign('data', json_encode($personnel_list));
         }
