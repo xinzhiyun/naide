@@ -68,7 +68,7 @@
     var vConsole = new VConsole();
     // 微信配置
 	wx.config({
-	    debug: true,
+	    debug: false,
 	    appId: '{{$wxinfo["appId"]}}',
 	    timestamp: '{{$wxinfo["timestamp"]}}',
 	    nonceStr: '{{$wxinfo["nonceStr"]}}',
@@ -206,8 +206,8 @@
 						_this.mealSet = res.list;
 						// 请求数据后调用获取对象函数
 						getObj();
-					}else if(res.status == 201) {
-						
+					}else{
+						noticeFn({text: res.msg});
 					}
 				});
 				// 获取对象
@@ -257,6 +257,7 @@
 								// 恢复提交
 								_this.succFlag = true;
 								console.log("失败", res);
+								noticeFn({text: '系统遇到问题，请稍后再试'});
 							}
 						})
 					}

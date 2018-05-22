@@ -29,50 +29,60 @@
 			</form>
 		</div>
 	</div>
-</body>
-<script src="__PUBLIC__/Home/js/public.js"></script>
-<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
-<script>
-	window.onload = function() {
-		document.getElementsByTagName("body")[0].style.height = document.documentElement.clientHeight + 'px';
-	}
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<script>
+		var vconsole = new VConsole();
+		window.onload = function() {
+			document.getElementsByTagName("body")[0].style.height = document.documentElement.clientHeight + 'px';
+		}
 
-	// 验证
-	$(".loginBtn").on("click", function() {
-		var username = $("input[name='username']").val();
-		var userpass = $("input[name='userpass']").val();
-		// 姓名判断
-		if(username) {
-			if(!phoneCheck(username)) {
-				noticeFn({text: "手机号码格式有误!"});
+		// 验证
+		$(".loginBtn").on("click", function() {
+			var username = $("input[name='username']").val();
+			var userpass = $("input[name='userpass']").val();
+			// 姓名判断
+			if(username) {
+				if(!phoneCheck(username)) {
+					noticeFn({text: "手机号码格式有误!"});
+					return false;
+				}
+			}else {
+				noticeFn({text: "用户名不能为空!"});
 				return false;
 			}
-		}else {
-			noticeFn({text: "用户名不能为空!"});
-			return false;
-		}
-		// 密码判断
-		if(!userpass) {
-			noticeFn({text: "密码不能为空!"});
-			return false;
-		}
-		// ajax提交后台
-		$.ajax({
-			url: "{{:U('/home/login/login')}}",
-			type: "post",
-			data: {user:username,password:userpass},
-			success: function(res) {
-                console.log("登录", res);
-                if(res.status == 200) {
-                    location.href = '{{:U("/Home/Index/index")}}';
-				}else{
-                    noticeFn({text: res.msg});
-                }
-			},
-			error: function(res) {
-				console.log("失败", res);
+			// 密码判断
+			if(!userpass) {
+				noticeFn({text: "密码不能为空!"});
+				return false;
 			}
+			// ajax提交后台
+			$.ajax({
+				url: "{{:U('/home/login/login')}}",
+				type: "post",
+				data: {user:username,password:userpass},
+				success: function(res) {
+	                console.log("登录", res);
+	                if(res.status == 200) {
+	                	if(location.href.indexOf('?buy') > -1){
+	                		noticeFn({text: '登录成功'});
+							setTimeout(function(){
+								// 调到首租付款页面
+								location.href = '{{:U("Home/Pay/firstHire")}}';
+							},500);
+	                		return
+	                	}
+	                    location.href = '{{:U("/Home/Index/index")}}';
+					}else{
+	                    noticeFn({text: res.msg});
+	                }
+				},
+				error: function(res) {
+					console.log("失败", res);
+				}
+			})
 		})
-	})
-</script>
+	</script>
+</body>
 </html>
