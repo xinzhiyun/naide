@@ -159,10 +159,10 @@ class UsersController extends ComsbaseController {
         $map['v_id'] = session('comsuser.id');
         $personnel_list =M('personnel')->field('name,phone,create_time')->where($map)->select();
         if ($personnel_list) {
-            $this->ajaxReturn(['code'=>200,'data'=>$personnel_list]);
-        } else {
-            $this->ajaxReturn(['code'=>400]);
+            $this->assign('data', json_encode($personnel_list));
+
         }
+        $this->display();
     }
     //添加安装人员
     public function install_man_add() {

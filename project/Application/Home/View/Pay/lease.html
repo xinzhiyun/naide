@@ -9,54 +9,54 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/pay/css/lease.css">
 </head>
-<body> 
-	<div class="main" v-cloak>
-		<!-- <ul id='share'> 
-			<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
-			<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
-			<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
-			<a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a>
-		</ul> -->
-		<!-- 主题内容 -->
-		<div class="mainContent">
-			<div class="aboutMeal">
-				<ul id='share'> 
-					<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
-					<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
-					<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
-					<!-- <a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a> -->
-				</ul>
-			</div>
-			<!-- 选择套餐 -->
-			<ul class="selectMeal">
-				<li class="mealTitle">
-					<span class="iconfont icon-taocan"></span>
-					<p>选择套餐</p>
-				</li>
-				<li class="mealDetail">
-					<!-- 遍历套餐 -->
-					<ol class="am-avg-sm-2 am-thumbnails">
-						<li v-for="(mealSets, index) in mealSet">
-							<p class="am-thumbnail selectMel" @click="chooseMeal" :mealId="mealSets.id">{{mealSets.describe}}</p>
-						</li>
-					</ol>
-				</li>
-				<li><p class="confirmSelect" @click='confirmSelects'>确定选择</p></li>
+<body>
+<div class="main" v-cloak>
+	<!-- <ul id='share'>
+        <li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
+        <li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
+        <li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
+        <a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a>
+    </ul> -->
+	<!-- 主题内容 -->
+	<div class="mainContent">
+		<div class="aboutMeal">
+			<ul id='share'>
+				<li><img src="__PUBLIC__/Home/images/share1.jpg" alt=""></li>
+				<li><img src="__PUBLIC__/Home/images/share2.jpg" alt=""></li>
+				<li><img src="__PUBLIC__/Home/images/share3.jpg" alt=""></li>
+				<!-- <a class='sharebuy' href='{{:U("Home/Users/buyinfo")}}'>立即<br/>购买</a> -->
 			</ul>
 		</div>
-		
-		<!-- 租赁协议 -->
-		<div class="monikuan" style="display: none;">
-			<div class="buyProtocal">
-				<h1>购买协议</h1>
-				<div class="protocalContent"> 购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致</div>
-				<div class="behavior">
-					<p class="refuse" @click="refuse">拒绝</p>
-					<p class="accept" @click="accepts">同意</p>
-				</div>
+		<!-- 选择套餐 -->
+		<ul class="selectMeal">
+			<li class="mealTitle">
+				<span class="iconfont icon-taocan"></span>
+				<p>选择套餐</p>
+			</li>
+			<li class="mealDetail">
+				<!-- 遍历套餐 -->
+				<ol class="am-avg-sm-2 am-thumbnails">
+					<li v-for="(mealSets, index) in mealSet">
+						<p class="am-thumbnail selectMel" @click="chooseMeal" :mealId="mealSets.id">{{mealSets.describe}}</p>
+					</li>
+				</ol>
+			</li>
+			<li><p class="confirmSelect" @click='confirmSelects'>确定选择</p></li>
+		</ul>
+	</div>
+
+	<!-- 租赁协议 -->
+	<div class="monikuan" style="display: none;">
+		<div class="buyProtocal">
+			<h1>购买协议</h1>
+			<div class="protocalContent"> 购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致</div>
+			<div class="behavior">
+				<p class="refuse" @click="refuse">拒绝</p>
+				<p class="accept" @click="accepts">同意</p>
 			</div>
 		</div>
-	</div>	
+	</div>
+</div>
 </body>
 <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 <script src="__PUBLIC__/Home/js/public.js"></script>
@@ -66,220 +66,229 @@
 <script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 <script>
     var vConsole = new VConsole();
+    if(location.search.indexOf("?has") > -1){
+        $('#navbar').show();
+        $('body').css({paddingTop: '12vmin'});
+    }
     // 微信配置
-	wx.config({
-	    debug: true,
-	    appId: '{{$wxinfo["appId"]}}',
-	    timestamp: '{{$wxinfo["timestamp"]}}',
-	    nonceStr: '{{$wxinfo["nonceStr"]}}',
-	    signature: '{{$wxinfo["signature"]}}',
-	    jsApiList: [
-			// 所有要调用的 API 都要加到这个列表中
-			'onMenuShareTimeline',
-			'onMenuShareAppMessage',
-			'onMenuShareQQ',
-			'onMenuShareWeibo',
-			'onMenuShareQZone'
-	    ]
-	});
-	console.log('code: ',getQuery().code);
-	var option = {
-		title: '购买水机',
-		link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + getQuery().code,
-		desc: '购买使用耐的净水机',
-		img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
-		shareTimeline: function(){
-			//分享到朋友圈
-			wx.onMenuShareTimeline({
-			    title: option.title, // 分享标题
-			    link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-			    imgUrl: option.img, // 分享图标
-			    success: function () {
-			    // 用户确认分享后执行的回调函数
-				}
-			})
-		},
-		shareAppMessage: function(callback){
-			//分享给朋友
-			wx.onMenuShareAppMessage({
-				title: option.title, // 分享标题
-				desc: option.desc, // 分享描述
-				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-				imgUrl: option.img, // 分享图标
-				type: '', // 分享类型,music、video或link，不填默认为link
-				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-				success: function (res) {
-				// 用户确认分享后执行的回调函数
-				},
-				cancel: function () {
-				// 用户取消分享后执行的回调函数
-				}
-			});
-		},
-		shareQQ: function(){
-			// 获取“分享到QQ”按钮点击状态及自定义分享内容接口
-			wx.onMenuShareQQ({
-				title: option.title, // 分享标题
-				desc: option.desc, // 分享描述
-				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-				imgUrl: option.img, // 分享图标
-				success: function () {
-				// 用户确认分享后执行的回调函数
-				},
-				cancel: function () {
-				// 用户取消分享后执行的回调函数
-				}
-			});
-		},
-		shareWeibo: function(){
-			// 获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
-			wx.onMenuShareWeibo({
-				title: option.title, // 分享标题
-				desc: option.desc, // 分享描述
-				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-				imgUrl: option.img, // 分享图标
-				success: function () {
-				// 用户确认分享后执行的回调函数
-				},
-				cancel: function () {
-				// 用户取消分享后执行的回调函数
-				}
-			});
-		},
-		shareQZone: function(){
-			// 获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
-			wx.onMenuShareQZone({
-				title: option.title, // 分享标题
-				desc: option.desc, // 分享描述
-				link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-				imgUrl: option.img, // 分享图标
-				success: function () {
-				// 用户确认分享后执行的回调函数
-				},
-				cancel: function () {
-				// 用户取消分享后执行的回调函数
-				}
-			});
-		}
+    wx.config({
+        debug: false,
+        appId: '{{$wxinfo["appId"]}}',
+        timestamp: '{{$wxinfo["timestamp"]}}',
+        nonceStr: '{{$wxinfo["nonceStr"]}}',
+        signature: '{{$wxinfo["signature"]}}',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone'
+        ]
+    });
+    console.log('code: ',getQuery().code);
+    var option = {
+        title: '购买水机',
+        link: 'http://ddjz.ddjz88.com/home/pay/lease?code=' + getQuery().code,
+        desc: '购买使用耐的净水机',
+        img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
+        shareTimeline: function(){
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: option.title, // 分享标题
+                link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: option.img, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                }
+            })
+        },
+        shareAppMessage: function(callback){
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: option.title, // 分享标题
+                desc: option.desc, // 分享描述
+                link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: option.img, // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function (res) {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+        shareQQ: function(){
+            // 获取“分享到QQ”按钮点击状态及自定义分享内容接口
+            wx.onMenuShareQQ({
+                title: option.title, // 分享标题
+                desc: option.desc, // 分享描述
+                link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: option.img, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+        shareWeibo: function(){
+            // 获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+            wx.onMenuShareWeibo({
+                title: option.title, // 分享标题
+                desc: option.desc, // 分享描述
+                link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: option.img, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+        shareQZone: function(){
+            // 获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
+            wx.onMenuShareQZone({
+                title: option.title, // 分享标题
+                desc: option.desc, // 分享描述
+                link: option.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: option.img, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        }
 
-	}
+    }
 
-	wx.ready(function(){
-		//分享到朋友圈
-		option.shareTimeline();
+    wx.ready(function(){
+        //分享到朋友圈
+        option.shareTimeline();
 
-		//分享给朋友
-		option.shareAppMessage();
+        //分享给朋友
+        option.shareAppMessage();
 
-		// “分享到QQ”
-		option.shareQQ();
-		
-		// “分享到腾讯微博”
-		option.shareWeibo();
-		
-		// “分享到QQ空间”
-		option.shareQZone();
+        // “分享到QQ”
+        option.shareQQ();
 
-	});
+        // “分享到腾讯微博”
+        option.shareWeibo();
+
+        // “分享到QQ空间”
+        option.shareQZone();
+
+    });
 </script>
 <script>
     // var vConsole = new VConsole();
-	var code = "{{$_GET['code']}}";
+    var code = "{{$_GET['code']}}";
 
-	window.onload = function() {
-		// 窗口高度
-		var clientHeight = document.documentElement.clientHeight + 'px';
-		// body高度为窗口高度
-		document.getElementsByTagName("body")[0].style.height = clientHeight;
-		var vm = new Vue({
-			el: '.main',
-			data: {
-				meal:'',
-				mealSet: '', //套餐列表
-				succFlag: true //防止多次点击同意提交
-			},
-			mounted(){
-				var _this = this;
-				// 请求套餐列表
-				$.get("{{:U('Home/pay/Waterlist')}}", function(res) {
-					if(res.status == 200) {
-						_this.mealSet = res.list;
-						// 请求数据后调用获取对象函数
-						getObj();
-					}else if(res.status == 201) {
-						
-					}
-				});
-				// 获取对象
-				function getObj(){
-					setTimeout(function(){
-						var mealContent = document.querySelectorAll(".selectMel");
-						// 默认选中第一个套餐
-						$(mealContent).eq(0).attr('class','mealselect');
-					},0);
-				}
-				
-			},
-			methods: {
-				// 点击同意时模拟框消失并且跳入下一步
-				accepts: function() {
-					var _this = this;
-					// 套餐id
-					var meal_id = $('.mealselect').attr("mealId");
-					if(_this.succFlag) {
-						_this.succFlag = false;
-						// 提交数据并跳转
-						$.ajax({
-							url: "{{:U('Home/Pay/setMeal')}}",
-							type: "post",
-							data: {setMealId: meal_id,code:code},
-							success: function(res) { 
-								// 恢复提交
-								_this.succFlag = true;
-								console.log("成功",res);
-								if(res.status == 200) {
-									console.log(location.search)
-									// 判断路径是否有has
-									if(location.search.indexOf("?has") != -1) {
-										location.href = '{{:U("Home/Pay/buyinfo")}}' + '?has&code=' + getQuery().code;
-										
-									}else {
-										// 成功跳转下一个页面
-										location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
-									}
-									
-								}else{
-									noticeFn({text: res.msg});
-								}
-								
-							},
-							error: function(res) {
-								// 恢复提交
-								_this.succFlag = true;
-								console.log("失败", res);
-							}
-						})
-					}
-					
-				},
-				// 确认选择 提交内容
-				confirmSelects: function() {
-					$(".monikuan").css("display", "flex");
-				},
-				// 点击拒绝协议时弹出协议消失，并停留本页面
-				refuse: function() {
-					$(".monikuan").css("display", "none");
-				},
-				// 选择套餐
-				chooseMeal: function(ev) {
-					var target = ev.target || ev.srcElement;
-					$(target).attr('class','mealselect');
-					$(target).parent().siblings().children().attr("class", "");
-				}
-			},
-			computed: {}
-			
-		});
-	}
+    window.onload = function() {
+        // 窗口高度
+        var clientHeight = document.documentElement.clientHeight + 'px';
+        // body高度为窗口高度
+        document.getElementsByTagName("body")[0].style.height = clientHeight;
+        var vm = new Vue({
+            el: '.main',
+            data: {
+                meal:'',
+                mealSet: '', //套餐列表
+                succFlag: true //防止多次点击同意提交
+            },
+            mounted(){
+                var _this = this;
+                // 请求套餐列表
+                $.get("{{:U('Home/pay/Waterlist')}}", function(res) {
+                    console.log('Waterlist_res: ',res);
+                    if(res.status == 200) {
+                        _this.mealSet = res.list;
+                        // 请求数据后调用获取对象函数
+                        getObj();
+                    }else{
+                        noticeFn({text: res.msg});
+                    }
+                });
+                // 获取对象
+                function getObj(){
+                    setTimeout(function(){
+                        var mealContent = document.querySelectorAll(".selectMel");
+                        // 默认选中第一个套餐
+                        $(mealContent).eq(0).attr('class','mealselect');
+                    },0);
+                }
+
+            },
+            methods: {
+                // 点击同意时模拟框消失并且跳入下一步
+                accepts: function() {
+                    var _this = this;
+                    // 套餐id
+                    var meal_id = $('.mealselect').attr("mealId");
+                    if(_this.succFlag) {
+                        _this.succFlag = false;
+                        // 提交数据并跳转
+                        $.ajax({
+                            url: "{{:U('Home/Pay/setMeal')}}",
+                            type: "post",
+                            data: {setMealId: meal_id,code:code},
+                            success: function(res) {
+                                // 恢复提交
+                                _this.succFlag = true;
+                                console.log("成功",res);
+                                if(res.status == 200) {
+                                    console.log(location.search)
+                                    // 判断路径是否有has
+                                    if(location.search.indexOf("?has") != -1) {
+                                        location.href = '{{:U("Home/Pay/buyinfo")}}' + '?has&code=' + getQuery().code;
+
+                                    }else {
+                                        // 成功跳转下一个页面
+                                        location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
+                                    }
+
+                                }else if(res.msg == '无效邀请码'){
+                                    // 成功跳转下一个页面
+                                    location.href = '{{:U("Home/Pay/buyinfo")}}' + '?code=' + getQuery().code;
+                                }else{
+                                    noticeFn({text: res.msg});
+                                }
+
+                            },
+                            error: function(res) {
+                                // 恢复提交
+                                _this.succFlag = true;
+                                console.log("失败", res);
+                                noticeFn({text: '系统遇到问题，请稍后再试'});
+                            }
+                        })
+                    }
+
+                },
+                // 确认选择 提交内容
+                confirmSelects: function() {
+                    $(".monikuan").css("display", "flex");
+                },
+                // 点击拒绝协议时弹出协议消失，并停留本页面
+                refuse: function() {
+                    $(".monikuan").css("display", "none");
+                },
+                // 选择套餐
+                chooseMeal: function(ev) {
+                    var target = ev.target || ev.srcElement;
+                    $(target).attr('class','mealselect');
+                    $(target).parent().siblings().children().attr("class", "");
+                }
+            },
+            computed: {}
+
+        });
+    }
 </script>
 </html>
