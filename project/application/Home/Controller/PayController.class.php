@@ -122,6 +122,9 @@ class PayController extends AppframeController {
      */
     public function lease()
     {
+        $signPackage = WeiXin::getSignPackage();
+
+
         if (isset($_GET['has'])) {
             session('waterOrder.has',1);
         }
@@ -129,6 +132,7 @@ class PayController extends AppframeController {
         $agreement ="购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致购销合同是买卖合同的变化形式，它同买卖合同的要求基本上是一致的。主要是指供方（卖方）同需方（买方）根据协商一致";
 
         $this->assign('agreement',$agreement);
+        $this->assign('wxinfo',$signPackage);
         $this->display();
     }
 
@@ -218,6 +222,8 @@ class PayController extends AppframeController {
      */
     public function buy()
     {
+
+
         $info['uid'] = session('homeuser.id');
         $info['did'] = session('homeuser.did');
         $info['vid'] = Device::get_devices_sn($info['did'],'vid');
