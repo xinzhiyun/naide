@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Common\Tool\Device;
 use Think\Controller;
 use Org\Util\Date;
 use Org\Util\Strings;
@@ -62,9 +63,7 @@ class WorkController extends CommonController
         });
 
         if(!empty(session('adminuser.is_admin'))){
-//            $map['d.vid'] = $_SESSION['adminuser']['id'];
             $map['w.vid'] = $_SESSION['adminuser']['id'];
-
         }
 
         $type = D('work');
@@ -207,8 +206,8 @@ class WorkController extends CommonController
     public function add()
     {
         if (IS_POST) {
-//            I('repair_id') ? $data['repair_id'] = I('repair_id'):'';
-            $data['device_code'] = I('dcode');
+            $device_code = I('dcode');
+            $device_code ? $data['did']=Device::get_devices_info($device_code,'id'):'';
             I('personnel_id') ? $data['pid'] = I('personnel_id'):'';
             $data['type'] = I('type');
             $data['content'] = I('content');
@@ -229,14 +228,14 @@ class WorkController extends CommonController
             $data['no'] = get_work_no();
             $info = $device_type->create();
             if($info){
-                if($data['type'] == 1){
-                    $status = ['status'=>2];
-                    M('repair')->where('id='.$data['repair_id'])->save($status);
-                } else {
-                    if(empty($data['address']) || empty($data['city']) || empty($data['province']) || empty($data['district'])){
-                        $this->error('工单地址不能为空！');
-                    }
-                }
+//                if($data['type'] == 1){
+//                    $status = ['status'=>2];
+//                    M('repair')->where('id='.$data['repair_id'])->save($status);
+//                } else {
+//                    if(empty($data['address']) || empty($data['city']) || empty($data['province']) || empty($data['district'])){
+//                        $this->error('工单地址不能为空！');
+//                    }
+//                }
 //                if($data['type'] == 0){
 //                    if($device_type->where(['device_code'=>$data['device_code']])->find()){
 //                        $this->error('设备已经安装过了！');

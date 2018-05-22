@@ -14,9 +14,12 @@ class HomebaseController extends AppframeController
 
         $homeuser = session('homeuser');
 
-
         if (empty($homeuser)) {
             redirect(U('/Home/Login/index'));exit;
+        }
+
+        if(empty($_SESSION['open_id'])){
+            $_SESSION['open_id'] = WeiXin::GetOpenid();
         }
 
         if(empty($homeuser['code'])){
