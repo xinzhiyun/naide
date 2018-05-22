@@ -71,6 +71,9 @@ class UsersController extends HomebaseController {
 
                 if($res)$uid = $res;
             } else {
+                unset($reg['user']);
+                unset($reg['name']);
+                unset($reg['password']);
                 $reg['updated_at']=time();
                 $res = $m->where('id='.$info['id'])->save($reg);
                 $uid = $info['id'];
