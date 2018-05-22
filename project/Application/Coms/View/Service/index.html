@@ -27,11 +27,11 @@
 	<div class="service_log_bg" id="service_log_vue" v-cloak>
 		<div class="service_log_content_top_bg">
 			<div class="service_log_content_top">
-				<div class="all_page" @click='showModule($event)'>服务记录</div>
+				<div class="all_page">服务记录</div>
 				<div>
-					<p class="install" @click='showModule($event)'><span>累计：</span>安装{{num[0]}}</p>
-					<p class="repair" @click='showModule($event)'>报修{{num[1]}}</p>
-					<p class="maintenance" @click='showModule($event)'>维护{{num[2]}}</p>
+					<p class="install"><span>累计：</span>安装{{num[0]}}</p>
+					<p class="repair"ck='showModule($event)'>报修{{num[1]}}</p>
+					<p class="maintenance">维护{{num[2]}}</p>
 				</div>
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 			<!-- 服务记录 -->
 			<div class="install_user_content">
 				<ul class="install_ul">
-					<li v-for="(each_info,index) in info" @click="service_details_page(each_info,each_info.no)">
+					<li v-for="(each_info,index) in info" @click="sevice_details(each_info.status,each_info.no)">
 						<span>{{each_info.no}}</span>
 						<span class="status" v-if="each_info.status == '0'">未处理</span>
 						<span class="status" v-if="each_info.status == '1'">进行中</span>
@@ -52,30 +52,6 @@
 						<span>{{each_info.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
-				<!-- 安装 -->
-				<!-- <ul class="install_ul">
-					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install,each_install.no)">
-						<span>{{each_install.no}}</span>
-						<span class="status">{{each_install.status}}</span>
-						<span>{{each_install.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
-					</li>
-				</ul> -->
-				<!-- 报修 -->
-				<!-- <ul class="repair_ul">
-					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair,each_repair.order_number)" @click="diao">
-						<span>{{each_repair.order_number}}</span>
-						<span class="status">{{each_repair.status}}</span>
-						<span>{{each_repair.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
-					</li>
-				</ul> -->
-				<!-- 维护 -->
-				<!-- <ul class="maintenance_ul" @click='showModule($event)'>
-					<li v-for="(each_maintenance,index_install) in maintenance" @click="service_details_page(each_maintenance,each_maintenance.order_number)" @click="diao">
-						<span>{{each_maintenance.order_number}}</span>
-						<span class="status">{{each_maintenance.status}}</span>
-						<span>{{each_maintenance.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
-					</li>
-				</ul> -->
 			</div>    
 		</div>
 	<!-- 服务详情页面部分开始 -->
