@@ -206,7 +206,7 @@
 				},
 				// 编辑
 				edit: function(){
-					location.href = "{{:U('Home/Users/infoedit')}}" + "?edit=1";
+					location.href = "{{:U('Home/Users/infoedit')}}" + "?edit=1&name=" + "{{$info['name']}}";
 				}
 			}
 		})
