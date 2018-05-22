@@ -23,15 +23,40 @@
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script>
+		var flag = false;
 		// 提交
 		$(".upbtn").click(function(){
 			var content = $('.content').val();
 			console.log('content: ',content);
-			$("#form>textarea").val()
-			? $(this)[0].type="submit"
-			: noticeFn({text: "别忘了留下您宝贵的意见！"})
+			if(!content){
+				noticeFn({text: "别忘了留下您宝贵的意见！"})
+				return
+			}
+			if(!flag){
+				flag = true;
+				$('#form').submit();
+				// 提交数据
+				// $.ajax({
+				// 	url: '{{:U("Home/Users/proposal")}}',
+				// 	type: 'post',
+				// 	data: {content: content},
+				// 	success: function(res){
+				// 		console.log('res: ',res);
+				// 		noticeFn({text: "提交成功，谢谢您的意见！"});
+				// 		setTimeout(function(){
+				// 			history.replaceState({}, null, '{{:U("Home/Index/index")}}');
+				// 			// 提交数据
+				// 			$('#form').submit();
+				// 		},500);
+				// 	},
+				// 	error: function(err){
+				// 		flag = false;
+				// 		console.log('err: ',err);
+				// 		noticeFn({text: "系统遇到问题，请稍后再试"});
+				// 	}
+				// })
+			}
 		})
-		
 	</script>
 
 </html>
