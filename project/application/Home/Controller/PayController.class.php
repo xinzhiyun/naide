@@ -408,6 +408,8 @@ class PayController extends AppframeController {
                 ->select();
             foreach ($list as $k=>$v) {
                 $list[$k]['money'] = $v['money']/100;
+                $list[$k]['created_at']=date('Y-m-d H:i:s',$list[$k]['created_at']);
+
             }
             $this->ajaxReturn(array(
                 'status'=>200,
