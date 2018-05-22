@@ -27,7 +27,7 @@ var detail = new Vue({
     			name: res.name,
 		    	phone: res.phone,
 		    	device_code: res.device_code,
-		    	addr: res.time,
+		    	addr: res.address,
     		}
     		// 安装师傅信息
     		detail.devicesList = {
