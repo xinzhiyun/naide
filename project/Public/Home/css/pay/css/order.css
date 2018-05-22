@@ -169,8 +169,8 @@
 }
 .product_btn p {
   width: 4.69333333rem;
-  height: 3.2rem;
-  line-height: 3.2rem;
+ /* height: 3.2rem;
+  line-height: 3.2rem;*/
   border: 0.02133333rem solid #0d94f3;
   text-align: center;
   margin-bottom: 0.53333333rem;
@@ -178,6 +178,11 @@
 .pay {
   text-align: center!important;
   padding-left: 1.06666667rem;
+}
+.pay,
+.cancel {
+  height: 1.38666667rem;
+  line-height: 1.38666667rem;
 }
 .chang_1 {
   height: 1.87733333rem;

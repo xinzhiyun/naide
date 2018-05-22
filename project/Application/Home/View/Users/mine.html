@@ -178,7 +178,7 @@
 			methods: {
 				buy: function(e){
 					var href = e.currentTarget.getAttribute('alink');
-					location.href = href + "&code=" + "{{$_SESSION['homeuser']['code']}}";
+					location.href = href + "&code=" + "{{$_SESSION['homeuser']['to_code']}}";
 				},
 				showInfo: function(e){
 					var arrowindex = e.target.getAttribute('index');

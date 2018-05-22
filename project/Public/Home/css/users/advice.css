@@ -7,8 +7,8 @@ ul, li, dl, dt, dd, form, h1, h2, h3, h4, p, input, form {
 body {
 	font-size: .7rem;
 	background: #fff;
+	transform: translate3d(0,0,0);
 }
-
 #advice-container {
 	width: 100vw;
 }
@@ -51,9 +51,9 @@ body {
     padding: 0 0.4rem 0.4rem 0.4rem;
     margin: 0;
 }
-#advice-container .btn {
+#advice-container .upbtn {
 	width: 96vw;
-	position: absolute;
+	position: fixed;
 	padding: 2vh 0;
 	bottom: 0;
 	left: 50%;
