@@ -26,8 +26,8 @@ var service = new Vue({
             service.userList = [];  // 清空
             res.forEach(function(item, index){
                 item.status = service.statusList[item.status];
-                item.no = item.no || '&emsp;';
-                item.addtime = getLocalTime(item.addtime) || '&emsp;';
+                item.no = item.no;
+                item.addtime = getLocalTime(item.addtime);
                 service.userList.push({
                     workid: item.no,
                     status: item.status,

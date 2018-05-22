@@ -29,7 +29,7 @@
                 </li>
                 <!-- 内容 -->
                 <li class="userLi" v-for='u in userList'>
-                    <a @touchend='servicedetail(u.workid)' class="clearfix">
+                    <a @click='servicedetail(u.workid)' class="clearfix">
                         <ol class="am-g">
                             <li class="am-u-sm-4"><span v-html='u.workid'>2018040225652</span></li>
                             <li class="am-u-sm-4"><span v-html='u.status'>进行中</span></li>
@@ -69,9 +69,9 @@
                                 status: '查无数据',
                                 addtime: '&emsp;'            
                             }];
+                            $('.nextIcon').hide();
                         }
                         $('.loadmore').hide();
-                        $('.nextIcon').hide();
                     }
                 },
                 error: function(err) {
