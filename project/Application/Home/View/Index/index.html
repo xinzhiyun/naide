@@ -313,11 +313,11 @@
 		    ]
 		});	
 		// 分享的用户码标识
-		home.to_code = "{{$_SESSION['homeuser']['to_code']}}";
-		console.log('home.to_code: ',"{{$_SESSION['homeuser']['to_code']}}");
+		home.to_code = "{{$_SESSION['homeuser']['code']}}";
+		console.log('home.to_code: ',"{{$_SESSION['homeuser']['code']}}");
 		var option = {
 			title: '购买水机',
-			link: 'http://ddjz.ddjz88.com/home/pay/lease?to_code=' + "{{$_SESSION['homeuser']['to_code']}}",
+			link: 'http://ddjz.ddjz88.com/home/pay/lease?to_code=' + "{{$_SESSION['homeuser']['code']}}",
 			desc: '购买使用耐的净水机',
 			img: 'http://ddjz.ddjz88.com/Public/Home/images/share1.jpg',  //图标需要绝对路径
 			shareTimeline: function(){

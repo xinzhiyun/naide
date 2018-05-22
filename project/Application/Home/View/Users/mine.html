@@ -105,7 +105,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' @click='buy' alink="{{:U('Home/Pay/lease')}}?has">
+							<a class='cfix' @touchend='buy' alink="{{:U('Home/Pay/lease')}}">
 								<i class="iconfont icon-device fleft" style='color:#FF9800;'></i>
 								<span class='fleft'> 购买水机</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -170,7 +170,6 @@
 				this.uname = "{{$info['name']}}";
 				this.umoney = "￥{{$info['money']}}";
 				this.device_code = "{{$info['device_code']}}";
-				this.uAddress = '水电费是多少大局观和高房价';
 				this.uPhone = "{{$info['phone']}}";
 				this.device_now = "{{$info['device_code']}}";
 				
@@ -178,7 +177,7 @@
 			methods: {
 				buy: function(e){
 					var href = e.currentTarget.getAttribute('alink');
-					location.href = href + "&code=" + "{{$_SESSION['homeuser']['to_code']}}";
+					location.href = href + "?has&to_code=" + "{{$_SESSION['homeuser']['code']}}";
 				},
 				showInfo: function(e){
 					var arrowindex = e.target.getAttribute('index');
