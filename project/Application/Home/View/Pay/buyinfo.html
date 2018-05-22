@@ -16,7 +16,7 @@
 </head>
 <body>
 	<form action='' id='form' method='POST' class='am-container'>
-		<input type="hidden" name='code'>
+		<input type="hidden" name='to_code'>
 		<div class='am-g am-text-middle'>
 			<label for="" class='am-u-sm-3 nowrap'>收&nbsp;&nbsp;货&nbsp;&nbsp;人</label>
 			<input type="text" class='am-u-sm-9 uname' name='uname' placeholder="请输入收货人">
@@ -113,7 +113,7 @@
 		
 		document.querySelector('.back2home').style.display = 'none';
 		// 邀请码
-		$('input[name="code"]').val(getQuery().code);
+		$('input[name="to_code"]').val(getQuery().to_code);
 		// 判断是否需要登录
 		// if(location.search.indexOf("?has") == -1){
 		// 	$('#confirmtrue').text('登录');

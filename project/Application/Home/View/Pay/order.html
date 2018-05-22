@@ -301,13 +301,19 @@
 		        }
 		    );
 		};
-
+		var jogData = {
+			openId: "{{$_SESSION['open_id']}}",
+			money: res.price,
+			order_id: res.order_id,
+			content: res.title,
+			notify_url: '{{:U("Home/Pay/order")}}'
+		}
 		// 请求订单信息，用于微信支付
 		function getOrderInfo(orderid, callback){
 			$.ajax({
 				url: '{{:U("Home/Pay/wxres")}}',
 				type: 'post',
-				data: {order_id: orderid},
+				data: jogData,
 				success: function(res){
 					console.log('res: ',res);
 				},
