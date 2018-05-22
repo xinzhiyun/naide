@@ -8,8 +8,8 @@ use \Org\Util\WeixinJssdk;
 class HomebaseController extends AppframeController
 {
 
-	function _initialize() {
-	    parent::_initialize();
+    function _initialize() {
+        parent::_initialize();
 //        session('homeuser',null);exit;
 
         $homeuser = session('homeuser');
@@ -48,5 +48,6 @@ class HomebaseController extends AppframeController
             }
             session('homeuser.did',$did);
         }
-	}
+    }
+
 }
