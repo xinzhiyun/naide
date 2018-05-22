@@ -198,6 +198,7 @@ class PayController extends AppframeController {
         //后期加设备类型 此处需要加限制
         $list = $setmeal_model->where('type=1')->select();
 
+
         if (empty($list)){
             $data=array(
                 'status'=>201,
