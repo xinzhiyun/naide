@@ -102,12 +102,28 @@
                 return false;
             }
             
-            // 地址验证
+            地址验证
             if(addrReg.test(useraddr)) {
                 noticeFn({text: "地址格式有误!"});
                 return false;
             }
-            
+            // var ur = getURL("Coms","install_man_add")
+            // $.ajax({
+            //     url:ur,
+            //     data:{
+            //         name:username,
+            //         phone:userphone,
+            //         password:userpass,
+            //         address:addrReg
+            //     },
+            //     type:"post",
+            //     success:function(res){
+            //         console.log("成功",res)
+            //     },
+            //     error:function(res){
+            //         console.log("失败",res);
+            //     }
+            // });
         })
     </script>
 </body>
