@@ -19,6 +19,9 @@
 			color: #fff;
 		}
 	</style>
+	<script>
+
+	</script>
 </head>
 <body>
 	<div class="service_log_bg" id="service_log_vue" v-cloak>
@@ -40,31 +43,40 @@
 			</div>
 			<!-- 服务记录 -->
 			<div class="install_user_content">
-				<!-- 安装 -->
 				<ul class="install_ul">
-					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install,each_install.order_number)">
-						<span>{{each_install.order_number}}</span>
-						<span class="status">{{each_install.status}}</span>
-						<span>{{each_install.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
+					<li v-for="(each_info,index) in info" @click="service_details_page(each_info,each_info.no)">
+						<span>{{each_info.no}}</span>
+						<span class="status" v-if="each_info.status == '0'">未处理</span>
+						<span class="status" v-if="each_info.status == '1'">进行中</span>
+						<span class="status" v-if="each_info.status == '2'">已完成</span>
+						<span>{{each_info.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
+				<!-- 安装 -->
+				<!-- <ul class="install_ul">
+					<li v-for="(each_install,index_install) in install" @click="service_details_page(each_install,each_install.no)">
+						<span>{{each_install.no}}</span>
+						<span class="status">{{each_install.status}}</span>
+						<span>{{each_install.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
+					</li>
+				</ul> -->
 				<!-- 报修 -->
-				<ul class="repair_ul">
+				<!-- <ul class="repair_ul">
 					<li v-for="(each_repair,index_install) in repair" @click="service_details_page(each_repair,each_repair.order_number)" @click="diao">
 						<span>{{each_repair.order_number}}</span>
 						<span class="status">{{each_repair.status}}</span>
 						<span>{{each_repair.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
-				</ul>
+				</ul> -->
 				<!-- 维护 -->
-				<ul class="maintenance_ul" @click='showModule($event)'>
+				<!-- <ul class="maintenance_ul" @click='showModule($event)'>
 					<li v-for="(each_maintenance,index_install) in maintenance" @click="service_details_page(each_maintenance,each_maintenance.order_number)" @click="diao">
 						<span>{{each_maintenance.order_number}}</span>
 						<span class="status">{{each_maintenance.status}}</span>
 						<span>{{each_maintenance.binding_time}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
-				</ul>
-			</div>
+				</ul> -->
+			</div>    
 		</div>
 	<!-- 服务详情页面部分开始 -->
 		<div id="service_details_bg" style="display:none;">
@@ -75,30 +87,30 @@
 					<ul>
 						<li class="bottom_line_h">
 							<p class="left">工单号：</p>
-							<p class="right">{{service_details_info.order_number}}</p>
+							<p class="right">{{service_details_info.no}}</p>
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">安装人员：</p>
-							<p class="right">{{service_details_info.install_personnel}}</p>
+							<p class="right">{{service_details_info.name}}</p>
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">手机号码：</p>
-							<p class="right">{{service_details_info.phone_number}}</p>
+							<p class="right">{{service_details_info.phone}}</p>
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">服务类型：</p>
-							<p class="right">{{service_details_info.service_type}}</p>
+							<p class="right">{{service_details_info.type}}</p>
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">服务内容：</p>
-							<p class="right">{{service_details_info.service_content}}</p>
+							<p class="right">{{service_details_info.content}}</p>
 						</li>
 						<li class="bottom_line_h">
-							<p class="left">上门内容：</p>
-							<p class="right">{{service_details_info.service_date}}</p>
+							<p class="left">上门地址：</p>
+							<p class="right">{{service_details_info.city}}</p>
 						</li>
 					</ul>
-				</div>
+				</div>    
 				
 			</div>
 		</div>
@@ -112,7 +124,6 @@
 	<script>
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-
 		// 页面加载时判断url,刷新页面为当前页
 		var get = {};
 		var $_GET = (function() {
@@ -159,6 +170,24 @@
 				}
 			}
 		}
+		// vue数据
+		var data = {{$data}};
+		var tone =	"{{$tone}}";
+		var ttwo =	"{{$ttwo}}";
+		var tf =	"{{$tf}}";
+		service_log_vue.num = [tone,ttwo,tf];//服务记录数量
+		console.log(data)
+		// for(var i =0;i<data.length;i++){
+		// 	if(data[i].status == '0'){
+		// 		service_log_vue.install.push(data[i])
+		// 	}else if(data[i].status == "1"){
+
+		// 	}else if(data[i].status == "2"){
+
+		// 	}
+		// 	// console.log(typeof data[i].status)
+		// }
+		service_log_vue.info = data;
 	</script>
 </body>
 </html>
