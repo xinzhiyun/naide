@@ -67,8 +67,8 @@
   justify-content: space-around;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child div {
-  /* width: 3.84rem; */
-  /* height: 3.2rem; */
+  width: 3.84rem;
+  height: 3.2rem;
   position: relative;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child div img {
@@ -82,8 +82,8 @@ textarea {
 #chacha {
   display: block;
   position: absolute;
-  right: 0.3rem;
-  top: -0.25rem;
+  right: -0.064rem;
+  top: -0.14933333rem;
   color: #fff;
   font-size: 0.256rem;
   width: 0.64rem;
@@ -164,12 +164,10 @@ textarea {
 }
 #repair-infoconfirm ul li:nth-child(2),
 #repair-infoconfirm ul li:nth-child(3),
-#repair-infoconfirm ul li:nth-child(4),
-#repair-infoconfirm ul li:nth-child(5) {
+#repair-infoconfirm ul li:nth-child(4) {
   border-bottom: 0.02133333rem solid #e0e0e0;
 }
-#repair-infoconfirm ul li:nth-child(5) div,
-#repair-infoconfirm ul li:nth-child(6) div {
+#repair-infoconfirm ul li:nth-child(5) div {
   padding-top: 0.42666667rem;
 }
 #repair-infoconfirm ul .l_z {
@@ -184,10 +182,6 @@ textarea {
   outline: none;
   border: none;
   display: block;
-  position: relative;
-}
-.sure:active {
-  background: #126eaf;
 }
 .mask_bg {
   position: absolute;
@@ -243,19 +237,3 @@ textarea {
 .time_bg {
   display: none;
 }
-.detailInfo > span{
-  float: left;
-  display: inline !important;
-}
-.detailInfo > .canInput {
-  float: right;
-  display: inline-block !important;
-} 
-.areabtn {
-  line-height: 1.87733333rem;
-  float:right;
-  color: #8b8b8b;
-  font-size: 0.64rem;
-}
-
-
