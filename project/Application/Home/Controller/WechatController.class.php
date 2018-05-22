@@ -14,6 +14,7 @@ class WechatController extends Controller
     {
         $xml=file_get_contents('php://input', 'r');
 
+
         Log::write($xml,'水机支付回调xml');
 
         if($xml) {
