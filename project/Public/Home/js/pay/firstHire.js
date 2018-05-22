@@ -22,6 +22,9 @@ window.onload = function() {
 			var _this = this;
 			_this.userInfo.username = waterOrder.name;
 			_this.userInfo.userPhone = waterOrder.phone;
+			if(!waterOrder.city){
+				waterOrder.city = '';
+			}
 			_this.userInfo.userAddress = waterOrder.province + waterOrder.city + waterOrder.district + " " + waterOrder.address;			
 		},
 		methods: {
@@ -42,6 +45,7 @@ window.onload = function() {
 						type: "post",
 						data: {pay: payIndex},
 						success: function(res) {
+							console.log('prePay_res: ',res);
 							if(res.status == 200) {
 								/*
 								notify_url-支付回调地址 
