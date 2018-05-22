@@ -255,7 +255,7 @@ class PayController extends AppframeController {
                 E('用户信息错误,请刷新重试!', 201);
             }
             if (empty($data['did'])) {
-                E('用户信息错误,请刷新重试!', 201);
+                E('当前无设备信息,请刷新重试!', 201);
             }
 
             $setmeal = M('setmeal')->field('money,describe')->find($data['setMealId']);
