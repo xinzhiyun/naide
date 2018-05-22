@@ -33,6 +33,7 @@ class VendorsController extends AppframeController {
             if(empty($map)){
                 E('无数据!',201);
             }
+            $map['is_service']=1;
 
             session('waterOrder.province',$map['province']??'');
             session('waterOrder.city',$map['city']??'');
