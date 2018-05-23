@@ -12,7 +12,6 @@
 	<script>
 		var  dis_count = '{{$dis_count}}'
 		console.log(dis_count);
-
 	</script>
 </head>
 <body>
@@ -29,7 +28,7 @@
 					<!-- 两种都有 -->
 					<p v-if="type === 'A'">
                     账号：
-						<span>{{userInfo.userName}}</span>
+						<span>{{userInfo.name}}</span>
 						<span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span>
 						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 						
@@ -37,13 +36,13 @@
 					<!-- 服务站收益 -->
 					<p v-else-if="type === 'B'">
 						账号：
-						<span>{{userInfo.userName}}</span>
+						<span>{{userInfo.name}}</span>
 						<span><img src="__PUBLIC__/Home/images/hylanse.png" alt=""></span>
 					</p>
 					<!-- 经销商收益 -->
 					<p v-else-if="type === 'C'">
 						账号：
-						<span>{{userInfo.userName}}</span>
+						<span>{{userInfo.name}}</span>
 						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 					</p>
 				</li>
@@ -57,7 +56,7 @@
 				<span>账户余额&nbsp;(元)</span>
 			</p>
 			<p>
-				<span>{{userInfo.canMoney}}</span>
+				<span>{{userInfo.canmoney}}</span>
 				<span>可提现&nbsp;(元)</span>
 			</p>
 		</div>
@@ -71,7 +70,7 @@
 						<span><img src="__PUBLIC__/Home/images/hylvse.png" alt=""></span>
 					</p>
 					<p><span>余额：</span><span><i>12, 562</i>元</span></p>
-					<p><span>用户量：</span><span><i>{{dis_count}}</i>人</span></p>
+					<p><span>用户量：</span><span><i>{{dealer_member}}</i>人</span></p>
 					<p><span>库存量：</span><span><i>12, 562</i>台</span></p>
 					<div><a href="{{:U('Coms/Dealer/dealer')}}">更多详情<span class="iconfont icon-xiangyou1"></span></a></div>
 				</li>
@@ -154,6 +153,12 @@
 	<script !src="">
 		var user = {{$user|json_encode}};
 		console.log(user);
+		var userInfo = '{{$userInfo}}';//个人信息
+		console.log(userInfo);
+		vm.userInfo = JSON.parse(userInfo);
+		console.log(vm.userInfo);
+		var dealer_member = '{{$dealer_member}}';//用户量
+		vm.dealer_member = dealer_member.replace('"','').replace("\"","");
 	</script>
 </body>
 </html>
