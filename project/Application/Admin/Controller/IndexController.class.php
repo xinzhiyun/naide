@@ -12,7 +12,7 @@ class IndexController extends CommonController {
 	    	// 滤芯订单数量（已发货及未发货数量->以发货及未发货列表）
             if(empty(session('adminuser.is_admin'))){
                 $map['d.vid'] = $_SESSION['adminuser']['id'];
-                $order_filters = D('Orders')
+                $order_filters = D('Order')
                     ->where($map)
                     ->alias('o')
                     ->join('__DEVICES__ d on o.did = d.id','LEFT')
@@ -20,31 +20,36 @@ class IndexController extends CommonController {
                     ->select();
                 $order_filter['total'] = count($order_filters);
 
-                // 保修数量统计->保修列表
-                $repairs['total'] = D('Repair')
+                // 保修数量统计->保修列表 work
+                $repairs['total'] = D('Work')
                     ->where($map)
                     ->alias('r')
                     ->join('__DEVICES__ d on r.did = d.id','LEFT')
                     ->count();
 
                 // 建议数量统计->建议列表
-                $feeds['total'] = D('Feeds')
-                    ->where($map)
-                    ->alias('f')
-                    ->join('__DEVICES__ d on f.did = d.did','LEFT')
-                    ->count();
+                // $feeds['total'] = D('Feeds')
+                //     ->where($map)
+                //     ->alias('f')
+                //     ->join('__DEVICES__ d on f.did = d.did','LEFT')
+                //     ->count();
+                $feeds['total'] = M('vendors')->where("examine=1 and id=".session('adminuser.id'))->count();
+                
+                
             } else {
-                $order_filters = D('Orders')
+                $order_filters = D('Order')
                     ->field('distinct(order_id)')
                     ->select();
 
                 $order_filter['total'] = count($order_filters);
 
                 // 保修数量统计->保修列表
-                $repairs['total'] = D('Repair')->count();
+                $repairs['total'] = D('Work')->count();
 
-                // 建议数量统计->建议列表
-                $feeds['total'] = D('Feeds')->count();
+                // // 经销商数据审核统计->建议列表
+                // $feeds['total'] = D('Feeds')->count();
+                $feeds['total'] = M('vendors')->where(['examine=1'])->count();
+                
             }
 	    	$data = [
 				'flows' => $flows,
@@ -56,6 +61,7 @@ class IndexController extends CommonController {
 	    	$this->ajaxReturn($data);
     	}
 
+        $this->assign('data',$data);
         $this->display('index');
 
     }
