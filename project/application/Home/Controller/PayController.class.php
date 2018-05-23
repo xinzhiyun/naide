@@ -546,6 +546,8 @@ class PayController extends AppframeController {
             } else {
                 $this->ajaxReturn(['code'=>400]);
             }
+        } else {
+            $this->ajaxReturn(['code'=>400]);
         }
     }
     //每个用户的邀请码
