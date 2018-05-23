@@ -26,8 +26,8 @@ var service = new Vue({
             service.userList = [];  // 清空
             res.forEach(function(item, index){
                 item.status = service.statusList[item.status];
-                item.no = item.no || '&emsp;';
-                item.addtime = getLocalTime(item.addtime) || '&emsp;';
+                item.no = item.no;
+                item.addtime = getLocalTime(item.addtime);
                 service.userList.push({
                     workid: item.no,
                     status: item.status,
@@ -53,13 +53,13 @@ var service = new Vue({
             if(service.load){
                 service.load = false;
                 // 请求数据
-                getList(service.page + 1, function(res){
+                getList(+service.page + 1, function(res){
                     service.load = true;
                     service.page++;     // 页码
                     res.forEach(function(item, index){
                         item.status = service.statusList[item.status];
                         item.no = item.no || '&emsp;';
-                        item.addtime = getLocalTime(item.addtime) || '&emsp;';
+                        item.addtime = getLocalTime(item.addtime);
                         service.userList.push({
                             workid: item.no,
                             status: item.status,

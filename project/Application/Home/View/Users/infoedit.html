@@ -31,7 +31,7 @@
 					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-mima fblue"></i>
 						<span class='am-u-sm-4'>密&emsp;&emsp;码：</span>
-						<input class="pwd am-u-sm-8" type="text" placeholder="请输入密码" name="pwd" value="">
+						<input class="pwd am-u-sm-8" type="password" placeholder="请输入密码" name="pwd" value="">
 					</div>
 					<div class='item am-g' style='display: none;'>
 						<i class="iconfont icon-phone fblue"></i>
@@ -79,6 +79,8 @@
 						$('#meal').html(html);
 					})
 				}else{
+					// console.log(decodeURI(getQuery().name));
+					$(".name").val(decodeURI(getQuery().name));
 					setTimeout(function(){
 						noticeFn({text: '保存后，密码将覆盖原登录密码！', time: 2000});
 					},0);
@@ -174,6 +176,34 @@
 						$('input[name="deviceid"]').val(),
 						$('.orderid').val())
 
+						var formdata = new FormData($('#form')[0]);
+						// 提交数据
+						$.ajax({
+							url: "{{:U('Home/Device/infoedit')}}",
+							type: 'post',
+							data: formdata,
+							async: false,
+							contentType: false,
+							processData: false,
+							success: function(res){
+								console.log('res: ',res);
+								if(res.status == 200){
+									noticeFn({text: '绑定成功'});
+									// 替换历史记录
+									history.replaceState({}, null, '{{:U("Home/Users/mine")}}');
+									setTimeout(function(){
+										location.href = location.href;
+									},500);
+								}else{
+									noticeFn({text: res.msg});
+								}
+							},
+							error: function(err){
+								console.log('err: ',err);
+								noticeFn({text: '系统遇到问题，请稍后再试'});
+							}
+						})
+
 					}else{
 						// 编辑信息
 						$('#meal').removeAttr('name');
@@ -206,36 +236,30 @@
 							// 密码 md5 转换
 							$('.pwd').val(hex_md5(pwd));
 						}
+						// 提交数据
+						$.ajax({
+							url: '{{:U("Api/Users/edit_users")}}',
+							type: 'post',
+							data: {name: name, pwd: $('.pwd').val()},
+							success: function(res){
+								console.log('res: ',res);
+								if(res.code == 200){
+									noticeFn({text: '修改成功'});
+									setTimeout(function(){
+										location.href = '{{:U("Home/Users/mine")}}';
+									},500);
+
+								}else{
+									noticeFn({text: res.msg});
+								}
+							},
+							error: function(err){
+								console.log('err: ',err);
+								noticeFn({text: '系统出错，请稍后再试'});
+							}
+						})
 					}
 					
-					var formdata = new FormData($('#form')[0]);
-					// 提交数据
-					$.ajax({
-						url: "{{:U('Home/Device/infoedit')}}",
-						type: 'post',
-						data: formdata,
-						async: false,
-						contentType: false,
-						processData: false,
-						success: function(res){
-							console.log('res: ',res);
-							if(res.status == 200){
-								noticeFn({text: '绑定成功'});
-								// 替换历史记录
-								history.replaceState({}, null, '{{:U("Home/Users/mine")}}');
-								setTimeout(function(){
-									location.href = location.href;
-								},500);
-							}else{
-								noticeFn({text: res.msg});
-							}
-						},
-						error: function(err){
-							console.log('err: ',err);
-							noticeFn({text: '系统遇到问题，请稍后再试'});
-						}
-					})
-							
 				})
 
 				// 获取订单信息

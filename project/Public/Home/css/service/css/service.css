@@ -99,3 +99,6 @@
   font-size: 0.68266667rem;
   text-align: center;
 }
+.userLi>a:active {
+  background: rgba(0,0,0,.05);
+}

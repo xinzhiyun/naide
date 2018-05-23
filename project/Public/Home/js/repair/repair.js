@@ -14,7 +14,7 @@ var repair_bg_vue = new Vue({
 	            // wvid:info.wvid,//服务站ID
 			},
 			time_now:'',
-			comments: '',
+			comments: '',//备注信息
 			infoAll: {	// 提交的信息
 				pic: [],
 			},	
@@ -57,17 +57,18 @@ var repair_bg_vue = new Vue({
 			var _this = this; //获取vm对象
 			// 判断信息填写完整后才执行ajax
 			// 预约时间 
-			if($("#repair_time").html() == "&nbsp;") {
-				noticeFn({text: '未选择预约时间',time: '1000'});
-				return;
-			}
-			if(!comments){
-				noticeFn({text: '请描述你遇到的问题！',time: '1000'});
-				return;
-			}
+			// if($("#repair_time").html() == "&nbsp;") {
+			// 	noticeFn({text: '未选择预约时间',time: '1000'});
+			// 	return;
+			// }
 			// 服务类型
-			if($("#repair_t").html() == "&nbsp;") {
+			if($("#repair_t").html() == "&nbsp;"){
 				noticeFn({text: '未选择服务类型',time: '1000'});
+				return;
+			}
+			// 备注信息
+			if(!_this.comments){
+				noticeFn({text: '请描述你遇到的问题！',time: '1000'});
 				return;
 			}
 			// 图片 请不要删
@@ -182,7 +183,8 @@ var repair_bg_vue = new Vue({
 			}
 			console.log("后台要的参数", repair_bg_vue.infoAll);
 			// 提交报修数据
-			repairUp(repair_bg_vue.infoAll);
+			// repairUp(repair_bg_vue.infoAll);
+			console.log("成功提价数据")
 		},	
 		e:function(ev){
 			var e = ev || event;

@@ -46,7 +46,9 @@
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
     <script>
+        var vConsole = new VConsole();
         // 获取数据
         function getList(page, callback){
             $.ajax({
@@ -54,19 +56,22 @@
                 data: {p: page},
                 type: "post",
                 success: function(res) {
+                    console.log('page: ',page);
                     console.log('res: ',res);
                     if(res.code == 200){
                         callback(res.data);
 
                     }else{
                         noticeFn({text: '查无数据'});
-                        service.userList = [{
-                            workid: '&emsp;',
-                            status: '查无数据',
-                            addtime: '&emsp;'            
-                        }];
+                        if(page == 1){
+                            service.userList = [{
+                                workid: '&emsp;',
+                                status: '查无数据',
+                                addtime: '&emsp;'            
+                            }];
+                            $('.nextIcon').hide();
+                        }
                         $('.loadmore').hide();
-                        $('.nextIcon').hide();
                     }
                 },
                 error: function(err) {

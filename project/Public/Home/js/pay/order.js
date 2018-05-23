@@ -13,7 +13,7 @@ var $_GET = (function() {
 	} else {
 		// 如何传入的参数只有1对键值对则直接return返回出去
 		return {};
-	}
+	} 
 })();
 // if($_GET.status == undefined){
 // 	$(".line_check").css("left"," 0.42666667rem");
