@@ -210,9 +210,8 @@ var wait_task = new Vue({
 		// 待办任务列表
 		var sevice_list = JSON.parse(sessionStorage.getItem("sevice_list"));
 		if(sevice_list){
-			for(var i = 0;i<sevice_list.length;i++){
-				_this.sevice_list.push(sevice_list[i]);
-			}
+			for(var i = 0;i<sevice_list.length;i++){				sevice_list[i].addtime = getLocalTime(sevice_list[i].addtime);
+				_this.sevice_list.push(sevice_list[i])			}
 		}
 		// 任务详情页面
 		var detail = JSON.parse(sessionStorage.getItem("service_details_info"));
@@ -220,7 +219,7 @@ var wait_task = new Vue({
 			_this.service_details_info = detail;
 			_this.plan_personnel_info_bg.new_work_order = detail.no;
 		}
-		// 安装人员（蒙版）
+		// 安装人员（蒙版）	
 		// var per = JSON.parse(sessionStorage.getItem("install_personnel_info"));
 		// if(per){
 		// 	for(var i = 0;i<per.length;i++){
