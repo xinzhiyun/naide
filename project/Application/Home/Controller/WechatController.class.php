@@ -73,7 +73,7 @@ class WechatController extends Controller
                             }
                             $statu_device['status']=1;
                         }
-                        if(empty($statu_device['status'])){
+                        if(!empty($statu_device['status'])){
                             $order->where('id='.$orderData['id'])->save($statu_device);
                         }
 

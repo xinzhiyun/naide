@@ -154,6 +154,18 @@ class OrdersController extends CommonController
         ];
 
         $list = replace_array_value($list,$arr);
+
+        $version_model = M('vendors');
+
+        foreach ($list as &$item){
+            $wvname = "";
+            if(!empty($item['wvid'])){
+                $wvname = $version_model->where('id='.$item['wvid'])->getField('name');
+            }
+
+            $item['wvname'] = $wvname;
+        }
+
 //         dump($list);die;
         $this->assign('list',$list);
         $this->assign('button',$pageButton);
