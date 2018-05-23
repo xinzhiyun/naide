@@ -23,6 +23,7 @@ class IndexController extends HomebaseController {
      */
     public function index()
     {
+
         $did = session('homeuser.did');
         if(IS_AJAX){
             $device_code = Device::get_devices_sn($did);

@@ -565,6 +565,7 @@ class PayController extends AppframeController {
 
     public function buyinfo()
     {
+        dump($_SESSION);
         if(session('waterOrder.has')==1){
             $homeuser = session('homeuser');
             session('waterOrder.uid',$homeuser['id']);
