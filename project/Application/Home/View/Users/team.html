@@ -31,10 +31,6 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
-	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-	</script>
 	<script>
 		var team = new Vue({
 			el: '#team',
@@ -74,6 +70,7 @@
 						success: function(res){
 							console.log('res: ',res);
 							if(res.code == 200){
+								team.teamNum = res.count;
 								callback(res.data);
 							}
 						},
