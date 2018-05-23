@@ -126,7 +126,7 @@
 			<!-- 套餐 type=2 -->
 			<div class="flow_box border_line" v-else-if="order_pay_info.type == 2">
 				<span>{{order_pay_info.describe}}</span>
-				<span><i class="iconfont icon-rmb" style="fontSize:0.5rem;"></i>{{order_pay_info.money/100}}</span>
+				<span><i class="iconfont icon-rmb" style="fontSize:0.5rem;"></i>{{order_pay_info.money}}</span>
 				<span class="jiage">X 1
 			</div>
 			<!-- 合计 -->
@@ -318,7 +318,8 @@
 									// 支付成功
 									noticeFn({text: '支付成功!'});
 									setTimeout(function(){
-										location.reload();
+										// 待发货
+										location.href = '{{:U("Home/Pay/order")}}' + '?status=2';
 									},500);
 									break
 								case 'cancel':
