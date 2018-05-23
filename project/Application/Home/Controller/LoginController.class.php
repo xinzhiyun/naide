@@ -137,12 +137,12 @@ class LoginController extends AppframeController {
                 session('homeuser.phone',$info['user']);
                 session('homeuser.name',$info['name']);
                 session('homeuser.code',$info['code']);
-                if(empty($info['code'])){
-
-                    $re['code'] = R('Pay/create_guid');
-                    $m->where('id='.$info['id'])->save($re);
-                    session('homeuser.code',$re['code']);
-                }
+//                if(empty($info['code'])){
+//
+//                    $re['code'] = R('Pay/create_guid');
+//                    $m->where('id='.$info['id'])->save($re);
+//                    session('homeuser.code',$re['code']);
+//                }
 
 
 
