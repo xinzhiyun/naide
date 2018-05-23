@@ -22,7 +22,7 @@
 }
 #repair-all #repair-container {
   margin-top: 0.42666667rem;
-  height: 16rem;
+  height: 11.73333333rem;
   background: #fff;
 }
 #repair-all #repair-container ul:nth-child(1) {
@@ -67,7 +67,6 @@
   justify-content: space-around;
 }
 #repair-all #repair-container ul:nth-child(2) li:last-child div {
-  width: 3.84rem;
   height: 3.2rem;
   position: relative;
 }
@@ -159,12 +158,10 @@ textarea {
 #repair-infoconfirm ul li:first-child p {
   font-size: 34 46.875rem;
 }
-#repair-infoconfirm ul li:last-child {
-  height: 3.84rem;
-}
 #repair-infoconfirm ul li:nth-child(2),
 #repair-infoconfirm ul li:nth-child(3),
-#repair-infoconfirm ul li:nth-child(4) {
+#repair-infoconfirm ul li:nth-child(4),
+#repair-infoconfirm ul li:nth-child(5) {
   border-bottom: 0.02133333rem solid #e0e0e0;
 }
 #repair-infoconfirm ul li:nth-child(5) div {
@@ -236,4 +233,11 @@ textarea {
 }
 .time_bg {
   display: none;
+}
+.areabtn {
+  line-height: 1.87733333rem;
+  height: 1.87733333rem;
+  color: #8b8b8b;
+  font-size: 0.64rem;
+  text-align: right;
 }

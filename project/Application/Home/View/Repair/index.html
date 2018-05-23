@@ -55,7 +55,7 @@
 							<textarea name="a" placeholder="您可以填写要备注的信息，或遇到的问题..." id="comments" class="text_middle" v-model='comments'></textarea>
 						</li>
 						<li class="file_li">
-							<!-- 上传图片 -->
+							<!-- 上传图片 --><!-- width:180/@Rem; -->
 							<div class="repairPic am-u-sm-4" id="Pic_file" style="width: 3.84rem; height: 3.2rem">
 								<i class="iconfont icon-ai-up-img"></i>
 								<span>添加问题图片</span>
@@ -63,10 +63,10 @@
 							</div>
 							<!-- 存放图片 -->
 							<div class="pic_2 am-u-sm-8">
-								 <!--<div class="am-u-sm-6" style="position:relative;" index="234234234234"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div>-->
-								 <!--<div chachalass="am-u-sm-6" style="position:relative;" index="028347928347"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div>-->
+								<!--  <div class="am-u-sm-6" style="position:relative;" index="234234234234"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div>
+								 <div chachalass="am-u-sm-6" style="position:relative;" index="028347928347"><img src="__PUBLIC__/Home/images/tx.png" alt=""/><i class="iconfont icon-chacha" id="chacha"></i></div> -->
 							</div>
-						</li>
+						</li>   
 					</ul>
 				</div>
 				<!-- 服务内容部分结束 -->
@@ -84,56 +84,56 @@
 							<input type="text" name="userphone" :value="info_confirm.contact_number ? info_confirm.contact_number : ''" class="text_bottom">
 						</li>
 						<li class="l_z">
-							<!-- <div class="am-u-sm-3 fs-l">设备编码：</div>
-								<input type="text" :value="info_confirm.device_code" class="text_bottom"> -->
-								<div class="am-u-sm-3 fs-l">设备编码：</div>
-								<div class="am-u-sm-2">&nbsp;</div>
-								<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}</div>
-							</li>
-							<li>
-								<div class="am-u-sm-3 fs-l">省市区：</div>
-								<span class='areabtn text_top' v-text="info_confirm.addPCA ? info_confirm.addPCA : '暂无地址'" @click="choose_area"></span>
-							</li>
-							<li>
-								<div class="am-u-sm-3 fs-l">详细地址：</div>
-								
-								<input type="text" name="detailadd" :value="info_confirm.detailed_add ? info_confirm.detailed_add : ''" class="canInput text_bottom" >
-							</li>
-						</ul>
-						<!-- 地区选择弹出模板 -->
-						<div id="areaChoose" class="citys">
-							<div class="areaChoosebg">&emsp;</div>
-							<div class="areaDiv">
-								<div class='atop'>
-									<p>&emsp;</p>
-									<h2 class='am-h2 am-text-center'>所在地区</h2>
-									<button type="button" class="am-close close">&times;</button>
+						<!-- <div class="am-u-sm-3 fs-l">设备编码：</div>
+							<input type="text" :value="info_confirm.device_code" class="text_bottom"> -->
+							<div class="am-u-sm-3 fs-l">设备编码：</div>
+							<div class="am-u-sm-2">&nbsp;</div>
+							<div class="am-u-sm-6 fs-r text_top" id="repair_device">{{info_confirm.device_code}}</div>
+						</li>
+						<li>
+							<div class="am-u-sm-3 fs-l">省市区：</div>
+							<span class='areabtn text_top am-u-sm-9' v-text="info_confirm.addPCA ? info_confirm.addPCA : '暂无地址'" @click="choose_area"></span>
+						</li>
+						<li>
+							<div class="am-u-sm-3 fs-l">详细地址：</div>
+							
+							<input type="text" name="detailadd" :value="info_confirm.detailed_add ? info_confirm.detailed_add : ''" class="canInput text_bottom" >
+						</li>
+					</ul>
+					<!-- 地区选择弹出模板 -->
+					<div id="areaChoose" class="citys">
+						<div class="areaChoosebg">&emsp;</div>
+						<div class="areaDiv">
+							<div class='atop'>
+								<p>&emsp;</p>
+								<h2 class='am-h2 am-text-center'>所在地区</h2>
+								<button type="button" class="am-close close">&times;</button>
+							</div>
+							<div>
+								<div>
+									<p class='ptext ltext fblue'>请选择&nbsp;</p>
+									<div class='province areadiv' value="440000" data-code="440000"></div>
 								</div>
 								<div>
-									<div>
-										<p class='ptext ltext fblue'>请选择&nbsp;</p>
-										<div class='province areadiv' value="440000" data-code="440000"></div>
-									</div>
-									<div>
-										<p class='ctext ltext fblue'>&nbsp;</p>
-										<div class="city areadiv" value="440100" data-code="440100"></div>
-									</div>
-									<div>
-										<p class='atext ltext fblue'>&nbsp;</p>
-										<div class="area areadiv" value="440103" data-code="440103" @click="close_choose"></div>
-									</div>
+									<p class='ctext ltext fblue'>&nbsp;</p>
+									<div class="city areadiv" value="440100" data-code="440100"></div>
+								</div>
+								<div>
+									<p class='atext ltext fblue'>&nbsp;</p>
+									<div class="area areadiv" value="440103" data-code="440103" @click="close_choose"></div>
 								</div>
 							</div>
-							<div id="confirmAreaChoose">
-								<div>确定</div>
-							</div>
+						</div>
+						<div id="confirmAreaChoose">
+							<div>确定</div>
 						</div>
 					</div>
-					<!-- 信息确认部分结束 -->
-					<label for="">&nbsp;&nbsp;服务电话：<a href="tel:" class='teltel'></a></label>
-					
-					<input type="button" value="提交" id="repair-sub" class="bgblue sure" @click="submit_text()">
-				</div>	
+				</div>
+				<!-- 信息确认部分结束 -->
+				<label for="">&nbsp;&nbsp;服务电话：<a href="tel:" class='teltel'></a></label>
+				
+				<input type="button" value="提交" id="repair-sub" class="bgblue sure" @click="submit_text()">
+			</div>	
 		</form>
 		<!-- 预约时段蒙版开始部分 -->
 		<div class="mask_bg time_bg">
