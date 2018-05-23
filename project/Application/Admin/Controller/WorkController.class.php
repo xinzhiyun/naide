@@ -4,19 +4,12 @@ use Common\Tool\Device;
 use Think\Controller;
 use Org\Util\Date;
 use Org\Util\Strings;
-/**
- * 工单控制器
- * 用来添加工单，浏览工单列表等
- * 
- * @author 潘宏钢 <619328391@qq.com>
- */
 
 class WorkController extends CommonController 
 {
 	/**
      * 工单列表
-     * 
-     * @author 潘宏钢 <619328391@qq.com>
+     *
      */
     public function index()
     {	
@@ -142,8 +135,54 @@ class WorkController extends CommonController
             $this->ajaxReturn(array(
                 'status'=>200,
                 'data'=>$personnelData,
-                'msg'=>'创建成功',
+                'msg'=>'获取成功',
             ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
+    /**
+     * 加载服务站
+     */
+    public function getvendors()
+    {
+        $map['is_service']=1;
+        $map['status']=1;
+        $data = M('vendors')->where($map)->field('id,name')->select();
+        $this->ajaxReturn(array(
+            'status'=>200,
+            'data'=>$data,
+            'msg'=>'获取成功',
+        ),'JSON');
+    }
+
+    /**
+     * 设定服务站
+     */
+    public function setservice()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['wid'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $data['wid'];
+            }
+
+            if (empty($data['vid'])) {
+                E('数据不完整', 201);
+            } else {
+                $save['vid'] = $data['vid'];
+            }
+
+            $res = M('work')->where($map)->save($save);
+
+            if($res){
+                E('设置成功','200');
+            }else{
+                E('设置失败,请重试','201');
+            }
         } catch (\Exception $e) {
             $this->to_json($e);
         }
