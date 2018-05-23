@@ -100,7 +100,7 @@
 
             <!-- 弹框信息 -->
             <div class="modal fade" id="_send" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true" style='width:46%;box-sizing:border-box;padding:0px !important;'>
+            aria-hidden="true" style='width:46%;height:300px;'>
                 <div class="" style='box-sizing:border-box;padding:5px;margin-left:-10px;' >
                     <div class="modal-content">
                         <div class="modal-header">
@@ -112,8 +112,7 @@
                             </h4>
                         </div>
                         <div class="modal-body">
-                            <form id="_orders" class="form-inline" url="__URL__/edit/order_id/{{$vo.order_id}}/is_receipt/1"
-                            method="post">
+                            <form id="_orders" class="form-inline" action="{{:U('edit')}}" method="post">
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <tr>
                                         <th width="20%" class="">
@@ -129,15 +128,14 @@
                                         </th>
                                         <td>
                                             <input class="input-medium" type="text" name="mca" id="input_num" style="width:100%;vertical-align:top;">
+                                            <input  type="hidden" name="order_id" id="exp_order_id" >
                                         </td>
                                     </tr>
                                 </table>
 
-                               
-
-                                <div class="text-right">
-                                    <input class="btn btn-info" type="button" value="取消" style='width:14%;'>&nbsp;&nbsp;&nbsp;
-                                    <input class="btn btn-success" type="button" value="确定" style='width:14%;'>
+                                <div class="text-right" style="margin-top: 30px;">
+                                    <input class="btn btn-info _send_submit_button" type="button" value="取消" style='width:14%;'>&nbsp;&nbsp;&nbsp;
+                                    <input class="btn btn-success _send_submit_button" type="button" value="确定" style='width:14%;'>
                                 </div>
                                 
                             </form>
@@ -157,7 +155,8 @@
                 $('._send').click(function(){
                     $('#_send').modal('show');
                     var _order_id = $(this).parent().parent().parent().children().eq(0).text().trim()
-                    $('#_orders').attr('action','__URL__/edit/order_id/'+_order_id+'/is_receipt/1')
+                    $('#exp_order_id').val(_order_id);
+                    // $('#_orders').attr('action','__URL__/edit/order_id/'+_order_id+'/is_receipt/1')
                 });
 
                 $('#input_name').change(function(){
@@ -177,18 +176,18 @@
                     }
                 });
 
-                $('input[type=button]').eq(0).click(function(){
+                $('._send_submit_button').eq(0).click(function(){
                     $('#_send').modal('hide');
                 });
 
-                $('input[type=button]').eq(1).click(function(){
-
+                $('._send_submit_button').eq(1).click(function(){
                     if(name_bool&&num_bool){
                         $('#_orders').submit();
                     }else{
                         return false;
                      }
                 });
+
                 /**************** 搜索关键字保留 -- 开始 ******************/
                     var srearchInfo = {};
                     var order_id, nickname, total_num, mintotal_price, maxtotal_price, 

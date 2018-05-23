@@ -51,6 +51,7 @@ class VendorsModel extends BaseModel
             $data['info']['usernum']=M('personnel')->where('v_id='.$id)->count();
             $data['userlist']=M('personnel')->where('v_id='.$id)->select();
         }
+
         return $data;
     }
     // 处理查询数据

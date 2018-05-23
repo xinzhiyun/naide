@@ -112,6 +112,10 @@ class PersonnelController extends CommonController
                     $this->error($personnel->getError());
             }
         } else {
+            if(empty($_SESSION['adminuser']['is_service'])){
+                $this->error('非服务站,无法添加安装工人!!');
+
+            }
             $this->display();
         }
 
