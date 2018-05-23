@@ -146,7 +146,7 @@ class PayController extends AppframeController {
             $uid = $_SESSION['homeuser']['id'];
             $to_code = M('users')->where(['id'=>$uid])->getField('to_code');
             $setMealId=I('setMealId');
-            $code = I('code');
+            $code = I('to_code');
 
             if (empty($to_code)) {
                 if (!empty($code)) {
