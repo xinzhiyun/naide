@@ -202,9 +202,18 @@
 				data: {data: data},
 				success: function(res){
 					console.log('res: ',res);
+					if(res.code == 200){
+						noticeFn({text: '提交成功'});
+						setTimeout(function(){
+							location.href = '{{:U("Home/Index/index")}}';
+						},300);
+					}else{
+						noticeFn({text: '提交失败，请稍后再试'});
+					}
 				},
 				error: function(err){
 					console.log('err: ',err);
+					noticeFn({text: '系统出错，请稍后再试'});
 				}
 			})
 		}
