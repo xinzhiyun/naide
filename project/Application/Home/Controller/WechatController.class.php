@@ -22,9 +22,9 @@ class WechatController extends Controller
             $result = WeiXin::notifyData($xml);
 
             Log::write(json_encode($result),'水机支付回调');
-            if(!empty($result['out_trade_no'])){
+            if(!empty($result['attach'])){
                 // 获取传回来的订单号
-                $map['order_id'] = $result['out_trade_no'];
+                $map['order_id'] = $result['attach'];
                 $map['is_pay'] = 0;
 
                 $order = M('order');

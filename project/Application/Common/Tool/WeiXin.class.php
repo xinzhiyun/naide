@@ -19,6 +19,8 @@ class WeiXin
     const TOKEN             = 'TOKENP';
     const EncodingAESKey    = 'kw8vt7U9xqk8D1eqTwghD58WGdjUsSLKTbPL6MErJrb';
 
+    const NOTIFY_URL        = "http://ddjz.ddjz88.com/index.php/Home/Wechat/notify";
+
     public static $_wx;
 
     public static function wx_sdk(){
@@ -81,8 +83,7 @@ class WeiXin
     {
         $content = substr($content,0,80);
 //        $money = $money * 100;                          // 将金额强转换整数
-
-        $money = 1;                                     // 冲值测试额1分钱 上线取消此行
+//        $money = 1;                                     // 冲值测试额1分钱 上线取消此行
 
         vendor('WxPay.jsapi.WxPay#JsApiPay');
         $tools = new \JsApiPay();
@@ -95,7 +96,7 @@ class WeiXin
 
         $input->SetAttach($order_id);                   // 唯一订单ID
 
-        $input->SetOut_trade_no($order_id);          // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+        $input->SetOut_trade_no($order_id.mt_rand(1111,9999));          // 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
         $input->SetTotal_fee($money);                   // 产品金额单位为分
 
         //$input->SetTime_start(date("YmdHis"));        // 设置订单生成时间
@@ -111,6 +112,7 @@ class WeiXin
 
         // 返回支付需要的对象JSON格式数据
         $jsApiParameters = $tools->GetJsApiParameters($order);
+
 
         return $jsApiParameters;
     }
