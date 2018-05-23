@@ -83,6 +83,7 @@ class WechatController extends Controller
                         //充值流水
                         $flow_data=array(
                             'did'=>$orderData['did'],
+                            'uid'=>$orderData['uid'],
                             'order_id'=>$result['out_trade_no'],
                             'money'=>$result['total_fee'],
                             'mode'=>1,
