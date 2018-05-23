@@ -9,13 +9,22 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	<script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<script> 
+		var vconsole = new VConsole();
 		// 水机订单信息
 		var waterOrder = JSON.parse('{{$_SESSION["waterOrder"]|json_encode}}');
 		console.log('waterOrder: ',waterOrder);
 		// 商品信息
 		var goodsInfo = JSON.parse('{{$_SESSION["waterOrder"]["goodsInfo"]|json_encode}}');
- 
+		if(!goodsInfo){
+			goodsInfo = {};
+			// console.log('goodsInfo: ',goodsInfo);
+	 		goodsInfo['goodsTitle'] =  '';
+	 		goodsInfo['goodsDetail'] = '';
+	 		goodsInfo['goodsPrice'] = '';
+	 		goodsInfo['goodsNum'] = '';
+ 		}
 		// 用户open_id
 		var open_id= "{{$_SESSION['open_id']}}";
 
@@ -102,9 +111,7 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/pay/firstHire.js"></script>
-	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
-		var vconsole = new VConsole();
 		var waterOrder = JSON.parse('{{$_SESSION["waterOrder"]|json_encode}}');
 		console.log('waterOrder: ',waterOrder);
 

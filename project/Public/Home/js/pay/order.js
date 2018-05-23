@@ -28,6 +28,25 @@ var $_GET = (function() {
 // 	$(".line_check").css("left"," 11.41333333rem");
 // 	$(".take_page").show().siblings().hide();
 // }
+
+var __status = getQuery().status;
+var __title = $('#navbar>h2');
+var __html = __title.html();
+console.log('__status: ',__status);
+if(__status == 0){
+	__html += '<small> (全部)</small>';
+
+}else if(__status == 1){
+	__html += '<small> (待付款)</small>';
+
+}else if(__status == 2){
+	__html += '<small> (待发货)</small>';
+
+}else if(__status == 3){
+	__html += '<small> (待收货)</small>';
+
+}
+__title.html(__html);
 var product_pay = new Vue({
 	el:"#app",
 	data:{
@@ -150,7 +169,9 @@ var product_pay = new Vue({
 				// 点击取消订单，弹出提示框，若点击确认，通过ajax将产品id传后台，后台在数据库中删除选中信息，并刷新一次页面
 				// $_this.all_pay.splice(index,1);
 				// console.log($_this.all_pay[index]);
-				$(".cancel_bg").hide();
+				// $(".cancel_bg").hide();
+				// 取消订单
+				cancelOrder(this.orderid);
 				
 			});
 		},
