@@ -343,9 +343,10 @@
 			 //            }
 			 //        })
 			 //    }
-
-				this.enmoney = '{{$enmoney}}';
-				console.log('enmoney: ',this.enmoney);
+			 	var balance = JSON.parse('{{$enmoney|json_encode}}')
+				this.enmoney = Number(balance.balance) - Number(balance.canmoney);
+				// console.log('enmoney: ', Number(balance.balance));
+				// console.log('canmoney: ', Number(balance.canmoney));
 				// 查询旧账号
 				getCard(function(res){
 					if(res.code == 200){
