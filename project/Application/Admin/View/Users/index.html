@@ -40,7 +40,7 @@
                     <!-- <th>账户余额</th> -->
                     <th>最后登录时间</th>
                     <th>登录IP</th>
-                    <th>绑定日期</th>
+                    <!--<th>绑定日期</th>-->
                     <!-- <th>状态</th> -->
                     <!-- <th>操作</th> -->
                 </tr>
@@ -61,12 +61,12 @@
                             </empty>
 
                         <td>{{$vo.login_ip}}</td>
-                        <td>
+                        <!--<td>-->
                             <empty name="vo.bindtime">
                                 <else />
-                                {{$vo.bindtime|date='Y-m-d H:i:s',###}}
+                                <!--{{$vo.bindtime|date='Y-m-d H:i:s',###}}-->
                             </empty>
-                        </td>
+                        <!--</td>-->
                     </tr>
                     </foreach>
                     <else />
