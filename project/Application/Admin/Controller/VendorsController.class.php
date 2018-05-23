@@ -379,16 +379,16 @@ class VendorsController extends CommonController
             ->where($map)
             ->alias('d')
             ->join('__VENDORS__ v ON d.vid = v.id')
-            ->field('v.name,v.phone,d.device_code')
+//            ->field('v.name,v.phone,d.device_code')
             ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
 
         $bindinglist = $device_model->where($map)
                             ->alias('d')
-                            ->limit($page->firstRow.','.$page->listRows)
                             ->join('__VENDORS__ v ON d.vid = v.id')
-                            ->field('d.vid,d.id did,v.name,v.phone,d.device_code')
+                            ->field('d.vid,d.id did,v.name,v.phone,d.device_code,d.bindingtime')
+                            ->limit($page->firstRow.','.$page->listRows)
                             ->order('d.bindingtime desc')
                             ->select();
 //        dump($map);
