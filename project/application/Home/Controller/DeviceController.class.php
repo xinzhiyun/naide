@@ -159,7 +159,7 @@ class DeviceController extends HomebaseController
             $this->to_json($e);
         }
     }
-    
+
     /**
      * 设备初始化
      * @param $device_code
