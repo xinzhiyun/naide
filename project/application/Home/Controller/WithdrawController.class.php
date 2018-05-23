@@ -45,15 +45,16 @@ class WithdrawController extends HomebaseController
 	 */
 	public function getBankMsg()
 	{
-		//接收提现金额
-		$balance = M('users')->field('balance,canmoney')->where('id='.$_SESSION['homeuser']['id'])->find()['balance'];
+		//余额及冻结余额查询
+		$balance = M('users')->field('balance,canmoney')->where('id='.$_SESSION['homeuser']['id'])->find();
 
+		//可提现余额
 		$canBalance = $balance['balance']-$balance['canmoney'];
 
-		if ($canBalance > $balance) {
-			$data['money'] = $balance;
+		if ($_POST['data']['money'] > $canBalance) {
+			$data['money'] = $users['canmoney'] = $canBalance;
 		} else {
-			$data['money'] = $_POST['data']['money'];
+			$data['money'] = $users['canmoney'] = $_POST['data']['money'];
 		}
 		
 		//开户名
@@ -76,7 +77,9 @@ class WithdrawController extends HomebaseController
 
 		$info = M('Bank')->add($data);
 
-		if ($info) {
+		$bool = M('Users')->where('id='.$_SESSION['homeuser']['id'])->save($users['canmoney']);
+
+		if ($info && $bool) {
 			$this->ajaxReturn(array('code'=>'200','msg'=>'提交成功'));	
 		} else {
 			$this->ajaxReturn(array('code'=>'400','msg'=>'提交失败'));
