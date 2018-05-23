@@ -18,7 +18,7 @@ label {
 .am-g textarea {
 	border: none;
 	padding: 2px 4px;
-}
+} 
 /*确定按钮*/
 .confirm {
 	width: 80vw;
@@ -54,7 +54,6 @@ label {
 }
 .areaDiv .fblue {
 	padding-bottom: 1vh;
-	border-bottom: 1px solid #0d94f3;
 }
 .atop {
 	height: 8vh;
@@ -72,6 +71,13 @@ label {
 .atop>button {
 	width: 20%;
 	text-align: center;
+}
+.atop>button {
+	font-size: 30px;
+}
+.atop>button:active {
+	border-radius: 8px;
+	background: #eee;
 }
 .atop>h2 {
 	width: 60%;
@@ -103,6 +109,8 @@ label {
 .ctext,
 .atext {
 	text-align: center;
+	border-bottom: 1px solid #0d94f3;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 .province,
 .city,
