@@ -32,26 +32,27 @@ class WithdrawController extends HomebaseController
 
 	public function getBankMsg()
 	{
+		dump($_POST);
 		//接收提现金额
-			$data['money'];
-			
-			//开户名
-			$data['name'];
+		$data['money'];
+		
+		//开户名
+		$data['name'];
 
-			//银行名
-			$data['choose'];
-			
-			//开户支行
-			$data['acc_open'];
-			
-			//银行卡号
-			$data['bank'];
+		//银行名
+		$data['choose'];
+		
+		//开户支行
+		$data['acc_open'];
+		
+		//银行卡号
+		$data['bank'];
 
-			//用户id
-			$data['uid'] = $_SESSION['homeuser']['id'];
+		//用户id
+		$data['uid'] = $_SESSION['homeuser']['id'];
 
-			//创建时间
-			$data['create_time'] = time();
+		//创建时间
+		$data['create_time'] = time();
 	}
 
 }
