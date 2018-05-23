@@ -47,6 +47,7 @@ class WechatController extends Controller
                             $device_code = Device::get_devices_sn( $orderData['did'] );
 
                             R('Api/Action/pullDay', [$device_code, $orderData['flow']]);
+                            $statu_device['status']=4;
                         }
 
                         //发起工单(安装)
@@ -68,6 +69,10 @@ class WechatController extends Controller
                             if (M('work')->add($work_data)) {
                                 Log::write(json_encode($work_data),'订单回调:新购水机-安装');
                             }
+                            $statu_device['status']=1;
+                        }
+                        if(empty($statu_device['status'])){
+                            $order->where('id='.$orderData['id'])->save($statu_device);
                         }
 
                         $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
