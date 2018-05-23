@@ -17,6 +17,16 @@ class WithdrawController extends HomebaseController
 		$this->assign('enmoney', $balance);
 		$this->display();
 
+		
+		
+	}
+
+	/**
+	 * [havaBank 判断是否有历史银行]
+	 * @return [type] [description]
+	 */
+	public function havaBank()
+	{
 		//查询用户是否使用过的银行账户
 		$banks = M('bank')->where('uid='.$_SESSION['homeuser']['id'])->select();
 
@@ -26,9 +36,7 @@ class WithdrawController extends HomebaseController
 			$this->ajaxReturn(array('code'=>'200','msg'=>$banks));
 			
 		}
-		
 	}
-
 
 	public function getBankMsg()
 	{
