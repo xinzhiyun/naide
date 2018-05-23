@@ -75,7 +75,7 @@ class FeedsController extends CommonController
         $total = $user->where($map)
                         ->alias('f')
                         ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
-//                        ->join('__VENDORS__ v ON bd.vid = v.id')
+                        ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
 //                        ->field('d.*,f.id,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->count();
@@ -83,14 +83,13 @@ class FeedsController extends CommonController
         $pageButton =$page->show();
         $userlist = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
-//                        ->join('__VENDORS__ v ON bd.vid = v.id', 'LEFT')
-                        ->field('d.*,f.id, f.content,f.addtime')
+//                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
+                        ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
+                        ->field('u.*,f.id, f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
 
-//        dump($userlist);
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
         $this->display();

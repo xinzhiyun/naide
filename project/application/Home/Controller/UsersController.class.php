@@ -164,7 +164,7 @@ class UsersController extends HomebaseController {
 
             $arr = array(
                 'content' => I('content'),
-                'uid' => $did,
+                'uid' => $_SESSION['homeuser']['id'],
                 'addtime' => time(),
                 'did' => $_SESSION['homeuser']['did'],
                 'vid'=> $vid,
