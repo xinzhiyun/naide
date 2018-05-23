@@ -275,12 +275,13 @@
 			'chooseWXPay'
 			]
 		});
-		// 微信支付方法
+		// 3、微信支付方法
 		function weixinPay(res, callback){
 			var type = Object.prototype.toString.call(res);
 			if(type === '[object Object]'){
 				res = JSON.stringify(res);
-			} 
+			}
+			console.log('prePay: ',res);
 			WeixinJSBridge.invoke(
 				'getBrandWCPayRequest',
 				JSON.parse(res),
@@ -301,19 +302,85 @@
 		        }
 		    );
 		};
-		var jogData = {
-			openId: "{{$_SESSION['open_id']}}",
-			money: res.price,
-			order_id: res.order_id,
-			content: res.title,
-			notify_url: '{{:U("Home/Pay/order")}}'
-		}
-		// 请求订单信息，用于微信支付
-		function getOrderInfo(orderid, callback){
+		// 2、请求微信支付信息，用于微信支付
+		function prePay(data){
 			$.ajax({
 				url: '{{:U("Home/Pay/wxres")}}',
 				type: 'post',
-				data: jogData,
+				data: data,
+				success: function(res){
+					console.log('res: ',res);
+					if(res.status == 200){
+						// 微信支付
+						weixinPay(res.res, function(res){
+							switch (res.status){
+								case 'ok':
+									// 支付成功
+									noticeFn({text: '支付成功!'});
+									setTimeout(function(){
+										location.reload();
+									},500);
+									break
+								case 'cancel':
+									// 取消付款
+									noticeFn({text: '取消付款!'});
+									break
+								case 'fail':
+									// 付款失败
+									noticeFn({text: '付款失败，请稍后再试!'});
+									break
+								default:
+									//什么什么什么
+							}
+						});
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+				},
+				error: function(err){
+					console.log('err: ',err);
+					noticeFn({text: '系统遇到错误，请稍后再试'});
+				}
+			})
+		}
+
+		
+		// 1、请求订单信息，用于微信支付
+		function getOrderInfo(orderid){
+			$.ajax({
+				url: '{{:U("Home/Pay/getOrderInfo")}}',
+				type: 'post',
+				data: {orderid: orderid},
+				success: function(res){
+					console.log('res: ',res);
+					if(res.code == 200){
+						var jogData = {
+							openId: "{{$_SESSION['open_id']}}",
+							money: res.money/100,
+							order_id: res.order_id,
+							content: res.content,
+							notify_url: res.notify_url
+						}
+						prePay(jogData);
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+				},
+				error: function(err){
+					console.log('err: ',err);
+					noticeFn({text: '系统遇到错误，请稍后再试'});
+				}
+			})
+		}
+
+		// 取消订单
+		function cancelOrder(orderid){
+			$.ajax({
+				url: '{{:U("Home/Pay/cancelOrder")}}',
+				type: 'post',
+				data: {orderid: orderid},
 				success: function(res){
 					console.log('res: ',res);
 				},

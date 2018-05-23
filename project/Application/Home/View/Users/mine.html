@@ -105,7 +105,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' @touchend='buy' alink="{{:U('Home/Pay/lease')}}">
+							<a class='cfix' @click='buy' alink="{{:U('Home/Pay/lease')}}">
 								<i class="iconfont icon-device fleft" style='color:#FF9800;'></i>
 								<span class='fleft'> 购买水机</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -120,7 +120,7 @@
 						</li>
 						<li class="am-g">
 							<a class='cfix' href="{{:U('Home/Users/serviceIndex')}}">
-								<i class="iconfont icon-record fleft" style='color:#308be8;'></i>
+								<i class="iconfont icon-record fleft" style='color:#308be8;' ></i>
 								<span class='fleft'> 服务记录</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
 							</a>
@@ -175,6 +175,11 @@
 				
 			},
 			methods: {
+				_remove: function(e){
+					var el = e.currentTarget.parentNode.parentNode;
+					console.log(e);
+					el.parentNode.removeChild(el);
+				},
 				buy: function(e){
 					var href = e.currentTarget.getAttribute('alink');
 					location.href = href + "?has&to_code=" + "{{$_SESSION['homeuser']['code']}}";

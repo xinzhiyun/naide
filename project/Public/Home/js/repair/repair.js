@@ -183,8 +183,8 @@ var repair_bg_vue = new Vue({
 			}
 			console.log("后台要的参数", repair_bg_vue.infoAll);
 			// 提交报修数据
-			// repairUp(repair_bg_vue.infoAll);
-			console.log("成功提价数据")
+			repairUp(repair_bg_vue.infoAll);
+			// console.log("成功提价数据")
 		},	
 		e:function(ev){
 			var e = ev || event;

@@ -177,15 +177,8 @@ var product_pay = new Vue({
 				var pay_product_info = this.all_pay[this.num];//支付产品信息
 				var product_totalPrice = $(".pay_totalPrice").html();//支付产品总价
 				console.log(product_pay.orderid);
-				getOrderInfo(product_pay.orderid, function(res){
-					if(res.status == 200){
-						// 调用微信支付
-						weixinPay(res);
-
-					}else{
-						noticeFn({text: res.msg});
-					}
-				})
+				// 获取微信支付请求前的数据
+				getOrderInfo(product_pay.orderid);
 						
 				// $(".pay_bg").hide();
 				// $("body").css({"overflow":"auto"});
