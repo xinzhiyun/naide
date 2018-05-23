@@ -153,12 +153,9 @@
 	<script !src="">
 		var user = {{$user|json_encode}};
 		console.log(user);
-		var userInfo = '{{$userInfo}}';//个人信息
-		console.log(userInfo);
-		vm.userInfo = JSON.parse(userInfo);
-		console.log(vm.userInfo);
-		var dealer_member = '{{$dealer_member}}';//用户量
-		vm.dealer_member = dealer_member.replace('"','').replace("\"","");
+		
+		vm.userInfo = JSON.parse('{{$userInfo}}');//个人信息
+		vm.dealer_member = {{$dealer_member}};//用户量
 	</script>
 </body>
 </html>
