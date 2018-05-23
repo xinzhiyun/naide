@@ -23,7 +23,8 @@ class ComsbaseController extends AppframeController {
 	protected function check_login(){
 	    $session_user=session('comsuser');
 		if(empty($session_user)){
-			$this->error('您还没有登录！',U('Coms/Login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+            redirect(U('/Coms/Login/index'));exit;
+			//$this->error('您还没有登录！',U('Coms/Login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))),0);
 		}
 	}
 

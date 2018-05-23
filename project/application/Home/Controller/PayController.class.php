@@ -242,7 +242,7 @@ class PayController extends AppframeController {
     /**
      * 生成套餐订单 (支持代充)
      */
-    public function setmealbuy($data='')
+    public function setmealbuy($data=[])
     {
         try {
 
@@ -264,12 +264,30 @@ class PayController extends AppframeController {
             if (empty($data['did'])) {
                 E('当前无设备信息,请刷新重试!', 201);
             }
+            $device_data = M('devices')->find($data['did']);
 
-            $setmeal = M('setmeal')->field('money,describe')->find($data['setMealId']);
+            if (empty($data['tid'])) {
+                $data['tid'] = $device_data['type_id'];
+            }
+
+            if (empty($data['sid'])) {
+                $data['sid'] = $device_data['vid'];
+            }
+
+
+
+           
+
+            $setmeal = M('setmeal')->field('flow,money,describe')->find($data['setMealId']);
 
             if(isset($setmeal['money']) && $setmeal['money'] == $data['price']){
                 $order_sn = gerOrderSN();
-                if ($data['num'] < 1) {
+
+                if (empty($data['flow'])) {
+                    $data['flow'] = $setmeal['flow'];
+                }
+
+                if ( empty($data['num']) or $data['num'] < 1 ) {
                     $data['num'] = 1;
                 }
                 $money = $data['price'] * $data['num'];
