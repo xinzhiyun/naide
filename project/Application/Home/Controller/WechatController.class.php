@@ -75,7 +75,10 @@ class WechatController extends Controller
                             $order->where('id='.$orderData['id'])->save($statu_device);
                         }
 
-                        $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
+                        $ReDay='';
+                        if(empty($device_code)){
+                            $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
+                        }
 
                         //充值流水
                         $flow_data=array(
