@@ -39,7 +39,7 @@ class OrdersController extends CommonController
             $map['o.addres'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
-        if(!empty(session('adminuser.is_admin'))){
+        if(empty(session('adminuser.is_admin'))){
             $map['o.vid'] = $_SESSION['adminuser']['id'];
         }
 
