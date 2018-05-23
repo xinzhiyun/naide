@@ -121,6 +121,8 @@ class LoginController extends AppframeController {
 
             $m =  M('users');
             $info = $m->where('user='.$data['user'])->find();
+
+
             if (empty($info)) {
                 E('账号不存在!', 201);
             }
@@ -129,15 +131,20 @@ class LoginController extends AppframeController {
             if ($data['password'] != $info['password']) {
                 E('密码错误!', 201);
             } else {
+
+
                 session('homeuser.id',$info['id']);
                 session('homeuser.phone',$info['user']);
                 session('homeuser.name',$info['name']);
+                session('homeuser.code',$info['code']);
                 if(empty($info['code'])){
+
                     $re['code'] = R('Pay/create_guid');
                     $m->where('id='.$info['id'])->save($re);
                     session('homeuser.code',$re['code']);
                 }
-                session('homeuser.code',$info['code']);
+
+
 
                 $this->ajaxReturn(array(
                     'PHPSESSID'=>cookie('PHPSESSID'),

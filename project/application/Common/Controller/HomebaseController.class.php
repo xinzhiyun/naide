@@ -19,11 +19,11 @@ class HomebaseController extends AppframeController
         }
 
 
-        if(empty($homeuser['code'])){
-            $re['code'] = R('Pay/create_guid');
-            M('users')->where('id='.$homeuser['id'])->save($re);
-        }
-        session('homeuser.code',$re['code']);
+//        if(empty($homeuser['code'])){
+//            $re['code'] = R('Pay/create_guid');
+//            M('users')->where('id='.$homeuser['id'])->save($re);
+//        }
+//        session('homeuser.code',$re['code']);
 
 
         //兼容安卓的夸端登录
