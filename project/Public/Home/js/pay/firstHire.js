@@ -166,12 +166,15 @@ window.onload = function() {
 		$(this).children("span").removeClass("icon-weixuanzhongyuanquan").addClass("icon-circleyuanquan").parent().siblings().children("span").removeClass("icon-circleyuanquan").addClass("icon-weixuanzhongyuanquan");
 	})
 	// 点击支付弹出框
-	document.getElementsByClassName("payKuan")[0].addEventListener("touchstart", function(e) {
+	$("body").on("click", ".payKuan", function(ev) {
+		// console.log(ev)
 		var ev = ev || window.event;
-		if(ev.touches[0].pageY <= 255) {
+		var top = window.innerHeight*45/100;
+		// console.log(top);
+		if(ev.pageY <= top) {
 			// 隐藏支付方式
 			$(".payKuan").css("display", "none");
 		}
-	}, false);
+	});
 	
 }
