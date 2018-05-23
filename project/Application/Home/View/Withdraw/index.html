@@ -601,11 +601,21 @@
 								}else{
 									upinfo['subBranch'] = trimFn(this.subBranch);
 								}
+								// if(!this.cardNumber){
+								// 	noticeFn({text:'请输入银行卡号!'});
+								// 	return
+
+								// }else if(!bankCheck(trimFn(this.cardNumber))){
+								// 	noticeFn({text:'请输入正确的银行卡号!'});
+								// 	return
+								// }else{
+								// 	upinfo['cardNumber'] = trimFn(this.cardNumber);
+								// }
 								if(!this.cardNumber){
 									noticeFn({text:'请输入银行卡号!'});
 									return
 
-								}else if(!bankCheck(trimFn(this.cardNumber))){
+								}else if(!/\d{14,26}/.test(trimFn(this.cardNumber))){
 									noticeFn({text:'请输入正确的银行卡号!'});
 									return
 								}else{

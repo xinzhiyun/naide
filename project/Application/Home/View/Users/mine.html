@@ -81,7 +81,7 @@
 							</a>
 						</li>
 						<li class="am-g">
-							<a class='cfix' href="{{:U('Home/Users/earnings')}}">
+							<a class='cfix' @click='earn($event)' alink='{{:U("Home/Users/earnings")}}' >
 								<i class="iconfont icon-indent fleft" style='color:#FFDA48;'></i>
 								<span class='fleft'> 我的收益</span>
 								<i class="iconfont icon-xiangyou1 fright"></i>
@@ -175,10 +175,9 @@
 				
 			},
 			methods: {
-				_remove: function(e){
-					var el = e.currentTarget.parentNode.parentNode;
-					console.log(e);
-					el.parentNode.removeChild(el);
+				earn: function(e){
+					var _url = e.currentTarget.getAttribute('alink');
+					location.href = _url + '?name=' + "{{$info['name']}}";
 				},
 				buy: function(e){
 					var href = e.currentTarget.getAttribute('alink');

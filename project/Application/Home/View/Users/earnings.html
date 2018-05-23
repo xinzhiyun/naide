@@ -62,6 +62,7 @@
 			},
 			created() {
 				var that = this;
+				that.account = decodeURI(getQuery().name);
 				// 获取数据
 				that.getList(1, function(data){
 					that.eList = [];	// 清空数据
