@@ -39,8 +39,40 @@ var service = new Vue({
     methods: {
         // 点击搜索小图标提交表单
         subClick() {
+            $(".loadingdiv").fadeIn('slow');
             // alert(234)
-            searchFn(service.searchword, function(res){})
+            searchFn(service.searchword, function(res){
+                service.userList = [];  // 清空
+                res.forEach(function(item, index){
+                    item.status = service.statusList[item.status];
+                    item.no = item.no;
+                    item.addtime = getLocalTime(item.addtime);
+                    service.userList.push({
+                        workid: item.no,
+                        status: item.status,
+                        addtime: item.addtime
+                    });
+                });
+                $(".loadingdiv").fadeOut('fast');
+            })
+        },
+        // 回车搜索
+        search() {
+            $(".loadingdiv").fadeIn('slow');
+            searchFn(service.searchword, function(res){
+                service.userList = [];  // 清空
+                res.forEach(function(item, index){
+                    item.status = service.statusList[item.status];
+                    item.no = item.no;
+                    item.addtime = getLocalTime(item.addtime);
+                    service.userList.push({
+                        workid: item.no,
+                        status: item.status,
+                        addtime: item.addtime
+                    });
+                });
+                $(".loadingdiv").fadeOut('fast');
+            })
         },
         // 查看记录详情
         servicedetail(workid) {
@@ -71,20 +103,3 @@ var service = new Vue({
         }
     }
 });
-// 手机默认回车按钮提交表单
-$("#form1").on("submit", function(e) {
-    // 阻止表单默认跳转
-    e.preventDefault(); 
-    // alert(123)
-    $.ajax({
-        url: "",
-        data: {datas: $("input[name='searchInfo']".val())},
-        type: "post",
-        success: function(res) {
-            
-        },
-        error: function(res) {
-            
-        }
-    })
-})

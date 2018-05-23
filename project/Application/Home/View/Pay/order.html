@@ -142,7 +142,7 @@
 			</div>
 
 			<!-- 代付款时 status=0 -->
-			<div class="product_btn" v-if="order_pay_info.status == 0 && order_pay_info.type == 1">
+			<div class="product_btn" v-if="order_pay_info.status == 0 && order_pay_info.type == 2">
 				<p class="cancel" @click="cancel_show($event, index_all)" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id'>取消订单</p>
 				<p class="pay" @click="pay_show($event,index_all)" :num="index_all" :orderid='order_pay_info.order_id' :money='order_pay_info.money'>支付订单</p>
 			</div>
@@ -310,6 +310,7 @@
 				data: data,
 				success: function(res){
 					console.log('res: ',res);
+					console.log('res.res: ',res.res);
 					if(res.status == 200){
 						// 微信支付
 						weixinPay(res.res, function(res){

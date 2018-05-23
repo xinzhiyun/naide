@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
-	<link rel="stylesheet" href="__PUBLIC__/Home/css/users/buyinfo.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/pay/css/buyinfo.css">
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 	<script>
         // 用户信息
@@ -172,7 +172,7 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.citys.js"></script>
-	<script src="__PUBLIC__/Home/js/users/buyinfo.js"></script>
+	<script src="__PUBLIC__/Home/js/pay/buyinfo.js"></script>
 	<script src="__PUBLIC__/Home/js/wx_imgUpload.js"></script>
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
@@ -245,10 +245,8 @@
 					return false;
 				}
 				// 选择上传图片
-				wxuploadimg(function(res) {
-					console.log('res: ',res);
-					// 预览图片
-					$(".pic_2").append('<div class="am-u-sm-4 upimg" style="position:relative;" index="'+ res['media_Id'] +'"><img src="'+ res['src']+ '" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>');
+				wxuploadimg(function(resu) {
+					console.log('res: ',resu);
 					
 					console.log('repair_bg_vue.infoAll["pic"]: ',repair_bg_vue.infoAll['pic']);
 					// 上传图片
@@ -261,6 +259,8 @@
 							if(res.status == 200){
 								++picNum;
 								repair_bg_vue.infoAll['pic'].push(res.path);
+								// 预览图片
+								$(".pic_2").append('<div class="am-u-sm-4 upimg" style="position:relative;" index="'+ resu['media_Id'] +'"><img src="'+ res.path + '" alt="" style="width:3.2rem;height:3.2rem"/><i class="iconfont icon-chacha" id="chacha"></i></div>');
 							}else{
 								// 上传图片失败，这里应该删除页面中的预览图
 								noticeFn({text: res.msg});
