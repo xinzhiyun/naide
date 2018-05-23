@@ -62,7 +62,7 @@ class WorkController extends CommonController
             return false;
         });
 
-        if(!empty(session('adminuser.is_admin'))){
+        if(empty(session('adminuser.is_admin'))){
             $map['w.vid'] = $_SESSION['adminuser']['id'];
         }
 

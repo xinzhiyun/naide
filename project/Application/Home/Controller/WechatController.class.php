@@ -30,14 +30,14 @@ class WechatController extends Controller
                 $order = M('order');
                 // 查询订单是否已处理
                 $orderData = $order->where($map)->find();
-
                 // 如果订单未处理，订单支付金额等于订单实际金额(&& $orderData['money'] == $result['total_fee'])
-                if(empty($orderData['is_pay']) ){
+                if(!empty($orderData) && empty($orderData['is_pay']) ){
                     $data=array(
                         'is_pay'=>1
                     );
 
                     $order_res = $order->where('id='.$orderData['id'])->save($data);
+
 //                    $order_res = $order->where('id='.$orderData['id'])->find($data);
                     if(!empty($order_res)) {
 
@@ -47,10 +47,11 @@ class WechatController extends Controller
                             $device_code = Device::get_devices_sn( $orderData['did'] );
 
                             R('Api/Action/pullDay', [$device_code, $orderData['flow']]);
+                            $statu_device['status']=4;
                         }
 
                         //发起工单(安装)
-                        if( $orderData['type']==2) {
+                        if( $orderData['type']==1) {
                             $work_data = array(
                                 'no'=>get_work_no(),
                                 'type'=>0,
@@ -65,16 +66,26 @@ class WechatController extends Controller
                                 'vid'=>$orderData['wvid'],
                                 'addtime' => time(),
                             );
+
+
                             if (M('work')->add($work_data)) {
                                 Log::write(json_encode($work_data),'订单回调:新购水机-安装');
                             }
+                            $statu_device['status']=1;
+                        }
+                        if(empty($statu_device['status'])){
+                            $order->where('id='.$orderData['id'])->save($statu_device);
                         }
 
-                        $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
+                        $ReDay='';
+                        if(!empty($device_code)){
+                            $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
+                        }
 
                         //充值流水
                         $flow_data=array(
                             'did'=>$orderData['did'],
+                            'uid'=>$orderData['uid'],
                             'order_id'=>$result['out_trade_no'],
                             'money'=>$result['total_fee'],
                             'mode'=>1,
