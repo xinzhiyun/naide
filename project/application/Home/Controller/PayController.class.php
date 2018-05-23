@@ -509,8 +509,8 @@ class PayController extends AppframeController {
             if($res){
                 session('waterOrder.sid',$data['sid']);
                 session('waterOrder.uid',$uid);
-                session('waterOrder.name',$reg['name']);
-                session('waterOrder.phone',$reg['user']);
+                session('waterOrder.name',$data['uname']);
+                session('waterOrder.phone',$data['uphone']);
             } else {
                 //用户注册失败
                 E('用户注册失败', 201);
