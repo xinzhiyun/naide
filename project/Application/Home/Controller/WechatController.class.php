@@ -30,14 +30,14 @@ class WechatController extends Controller
                 $order = M('order');
                 // 查询订单是否已处理
                 $orderData = $order->where($map)->find();
-
                 // 如果订单未处理，订单支付金额等于订单实际金额(&& $orderData['money'] == $result['total_fee'])
-                if(empty($orderData['is_pay']) ){
+                if(!empty($orderData) && empty($orderData['is_pay']) ){
                     $data=array(
                         'is_pay'=>1
                     );
 
                     $order_res = $order->where('id='.$orderData['id'])->save($data);
+
 //                    $order_res = $order->where('id='.$orderData['id'])->find($data);
                     if(!empty($order_res)) {
 
@@ -51,7 +51,7 @@ class WechatController extends Controller
                         }
 
                         //发起工单(安装)
-                        if( $orderData['type']==2) {
+                        if( $orderData['type']==1) {
                             $work_data = array(
                                 'no'=>get_work_no(),
                                 'type'=>0,
@@ -66,6 +66,8 @@ class WechatController extends Controller
                                 'vid'=>$orderData['wvid'],
                                 'addtime' => time(),
                             );
+
+
                             if (M('work')->add($work_data)) {
                                 Log::write(json_encode($work_data),'订单回调:新购水机-安装');
                             }
