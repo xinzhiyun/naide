@@ -334,7 +334,7 @@
 						noticeFn({text: '提交成功，请耐心等待服务', time: '1500'});//提交成功
 						setTimeout(function(){
 							// 返回首页
-							// location.href = getURL('Home', 'Index/index');
+							location.href = getURL('Home', 'Index/index');
 						},500);
 					}else {
 						noticeFn({text: res.msg,time: '1500'});//提交失败

@@ -383,9 +383,16 @@
 				data: {orderid: orderid},
 				success: function(res){
 					console.log('res: ',res);
+					if(res.code == 200){
+						noticeFn({text: '取消成功'});
+
+					}else{
+						noticeFn({text: res.msg});
+					}
 				},
 				error: function(err){
 					console.log('err: ',err);
+					noticeFn({text: '系遇到问题，请稍后再试'});
 				}
 			})
 		}
