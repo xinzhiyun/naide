@@ -71,6 +71,9 @@ class DeviceController extends HomebaseController
                 if ($de_info['uid'] != null) {
                     E('该设备已被绑定', 201);
                 }
+                if (empty($de_info['vid'])) {
+                    E('当前设备无经销商!请联系销售人员!', 201);
+                }
             }
             $uid = session('homeuser.id');
 
