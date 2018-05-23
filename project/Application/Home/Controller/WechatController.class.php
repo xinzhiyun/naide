@@ -76,7 +76,7 @@ class WechatController extends Controller
                         }
 
                         $ReDay='';
-                        if(empty($device_code)){
+                        if(!empty($device_code)){
                             $ReDay =$device_code = M('devices_statu')->where('DeviceID='.$device_code)->getField('ReDay');
                         }
 
