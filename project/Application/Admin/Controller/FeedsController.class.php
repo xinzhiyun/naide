@@ -85,7 +85,7 @@ class FeedsController extends CommonController
                         ->alias('f')
 //                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
                         ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
-                        ->field('u.*,f.id, f.content,f.addtime')
+                        ->field('u.*,f.id,f.uid, f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
