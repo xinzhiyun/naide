@@ -11,8 +11,9 @@ class WithdrawController extends HomebaseController
 	public function index()
 	{
 		//查询登录用户的的余额
-		$balance = M('users')->field('balance')->where('id='.$_SESSION['homeuser']['id'])->find()['balance'];
+		$balance = M('users')->field('balance,canmoney')->where('id='.$_SESSION['homeuser']['id'])->find();
 
+		dump($balance);
 		//分配可提现余额
 		$this->assign('enmoney', $balance);
 		$this->display();
@@ -45,9 +46,11 @@ class WithdrawController extends HomebaseController
 	public function getBankMsg()
 	{
 		//接收提现金额
-		$balance = M('users')->field('balance')->where('id='.$_SESSION['homeuser']['id'])->find()['balance'];
+		$balance = M('users')->field('balance,canmoney')->where('id='.$_SESSION['homeuser']['id'])->find()['balance'];
 
-		if ($data['money'] > $balance) {
+		$canBalance = $balance['balance']-$balance['canmoney'];
+
+		if ($canBalance > $balance) {
 			$data['money'] = $balance;
 		} else {
 			$data['money'] = $_POST['data']['money'];
