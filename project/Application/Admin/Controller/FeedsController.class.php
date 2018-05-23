@@ -49,7 +49,7 @@ class FeedsController extends CommonController
             return false;
         });
         if(empty(session('adminuser.is_admin'))){
-            $map['d.vid'] = $_SESSION['adminuser']['id'];
+            $map['f.vid'] = $_SESSION['adminuser']['id'];
         }
 
 
@@ -72,9 +72,10 @@ class FeedsController extends CommonController
             return ;
         }
 
+        // dump($map);
         $total = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
+                        // ->join('__DEVICES__ d ON f.did = d.id', 'LEFT')
                         ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
 //                        ->field('d.*,f.id,f.content,f.addtime')
                         ->order('f.addtime desc')
