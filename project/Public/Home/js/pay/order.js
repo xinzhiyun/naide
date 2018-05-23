@@ -155,7 +155,8 @@ var product_pay = new Vue({
 		// 	}
 		// },
 		// 取消订单
-		cancel_show:function(index){
+		cancel_show:function(e, index){
+			product_pay.orderid = e.currentTarget.getAttribute('orderid');
 			var $_this = this;
 			$(".cancel_bg").show();
 			// 取消
@@ -170,8 +171,9 @@ var product_pay = new Vue({
 				// $_this.all_pay.splice(index,1);
 				// console.log($_this.all_pay[index]);
 				// $(".cancel_bg").hide();
+				console.log('product_pay.orderid: ',product_pay.orderid);
 				// 取消订单
-				cancelOrder(this.orderid);
+				cancelOrder(product_pay.orderid);
 				
 			});
 		},
