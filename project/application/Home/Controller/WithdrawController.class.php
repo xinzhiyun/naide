@@ -44,27 +44,40 @@ class WithdrawController extends HomebaseController
 	 */
 	public function getBankMsg()
 	{
-		dump($_POST);
 		//接收提现金额
-		$data['money'];
+		$balance = M('users')->field('balance')->where('id='.$_SESSION['homeuser']['id'])->find()['balance'];
+
+		if ($data['money'] > $balance) {
+			$data['money'] = $balance;
+		} else {
+			$data['money'] = $_POST['data']['money'];
+		}
 		
 		//开户名
-		$data['name'];
+		$data['name'] = $_POST['data']['name'];
 
 		//银行名
-		$data['choose'];
+		$data['choose'] = $_POST['data']['bankName'];
 		
 		//开户支行
-		$data['acc_open'];
+		$data['acc_open'] = $_POST['data']['subBranch'];
 		
 		//银行卡号
-		$data['bank'];
+		$data['bank'] = $_POST['data']['cardNumber'];
 
 		//用户id
 		$data['uid'] = $_SESSION['homeuser']['id'];
 
 		//创建时间
 		$data['create_time'] = time();
+
+		$info = M('Bank')->add($data);
+
+		if ($info) {
+			$this->ajaxReturn(array('code'=>'200','msg'=>'提交成功'));	
+		} else {
+			$this->ajaxReturn(array('code'=>'400','msg'=>'提交失败'));
+		}
 	}
 
 }
