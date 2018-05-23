@@ -23,6 +23,9 @@
   background: #fff;
   margin-bottom: 0.32rem;
 } 
+.pay_btn:active {
+  background:#197dc3;
+}
 .obligation_nav_bg .obligation_nav_content ul {
   width: 90%;
   height: 1.87733333rem;

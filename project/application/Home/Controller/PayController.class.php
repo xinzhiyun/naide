@@ -146,7 +146,7 @@ class PayController extends AppframeController {
             $uid = $_SESSION['homeuser']['id'];
             $to_code = M('users')->where(['id'=>$uid])->getField('to_code');
             $setMealId=I('setMealId');
-            $code = I('code');
+            $code = I('to_code');
 
             if (empty($to_code)) {
                 if (!empty($code)) {
@@ -181,7 +181,7 @@ class PayController extends AppframeController {
                 'goodsNum'=>1,
             );
             session('waterOrder.goodsInfo',$goodsInfo);
-
+            exit;
             E('更新成功', 200);
         } catch (\Exception $e) {
             $this->to_json($e);
@@ -532,10 +532,24 @@ class PayController extends AppframeController {
         } else {
             $this->ajaxReturn(['code'=>400]);
         }
-
-
-
      }
+     //取消订单
+    public function cancelOrder() {
+        $map['order_id'] = I('post.orderid');
+        $map['uid'] = $_SESSION['homeuser']['id'];
+        $map['status'] = 0;
+        $info = M('order')->where($map)->find();
+        if ( $info ) {
+            $save_info = M('order')->where($map)->save(['status'=>9]);
+            if ($save_info) {
+                $this->ajaxReturn(['code'=>200]);
+            } else {
+                $this->ajaxReturn(['code'=>400]);
+            }
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
     //每个用户的邀请码
     function create_guid($namespace = '') {
         static $guid = '';
@@ -565,7 +579,7 @@ class PayController extends AppframeController {
 
     public function buyinfo()
     {
-        dump($_SESSION);
+
         if(session('waterOrder.has')==1){
             $homeuser = session('homeuser');
             session('waterOrder.uid',$homeuser['id']);

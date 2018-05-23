@@ -25,7 +25,18 @@ class IndexController extends HomebaseController {
     {
 
         $did = session('homeuser.did');
+
         if(IS_AJAX){
+            if (empty($did)) {
+                $this->ajaxReturn(array(
+                    'filtermode'=>array(),
+                    'dataList'=>array(),
+                    'data'=>array(),
+                    'deviceId'=> '',
+                    'status'=>400,
+                ),"JSON");
+                exit;
+            }
             $device_code = Device::get_devices_sn($did);
 
             $filters = Device::get_filter($device_code);

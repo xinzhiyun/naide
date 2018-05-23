@@ -25,7 +25,7 @@ h3 {
 	line-height: 16vmin;
 	vertical-align: middle;
 }
-
+.bank_name {display: none;}
 .icon-alipay,
 .icon-weixin,
 .ylpng {

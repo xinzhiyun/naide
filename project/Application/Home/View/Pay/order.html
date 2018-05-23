@@ -126,7 +126,7 @@
 			<!-- 套餐 type=2 -->
 			<div class="flow_box border_line" v-else-if="order_pay_info.type == 2">
 				<span>{{order_pay_info.describe}}</span>
-				<span><i class="iconfont icon-rmb" style="fontSize:0.5rem;"></i>{{order_pay_info.money/100}}</span>
+				<span><i class="iconfont icon-rmb" style="fontSize:0.5rem;"></i>{{order_pay_info.money}}</span>
 				<span class="jiage">X 1
 			</div>
 			<!-- 合计 -->
@@ -143,7 +143,7 @@
 
 			<!-- 代付款时 status=0 -->
 			<div class="product_btn" v-if="order_pay_info.status == 0 && order_pay_info.type == 1">
-				<p class="cancel" @click="cancel_show(index_all)" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id'>取消订单</p>
+				<p class="cancel" @click="cancel_show($event, index_all)" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id'>取消订单</p>
 				<p class="pay" @click="pay_show($event,index_all)" :num="index_all" :orderid='order_pay_info.order_id' :money='order_pay_info.money'>支付订单</p>
 			</div>
 
@@ -318,7 +318,8 @@
 									// 支付成功
 									noticeFn({text: '支付成功!'});
 									setTimeout(function(){
-										location.reload();
+										// 待发货
+										location.href = '{{:U("Home/Pay/order")}}' + '?status=2';
 									},500);
 									break
 								case 'cancel':
@@ -377,6 +378,7 @@
 
 		// 取消订单
 		function cancelOrder(orderid){
+			console.log(orderid);
 			$.ajax({
 				url: '{{:U("Home/Pay/cancelOrder")}}',
 				type: 'post',
@@ -385,6 +387,10 @@
 					console.log('res: ',res);
 					if(res.code == 200){
 						noticeFn({text: '取消成功'});
+						$(".cancel_bg").hide();
+						setTimeout(function(){
+							location.reload();
+						},300);
 
 					}else{
 						noticeFn({text: res.msg});

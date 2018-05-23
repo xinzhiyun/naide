@@ -9,10 +9,12 @@ body {
   border-top: 1px solid #F7F7FB;
 }
 .main .companyLogo {
-  width: 1.87733333rem;
-  height: 1.89866667rem;
+  width: 50vw;
+  height: auto;
   margin: 4.05333333rem auto 2.13333333rem;
-  background-color: gray;
+  background: url('../../images/logo.png') no-repeat 100%/100%;
+  background-position: 100%;
+  font-size: 1rem !important;
 }
 .main .userInfo {
   width: 10.66666667rem;

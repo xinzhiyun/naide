@@ -1,15 +1,17 @@
 // vue实例化
-new Vue({
+var vm = new Vue({
     el: ".main",
     data: {
         // 用户信息 userName姓名 balance余额 canMoney可提现
-        userInfo: {userName : "嗯嗯", balance: splitStr("33567", ".", 3) , canMoney: splitStr("23534", ".", 3)},
+        userInfo: {},
         // 经销商收益
         dealer: {},
         // 服务站收益
         service: {},
         // 会员等级
-        type : "A"
+        type : "A",
+        // 用户量
+        dealer_member : "",
     },
     methods: {
         
