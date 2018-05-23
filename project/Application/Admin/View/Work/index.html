@@ -312,8 +312,6 @@
                     function psajax() {
                         var wid = $("#personnel_wid").val();
                         var vid = $("#getvendors_set option:checked").val();
-
-
                         $.ajax({
                             url: "{{:U('Admin/Work/setservice')}}",
                             data: {wid:wid,vid:vid},

@@ -178,16 +178,20 @@ class OrdersController extends CommonController
      * 更改状态
      * @author 潘宏钢 <619328391@qq.com>
      */
-    public function edit($order_id,$is_receipt)
+    public function edit()
     {
-        if ($_POST['express'] && $_POST['mca']) {
-            $work = M("orders");
-            $order_id = $_GET['order_id'];
-            $data['is_receipt'] = $is_receipt;
-            $data['express'] = $_POST['express'];
-            $data['mca'] = $_POST['mca'];
+        $data = I('post.');
+        if ($data['express'] && $data['mca']) {
+            $orders_model = M("order");
+
+            $map['order_id'] = $data['order_id'];
+
+            $savedata['express'] = $data['express'];
+            $savedata['mca'] = $data['mca'];
+            $savedata['status'] = 2;
+
             // dump($data);die;
-            $res = $work->where('order_id='.$order_id)->save($data); 
+            $res = $orders_model->where($map)->save($savedata);
             if ($res) {
                 $this->success('发货成功！',U('Orders/index'));        
             } else {
@@ -198,6 +202,8 @@ class OrdersController extends CommonController
         }
         
     }
+
+
 //
 //    /**
 //     * 订单详情
