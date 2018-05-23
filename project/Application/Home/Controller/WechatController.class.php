@@ -322,7 +322,13 @@ class WechatController extends Controller
                 "type":"view",
 
                 "url":"http://ddjz.ddjz88.com"
-            }]
+            }],
+            "button":[{
+                "name":"经销商",
+                "type":"view",
+                
+                "url":"http://ddjz.ddjz88.com/coms"
+            }],
         }';
 
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token;

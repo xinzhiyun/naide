@@ -174,7 +174,7 @@ class DeviceController extends HomebaseController
             'LeasingMode'=>2,
             'FilterMode'=>0,
             'AliveStause'=>1,
-            'ReDay'=>$order_info['flow'],
+            'ReDay'=>$order['flow'],
             'SumPump'=>0,
             'SumFlow'=>0,
             'SumDay'=>0,
@@ -199,6 +199,7 @@ class DeviceController extends HomebaseController
                 ->where('id='.$devices_statu['id'])
                 ->save($devices_statu_data);
         }
+        dump($devices_statu_res);
         if($devices_statu_res){
             return true;
         }

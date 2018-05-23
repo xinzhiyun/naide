@@ -132,7 +132,7 @@ class LoginController extends AppframeController {
                 E('密码错误!', 201);
             } else {
 
-                $m->where('id='.$info['id'])->save(['login_time'=>time(),'login_ip'=>getenv('HTTP_CLIENT_IP')]);
+                $m->where('id='.$info['id'])->save(['login_time'=>time(),'login_ip'=>getip()]);
                 session('homeuser.id',$info['id']);
                 session('homeuser.phone',$info['user']);
                 session('homeuser.name',$info['name']);
