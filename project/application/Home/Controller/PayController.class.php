@@ -521,7 +521,21 @@ class PayController extends AppframeController {
             $this->to_json($e);
         }
     }
+    //订单数据
+    public function getOrderInfo() {
+        $orderid = I('post.orderid');
+        $order = M('order')->where(['order_id'=>$orderid])->find();
+        if ($order) {
+            $open_id = $_SESSION['open_id'] ;
+            $this->ajaxReturn(['code'=>200,'open_id'=>$open_id,'money'=>$order['money']*100,'order_id'=>$order['order_id'],'content'=>'耐得净水器套餐充值
+        ','notify_url'=> 'http://'.$_SERVER['SERVER_NAME'].U('Home/Wechat/notify')]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
 
+
+
+     }
     //每个用户的邀请码
     function create_guid($namespace = '') {
         static $guid = '';
