@@ -181,7 +181,7 @@ class PayController extends AppframeController {
                 'goodsNum'=>1,
             );
             session('waterOrder.goodsInfo',$goodsInfo);
-
+            exit;
             E('更新成功', 200);
         } catch (\Exception $e) {
             $this->to_json($e);
@@ -565,7 +565,7 @@ class PayController extends AppframeController {
 
     public function buyinfo()
     {
-        dump($_SESSION);
+
         if(session('waterOrder.has')==1){
             $homeuser = session('homeuser');
             session('waterOrder.uid',$homeuser['id']);

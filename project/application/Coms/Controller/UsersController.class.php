@@ -10,6 +10,7 @@ class UsersController extends ComsbaseController {
     public function user_list()
     {
 
+
         $p = I('p',1);
         $vid = session('comsuser.id');
         $map['d.vid']=$vid;
@@ -21,10 +22,7 @@ class UsersController extends ComsbaseController {
                $map['d.device_code']=$search;
            }
         }
-        //有多少用户
-        $dis_count = M('devices')->alias('d')->where($map)->count('distinct(uid)');
-        //经销商收益
-        $blace = M('vendors')->field('blace')->where(['id'=>$vid])->find();
+
 
 
         $total = M('devices')
