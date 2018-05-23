@@ -12,14 +12,32 @@ class WechatController extends Controller
      */
     public function notify()
     {
-        $xml=file_get_contents('php://input', 'r');
+//        $xml=file_get_contents('php://input', 'r');
+        $xml = '<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
+<attach><![CDATA[201805231032372734635]]></attach>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1247894201]]></mch_id>
+<nonce_str><![CDATA[gw7ydxyjtn7pz9uuhch3r15h8fc07sa2]]></nonce_str>
+<openid><![CDATA[ocea2uOOZraYg9BwNjepME3g-Y7Q]]></openid>
+<out_trade_no><![CDATA[201805231032372734635]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[C03F87B70AB4CAF9CA978F1B8884925E]]></sign>
+<time_end><![CDATA[20180523103241]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000130201805232709310161]]></transaction_id>
+</xml>';
 
-
-        Log::write($xml,'水机支付回调xml');
+//        Log::write($xml,'水机支付回调xml');
 
         if($xml) {
             //解析微信返回数据数组格式
             $result = WeiXin::notifyData($xml);
+
 
             Log::write(json_encode($result),'水机支付回调');
             if(!empty($result['attach'])){
@@ -36,7 +54,8 @@ class WechatController extends Controller
                         'is_pay'=>1
                     );
 
-                    $order_res = $order->where('id='.$orderData['id'])->save($data);
+                    $order_res = $order->where('id='.$orderData['id'])->find($data);
+
 
 //                    $order_res = $order->where('id='.$orderData['id'])->find($data);
                     if(!empty($order_res)) {
@@ -98,103 +117,107 @@ class WechatController extends Controller
                         );
                         M('flow')->add($flow_data);
 
-                        //查找该经销商的佣金金额
-                        $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
-                        //查找邀请人和被邀请人
-                        $money = M('users')->field('to_code,parent_code')->where(['id' => $orderData['uid']])->find();
-                        //查找比例
-                        $system =  M('system')->field('device_life,commission_ratio1,commission_ratio2')->find();
-                        $day = $system['device_life'];
-                        //佣金
-                        $increase = $com_info*100;
-                        $a_commission = $increase * ($system['commission_ratio2']/100);
-                        $b_commission = $increase * ($system['commission_ratio1']/100);
+
+                    }
+
+                }
+            }
+        }
+    }
+    public function dist($orderData) {
+        //查找该经销商的佣金金额
+        $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
+        echo M('vendors')->getlastsql();
+        //查找邀请人和被邀请人
+        $money = M('users')->field('to_code,parent_code')->where(['id' => $orderData['uid']])->find();
+        //查找比例
+        $system =  M('system')->field('device_life,commission_ratio1,commission_ratio2')->find();
+        $day = $system['device_life'];
+        //佣金
+        $increase = $com_info*100;
+        $a_commission = $increase * ($system['commission_ratio2']/100);
+        $b_commission = $increase * ($system['commission_ratio1']/100);
 
 
-                        //查找邀请人
-                        if (isset($money['to_code'])) {
+        //查找邀请人
+        if (isset($money['to_code'])) {
 
-                            $to_code = M('users')->where(['code' => $money['to_code']])->getField('id');
-                            $device_code = M('devices')->where(['uid' => $to_code, 'defauit' => 1])->getField('device_code');
-                            if ($device_code) {
-                                $to_dev = M('devices')->where(['DeviceID' => $device_code])->find();
-                                //安装时间
-                                $to_ins_tiem = date('Y-m-d H:i:s', strtotime("+$day year", $to_dev['addtime']));
-                                //当前时间
-                                $time = date('Y-m-d H:i:s');
-                                $a_time = strtotime($time) - strtotime($to_ins_tiem);
-                                $days = intval($a_time / 86400);
-                                if ($days > 0) {
-                                    $to_inc = M('users')->where(['id' => $to_code['id']])->setInc('balance', $b_commission);
-                                    if ($to_inc) {
+            $to_code = M('users')->where(['code' => $money['to_code']])->getField('id');
+            $device_code = M('devices')->where(['uid' => $to_code, 'defauit' => 1])->getField('device_code');
+            if ($device_code) {
+                $to_dev = M('devices')->where(['DeviceID' => $device_code])->find();
+                //安装时间
+                $to_ins_tiem = date('Y-m-d H:i:s', strtotime("+$day year", $to_dev['addtime']));
+                //当前时间
+                $time = date('Y-m-d H:i:s');
+                $a_time = strtotime($time) - strtotime($to_ins_tiem);
+                $days = intval($a_time / 86400);
+                if ($days > 0) {
+                    $to_inc = M('users')->where(['id' => $to_code['id']])->setInc('balance', $b_commission);
+                    if ($to_inc) {
 //                                    分享人的分销记录
-                                        $distr_b['order_id'] = $result['out_trade_no'];
-                                        $distr_b['user_id'] = $to_code['id'];
-                                        $distr_b['increase'] = $b_commission;
-                                        $distr_b['category'] = 1;
-                                        $distr_b['create_time'] = date('Y-m-d H:i:s');
-                                        M('distr')->add($distr_b);
-                                    }
-                                } else {
-                                    $pullDay = R('Api/Action/pullDay', [$device_code, $b_commission]);
-                                    if ($pullDay == 200) {
+                        $distr_b['order_id'] = $result['out_trade_no'];
+                        $distr_b['user_id'] = $to_code['id'];
+                        $distr_b['increase'] = $b_commission;
+                        $distr_b['category'] = 1;
+                        $distr_b['create_time'] = date('Y-m-d H:i:s');
+                        M('distr')->add($distr_b);
+                    }
+                } else {
+                    $pullDay = R('Api/Action/pullDay', [$device_code, $b_commission]);
+                    if ($pullDay == 200) {
 //                                       分享人的分销记录
-                                        $distr_b['order_id'] = $result['out_trade_no'];
-                                        $distr_b['user_id'] = $to_code['id'];
-                                        $distr_b['increase'] = $b_commission;
-                                        $distr_b['category'] = 2;
-                                        $distr_b['create_time'] = date('Y-m-d H:i:s');
-                                        M('distr')->add($distr_b);
-                                    }
+                        $distr_b['order_id'] = $result['out_trade_no'];
+                        $distr_b['user_id'] = $to_code['id'];
+                        $distr_b['increase'] = $b_commission;
+                        $distr_b['category'] = 2;
+                        $distr_b['create_time'] = date('Y-m-d H:i:s');
+                        M('distr')->add($distr_b);
+                    }
 
-                                }
+                }
 
-                            }
-                        }
+            }
+        }
 
-                        //查找邀请人的邀请人
-                        //查找邀请人
-                        if (isset($money['parent_code'])) {
+        //查找邀请人的邀请人
+        //查找邀请人
+        if (isset($money['parent_code'])) {
 
-                            $parent_code = M('users')->where(['code' => $money['parent_code']])->getField('id');
+            $parent_code = M('users')->where(['code' => $money['parent_code']])->getField('id');
 
-                            $p_device_code = M('devices')->where(['uid' => $parent_code, 'defauit' => 1])->getField('device_code');
-                            if ($p_device_code) {
-                                $p_to_dev = M('devices')->where(['DeviceID' => $p_device_code])->find();
+            $p_device_code = M('devices')->where(['uid' => $parent_code, 'defauit' => 1])->getField('device_code');
+            if ($p_device_code) {
+                $p_to_dev = M('devices')->where(['DeviceID' => $p_device_code])->find();
 
-                                //安装时间
-                                $p_to_ins_tiem = date('Y-m-d H:i:s', strtotime("+$day year", $p_to_dev['addtime']));
+                //安装时间
+                $p_to_ins_tiem = date('Y-m-d H:i:s', strtotime("+$day year", $p_to_dev['addtime']));
 
-                                //当前时间
-                                $time = date('Y-m-d H:i:s');
-                                $a_time = strtotime($time) - strtotime($p_to_ins_tiem);
-                                $days = intval($a_time / 86400);
-                                $to_inc = M('users')->where(['id' => $parent_code['id']])->setInc('balance', $a_commission);
-                                if ($days > 0) {
-                                    if ($to_inc) {
+                //当前时间
+                $time = date('Y-m-d H:i:s');
+                $a_time = strtotime($time) - strtotime($p_to_ins_tiem);
+                $days = intval($a_time / 86400);
+                $to_inc = M('users')->where(['id' => $parent_code['id']])->setInc('balance', $a_commission);
+                if ($days > 0) {
+                    if ($to_inc) {
 //                                    分享人的分销记录
-                                        $distr_a['order_id'] = $result['out_trade_no'];
-                                        $distr_a['user_id'] = $p_device_code['id'];
-                                        $distr_a['increase'] = $a_commission;
-                                        $distr_a['category'] = 1;
-                                        $distr_a['create_time'] = date('Y-m-d H:i:s');
-                                        M('distr')->add($distr_a);
-                                    }
-                                } else {
-                                    $pullDay = R('Api/Action/pullDay', [$p_device_code, $a_commission]);
-                                    if ($pullDay == 200) {
+                        $distr_a['order_id'] = $result['out_trade_no'];
+                        $distr_a['user_id'] = $p_device_code['id'];
+                        $distr_a['increase'] = $a_commission;
+                        $distr_a['category'] = 1;
+                        $distr_a['create_time'] = date('Y-m-d H:i:s');
+                        M('distr')->add($distr_a);
+                    }
+                } else {
+                    $pullDay = R('Api/Action/pullDay', [$p_device_code, $a_commission]);
+                    if ($pullDay == 200) {
 //                                        分享人的分销记录
-                                        $distr_b['order_id'] = $result['out_trade_no'];
-                                        $distr_b['user_id'] = $p_device_code['id'];
-                                        $distr_b['increase'] = $a_commission;
-                                        $distr_b['category'] = 2;
-                                        $distr_b['create_time'] = date('Y-m-d H:i:s');
-                                        M('distr')->add($distr_b);
-                                    }
-
-                                }
-                            }
-                        }
+                        $distr_b['order_id'] = $result['out_trade_no'];
+                        $distr_b['user_id'] = $p_device_code['id'];
+                        $distr_b['increase'] = $a_commission;
+                        $distr_b['category'] = 2;
+                        $distr_b['create_time'] = date('Y-m-d H:i:s');
+                        M('distr')->add($distr_b);
                     }
 
                 }
