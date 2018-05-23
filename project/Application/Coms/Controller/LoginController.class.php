@@ -21,12 +21,14 @@ class LoginController extends AppframeController
             }
 
             $m =  M('vendors');
-            $info = $m->where('user='.$data['user'])->find();
+            $info = $m->where('phone='.$data['user'])->find();
+
             if (empty($info)) {
                 E('账号不存在!', 201);
             }
 
             $data['password'] = md5(md5($data['password']));
+
             if ($data['password'] != $info['password']) {
                 E('密码错误!', 201);
             } else {

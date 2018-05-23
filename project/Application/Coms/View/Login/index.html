@@ -64,7 +64,7 @@
 			success: function(res) {
                 console.log("登录", res);
                 if(res.status == 200) {
-                    location.href = '{{:U("/Home/Index/index")}}';
+                    location.href = '{{:U("/Coms/Index/index")}}';
 				}else{
                     noticeFn({text: res.msg});
                 }
