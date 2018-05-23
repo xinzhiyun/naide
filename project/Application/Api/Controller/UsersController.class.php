@@ -64,11 +64,14 @@ class UsersController extends  HomebaseController
     //服务记录
     public function service_record() {
 
+             $data = I('post.searchword');
             $map['uid'] = $_SESSION['homeuser']['id'];
             $total = M('work')->where($map)->count();
             $page  = new \Think\Page($total,20);
             $pageButton =$page->show();
-
+            if ($data) {
+                $map['no'] = array('like','%'.$data.'%');
+            }
             $list = M('work')->where($map)->limit($page->firstRow.','.$page->listRows)
                 ->select();
 
