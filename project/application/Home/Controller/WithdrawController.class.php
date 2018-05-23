@@ -38,6 +38,10 @@ class WithdrawController extends HomebaseController
 		}
 	}
 
+	/**
+	 * [getBankMsg 写入银行信息]
+	 * @return [type] [description]
+	 */
 	public function getBankMsg()
 	{
 		dump($_POST);
