@@ -11,12 +11,13 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <div id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入工单号/设备编码" v-model='searchword'>
+                <!-- <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入工单号/设备编码" v-model='searchword' @keyup.enter='search'> -->
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入工单号" v-model='searchword' @keyup.enter='search'>
             </div>
-        </form>
+        </div> 
         <div class="userInfo">
             <ul>
                 <!-- 头部 -->
@@ -83,15 +84,16 @@
         // 搜索数据
         function searchFn(searchword, callback){
             $.ajax({
-                url: '',
+                url: '{{:U("Api/Users/service_record")}}',
                 data: {searchword: searchword},
                 type: "post",
                 success: function(res) {
                     console.log('res: ',res);
                     if(res.code == 200){
                         callback(res.data);
-
+                        $('.nextIcon').show();
                     }else{
+                        $(".loadingdiv").fadeOut('fast');
                         $('.nextIcon').hide();
                         service.userList = [{
                             workid: '&emsp;',

@@ -181,7 +181,7 @@ class PayController extends AppframeController {
                 'goodsNum'=>1,
             );
             session('waterOrder.goodsInfo',$goodsInfo);
-            exit;
+            
             E('更新成功', 200);
         } catch (\Exception $e) {
             $this->to_json($e);
@@ -340,6 +340,7 @@ class PayController extends AppframeController {
     {
         try {
             $data = I('post.');
+
             //$openId,$money,$order_id,$content,$notify_url
             if (empty($data['openId'])) {
                 E('参数错误', 201);
@@ -348,22 +349,22 @@ class PayController extends AppframeController {
             }
 
             if (empty($data['money'])) {
-                E('参数错误', 201);
+                E('参数错误', 202);
             } else {
                 $money = $data['money'];
             }
             if (empty($data['order_id'])) {
-                E('参数错误', 201);
+                E('参数错误', 203);
             } else {
                 $order_id = $data['order_id'];
             }
             if (empty($data['content'])) {
-                E('参数错误', 201);
+                E('参数错误', 204);
             } else {
                 $content = $data['content'];
             }
             if (empty($data['notify_url'])) {
-                E('参数错误', 201);
+                E('参数错误', 205);
             } else {
                 $notify_url = $data['notify_url'];
             }
@@ -527,6 +528,7 @@ class PayController extends AppframeController {
         $order = M('order')->where(['order_id'=>$orderid])->find();
         if ($order) {
             $open_id = $_SESSION['open_id'] ;
+
             $this->ajaxReturn(['code'=>200,'open_id'=>$open_id,'money'=>$order['money']*100,'order_id'=>$order['order_id'],'content'=>'耐得净水器套餐充值
         ','notify_url'=> 'http://'.$_SERVER['SERVER_NAME'].U('Home/Wechat/notify')]);
         } else {

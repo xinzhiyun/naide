@@ -26,6 +26,7 @@ class WxPayConfig
 	const MCHID = WeiXin::MCHID;
 	const KEY   = WeiXin::KEY;
 	const APPSECRET = WeiXin::APPSECRET;
+	const NOTIFY_URL = WeiXin::NOTIFY_URL;
 
 	//=======【证书路径设置】=====================================
 	/**

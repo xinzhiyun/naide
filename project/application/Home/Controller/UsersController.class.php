@@ -153,7 +153,7 @@ class UsersController extends HomebaseController {
 //    }
 
     /**
-     * 建议
+    serviceIndex.html* 建议
      */
     public function proposal()
     {

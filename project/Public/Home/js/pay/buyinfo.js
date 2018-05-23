@@ -1,5 +1,16 @@
 window.onload = function(){
 	
+	// 初始化
+    $('#areaChoose').citys({
+    	required: false,
+    	nodata: 'disabled',
+        onChange:function(info){
+        	// townFormat(info);
+        }
+    },function(api){
+        var info = api.getInfo();
+        // townFormat(info);
+    });
 	// 密码可见不可见切换
 	$("#seepwd").click(function(){
 		if($(this).hasClass('am-icon-eye-slash')){
@@ -7,7 +18,7 @@ window.onload = function(){
 			// console.log($(this).siblings('.upwd'))
 			$(this).siblings('.upwd').attr('type','text');
 
-		}else{
+		}else{ 
 			$(this).attr('class', 'am-u-sm-2 am-icon-eye-slash');
 			$(this).siblings('.upwd').attr('type','password');
 
@@ -16,21 +27,11 @@ window.onload = function(){
 	// 点击选择地区
 	$(".areabtn").click(function(){
 		$("#areaChoose").fadeIn('fast');
-		$('.atop>p').text('');	//确定按钮不显示
+		$('.atop>p').html('&nbsp;');	//确定按钮不显示
 		// 清空城市， 区县
-		$('.ctext').text('');
-		$('.atext').text('');
+		$('.ctext').html('&nbsp;');
+		$('.atext').html('&nbsp;');
 
-	    $('#areaChoose').citys({
-	    	required: false,
-	    	nodata: 'disabled',
-	        onChange:function(info){
-	        	// townFormat(info);
-	        }
-	    },function(api){
-	        var info = api.getInfo();
-	        // townFormat(info);
-	    });
 	})
 	// 选择城市的时候判断有没有区县
 	$('.city').on('click', 'p', function(){
@@ -86,6 +87,10 @@ window.onload = function(){
 		if($(this).text().indexOf('请选择') > -1){
 			noticeFn({text:'请选择一个有有效的地址！'});
 		}
+		// for(var i=0; i<$('.areadiv>p').length; i++){
+			$('.areadiv>p').css({color: '#333'});
+		// }
+		$(this).css({color: '#0d94f3'});
 	})
 	// 显示服务站列表
 	$('.service_stop').click(function(){

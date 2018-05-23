@@ -47,10 +47,9 @@ class UsersController extends ComsbaseController {
             'bindtime'=>['date','Y-m-d']
         ];
         $res = replace_array_value($res,$arr);
+
         $this->ajaxReturn(array(
             'list'=>$res,
-            'dis_count'=>$dis_count,
-            'blace'=>$blace,
             'status'=>200,
             'msg'=>'ok',
         ),'JSON');
