@@ -19,7 +19,7 @@ var service = new Vue({
             load: false
         }
     },
-    created() {
+    created() { 
         // 请求数据
         getList(1, function(res){
             service.load = true;

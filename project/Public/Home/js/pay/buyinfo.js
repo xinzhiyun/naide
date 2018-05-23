@@ -18,7 +18,7 @@ window.onload = function(){
 			// console.log($(this).siblings('.upwd'))
 			$(this).siblings('.upwd').attr('type','text');
 
-		}else{
+		}else{ 
 			$(this).attr('class', 'am-u-sm-2 am-icon-eye-slash');
 			$(this).siblings('.upwd').attr('type','password');
 
