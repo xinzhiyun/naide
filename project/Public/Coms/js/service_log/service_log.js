@@ -2,14 +2,15 @@ var service_log_vue = new Vue({
 	el:"#service_log_vue",
 	data:{
 		info:{},
-		// 安装
-		install:[],
-		// 维修
-		repair:[],
-		// 维护
-		maintenance:[],
 		// 服务详情页面
-		service_details_info:{},
+		service_details_info:{
+			no:"--",
+			name:"--",
+			phone:"--",
+			type:"--",
+			content:"--",
+			city:"--",
+		},
 		code:"",
 		num: [],//安装，维修，维护信息数量
 		getAjax:"",
@@ -32,35 +33,6 @@ var service_log_vue = new Vue({
 		sevice_details:function(status,number){
 			service_log_vue.url(status,number);
 		},
-		// showModule:function(event){
-		//  @click='showModule($event)'
-		// 	var el = event.currentTarget || event.srcElement;
-		// 	var $el = $(el);
-		// 	var attr_name = $el.attr("class");
-		// 	console.log(attr_name)
-		// 	switch(attr_name){
-		// 		case "all_page":
-		// 			$(".install_ul").show().siblings().show();
-		// 			$(".install_user").show();
-		// 			$("#service_details_bg").hide();
-		// 			break;
-		// 		case "install":
-		// 			$(".install_ul").show().siblings().hide();
-		// 			$(".install_user").show();
-		// 			$("#service_details_bg").hide();
-		// 			break;
-		// 		case "repair":
-		// 			$(".repair_ul").show().siblings().hide();
-		// 			$(".install_user").show();
-		// 			$("#service_details_bg").hide();
-		// 			break;
-		// 		case "maintenance":
-		// 			$(".maintenance_ul").show().siblings().hide();
-		// 			$(".install_user").show();
-		// 			$("#service_details_bg").hide();
-		// 			break;
-		// 	}
-		// },sevice_details
 	},
 	// 状态(字体样式)
 	created:function(){
@@ -83,7 +55,6 @@ var service_log_vue = new Vue({
 		if(href){
 			var index = url.split("=")[1].split("&")[0];
 			var no = url.split("=")[2];
-			// var url = HTTP
 			var url = getURL("Coms","users/sevice_details.html?index="+index+"&no="+no);
 			console.log(url)
 			$.ajax({

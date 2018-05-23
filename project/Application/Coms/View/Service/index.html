@@ -75,7 +75,9 @@
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">服务类型：</p>
-							<p class="right">{{service_details_info.type}}</p>
+							<p class="right" v-if="service_details_info.type == 0">安装</p>
+							<p class="right" v-if="service_details_info.type == 1">报修</p>
+							<p class="right" v-if="service_details_info.type == 2">维护</p>
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">服务内容：</p>
@@ -83,7 +85,11 @@
 						</li>
 						<li class="bottom_line_h">
 							<p class="left">上门地址：</p>
-							<p class="right">{{service_details_info.city}}</p>
+							<p class="right">	
+								{{service_details_info.city}}
+								{{service_details_info.district}}
+								{{service_details_info.address}}
+							</p>
 						</li>
 					</ul>
 				</div>    
@@ -118,51 +124,26 @@
 				return {};
 			}
 		})();
+		console.log($_GET.index)
+		// console.log(url.indexOf("?"))
 		var url = window.document.location.href.toString();
-		if($_GET.index == undefined || url.indexOf("?") == -1){
+		if($_GET.index == undefined){
 			$(".install_user").show();
 			$("#service_details_bg").hide();
-		}else if($_GET.index == "1"){
+		}else{
 			$(".install_user").hide();
 			$("#service_details_bg").show();
 		}
 
-		// 获取选中工单，从离线数据库中将数据赋值vue,避免页面刷新后数据为空
-		var num = url.split("&");
-		num = num[num.length-1];
-		if(typeof Number(parseInt(num)) != "NAN"){
-			// localStorage
-			if(!window.localStorage){
-				alert("浏览器支持localStorage！");
-			}else{
-				var storage = window.localStorage;
-				for(var i = 0;i<localStorage.length;i++){
-					// 库中所有的键
-			        var storage_value_all = localStorage.key(i);
-			        var number_all = storage_value_all.split("_")[2];
-			        if(number_all == num){
-			        	service_log_vue.service_details_info = JSON.parse(storage.getItem(localStorage.key(i)));
-			        }
-				}
-			}
-		}
 		// vue数据
 		var data = {{$data}};
 		var tone =	"{{$tone}}";
 		var ttwo =	"{{$ttwo}}";
 		var tf =	"{{$tf}}";
 		service_log_vue.num = [tone,ttwo,tf];//服务记录数量
-		console.log(data)
-		// for(var i =0;i<data.length;i++){
-		// 	if(data[i].status == '0'){
-		// 		service_log_vue.install.push(data[i])
-		// 	}else if(data[i].status == "1"){
-
-		// 	}else if(data[i].status == "2"){
-
-		// 	}
-		// 	// console.log(typeof data[i].status)
-		// }
+		data.forEach(function(item,index){
+			item.addtime = getLocalTime(item.addtime);
+		})
 		service_log_vue.info = data;
 	</script>
 </body>
