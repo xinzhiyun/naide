@@ -28,11 +28,14 @@ class IndexController extends CommonController {
                     ->count();
 
                 // 建议数量统计->建议列表
-                $feeds['total'] = D('Feeds')
-                    ->where($map)
-                    ->alias('f')
-                    ->join('__DEVICES__ d on f.did = d.did','LEFT')
-                    ->count();
+                // $feeds['total'] = D('Feeds')
+                //     ->where($map)
+                //     ->alias('f')
+                //     ->join('__DEVICES__ d on f.did = d.did','LEFT')
+                //     ->count();
+                $feeds['total'] = M('vendors')->where("examine=1 and id=".session('adminuser.id'))->count();
+                
+                
             } else {
                 $order_filters = D('Order')
                     ->field('distinct(order_id)')
@@ -43,8 +46,10 @@ class IndexController extends CommonController {
                 // 保修数量统计->保修列表
                 $repairs['total'] = D('Work')->count();
 
-                // 建议数量统计->建议列表
-                $feeds['total'] = D('Feeds')->count();
+                // // 经销商数据审核统计->建议列表
+                // $feeds['total'] = D('Feeds')->count();
+                $feeds['total'] = M('vendors')->where(['examine=1'])->count();
+                
             }
 	    	$data = [
 				'flows' => $flows,
