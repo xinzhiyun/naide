@@ -46,7 +46,7 @@
                             <td>{{$vo.device_code}}</td>
                             <td>{{$vo.name}}</td>
                             <td>{{$vo.phone}}</td>
-                            <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                            <td><?php if($vo['bindingtime'])echo date('Y-m-d H:i:s',$vo['bindingtime']);?></td>
                             <td align="center">
                                 <a class="remove" device_id="{{$vo.id}}" device_did="{{$vo.did}}">解除经销商关系绑定</a>
                             </td>
