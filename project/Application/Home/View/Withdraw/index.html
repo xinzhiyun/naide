@@ -202,9 +202,18 @@
 				data: {data: data},
 				success: function(res){
 					console.log('res: ',res);
+					if(res.code == 200){
+						noticeFn({text: '提交成功'});
+						setTimeout(function(){
+							location.href = '{{:U("Home/Index/index")}}';
+						},300);
+					}else{
+						noticeFn({text: '提交失败，请稍后再试'});
+					}
 				},
 				error: function(err){
 					console.log('err: ',err);
+					noticeFn({text: '系统出错，请稍后再试'});
 				}
 			})
 		}
@@ -334,9 +343,10 @@
 			 //            }
 			 //        })
 			 //    }
-
-				this.enmoney = '{{$enmoney}}';
-				console.log('enmoney: ',this.enmoney);
+			 	var balance = JSON.parse('{{$enmoney|json_encode}}')
+				this.enmoney = Number(balance.balance) - Number(balance.canmoney);
+				// console.log('enmoney: ', Number(balance.balance));
+				// console.log('canmoney: ', Number(balance.canmoney));
 				// 查询旧账号
 				getCard(function(res){
 					if(res.code == 200){
@@ -601,11 +611,21 @@
 								}else{
 									upinfo['subBranch'] = trimFn(this.subBranch);
 								}
+								// if(!this.cardNumber){
+								// 	noticeFn({text:'请输入银行卡号!'});
+								// 	return
+
+								// }else if(!bankCheck(trimFn(this.cardNumber))){
+								// 	noticeFn({text:'请输入正确的银行卡号!'});
+								// 	return
+								// }else{
+								// 	upinfo['cardNumber'] = trimFn(this.cardNumber);
+								// }
 								if(!this.cardNumber){
 									noticeFn({text:'请输入银行卡号!'});
 									return
 
-								}else if(!bankCheck(trimFn(this.cardNumber))){
+								}else if(!/\d{14,26}/.test(trimFn(this.cardNumber))){
 									noticeFn({text:'请输入正确的银行卡号!'});
 									return
 								}else{
