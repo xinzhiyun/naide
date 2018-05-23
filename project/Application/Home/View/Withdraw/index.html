@@ -190,7 +190,38 @@
 	<!-- <script src="__PUBLIC__/Home/js/upimg.js"></script> -->
 	<!-- <script src="__PUBLIC__/Home/js/webuploader.js"></script> -->
 	<script src='__PUBLIC__/Home/js/downfresh.js'></script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
+		var vConsole = new VConsole();
+		// 提交数据
+		function upData(data){
+			console.log('data: ',data);
+			$.ajax({
+				url: '{{:U("Home/Withdraw/getBankMsg")}}',
+				type: 'post',
+				data: {data: data},
+				success: function(res){
+					console.log('res: ',res);
+				},
+				error: function(err){
+					console.log('err: ',err);
+				}
+			})
+		}
+		// 查询旧账号
+		function getCard(callback){
+			$.ajax({
+				url: '{{:U("Home/Withdraw/havaBank")}}',
+				type: 'get',
+				success: function(res){
+					console.log('res: ',res);
+					callback(res);
+				},
+				error:function(err){
+					console.log('err: ',err);
+				}
+			})
+		}
 		var withdraw = new Vue({
 			el: '#withdraw',
 			data() {
@@ -305,6 +336,14 @@
 			 //    }
 
 				this.enmoney = '{{$enmoney}}';
+				console.log('enmoney: ',this.enmoney);
+				// 查询旧账号
+				getCard(function(res){
+					if(res.code == 200){
+						// 暂时一个
+						this.oldcard = res[0].bank;
+					}
+				})
 				// this.oldcard = '3453463546456487';
 				if(!this.oldcard){
 					// 无旧银行卡时候使用
@@ -574,6 +613,8 @@
 								}
 								
 								console.log('upinfo: ',upinfo);
+								// 提交数据
+								upData(upinfo);
 
 							}else if(this.selectCard == 'old'){
 								// 使用旧账户
