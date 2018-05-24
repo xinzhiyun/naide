@@ -71,7 +71,7 @@ var wait_task = new Vue({
 		 			noticeFn({text: res.text});
 		 		}
 		 	},_this.url,_this.data);
-		},     
+		},
 		//搜索用户页面（第二页）
 		service_details:function(index){
 			var _this = this;
@@ -97,10 +97,10 @@ var wait_task = new Vue({
 			},_this.url,_this.data);
 		},
 		// 点击搜索小图标提交表单
-        // subClick:function(){
-        // 	var _this = this;  
-        // 	_this.sub_pub();
-        // },
+        subClick:function(){
+        	var _this = this;
+        	_this.sub_pub();
+        },
         // 搜索
         sub_pub:function(){
         	var _this = this;
@@ -127,33 +127,33 @@ var wait_task = new Vue({
 
         },
         // 点击搜索小图标提交表单
-        subClick:function(){
-        	console.log("搜索图标",this.search)
-        	$.ajax({
-                url: '',
-                data: {searchword: this.search},
-                type: "post",
-                success: function(res) {
-                    console.log('res: ',res);
-                    if(res.code == 200){
-                        wait_task.service_details_info = res.data;
-                    }else{
-                        wait_task.service_details_info = [{
-                            name: '&emsp;',
-                            phone: '查无数据',
-                            device_code: '&emsp;'            
-                        }];
-                    }
-                },
-                error: function(err) {
-                    wait_task.service_details_info = [{
-                        name: '&emsp;',
-                        phone: '查无数据',
-                        device_code: '&emsp;'            
-                    }];
-                }
-            })
-        },
+        // subClick:function(){
+        // 	console.log(this.search)
+        // 	$.ajax({
+        //         url: '',
+        //         data: {searchword: this.search},
+        //         type: "post",
+        //         success: function(res) {
+        //             console.log('res: ',res);
+        //             if(res.code == 200){
+        //                 wait_task.service_details_info = res.data;
+        //             }else{
+        //                 wait_task.service_details_info = [{
+        //                     name: '&emsp;',
+        //                     phone: '查无数据',
+        //                     device_code: '&emsp;'            
+        //                 }];
+        //             }
+        //         },
+        //         error: function(err) {
+        //             wait_task.service_details_info = [{
+        //                 name: '&emsp;',
+        //                 phone: '查无数据',
+        //                 device_code: '&emsp;'            
+        //             }];
+        //         }
+        //     })
+        // },
 		// 派工按钮  服务详情页面（第三页）
 		plan_personnel_inp:function(){
 			var _this = this;

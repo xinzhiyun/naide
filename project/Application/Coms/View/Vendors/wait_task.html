@@ -222,40 +222,39 @@
 		// 	    e.preventDefault(); 
 		// 	    wait_task.sub_pub();
 		// 	})
-		// });    
-		//    
+		// });
 
-		$(function(){
-			// 手机默认回车按钮提交表单
-			$("#form1").on("submit", function(e) {
-			    // 阻止表单默认跳转
-			    e.preventDefault(); 
-			    console.log("回车搜索",wait_task.search)
-			    $.ajax({
-			        url: "",
-			        data: {datas: wait_task.search},
-			        type: "post",
-			        success: function(res) {
-			            if(res.code == 200){
-	                        wait_task.service_details_info = res.data;
-	                    }else{
-	                        wait_task.service_details_info = [{
-	                            name: '&emsp;',
-	                            phone: '查无数据',
-	                            device_code: '&emsp;'            
-	                        }];
-	                    }
-			        },
-			        error: function(res) {
-			            wait_task.service_details_info = [{
-                            name: '&emsp;',
-                            phone: '查无数据',
-                            device_code: '&emsp;'            
-                        }];
-			        }
-			    })
-			})
-		});
+		// $(function(){
+		// 	// 手机默认回车按钮提交表单
+		// 	$("#form1").on("submit", function(e) {
+		// 	    // 阻止表单默认跳转
+		// 	    e.preventDefault(); 
+		// 	    console.log(wait_task.search)
+		// 	    $.ajax({
+		// 	        url: "",
+		// 	        data: {datas: wait_task.search},
+		// 	        type: "post",
+		// 	        success: function(res) {
+		// 	            if(res.code == 200){
+	 //                        wait_task.service_details_info = res.data;
+	 //                    }else{
+	 //                        wait_task.service_details_info = [{
+	 //                            name: '&emsp;',
+	 //                            phone: '查无数据',
+	 //                            device_code: '&emsp;'            
+	 //                        }];
+	 //                    }
+		// 	        },
+		// 	        error: function(res) {
+		// 	            wait_task.service_details_info = [{
+  //                           name: '&emsp;',
+  //                           phone: '查无数据',
+  //                           device_code: '&emsp;'            
+  //                       }];
+		// 	        }
+		// 	    })
+		// 	})
+		// });
 	</script>
 </body>
 </html>
