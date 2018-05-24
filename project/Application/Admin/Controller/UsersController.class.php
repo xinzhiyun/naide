@@ -92,8 +92,8 @@ class UsersController extends CommonController
             ->where($map)
             ->alias('u')
             ->join('__DEVICES__ d ON d.uid=u.id and d.default=1', 'LEFT')
-            ->field('d.device_code,u.id,u.name,u.user phone,d.address,d.uid,d.bindtime')
-            ->field('d.device_code,d.address,u.user phone,u.name,u.id,d.id did,d.updatetime')
+//            ->field('d.device_code,u.id,u.name,u.user phone,d.address,d.uid,d.bindtime')
+            ->field('d.device_code,d.address,u.user phone,u.name,u.id,u.login_time,d.id did,u.login_ip,d.bindtime')
             ->limit($page->firstRow.','.$page->listRows)
             ->order('u.id desc')
             ->select();
