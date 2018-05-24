@@ -120,15 +120,21 @@
                     console.log("成功",res)
                     if(res.code == 200) {
                         // 成功回到安装人员列表
-                        // window.location.href = "";
+                        noticeFn({text: "保存成功!"});
+                        setTimeout(function() {
+                           location.href = "{{:U('Coms/install/index')}}"; 
+                        }, 700);
+                        
                     }else {
-                        noticeFn({text: "提交错误，请重试!"});
+                        noticeFn({text: res.msg});
                     }
                 },
                 error:function(res){
                     console.log("失败",res);
                     noticeFn({text: "系统发生错误，请稍后再试"});
-                    // location.href = "{{:U('Coms/install/index')}}";
+                    setTimeout(function() {
+                        location.href = "{{:U('Coms/install/index')}}"; 
+                    }, 500);
                 }
             });
         })
