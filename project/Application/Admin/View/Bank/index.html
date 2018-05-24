@@ -197,6 +197,7 @@
 
         <script type="text/javascript">
             // 弹框信息
+                var pic_bool = false;
                 $('table tr th').css('vertical-align','middle');
                 $('._send').click(function(){
                     $('#_send').modal('show');
@@ -204,6 +205,9 @@
                     $('#exp_id').val(id);
                 });
 
+                $("#input_pic").click(function(){
+                    pic_bool = true;
+                })
 
                 $('._send_submit_button').eq(0).click(function(){
                     $('#_send').modal('hide');
