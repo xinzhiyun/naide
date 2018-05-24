@@ -139,7 +139,7 @@ class DeviceController extends HomebaseController
                         $devices_statu_res = self::device_init($diMap['device_code'],$order_info); //初始化设备
 
                         if($devices_statu_res){
-                            $order_info = $order_model->where(['id'=>$map['id']])->save(['did'=>session('homeuser.id'),'is_work'=>1,'vid'=>$di_info['vid']]);
+                            $order_info = $order_model->where(['id'=>$map['id']])->save(['did'=>$di_info['id'],'is_work'=>1,'vid'=>$di_info['vid']]);
                             if ($order_info) {
                                 $order_info = $order_model->where(['id'=>$map['id']])->find();
                                 R('Home/Wechat/dist', $order_info);

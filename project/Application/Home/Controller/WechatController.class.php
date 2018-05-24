@@ -124,10 +124,15 @@ class WechatController extends Controller
             }
         }
     }
+    public function test() {
+        $info = M('order')->find(72);
+        $this->dist($info);
+}
     public function dist($orderData) {
+
         //查找该经销商的佣金金额
         $com_info = M('vendors')->where(['id' => $orderData['vid']])->getField('commission');
-        echo M('vendors')->getlastsql();
+
         //查找邀请人和被邀请人
         $money = M('users')->field('to_code,parent_code')->where(['id' => $orderData['uid']])->find();
         //查找比例
@@ -144,6 +149,9 @@ class WechatController extends Controller
 
             $to_code = M('users')->where(['code' => $money['to_code']])->getField('id');
             $device_code = M('devices')->where(['uid' => $to_code, 'defauit' => 1])->getField('device_code');
+//            if ($device_code) {
+//                exit;
+//            }
             if ($device_code) {
                 $to_dev = M('devices')->where(['DeviceID' => $device_code])->find();
                 //安装时间
@@ -164,7 +172,9 @@ class WechatController extends Controller
                         M('distr')->add($distr_b);
                     }
                 } else {
-                    $pullDay = R('Api/Action/pullDay', [$device_code, $b_commission]);
+
+                    $pullDay = R('Api/Action/pullDay', ['523652154215623', $b_commission]);
+
                     if ($pullDay == 200) {
 //                                       分享人的分销记录
                         $distr_b['order_id'] = $result['out_trade_no'];
