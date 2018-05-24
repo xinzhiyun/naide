@@ -1,6 +1,17 @@
 // 实例化vue
-new Vue({
+var deal = new Vue({
     el: ".main", 
-    data: {},
+    data() {
+    	return {
+    		install_price: '--',
+    		service_price: '--',
+    		commission: '--',
+    		setData: {
+    			install_price: '--',
+	    		service_price: '--',
+	    		commission: '--',
+    		}
+    	}
+    },
     methods: {},
 })

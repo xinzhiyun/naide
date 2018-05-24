@@ -15,33 +15,32 @@
             <ul>
                 <!-- 初装费金额 -->
                 <li>
-                    <p>初装费金额: <span>{{splitStr("2000")}}</span>元</p>
+                    <p>初装费金额: <span v-text='install_price'>{{splitStr("2000")}}</span>元</p>
                     <p>
                         <label>初装费金额：</label>
-                        <input type="text" name="install_price_ex" placeholder="请输入金额" value="{{$data['install_price']}}"/>
-                        <input type="hidden" name="id" value="{{$data['id']}}" />
+                        <input type="hidden" name="install_price" v-model='setData.install_price' />
                     </p>
                 </li>
                 <!-- 年服务费金额 -->
                 <li>
-                    <p>年服务费金额: <span>{{splitStr("12000")}}</span>元</p>
+                    <p>年服务费金额: <span v-text='service_price'>{{splitStr("12000")}}</span>元</p>
                     <p>
                         <label>年服务费金额：</label>
-                        <input type="text" name="service_price_ex" placeholder="请输入金额"  value="{{$data['service_price']}}"/>
+                        <input type="text" name="service_price_ex" placeholder="请输入金额"   v-model='setData.service_price'/>
                     </p>
                 </li>
                 <!-- 分享佣金金额 -->
                 <li>
-                    <p>分享佣金金额: <span>{{splitStr("600")}}</span>元</p>
+                    <p>分享佣金金额: <span v-text='commission'>{{splitStr("600")}}</span>元</p>
                     <p>
                         <label>分享佣金金额：</label>
-                        <input type="text" name="commission_ex" placeholder="请输入金额"  value="{{$data['commission']}}"/>
+                        <input type="text" name="commission_ex" placeholder="请输入金额"   v-model='setData.commission' />
                     </p>
                 </li>
             </ul>
             <!-- 提交 -->
             <div>
-                <input type="submit" value="提交">
+                <input type="button" value="提交">
             </div>
         </form>
     </div>
@@ -49,9 +48,18 @@
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/dealer/dealerSet.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+    <script>
+        var data = '{{$data|json_encode}}';
+        console.log('data: ',data);
+        if(!data){
+            data = {};
+            data['install_price'] = '--';
+            data['service_price'] = '--';
+            data['commission'] = '--';
+        }
+        deal.install_price = splitStr(data.install_price);
+        deal.service_price = splitStr(data.service_price);
+        deal.commission = splitStr(data.commission);
     </script>
 </body>
 </html>
