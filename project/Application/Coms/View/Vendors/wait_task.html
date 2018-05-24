@@ -9,7 +9,10 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<script>
-		
+		// 待办数量
+		var tone = "{{$tone}}";//安装
+		var ttwo = "{{$ttwo}}";//维修
+		var tf = "{{$tf}}";//维护
 	</script>
 </head>
 <body>   
@@ -18,51 +21,29 @@
 <!-- 待办任务页面部分开始 -->
 	<div class="wait_task_bg" id="wait_task" v-cloak>
 		<ul class="wait_task_content">
-			<!-- <li v-for="(each_task,index) in task" @click="task_one(index)">
+			<li v-for="(each_task,index) in task" @click="task_one(index)">
+				<!-- 待办任务 -->
 				<div class="left task_text">{{each_task.task_text}}</div>
 				<div>
 					<span :id="each_task.task_id" class="task_pub">{{each_task.task_number}}</span>
 					<i class="iconfont icon-xiangyou1 right"></i>
 				</div>
-			</li> -->
-			
-			<!-- <li @click="task_one(0)">
-				<div class="left task_text">待安装</div>
-				<div>
-					<span id="task_one" class="task_pub">{{number[0]}}</span>
-					<i class="iconfont icon-xiangyou1 right"></i>
-				</div>
 			</li>
-			<li @click="task_one(1)">
-				<div class="left task_text">待维修</div>
-				<div>
-					<span id="task_two" class="task_pub">{{number[1]}}</span>
-					<i class="iconfont icon-xiangyou1 right"></i>
-				</div>
-			</li>
-			<li @click="task_one(2)">
-				<div class="left task_text">待维护</div>
-				<div>
-					<span id="task_three" class="task_pub">{{number[2]}}</span>
-					<i class="iconfont icon-xiangyou1 right"></i>
-				</div>
-			</li> -->
-			<li>4545454545</li>
 		</ul>
 	</div> 
 <!-- 待办任务页面部分结束 -->
 
 <!-- 待办任务列表部分开始 -->
-	<!-- <div class="wait_pub_bg" id="wait_install"> -->
+	<div class="wait_pub_bg" id="wait_install">
 		<!-- 输入框 -->
-		<!-- <form action="" method="post" id="form1">
+		<form action="" method="post" id="form1">
 			<div class="install_input">
 				<i class="am-u-sm-1 iconfont icon-search"  @click="subClick()"></i>
 				<input type="text" name="Info" placeholder="请输入姓名/手机号码" class="wait_install_inp" value="" v-model="search">
 			</div>
-		</form> -->
+		</form>
 		<!-- 待安装用户 -->
-	<!-- 	<div class="install_user">
+		<div class="install_user">
 			<div class="install_user_title bottom_line_h">
 				<span>用户名</span>
 				<span>手机号码</span>
@@ -78,13 +59,13 @@
 				</ul>
 			</div>
 		</div>
-	</div> -->
+	</div>
 <!-- 待办任务列表部分结束 -->
 
 <!-- 任务详情页面部分开始 -->
-	<!-- <div id="service_details_bg"> -->
+	<div id="service_details_bg">
 		<!-- 用户信息 -->
-		<!-- <div class="service_details_public">
+		<div class="service_details_public">
 			<div class="service_div_one_public">用户信息</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -110,9 +91,9 @@
 					{{service_details_info.address}}
 				</p>
 			</div>   
-		</div> -->
+		</div>
 		<!-- 请求内容 -->
-		<!-- <div class="service_details_public margin_bottom_public">
+		<div class="service_details_public margin_bottom_public">
 			<div class="service_div_one_public">请求内容</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -140,11 +121,11 @@
 		<div class="plan_personnel_inp_bg input_bg_public">
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
-	</div> -->
+	</div>
 <!-- 任务详情页面部分结束 -->
 
 <!-- 派工信息页面部分开始 -->
-	<!-- <div id="plan_personnel_info_bg" class="all_div_bg">
+	<div id="plan_personnel_info_bg" class="all_div_bg">
 		<div class="all_div_content">
 			<ul>
 				<li class="bottom_line_h">
@@ -165,18 +146,18 @@
 		<div class="input_bg_public">
 			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
 		</div>
-	</div> -->
+	</div>
 <!-- 派工信息页面部分结束 -->
 
 <!-- 蒙版部分开始 -->
-	<!-- <div class="mask_bg_public" id="plan_personnel_mask_bg">
+	<div class="mask_bg_public" id="plan_personnel_mask_bg">
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
 				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.name}}</li>
 			</ul>
 		</div>
-	</div> -->
+	</div>
 <!-- 蒙版部分结束 -->
 
 </div>
@@ -184,122 +165,56 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		// 微信手机端调试工具
 		var vConsole = new VConsole();
-		// 待办数量
-		var tone = "{{$tone}}";//安装
-		var ttwo = "{{$ttwo}}";//维修
-		var tf = "{{$tf}}";//维护
-		// var task = [
-		// 	{
-		// 		task_text:"待安装",
-		// 		task_number:tone,
-		// 		task_id:"task_one"
-		// 	},
-		// 	{
-		// 		task_text:"待维修",
-		// 		task_number:ttwo,
-		// 		task_id:"task_two"
-		// 	},
-		// 	{
-		// 		task_text:"待维护",
-		// 		task_number:tf,
-		// 		task_id:"task_three"
-		// 	},
-		// ];
-		// wait_task.task = task;
-		// function ajaxPub(callback,url,data){
-		// 	$.ajax({
-		// 		url:url,
-		// 		type:"post",
-		// 		data:data,
-		// 		success:function(res){
-		// 			// console.log("成功",res)
-		// 			if(res.code == 200){
-		// 				callback({res:res.data,msg:0});
-		// 			}else{
-		// 				callback({res:"",text:"系统出错，请稍候再试",msg:1});
-		// 			}
-		// 		},
-		// 		error:function(res){
-		// 			console.log("失败",res);
-		// 			callback({res: "", text: "系统出错，请稍后再试!", msg:1});
-		// 		}
-		// 	})
-		// }
+		var back2home = document.getElementsByClassName('back2home');
+		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+
 		// 页面加载时判断url,刷新页面为当前页
-		// var get = {};
-		// var $_GET = (function() {
-		// 	var url = window.document.location.href.toString();
-		// 	var u = url.split("?");
-		// 	if (typeof(u[1]) == "string") {
-		// 		u = u[1].split("&");//["index=3"]
-		// 		//遍历
-		// 		for (var i in u) {
-		// 			var j = u[i].split("=");
-		// 			get[j[0]] = j[1];
-		// 		}
-		// 		return get;
-		// 	} else {
-		// 		// 如何传入的参数只有1对键值对则直接return返回出去
-		// 		return {};
-		// 	}
-		// })();
-		// var url = window.document.location.href.toString();
-		// if($_GET.index == undefined || url.indexOf("?") == -1){
-		// 	$(".wait_task_bg").show();//第一页 待办任务页面
-		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
-		// 	$("#service_details_bg").hide();//第三页
-		// 	$("#navbar").find("h2").html("待办任务");
-		// }else if($_GET.index == "1"){
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").show();
-		// 	$("#navbar").find("h2").html(sessionStorage.getItem("title"));
-		// }else if($_GET.index == "2"){
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").show();
-		// 	$("#navbar").find("h2").html("服务详情");
-		// }else if($_GET.index == "3"){
-		// 	$("#plan_personnel_info_bg").show();
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").hide();
-		// 	$("#navbar").find("h2").html("派工信息");
-		// }
-		// var href = location.href.split("?")[1];
-		// // var key = href.split("=")[0];
-		// var url = window.document.location.href.toString();
-		// // console.log(href)
-		// if(href == undefined || url.indexOf("?") == -1){
-		// 	$(".wait_task_bg").show();//第一页 待办任务页面
-		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
-		// 	$("#service_details_bg").hide();//第三页
-		// 	$("#navbar").find("h2").html("待办任务");
-		// }else {
-		// 	if(href.split("=")[0] == "type"){
-		// 		$(".wait_task_bg").hide();
-		// 		$("#wait_install").show();
-		// 		$("#navbar").find("h2").html(sessionStorage.getItem("title"));
-		// 	}
-		// }
-		
-		// else if($_GET.index == "2"){
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").show();
-		// 	$("#navbar").find("h2").html("服务详情");
-		// }else if($_GET.index == "3"){
-		// 	$("#plan_personnel_info_bg").show();
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").hide();
-		// 	$("#navbar").find("h2").html("派工信息");
-		// }
+		var get = {};
+		var $_GET = (function() {
+			var url = window.document.location.href.toString();
+			var u = url.split("?");
+			if (typeof(u[1]) == "string") {
+				u = u[1].split("&");//["index=3"]
+				//遍历
+				for (var i in u) {
+					var j = u[i].split("=");
+					get[j[0]] = j[1];
+				}
+				return get;
+			} else {
+				// 如何传入的参数只有1对键值对则直接return返回出去
+				return {};
+			}
+		})();
+		var url = window.document.location.href.toString();
+		if($_GET.index == undefined || url.indexOf("?") == -1){
+			$(".wait_task_bg").show();//第一页 待办任务页面
+			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+			$("#service_details_bg").hide();//第三页
+			$("#navbar").find("h2").html("待办任务");
+		}else if($_GET.index == "1"){
+			$(".wait_task_bg").hide();
+			$("#wait_install").show();
+			$("#navbar").find("h2").html(localStorage.getItem("title"));
+		}else if($_GET.index == "2"){
+			$(".wait_task_bg").hide();
+			$("#wait_install").hide();
+			$("#service_details_bg").show();
+			$("#navbar").find("h2").html("服务详情");
+		}else if($_GET.index == "3"){
+			$("#plan_personnel_info_bg").show();
+			$(".wait_task_bg").hide();
+			$("#wait_install").hide();
+			$("#service_details_bg").hide();
+			$("#navbar").find("h2").html("派工信息");
+		}
+
 		// $(function(){
 		// 	// 手机默认回车按钮提交表单并接受返回值
 		// 	$("#form1").on("submit", function(e) {
@@ -309,38 +224,37 @@
 		// 	})
 		// });
 
-		// $(function(){
-		// 	// 手机默认回车按钮提交表单
-		// 	$("#form1").on("submit", function(e) {
-		// 	    // 阻止表单默认跳转
-		// 	    e.preventDefault(); 
-		// 	    console.log(wait_task.search)
-		// 	    $.ajax({
-		// 	        url: "",
-		// 	        data: {datas:   wait_task.search},
-		// 	        type: "post",
-		// 	        success: function(res) {
-		// 	            if(res.code == 200){
-	 //                        wait_task.service_details_info = res.data;
-	 //                    }else{
-	 //                        wait_task.service_details_info = [{
-	 //                            name: '&emsp;',
-	 //                            phone: '查无数据',
-	 //                            device_code: '&emsp;'            
-	 //                        }];
-	 //                    }
-		// 	        },
-		// 	        error: function(res) {
-		// 	            wait_task.service_details_info = [{
-  //                           name: '&emsp;',
-  //                           phone: '查无数据',
-  //                           device_code: '&emsp;'            
-  //                       }];
-		// 	        }
-		// 	    })
-		// 	})
-		// });
+		$(function(){
+			// 手机默认回车按钮提交表单
+			$("#form1").on("submit", function(e) {
+			    // 阻止表单默认跳转
+			    e.preventDefault(); 
+			    console.log(wait_task.search)
+			    $.ajax({
+			        url: "",
+			        data: {datas:   wait_task.search},
+			        type: "post",
+			        success: function(res) {
+			            if(res.code == 200){
+	                        wait_task.service_details_info = res.data;
+	                    }else{
+	                        wait_task.service_details_info = [{
+	                            name: '&emsp;',
+	                            phone: '查无数据',
+	                            device_code: '&emsp;'            
+	                        }];
+	                    }
+			        },
+			        error: function(res) {
+			            wait_task.service_details_info = [{
+                            name: '&emsp;',
+                            phone: '查无数据',
+                            device_code: '&emsp;'            
+                        }];
+			        }
+			    })
+			})
+		});
 	</script>
-	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 </body>
 </html>
