@@ -28,6 +28,9 @@ class AppframeController extends Controller {
 //            if(DEBUG){
 //                $_SESSION['open_id'] = 'ocea2uHn9T1OEUQTuDVnfdtJT7wE';
 //            }
+            if(empty($_SESSION['open_id'])){
+                $_SESSION['open_id'] = WeiXin::GetOpenid();
+            }
         }
     }
 
