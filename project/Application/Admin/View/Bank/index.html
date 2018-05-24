@@ -206,6 +206,7 @@
                 });
 
                 $("#input_pic").click(function(){
+                    // alert(1);
                     pic_bool = true;
                 })
 
@@ -215,7 +216,12 @@
 
                 $('._send_submit_button').eq(1).click(function(){
                     
-                    $('#_orders').submit();
+                    if(pic_bool){
+                        $('#_orders').submit();
+                    }else{
+                        alert('请选择上传图片');
+                        return false;
+                     }
                    
                 });
 
