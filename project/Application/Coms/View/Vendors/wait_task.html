@@ -90,7 +90,7 @@
 					{{service_details_info.district}}
 					{{service_details_info.address}}
 				</p>
-			</div>
+			</div>   
 		</div>
 		<!-- 请求内容 -->
 		<div class="service_details_public margin_bottom_public">
@@ -166,11 +166,11 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
-	<!--<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>-->
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		// 微信手机端调试工具
-//		var vConsole = new VConsole();
+		var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
@@ -229,7 +229,7 @@
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
-			    console.log(wait_task.search)
+			    console.log("回车搜索",wait_task.search)
 			    $.ajax({
 			        url: "",
 			        data: {datas: wait_task.search},

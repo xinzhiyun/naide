@@ -98,7 +98,7 @@ var wait_task = new Vue({
 		},
 		// 点击搜索小图标提交表单
         // subClick:function(){
-        // 	var _this = this;
+        // 	var _this = this;  
         // 	_this.sub_pub();
         // },
         // 搜索
@@ -128,7 +128,7 @@ var wait_task = new Vue({
         },
         // 点击搜索小图标提交表单
         subClick:function(){
-        	console.log(this.search)
+        	console.log("搜索图标",this.search)
         	$.ajax({
                 url: '',
                 data: {searchword: this.search},
