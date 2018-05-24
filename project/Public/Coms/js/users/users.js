@@ -3,12 +3,12 @@ var users = new Vue({
     el: ".main",
     data() {
         return {
-            searchword: '',
+            search: '',
             page: '1',
             // 用户列表
             userList: [{
-                name: '加载中...',
-                bindtime: '加载中...',
+                name: '暂无用户...',
+                bindtime: '',
             }],
         }
     },
@@ -29,16 +29,52 @@ var users = new Vue({
     methods: {
         // 点击搜索小图标提交表单
         subClick() {
-            // alert(234)
+            var _this = this;
+            $(".loadingdiv").fadeIn('slow');
+            _this.sub_pub(trimFn(_this.search), function(res) {
+                // 显示搜索出来的用户人员列表
+                _this.userList = res.list;
+                $(".loadingdiv").fadeOut('fast');
+            });
+        },
+        // 回车搜索
+        searchs: function() {
+            $(".loadingdiv").fadeIn('slow');
+            var _this = this;
+            _this.sub_pub(trimFn(_this.search), function(res) {
+                // 显示搜索出来的用户人员列表
+                _this.userList = res.list;
+                $(".loadingdiv").fadeOut('fast');
+            });
+        },
+        // 搜索(公共部分)
+        sub_pub: function(searchVal, callback){
+            var url = getURL("Coms", "");
             $.ajax({
-                url: "",
-                data: {datas: users.searchword},
+                url: url,
                 type: "post",
+                data: {search: searchVal}, 
                 success: function(res) {
-                    
+                    console.log("搜索成功", res);
+                    if(res.status == 200) {
+                        // 返回搜索到的数据
+                        if(res.list.length) {
+                            $(".icon-xiangyou1").show();
+                            callback(res);
+                        }else {
+                            $(".icon-xiangyou1").hide();
+                            users.userList = [{
+                                name: "暂无用户...",
+                                bindtime: '',
+                            }];
+                            $(".loadingdiv").fadeOut('fast');
+                        }
+                    }else {
+
+                    }
                 },
                 error: function(res) {
-                    
+                    console.log("失败", res);
                 }
             })
         },
@@ -48,7 +84,7 @@ var users = new Vue({
             var url = getURL('Coms','Users/userDetail');
             if(!uid){
                 noticeFn({text: '系统出错，请稍后再试'});
-                return;  
+                return;
             } 
             location.href = url + '?uid=' + uid;
         },
