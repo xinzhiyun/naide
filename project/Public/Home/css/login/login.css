@@ -12,9 +12,6 @@ body {
   width: 50vw;
   height: auto;
   margin: 4.05333333rem auto 2.13333333rem;
-  background: url('../../images/logo.png') no-repeat 100%/100%;
-  background-position: 100%;
-  font-size: 28px !important;
 }
 .main .userInfo {
   width: 10.66666667rem;
