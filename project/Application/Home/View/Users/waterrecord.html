@@ -54,8 +54,9 @@
 
 			var dataList = [];	//数据集
 			// 请求净水记录数据
-			getData(month, function(res){
-				if(res.code == 200){
+            var seach = year+month;
+			getData(seach, function(res){
+				if(res.status == 200){
 					if(!res.data){
 						noticeFn({text: "本月无数据",time: '1000'});
 						return
@@ -86,7 +87,7 @@
 					$('.am-datepicker-date').datepicker('close');
 					// 请求数据
 					getData(month, function(res){
-						if(res.code == 200){
+						if(res.status == 200){
 							// 显示折线图
 							getAvg(res.data, res.data.length);
 
@@ -179,24 +180,24 @@
 		// 请求净水记录数据
 		function getData(_month, fallback){
 			// 模拟数据
-			var res = {};
-			res.code = 200;
-			res.data = [{raw:'10',pure:'20'},{raw:'60',pure:'70'},{raw:'20',pure:'30'},{raw:'50',pure:'60'},{raw:'30',pure:'45'},{raw:'90',pure:'220'},{raw:'20',pure:'620'},{raw:'120',pure:'50'},{raw:'70',pure:'20'},{raw:'10',pure:'320'},{raw:'50',pure:'70'},{raw:'60',pure:'30'},{raw:'70',pure:'20'}];
-			// console.log(res);
-			fallback(res);
-			// $.ajax({
-			// 	url: '{:U("Home/Users/waterrecord")}',
-			// 	type: 'get',
-			// 	data: {month: _month},
-			// 	success: function(res){
-			// 		console.log('请求成功！',res);
-			// 		fallback(res);
-			// 	},
-			// 	error: function(err){
-			// 		console.log('请求失败！',err);
-			// 		fallback(err);
-			// 	}
-			// })
+			// var res = {};
+			// res.code = 200;
+			// res.data = [{raw:'10',pure:'20'},{raw:'60',pure:'70'},{raw:'20',pure:'30'},{raw:'50',pure:'60'},{raw:'30',pure:'45'},{raw:'90',pure:'220'},{raw:'20',pure:'620'},{raw:'120',pure:'50'},{raw:'70',pure:'20'},{raw:'10',pure:'320'},{raw:'50',pure:'70'},{raw:'60',pure:'30'},{raw:'70',pure:'20'}];
+			// // console.log(res);
+			// // fallback(res);
+			$.ajax({
+				url: '{{:U("Home/Device/getTds")}}',
+				type: 'post',
+				data: {month: _month},
+				success: function(res){
+					console.log('请求成功！',res);
+					fallback(res);
+				},
+				error: function(err){
+					console.log('请求失败！',err);
+					fallback(err);
+				}
+			})
 		}
 	</script>
 </body>

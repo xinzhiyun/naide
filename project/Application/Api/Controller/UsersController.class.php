@@ -120,9 +120,9 @@ class UsersController extends  HomebaseController
     public function tds()
     {
 
-//        $did = session('homeuser.did');
-//        $dcode  = Device::get_devices_sn($did);
-        $map['dcode'] = '155753845596778';
+        $did = session('homeuser.did');
+        $dcode  = Device::get_devices_sn($did);
+//        $map['dcode'] = '155753845596778';
         $list = M('tds')->where($map)->select();
         if ($list) {
             $this->ajaxReturn(['code'=>200,'data'=>$list]);
