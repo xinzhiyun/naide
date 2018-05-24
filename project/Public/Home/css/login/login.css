@@ -8,7 +8,7 @@ body {
 .main {
   border-top: 1px solid #F7F7FB;
 }
-.main .companyLogo {
+.main .companyLogo { 
   width: 50vw;
   height: auto;
   margin: 4.05333333rem auto 2.13333333rem;
