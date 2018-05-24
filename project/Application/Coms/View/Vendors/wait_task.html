@@ -165,7 +165,7 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
+	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
 	<!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
@@ -174,47 +174,94 @@
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
-		// 页面加载时判断url,刷新页面为当前页
-		var get = {};
-		var $_GET = (function() {
-			var url = window.document.location.href.toString();
-			var u = url.split("?");
-			if (typeof(u[1]) == "string") {
-				u = u[1].split("&");//["index=3"]
-				//遍历
-				for (var i in u) {
-					var j = u[i].split("=");
-					get[j[0]] = j[1];
+		function ajaxPub(callback,url,data){
+			$.ajax({
+				url:url,
+				type:"post",
+				data:data,
+				success:function(res){
+					// console.log("成功",res)
+					if(res.code == 200){
+						callback({res:res.data,msg:0});
+					}else{
+						callback({res:"",text:"系统出错，请稍候再试",msg:1});
+					}
+				},
+				error:function(res){
+					console.log("失败",res);
+					callback({res: "", text: "系统出错，请稍后再试!", msg:1});
 				}
-				return get;
-			} else {
-				// 如何传入的参数只有1对键值对则直接return返回出去
-				return {};
-			}
-		})();
+			})
+		}
+		// 页面加载时判断url,刷新页面为当前页
+		// var get = {};
+		// var $_GET = (function() {
+		// 	var url = window.document.location.href.toString();
+		// 	var u = url.split("?");
+		// 	if (typeof(u[1]) == "string") {
+		// 		u = u[1].split("&");//["index=3"]
+		// 		//遍历
+		// 		for (var i in u) {
+		// 			var j = u[i].split("=");
+		// 			get[j[0]] = j[1];
+		// 		}
+		// 		return get;
+		// 	} else {
+		// 		// 如何传入的参数只有1对键值对则直接return返回出去
+		// 		return {};
+		// 	}
+		// })();
+		// var url = window.document.location.href.toString();
+		// if($_GET.index == undefined || url.indexOf("?") == -1){
+		// 	$(".wait_task_bg").show();//第一页 待办任务页面
+		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+		// 	$("#service_details_bg").hide();//第三页
+		// 	$("#navbar").find("h2").html("待办任务");
+		// }else if($_GET.index == "1"){
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").show();
+		// 	$("#navbar").find("h2").html(sessionStorage.getItem("title"));
+		// }else if($_GET.index == "2"){
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").show();
+		// 	$("#navbar").find("h2").html("服务详情");
+		// }else if($_GET.index == "3"){
+		// 	$("#plan_personnel_info_bg").show();
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").hide();
+		// 	$("#navbar").find("h2").html("派工信息");
+		// }
+		var href = location.href.split("?")[1];
+		// var key = href.split("=")[0];
 		var url = window.document.location.href.toString();
-		if($_GET.index == undefined || url.indexOf("?") == -1){
+		// console.log(href)
+		if(href == undefined || url.indexOf("?") == -1){
 			$(".wait_task_bg").show();//第一页 待办任务页面
 			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
 			$("#service_details_bg").hide();//第三页
 			$("#navbar").find("h2").html("待办任务");
-		}else if($_GET.index == "1"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").show();
-			$("#navbar").find("h2").html(localStorage.getItem("title"));
-		}else if($_GET.index == "2"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").show();
-			$("#navbar").find("h2").html("服务详情");
-		}else if($_GET.index == "3"){
-			$("#plan_personnel_info_bg").show();
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").hide();
-			$("#navbar").find("h2").html("派工信息");
+		}else {
+			if(href.split("=")[0] == "type"){
+				$(".wait_task_bg").hide();
+				$("#wait_install").show();
+				$("#navbar").find("h2").html(sessionStorage.getItem("title"));
+			}
 		}
-
+		
+		// else if($_GET.index == "2"){
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").show();
+		// 	$("#navbar").find("h2").html("服务详情");
+		// }else if($_GET.index == "3"){
+		// 	$("#plan_personnel_info_bg").show();
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").hide();
+		// 	$("#navbar").find("h2").html("派工信息");
+		// }
 		// $(function(){
 		// 	// 手机默认回车按钮提交表单并接受返回值
 		// 	$("#form1").on("submit", function(e) {
@@ -256,5 +303,6 @@
 		// 	})
 		// });
 	</script>
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 </body>
 </html>
