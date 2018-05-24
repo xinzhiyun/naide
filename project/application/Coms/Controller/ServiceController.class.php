@@ -44,7 +44,7 @@ class ServiceController extends ComsbaseController {
                 $map['device_code'] = array('like','%'.$dcode.'%');
             }
 
-            $list = M('devices')->where($map)->field('device_code')->select();
+            $list = M('devices')->where($map)->field('device_code,id did')->select();
 
             $this->ajaxReturn(array(
                 'status'=>200,

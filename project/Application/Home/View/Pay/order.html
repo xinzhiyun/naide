@@ -155,6 +155,10 @@
 			<div class="warn_send_btn" v-if="order_pay_info.status == 1 && order_pay_info.type == 1">
 				<p class="warn_send" style="lineHeight:0.9rem;" @touchend="remind">提醒发货</p>
 			</div>
+			<!-- 待收货 status=2 -->
+			<div class="warn_send_btn" v-if="order_pay_info.status == 2 && order_pay_info.type == 1">
+				<p class="warn_send" style="lineHeight:0.9rem;" @touchend="receive">确认收货</p>
+			</div>
 
 		<!-- 确定支付弹框部分开始 -->
 			<div class="pay_bg">

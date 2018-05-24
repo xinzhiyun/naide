@@ -44,6 +44,11 @@ class VendorsController extends CommonController
             return false;
         });
 
+
+        if(empty(session('adminuser.is_admin'))){
+            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+        }
+
         $user = D('vendors');
         // PHPExcel 导出数据
         if (I('output') == 1) {
@@ -172,7 +177,7 @@ class VendorsController extends CommonController
 
             
             //将三级联动地址拼接具体地址再写入数据库
-            $_POST['address'] = $_POST['address'].$_POST['addr'];
+//            $_POST['address'] = $_POST['address'].$_POST['addr'];
 
 
             if(empty($_POST['is_admin'])) {
