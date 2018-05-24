@@ -212,6 +212,7 @@ var home = new Vue({
 			})
 		},
 		sendMSG: function(data){
+			console.log('data: ',data);
 			// 发送json格式数据
 			if(Object.prototype.toString.call(data) === "[object Object]"){
 				data = JSON.stringify(data);

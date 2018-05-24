@@ -73,7 +73,7 @@
                     if(res.status == 200){
                         noticeFn({text: res.msg});
                         setTimeout(function(){
-                            // location.href = '{{:U("Coms/Dealer/dealer")}}';
+                            location.href = '{{:U("Coms/Dealer/dealer")}}';
                         },500);
                     }else{
                         noticeFn({text: res.msg});

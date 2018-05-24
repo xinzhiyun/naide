@@ -43,9 +43,10 @@
 					<i class='iconfont icon-rmb'></i>
 					<input class='money' type="text" v-model='inmoney'>
 				</li>
-				<li class='f6'>
+				<li class='f6 cfix'>
 					可提现 <span v-text='enmoney'></span>元,
 					<a href="javascript:;" @click='withall' class='fblue'>全部提现</a>
+					<span class='fright'>冻结金额 <span v-text='dismoney'></span>元</span>
 				</li>
 			</ul>
 			<p class='desc fblue' @click='showdesc'><i class="am-icon-question-circle-o"></i>&nbsp;提现说明&nbsp;&nbsp;</p>
@@ -97,7 +98,9 @@
 					<b>使用旧账号:</b>
 					<span class='fright cfix'>
 						<a style='color:#888;'>
-							<span v-text='oldcard'></span>
+							<select name="" id="" v-model='bankoldselect' @change='bankoldselectFn'>
+								<option :value="card.bank + ',' + card.bankid" v-for='card in oldcard'>{{card.bank}}</option>
+							</select>
 							<span v-if='!oldcard' class='f6'>无历史账号记录</span>&nbsp;
 						</a>
 						<i class='iconfont icon-empty fright'></i>
@@ -181,7 +184,7 @@
 			<h3>提现说明:</h3>
 			<p class='f6' v-for='(value,index) in wDesc' v-html='value'></p>
 			<a class='fblue' :href="tel"><span v-text='returnTel'></span></a>
-		</div>
+		</div> 
 	</div>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
@@ -237,6 +240,7 @@
 				return {
 					inmoney: '',			// 提现的金额
 					enmoney: '',			// 全部提现的金额
+					dismoney: '',			// 冻结金额
 					wDesc: ['1、如果提现银行卡信息有误将会导致提现不成功；提现不成功后提现金额将立即返回店铺转让账户（若提现申请时已收取服务费，提现不成功退回资金时服务费不予退回）。', 
 					'2、提现限额：单笔提现金额大于2元，单笔提现最大金额50000元，单日提现金额上限为150000元。每日最多三笔。', 
 					'3、不支持提现信用卡。', 
@@ -252,7 +256,8 @@
 					hasPic: '',				// 上传图片标志
 					selectCard: '',			// 选择银行卡标志
 					filterstyle: '',		// 是否禁用旧账号
-					oldcard: null,			// 旧银行卡号
+					bankoldselect: '',		// 选择的旧银行卡
+					oldcard: [],			// 旧银行卡号
 					uName: '',				// 开户名
 					bankName: '',			// 银行
 					bankOther: '',			// 选择其他银行的时候显示
@@ -344,14 +349,26 @@
 			 //        })
 			 //    }
 			 	var balance = JSON.parse('{{$enmoney|json_encode}}')
+			 	if(!balance){
+			 		balance = {};
+			 		balance['balance'] = 0;
+			 		balance['canmoney'] = 0;
+			 	}
 				this.enmoney = Number(balance.balance) - Number(balance.canmoney);
+				this.dismoney = Number(balance.canmoney);
 				// console.log('enmoney: ', Number(balance.balance));
 				// console.log('canmoney: ', Number(balance.canmoney));
 				// 查询旧账号
 				getCard(function(res){
 					if(res.code == 200){
-						// 暂时一个
-						this.oldcard = res[0].bank;
+						res.msg.forEach(function(item, index){
+							// console.log(item.bank);
+							withdraw.oldcard.push({bank: item.bank, bankid: item.id});
+						})
+
+					}else{
+
+						// noticeFn({text: res.msg});
 					}
 				})
 				// this.oldcard = '3453463546456487';
@@ -417,6 +434,10 @@
 			watch: {
 				// 提现金额
 				inmoney: function(val){
+					console.log('val: ',val);
+					if(val <= 0){
+						return
+					}
 					if(this.payway && moneyCheck(trimFn(val)) && Number(trimFn(this.inmoney)) <= this.enmoney){
 						// 可以提交
 						$('#sure').css({background: '#039CE9'});
@@ -424,12 +445,19 @@
 					}else{
 						$('#sure').css({background: 'rgba(3,156,233,.6)'});
 					}
-					
 				}
 			},
 			methods: {
 				// 点击全部提现
 				withall: function(){
+					if(this.enmoney == 0){
+						noticeFn({text: '提现金额不能少于2元'});
+						return
+					}
+					if(typeof this.enmoney != 'number'){
+						noticeFn({text: '请输入数字'});
+						return
+					}
 					this.inmoney = this.enmoney;
 				},
 				// 点击选择提现方式
@@ -462,6 +490,10 @@
 				showdesc: function(){
 					var href = location.href + '?showDesc=true';
 					location.href = href;
+				},
+				// 选择旧账号
+				bankoldselectFn: function(){
+					console.log('bankoldselect: ',this.bankoldselect);
 				},
 				// 点击确定
 				sure: function(){
@@ -638,7 +670,15 @@
 
 							}else if(this.selectCard == 'old'){
 								// 使用旧账户
-								
+								if(!this.bankoldselect){
+									noticeFn({text:'请选择账户!'});
+									return
+								}
+								upinfo['bank'] = this.bankoldselect.split(',')[0];
+								upinfo['bankid'] = this.bankoldselect.split(',')[1];
+								console.log('upinfo: ',upinfo);
+								// 提交数据
+								upData(upinfo);
 							}
 
 							break;

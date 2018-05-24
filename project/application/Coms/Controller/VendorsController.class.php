@@ -11,8 +11,10 @@ class VendorsController extends ComsbaseController {
         $tf= M('work')->where(['vid'=>$id,'type'=>2])->count();
 //        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
 
+
         $this->assign('tone',$tone);
         $this->assign('ttwo',$ttwo);
         $this->assign('tf',$tf);
+        $this->display();
     }
 }

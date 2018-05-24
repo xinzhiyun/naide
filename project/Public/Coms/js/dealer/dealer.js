@@ -16,14 +16,15 @@ new Vue({
                 {time: "31-2018-03", source: "厂商", type: "扣款", money: "-100"},
                 {time: "31-2018-03", source: "厂商", type: "扣款", money: "-100"},
                 {time: "31-2018-03", source: "厂商", type: "扣款", money: "-100"},
-            ]
+            ] 
         }
     },
     methods: {
         // 请求数据
         getData() {
+            var _url = getURL('Coms','Dealer/index');
             $.ajax({
-                ulr: "",
+                ulr: _url,
                 type: "post",
                 success: function(res) {
                     // 成功后将数据赋予变量
