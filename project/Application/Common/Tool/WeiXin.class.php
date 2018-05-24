@@ -83,7 +83,7 @@ class WeiXin
     {
         $content = substr($content,0,80);
 //        $money = $money * 100;                          // 将金额强转换整数
-//        $money = 1;                                     // 冲值测试额1分钱 上线取消此行
+        $money = 1;                                     // 冲值测试额1分钱 上线取消此行
 
         vendor('WxPay.jsapi.WxPay#JsApiPay');
         $tools = new \JsApiPay();
