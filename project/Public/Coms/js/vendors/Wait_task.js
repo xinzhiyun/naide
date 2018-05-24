@@ -21,7 +21,7 @@ var wait_task = new Vue({
 			// 	task_id:"task_three"
 			// },
 		],
-		number:[]
+		number:[1,2,3]
 	},
 	methods:{
 		// 跳转页面改变url（公共）

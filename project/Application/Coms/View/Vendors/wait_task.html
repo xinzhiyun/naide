@@ -29,21 +29,21 @@
 			<li @click="task_one(0)">
 				<div class="left task_text">待安装</div>
 				<div>
-					<span id="task_one" class="task_pub">{{tone}}</span>
+					<span id="task_one" class="task_pub">{{number[0]}}</span>
 					<i class="iconfont icon-xiangyou1 right"></i>
 				</div>
 			</li>
 			<li @click="task_one(1)">
 				<div class="left task_text">待维修</div>
 				<div>
-					<span id="task_two" class="task_pub">{{ttwo}}</span>
+					<span id="task_two" class="task_pub">{{number[1]}}</span>
 					<i class="iconfont icon-xiangyou1 right"></i>
 				</div>
 			</li>
 			<li @click="task_one(2)">
 				<div class="left task_text">待维护</div>
 				<div>
-					<span id="task_three" class="task_pub">{{tf}}</span>
+					<span id="task_three" class="task_pub">{{number[2]}}</span>
 					<i class="iconfont icon-xiangyou1 right"></i>
 				</div>
 			</li>
@@ -185,13 +185,11 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
-	<!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		// 微信手机端调试工具
-		// var vConsole = new VConsole();
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
+		var vConsole = new VConsole();
 		// 待办数量
 		var tone = "{{$tone}}";//安装
 		var ttwo = "{{$ttwo}}";//维修
