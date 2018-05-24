@@ -26,11 +26,11 @@
 			<div id="wait_payment">
 				<p><span class="line"></span>{{device_title}}</p>
 				<!-- 设备编码 -->
-				<div v-for="(each_device,index) in all_device" class="vue_all">
-					<p class="selected" @touchstart="select_number()">
+				<div v-for="(each_device,index) in all_device" @touchstart="select_number()" class="vue_all">
+					<p class="selected" >
 						<i class="iconfont icon-not_Selected-copy" id="selected_i"></i>
 						<!-- <i class="iconfont icon-selected-copy"></i> -->
-						<span class="device_code">{{each_device.device_coding}}</span>
+						<span class="device_code">{{each_device.device_code}}</span>
 					</p> 
 				</div>
 			</div>
@@ -64,7 +64,9 @@
 			<div class="flow_div_one">选则充值套餐</div>
 			<div class="flow_div_two">
 				<ul class="float_clear">
-					<li v-for="(each_flow,index_flow) in all_user_info.flow_set_meal" class="flow_item" @touchstart="flow_item">{{each_flow.package_item}}</li>
+					<li v-for="(each_flow,index_flow) in all_user_info.flow_set_meal" class="flow_item" :setMealId="each_flow.id" :price="each_flow.money"
+						@touchstart="flow_item">{{each_flow
+						.describe}}</li>
 				</ul>
 			</div>
 		</div>
