@@ -29,8 +29,8 @@ class WithdrawController extends HomebaseController
 	public function havaBank()
 	{
 		//查询用户是否使用过的银行账户
-		$banks = M('bank')->where('uid='.$_SESSION['homeuser']['id'])->select();
-
+		$banks = M('bank')->field('id,name,choose,acc_open,bank')->group('bank')->where('uid='.$_SESSION['homeuser']['id'])->select();
+		// dump($banks);
 		if (empty($banks)) {
 			$this->ajaxReturn(array('code'=>'400','msg'=>'没有账户'));
 		} else {
@@ -68,23 +68,50 @@ class WithdrawController extends HomebaseController
 			$users['canmoney'] = $balance['canmoney'] + $_POST['data']['money'];
 		}
 		
-		//开户名
-		$data['name'] = $_POST['data']['name'];
+		//判断使用是哪个账户
+		if ($_POST['data']['count'] == 'old') {
+			//使用旧账户
+			$bankInfo = M('Bank')->where('id='.$_POST['data']['bankid'])->find();
+			//开户名
+			$data['name'] = $bankInfo['name'];
 
-		//银行名
-		$data['choose'] = $_POST['data']['bankName'];
+			//银行名
+			$data['choose'] = $bankInfo['choose'];
+			
+			//开户支行
+			$data['acc_open'] = $bankInfo['acc_open'];
+			
+			//银行卡号
+			$data['bank'] = $bankInfo['bank'];
+
+			//用户id
+			$data['uid'] = $_SESSION['homeuser']['id'];
+
+			//创建时间
+			$data['create_time'] = time();
+
+
+		} else {
+			//使用新账户
+			//开户名
+			$data['name'] = $_POST['data']['name'];
+
+			//银行名
+			$data['choose'] = $_POST['data']['bankName'];
+			
+			//开户支行
+			$data['acc_open'] = $_POST['data']['subBranch'];
+			
+			//银行卡号
+			$data['bank'] = $_POST['data']['cardNumber'];
+
+			//用户id
+			$data['uid'] = $_SESSION['homeuser']['id'];
+
+			//创建时间
+			$data['create_time'] = time();
+		}
 		
-		//开户支行
-		$data['acc_open'] = $_POST['data']['subBranch'];
-		
-		//银行卡号
-		$data['bank'] = $_POST['data']['cardNumber'];
-
-		//用户id
-		$data['uid'] = $_SESSION['homeuser']['id'];
-
-		//创建时间
-		$data['create_time'] = time();
 
 		//开启事物
 		M('Bank')->startTrans();
