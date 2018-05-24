@@ -35,7 +35,7 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000328}}
 .main form .installAdd ul li input {
-  flex: 2;
+  flex: 1;
   outline-style: none;
   border: none;
   text-align: right;
