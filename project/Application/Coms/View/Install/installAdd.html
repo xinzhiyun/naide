@@ -115,7 +115,7 @@
                 address	地址
             */
             // var url = getURL("Coms","install_man_add");
-            $.ajax({
+            $.ajax({ 
                 url:"{{:U('users/install_man_add')}}",
                 data:{
                     name:username,
@@ -129,7 +129,7 @@
                     if(res.status == 200) {
                         // window.location.href = "";
                     }else {
-                        
+
                     }
                 },
                 error:function(res){
