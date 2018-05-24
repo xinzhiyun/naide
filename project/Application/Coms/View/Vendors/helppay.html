@@ -21,7 +21,7 @@
 		<form action="" method="post" id="form" v-cloak>
 			<div class="bottom_line">
 				<i class="am-u-sm-1 iconfont icon-search"></i>
-				<input type="text" name="text" placeholder="请输入手机号码/设备编码" id="Generation_payment_inp" value="">
+				<input type="text" name="text" placeholder="请输入手机号码/设备编码" id="Generation_payment_inp" value="" v-model="search" @click="subClick()">
 			</div>
 			<!-- 提示信息 -->
 			<div class="explain"></div>
@@ -91,9 +91,9 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/helppay.js"></script>
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	 <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	 <!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
 	<script defer>
-		var vConsole = new VConsole();
+		// var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
@@ -124,7 +124,7 @@
 			$("#user_info").show();//第二页 
 		}
 
-		var openid  = '{{$_SESSION['open_id']}}';
+		var openid = "{{$open_id}}";
 		payment.openid = openid;
 		console.log(openid)
 		
@@ -212,6 +212,33 @@
 		        }
 		    );
 		};
+		$(function(){
+			// 手机默认回车按钮提交表单
+			$("#form1").on("submit", function(e) {
+			    // 阻止表单默认跳转
+			    e.preventDefault(); 
+			    searchPub();
+			})
+
+			function searchPub(){
+				console.log(payment.search)
+				$.ajax({
+			        url: "",
+			        data: {datas: payment.search},
+			        type: "post",
+			        success: function(res) {
+			            if(res.code == 200){
+			            	
+	                    }else{
+
+	                    }
+			        },
+			        error: function(res) {
+			        	
+			        }
+			    })
+			}
+		});
 	</script>
 </body>
 </html>
