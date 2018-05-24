@@ -69,7 +69,10 @@
                         <td>{{$vo.create_time|date='Y-m-d H:i:s',###}}</td>
                         <td>{{$vo.status}}</td>
                         <td>
-                            <a href="__URL__/check/id/{{$vo.id}}">审核</a>
+                            <if condition="$vo['status'] eq 待审核 "> <a href="__URL__/check/id/{{$vo.id}}">审核</a>
+                                <else /> 转账完成
+                                </if>
+                            
                         </td>
                     </tr>
                     </foreach>
