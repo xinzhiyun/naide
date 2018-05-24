@@ -171,6 +171,7 @@ var idCheck = function(val){
 }
 //去空格
 var trimFn = function(str){
+    str += '';
     return str.replace(/^(\s)|(\s*)/g,'');
 }
 
