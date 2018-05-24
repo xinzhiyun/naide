@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<script>
+
+	</script>
 </head>
 <body>
 <div id="wait_payment_vue">
@@ -26,11 +29,11 @@
 			<div id="wait_payment">
 				<p><span class="line"></span>{{device_title}}</p>
 				<!-- 设备编码 -->
-				<div v-for="(each_device,index) in all_device" @touchstart="select_number()" class="vue_all">
-					<p class="selected" >
+				<div v-for="(each_device,index) in all_device" @touchstart="select_number()" class="vue_all" :did="each_device.did">
+					<p class="selected" :did="each_device.did">
 						<i class="iconfont icon-not_Selected-copy" id="selected_i"></i>
 						<!-- <i class="iconfont icon-selected-copy"></i> -->
-						<span class="device_code">{{each_device.device_code}}</span>
+						<span class="device_code" :did="each_device.did">{{each_device.device_code}}</span>
 					</p> 
 				</div>
 			</div>
@@ -42,7 +45,7 @@
 <!-- 设备匹配用户信息部分开始 -->
 	<div id="user_info">
 		<!-- 用户信息 -->
-		<div class="user_info">
+		<div class="user_info" :uid="all_user_info.uid">
 			<ul>
 				<li><p>用户信息</p></li>
 				<li class="bottom_line_h">
@@ -87,6 +90,7 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/helppay.js"></script>
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
@@ -113,10 +117,13 @@
 		if($_GET.index == undefined || url.indexOf("?") == -1){
 			$("#form_div").show();//第一页 
 			$("#user_info").hide();//第二页 
-		}else if($_GET.index == "1"){
+		}else{
 			$("#form_div").hide();//第一页 
 			$("#user_info").show();//第二页 
 		}
+		
+		var openid  = "{{$_SESSION['openid']}}";
+		console.log(openid)
 	</script>
 </body>
 </html>
