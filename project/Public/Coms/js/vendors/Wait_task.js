@@ -30,13 +30,13 @@ var wait_task = new Vue({
 			new_work_order:"",
 			install_personnel_info:[] 
 		},
-		search:"",
+		search:"",//搜索
 		// 请求ajax
 		getAjax: "",
 		data:"",
 		url:""
    
-	},
+	},   
 	methods:{
 		// 跳转页面改变url（公共）
 		url_public:function(num){
@@ -126,6 +126,34 @@ var wait_task = new Vue({
         	}
 
         },
+        // 点击搜索小图标提交表单
+        // subClick:function(){
+        // 	console.log(this.search)
+        // 	$.ajax({
+        //         url: '',
+        //         data: {searchword: this.search},
+        //         type: "post",
+        //         success: function(res) {
+        //             console.log('res: ',res);
+        //             if(res.code == 200){
+        //                 wait_task.service_details_info = res.data;
+        //             }else{
+        //                 wait_task.service_details_info = [{
+        //                     name: '&emsp;',
+        //                     phone: '查无数据',
+        //                     device_code: '&emsp;'            
+        //                 }];
+        //             }
+        //         },
+        //         error: function(err) {
+        //             wait_task.service_details_info = [{
+        //                 name: '&emsp;',
+        //                 phone: '查无数据',
+        //                 device_code: '&emsp;'            
+        //             }];
+        //         }
+        //     })
+        // },
 		// 派工按钮  服务详情页面（第三页）
 		plan_personnel_inp:function(){
 			var _this = this;
