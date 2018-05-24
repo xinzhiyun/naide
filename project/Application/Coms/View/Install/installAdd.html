@@ -105,19 +105,20 @@
                 address	地址
             */
             // var url = getURL("Coms","install_man_add");
-            console.log(username, userphone, userpass, useraddr);
+            console.log(username, userphone, userpass, useraddr, confirmpass);
             $.ajax({  
                 url:"{{:U('users/install_man_add')}}",
                 data:{
-                    name:username,
-                    phone:userphone,
-                    password:userpass,
+                    userName:username,
+                    userPhone:userphone,
+                    userPass:userpass,
+                    confirmPass: confirmpass,
                     address:useraddr
                 },
                 type:"post",
                 success:function(res){
                     console.log("成功",res)
-                    if(res.status == 200) {
+                    if(res.code == 200) {
                         // 成功回到安装人员列表
                         // window.location.href = "";
                     }else {

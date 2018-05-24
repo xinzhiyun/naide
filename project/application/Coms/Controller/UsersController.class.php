@@ -183,6 +183,7 @@ class UsersController extends ComsbaseController {
             if (md5($data['userPass']) != md5($post['confirmPass'])) {
                 $this->ajaxReturn(['code'=>400,'msg'=>'两次密码不一致']);
             }
+           
             $data['name'] = $post['userName'];
             $data['phone'] = $post['userPhone'];
             $data['v_id'] = session('comsuser.id');
