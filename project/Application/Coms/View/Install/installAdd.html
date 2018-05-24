@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <form action="javascript:return;" method="post" id="form1">
             <div class="installAdd">
                 <p>新的安装人员：</p>
                 <ul>
@@ -38,7 +38,7 @@
                 </ul>
             </div>
             <div class="save">
-                <input type="submit" value="保存">
+                <input type="submit" value="保存" class="subsave">
             </div>
         </form>
     </div>
@@ -51,7 +51,7 @@
         // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
     </script>
     <script>
-        $("#form1").on("submit", function() {
+        $(".subsave").on("click", function() {
             // 表单验证
             var username = $("input[name='userName']").val();// 用户名
             var nameReg = /^[0-9a-zA-Z\u4e00-\u9fa5_]{2,16}$/;
@@ -102,28 +102,40 @@
                 return false;
             }
             
-            地址验证
+            // 地址验证
             if(addrReg.test(useraddr)) {
                 noticeFn({text: "地址格式有误!"});
                 return false;
             }
-            // var ur = getURL("Coms","install_man_add")
-            // $.ajax({
-            //     url:ur,
-            //     data:{
-            //         name:username,
-            //         phone:userphone,
-            //         password:userpass,
-            //         address:addrReg
-            //     },
-            //     type:"post",
-            //     success:function(res){
-            //         console.log("成功",res)
-            //     },
-            //     error:function(res){
-            //         console.log("失败",res);
-            //     }
-            // });
+            // 提交参数
+            /*
+                name	安装人员姓名
+                phone	手机号
+                password	密码
+                address	地址
+            */
+            // var url = getURL("Coms","install_man_add");
+            $.ajax({
+                url:"{{:U('users/install_man_add')}}",
+                data:{
+                    name:username,
+                    phone:userphone,
+                    password:userpass,
+                    address:addrReg
+                },
+                type:"post",
+                success:function(res){
+                    console.log("成功",res)
+                    if(res.status == 200) {
+                        // window.location.href = "";
+                    }else {
+                        
+                    }
+                },
+                error:function(res){
+                    console.log("失败",res);
+                }
+            });
         })
     </script>
 </body>
