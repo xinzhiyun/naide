@@ -31,7 +31,6 @@ var home = new Vue({
                 _this.userList = res.list;
                 $(".loadingdiv").fadeOut('fast');
             });
-            console.log(234)
         },
         // 搜索(公共部分)
         sub_pub: function(searchVal, callback){
@@ -76,11 +75,5 @@ var home = new Vue({
         }
     },
 });
-// 手机默认回车按钮提交表单并接受返回值
-$("#form1").on("submit", function(e) {
-    // 阻止表单默认跳转
-    e.preventDefault(); 
-    home.sub_pub();
-})
 // 将首页改为安装
 $(".back2home").text("添加");
