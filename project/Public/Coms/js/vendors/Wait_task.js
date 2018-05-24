@@ -36,7 +36,7 @@ var wait_task = new Vue({
 		data:"",
 		url:""
    
-	},
+	},   
 	methods:{
 		// 跳转页面改变url（公共）
 		url_public:function(num){
