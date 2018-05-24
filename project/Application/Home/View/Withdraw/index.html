@@ -99,7 +99,7 @@
 					<span class='fright cfix'>
 						<a style='color:#888;'>
 							<select name="" id="" v-model='bankoldselect' @change='bankoldselectFn'>
-								<option :value="card.bank" v-for='card in oldcard'>{{card.bank}}</option>
+								<option :value="card.bank + ',' + card.bankid" v-for='card in oldcard'>{{card.bank}}</option>
 							</select>
 							<span v-if='!oldcard' class='f6'>无历史账号记录</span>&nbsp;
 						</a>
@@ -362,12 +362,13 @@
 				getCard(function(res){
 					if(res.code == 200){
 						res.msg.forEach(function(item, index){
-							console.log(item.bank);
-							withdraw.oldcard.push({bank: item.bank});
+							// console.log(item.bank);
+							withdraw.oldcard.push({bank: item.bank, bankid: item.id});
 						})
 
 					}else{
-						noticeFn({text: res.msg});
+
+						// noticeFn({text: res.msg});
 					}
 				})
 				// this.oldcard = '3453463546456487';
@@ -673,7 +674,8 @@
 									noticeFn({text:'请选择账户!'});
 									return
 								}
-								upinfo['bank'] = this.bankoldselect;
+								upinfo['bank'] = this.bankoldselect.split(',')[0];
+								upinfo['bankid'] = this.bankoldselect.split(',')[1];
 								console.log('upinfo: ',upinfo);
 								// 提交数据
 								upData(upinfo);
