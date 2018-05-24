@@ -252,6 +252,11 @@ var product_pay = new Vue({
 					noticeFn({text: res.text});
 				}
 			}, _this.p);
+		},
+		// 确认收货
+		receive: function(order_id){
+			// console.log('order_id: ',order_id);
+			received(order_id);
 		}
 	},
 	mounted(){

@@ -183,6 +183,37 @@ class UsersController extends HomebaseController {
         }
     }
 
+    /**
+     * 确认收货
+     */
+    public function confirmation()
+    {
+        try {
+            $data = I('post.');
+            if (empty($data['order_id'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['order_id'] = $data['order_id'];
+            }
+
+            $order_data = M('order')->where($map)->find();
+
+            if (empty($order_data)) {
+                E('订单不存在请刷新重试!', 201);
+            }
+
+            $res = M('order')->where($map)->save(['status'=>3]);
+
+            if($res){
+                E('确认成功',200);
+            }else{
+                E('订单修改失败,请刷新重试!',201);
+            }
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 }
 
 

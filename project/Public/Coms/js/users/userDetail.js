@@ -10,7 +10,7 @@ var detail = new Vue({
         }
     },
     created() {
-        var colorList = ["#51CEE4", "#F8A56D", "#42D5B8", "#AD6BD0", "#F08686"];
+        var colorList = ["#51CEE4", "#F8A56D", "#42D5B8", "#AD6BD0", "#F08686", "#51CEE4", "#F8A56D", "#42D5B8"];
         var perflow, perday;
         getDetail(function(userList, devicesList){
             detail.userList = userList;

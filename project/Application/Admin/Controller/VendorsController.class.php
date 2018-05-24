@@ -44,6 +44,11 @@ class VendorsController extends CommonController
             return false;
         });
 
+
+        if(empty(session('adminuser.is_admin'))){
+            $map['pub_vendors.id'] = $_SESSION['adminuser']['id'];
+        }
+
         $user = D('vendors');
         // PHPExcel 导出数据
         if (I('output') == 1) {
@@ -172,7 +177,7 @@ class VendorsController extends CommonController
 
             
             //将三级联动地址拼接具体地址再写入数据库
-            $_POST['address'] = $_POST['address'].$_POST['addr'];
+//            $_POST['address'] = $_POST['address'].$_POST['addr'];
 
 
             if(empty($_POST['is_admin'])) {
@@ -287,9 +292,9 @@ class VendorsController extends CommonController
                 // 获取经销商信息
 
                 if(empty(session('adminuser.is_admin'))){
-                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+                    $user = M('vendors')->where(['is_vendors'=>1,'id'=>$_SESSION['adminuser']['id']])->select();
                 }else{
-                    $user = D('vendors')->getAll();
+                    $user = D('vendors')->where(['is_vendors'=>1])->getAll();
 
                 }
                 // 获取设备信息

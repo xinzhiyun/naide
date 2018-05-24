@@ -27,7 +27,7 @@ class LoginController extends AppframeController
                 E('账号不存在!', 201);
             }
 
-            $data['password'] = md5(md5($data['password']));
+            $data['password'] = md5($data['password']);
 
             if ($data['password'] != $info['password']) {
                 E('密码错误!', 201);
@@ -101,7 +101,7 @@ class LoginController extends AppframeController
                 E('密码不一至', 201);
             }
 
-            $data['password'] = md5(md5($data['password']));
+            $data['password'] = md5($data['password']);
             $m =  M('vendors');
             $info = $m->where('phone='.$data['user'])->find();
             if (empty($info)) {

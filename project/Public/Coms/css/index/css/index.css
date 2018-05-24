@@ -249,7 +249,7 @@ body .main .mainNav ul li a span:nth-child(1) i {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003219}}
 body .main .mainNav ul li:nth-child(1) {
-  border-bottom: 1px solid #eaeaea;
+  /* border-bottom: 1px solid #eaeaea; */
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003222}}
 body .main .mainNav ul li:nth-child(1) a span:nth-child(1) {
@@ -257,9 +257,9 @@ body .main .mainNav ul li:nth-child(1) a span:nth-child(1) {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003227}}
 body .main .mainNav ul li:nth-child(2) {
-  border-bottom: 1px solid #eaeaea;
+  /* border-bottom: 1px solid #eaeaea;
   border-left: 1px solid #eaeaea;
-  border-right: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea; */
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003232}}
 body .main .mainNav ul li:nth-child(2) a span:nth-child(1) {
@@ -267,7 +267,7 @@ body .main .mainNav ul li:nth-child(2) a span:nth-child(1) {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003237}}
 body .main .mainNav ul li:nth-child(3) {
-  border-bottom: 1px solid #eaeaea;
+  /* border-bottom: 1px solid #eaeaea; */
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003240}}
 body .main .mainNav ul li:nth-child(3) a span:nth-child(1) {
@@ -279,8 +279,8 @@ body .main .mainNav ul li:nth-child(4) a span:nth-child(1) {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003252}}
 body .main .mainNav ul li:nth-child(5) {
-  border-left: 1px solid #eaeaea;
-  border-right: 1px solid #eaeaea;
+  /* border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea; */
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003256}}
 body .main .mainNav ul li:nth-child(5) a span:nth-child(1) {
@@ -289,4 +289,9 @@ body .main .mainNav ul li:nth-child(5) a span:nth-child(1) {
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/Index\/less\/index\.less}line{font-family:\00003263}}
 body .main .mainNav ul li:nth-child(6) a span:nth-child(1) {
   background-color: #55abff;
+}
+.swiper-pagination-bullet {
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50%;
 }
