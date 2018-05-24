@@ -24,14 +24,18 @@ label {
 /*确定按钮*/
 .confirm {
 	width: 80vw;
-	position: absolute;
+	/* position: absolute; */
 	padding: 10px;
-	bottom: 2vh;
-	left: 50%;
-	margin-left: -40vw;
+	margin:0 auto;
+	/* height: 10vh; */
+	/* bottom: 2vh; */
+	/* left: 50%; */
+	/* margin-left: -40vw; */
 	text-align: center;
 	border-radius: 4px;
 	font-size: 20px;
+	float: none;
+	margin-top: 3vh;
 }
 /*地区选择*/
 #areaChoose {
