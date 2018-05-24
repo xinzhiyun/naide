@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="__PUBLIC__/Home/amazeui/assets/css/amazeui.css">
     <link rel="stylesheet" href="__PUBLIC__/Coms/css/dealer/css/dealer.css">
     <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
+    <script>
+        var data = '{{$data|json_encode}}';
+        console.log('data: ',data);
+    </script>
 </head>
 <body>
     <div class="main">
@@ -32,21 +36,21 @@
             <div>
                 <p>
                     <span>总收益 (元)</span>
-                    <span>{{splitStr("3456")}}</span>
+                    <span v-text='allin'>{{splitStr("3456")}}</span>
                 </p>
                 <p>
                     <span>库存量 (台)</span>
-                    <span>{{splitStr("3456")}}</span>
+                    <span v-text='alllast'>{{splitStr("3456")}}</span>
                 </p>
             </div>
             <div>
                 <p>
                     <span>收入 (元)</span>
-                    <span>+4,567</span>
+                    <span v-text='inmoney'>+4,567</span>
                 </p>
                 <p>
                     <span>支出 (元)</span>
-                    <span>-4,567</span>
+                    <span v-text='usedmoney'>-4,567</span>
                 </p>
             </div>
         </div>
@@ -77,9 +81,5 @@
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/dealer/dealer.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-    </script>
 </body>
 </html>
