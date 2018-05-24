@@ -337,7 +337,7 @@ class WechatController extends Controller
                 "name":"经销商",
                 "type":"view",
                 
-                "url":"http://ddjz.ddjz88.com/coms"
+                "url":"http://ddjz.ddjz88.com/coms/index/index"
             }],
         }';
 

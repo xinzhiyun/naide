@@ -11,14 +11,15 @@
 </head>
 <body>
     <div class="main">
-        <form method="post" id="form1" action="">
+        <form method="post" id="form1" action="{{:U('Coms/Dealer/setdealer')}}">
             <ul>
                 <!-- 初装费金额 -->
                 <li>
                     <p>初装费金额: <span>{{splitStr("2000")}}</span>元</p>
                     <p>
                         <label>初装费金额：</label>
-                        <input type="text" name="czfei" placeholder="请输入金额" /> 
+                        <input type="text" name="install_price_ex" placeholder="请输入金额" value="{{$data['install_price']}}"/>
+                        <input type="hidden" name="id" value="{{$data['id']}}" />
                     </p>
                 </li>
                 <!-- 年服务费金额 -->
@@ -26,7 +27,7 @@
                     <p>年服务费金额: <span>{{splitStr("12000")}}</span>元</p>
                     <p>
                         <label>年服务费金额：</label>
-                        <input type="text" name="nfwu" placeholder="请输入金额" /> 
+                        <input type="text" name="service_price_ex" placeholder="请输入金额"  value="{{$data['service_price']}}"/>
                     </p>
                 </li>
                 <!-- 分享佣金金额 -->
@@ -34,7 +35,7 @@
                     <p>分享佣金金额: <span>{{splitStr("600")}}</span>元</p>
                     <p>
                         <label>分享佣金金额：</label>
-                        <input type="text" name="fxyjin" placeholder="请输入金额" /> 
+                        <input type="text" name="commission_ex" placeholder="请输入金额"  value="{{$data['commission']}}"/>
                     </p>
                 </li>
             </ul>
