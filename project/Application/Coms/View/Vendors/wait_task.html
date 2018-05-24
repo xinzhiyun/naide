@@ -85,7 +85,7 @@
 			</div>
 			<div class="service_div_three_public">
 				<p class="left">维护地址：</p>
-				<p class="right" style="width:25rem">
+				<p class="right" style="width:25rem;textAlign:right;">
 					{{service_details_info.province}}
 					{{service_details_info.district}}
 					{{service_details_info.address}}
@@ -215,12 +215,44 @@
 			$("#navbar").find("h2").html("派工信息");
 		}
 
+		// $(function(){
+		// 	// 手机默认回车按钮提交表单并接受返回值
+		// 	$("#form1").on("submit", function(e) {
+		// 	    // 阻止表单默认跳转
+		// 	    e.preventDefault(); 
+		// 	    wait_task.sub_pub();
+		// 	})
+		// });
+
 		$(function(){
-			// 手机默认回车按钮提交表单并接受返回值
+			// 手机默认回车按钮提交表单
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
-			    wait_task.sub_pub();
+			    console.log(wait_task.search)
+			    $.ajax({
+			        url: "",
+			        data: {datas: wait_task.search},
+			        type: "post",
+			        success: function(res) {
+			            if(res.code == 200){
+	                        wait_task.service_details_info = res.data;
+	                    }else{
+	                        wait_task.service_details_info = [{
+	                            name: '&emsp;',
+	                            phone: '查无数据',
+	                            device_code: '&emsp;'            
+	                        }];
+	                    }
+			        },
+			        error: function(res) {
+			            wait_task.service_details_info = [{
+                            name: '&emsp;',
+                            phone: '查无数据',
+                            device_code: '&emsp;'            
+                        }];
+			        }
+			    })
 			})
 		});
 	</script>
