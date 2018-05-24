@@ -199,7 +199,7 @@ class DeviceController extends HomebaseController
                 ->where('id='.$devices_statu['id'])
                 ->save($devices_statu_data);
         }
-        dump($devices_statu_res);
+       
         if($devices_statu_res){
             return true;
         }
