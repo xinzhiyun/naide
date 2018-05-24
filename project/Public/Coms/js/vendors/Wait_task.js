@@ -173,23 +173,22 @@ var wait_task = new Vue({
 					// sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
 					console.log(res.res)
 					for(var i = 0;i<res.res.length;i++){
+						_this.plan_personnel_info_bg.install_personnel_info = [];//清空
 						_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
 				}
 			},_this.url);
-			$("#plan_personnel_mask_bg").show(800);
+			$("#plan_personnel_mask_bg").show();
 		},
 		// 选中安装人员
 		pitch_on:function(index_personnel,even){
 			var $this = this;
-			var person_name = $this.plan_personnel_info_bg.install_personnel_info[index_personnel].install_personnel;
-			var person_cell = $this.plan_personnel_info_bg.install_personnel_info[index_personnel].phone;
 			// 获取当前点击的元素标签
 			var el = event.target;
 			var $el = $(el);
+			console.log($el.attr("phone"))
 			$el.css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
-
-			$("#select_personnel").html(person_name).css({"color":"#b3b3b3","fontSize":"0.68266667rem"});
-			$("#select_cell").html(person_cell).css({"color":"#b3b3b3","fontSize":"0.68266667rem"});
+			$("#select_personnel").html($el.html());//安装人员名字
+			$("#select_cell").html($el.attr("phone"));//安装人员电话
 			$("#plan_personnel_mask_bg").hide();
 			$("#plan_personnel_submit").css({"background":"#0d94f3"});
 		},
@@ -204,10 +203,11 @@ var wait_task = new Vue({
 			_this.id = {
 				id:JSON.parse(sessionStorage.getItem("service_details_info")).id
 			}
+			console.log(JSON.parse(sessionStorage.getItem("service_details_info")).id)
 			_this.getAjax(function(res){
 				console.log(res);
+				noticeFn({text: res.text,time: '1500'});
 			},_this.url,_this.id);
-			noticeFn({text: '提交成功',time: '1500'});
 		}
 
 	},
@@ -247,13 +247,5 @@ var wait_task = new Vue({
 			_this.service_details_info = detail;
 			_this.plan_personnel_info_bg.new_work_order = detail.no;
 		}
-		// 安装人员（蒙版）	
-		// var per = JSON.parse(sessionStorage.getItem("install_personnel_info"));
-		// if(per){
-		// 	for(var i = 0;i<per.length;i++){
-		// 		_this.plan_personnel_info_bg.install_personnel_info.push(per[i]);
-		// 		console.log(per[i])
-		// 	}
-		// }
 	}
 })

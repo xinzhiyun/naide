@@ -154,7 +154,7 @@
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
-				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.name}}</li>
+				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone">{{install_personnel.name}}</li>
 			</ul>
 		</div>
 	</div>
@@ -171,8 +171,6 @@
 	<script defer>	
 		// 微信手机端调试工具
 		var vConsole = new VConsole();
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
 		// 页面加载时判断url,刷新页面为当前页
 		var get = {};
@@ -232,7 +230,7 @@
 			    console.log(wait_task.search)
 			    $.ajax({
 			        url: "",
-			        data: {datas:   wait_task.search},
+			        data: {datas: wait_task.search},
 			        type: "post",
 			        success: function(res) {
 			            if(res.code == 200){
