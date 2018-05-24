@@ -54,16 +54,14 @@
         $(".subsave").on("click", function() {
             // 表单验证
             var username = $("input[name='userName']").val();// 用户名
-            var nameReg = /^[0-9a-zA-Z\u4e00-\u9fa5_]{2,16}$/;
             var userphone = $("input[name='userPhone']").val();//手机号码
-            var phoneReg = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;
             var userpass = $("input[name='userPass']").val();//密码
             var passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
             var confirmpass = $("input[name='confirmPass']").val();//确认密码
             var useraddr = $("input[name='userAddr']").val();//地址
             //用户名验证
             if(username != '') {
-                if(!nameReg.test(username)) {
+                if(!nameCheck(username)) {
                     noticeFn({text: '用户名格式有误!'});
                     return false;
                 }
@@ -73,7 +71,7 @@
             }
             // 电话号码验证
             if(userphone != '') {
-                if(!phoneReg.test(userphone)) {
+                if(!phoneCheck(userphone)) {
                     noticeFn({text: '手机号码格式有误!'});
                     return false;
                 }
