@@ -143,7 +143,7 @@ var payment = new Vue({
     subClick:function(){
       searchPub();
     }
-    
+      
   },
   created:function(){
     var device_info = location.href.split("=")[1];
