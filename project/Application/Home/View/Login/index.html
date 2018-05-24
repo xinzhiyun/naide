@@ -32,14 +32,19 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<script src="__PUBLIC__/Home/js/md5.js"></script>
 	<script>
 		var vconsole = new VConsole();
 		window.onload = function() {
 			document.getElementsByTagName("body")[0].style.height = document.documentElement.clientHeight + 'px';
 		}
-
+		// 密码md5
+		// $("input[name='userpass']").on("change", function(){
+		// 	var newpwd = hex_md5($(this).val());
+		// 	$(this).val(newpwd);
+		// })
 		// 验证
-		$(".loginBtn").on("click", function() {
+		$(".loginBtn").on("touchend", function() {
 			var username = $("input[name='username']").val();
 			var userpass = $("input[name='userpass']").val();
 			// 姓名判断
@@ -57,9 +62,10 @@
 				noticeFn({text: "密码不能为空!"});
 				return false;
 			}
+			console.log($(this));
 			// ajax提交后台
 			$.ajax({
-				url: "{{:U('/home/login/login')}}",
+				url: "{{:U('Home/login/login')}}",
 				type: "post",
 				data: {user:username,password:userpass},
 				success: function(res) {
