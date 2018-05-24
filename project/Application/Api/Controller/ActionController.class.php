@@ -456,7 +456,7 @@ class ActionController extends Controller
     {
 
         $sid = Device::get_devices_info($dcode,'sid');
-        
+
         $reday = M('devicesStatu')->field('ReDay,updatetime')->find($sid);
 
         $data['ReDay'] = intval($day)+$reday['reday'];
