@@ -71,7 +71,7 @@ var wait_task = new Vue({
 		 			noticeFn({text: res.text});
 		 		}
 		 	},_this.url,_this.data);
-		},
+		},     
 		//搜索用户页面（第二页）
 		service_details:function(index){
 			var _this = this;
