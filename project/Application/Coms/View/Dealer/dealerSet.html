@@ -15,32 +15,32 @@
             <ul>
                 <!-- 初装费金额 -->
                 <li>
-                    <p>初装费金额: <span v-text='install_price'>{{splitStr("2000")}}</span>元</p>
+                    <p>初装费金额: <span v-text='install_price/100'>{{splitStr("2000")}}</span>元</p>
                     <p>
                         <label>初装费金额：</label>
-                        <input type="hidden" name="install_price" v-model='setData.install_price' />
+                        <input type="text" placeholder="请输入金额" v-model='setData.install_price_ex' />
                     </p>
                 </li>
                 <!-- 年服务费金额 -->
                 <li>
-                    <p>年服务费金额: <span v-text='service_price'>{{splitStr("12000")}}</span>元</p>
+                    <p>年服务费金额: <span v-text='service_price/100'>{{splitStr("12000")}}</span>元</p>
                     <p>
                         <label>年服务费金额：</label>
-                        <input type="text" name="service_price_ex" placeholder="请输入金额"   v-model='setData.service_price'/>
+                        <input type="text" placeholder="请输入金额"   v-model='setData.service_price_ex'/>
                     </p>
                 </li>
                 <!-- 分享佣金金额 -->
                 <li>
-                    <p>分享佣金金额: <span v-text='commission'>{{splitStr("600")}}</span>元</p>
+                    <p>分享佣金金额: <span v-text='commission/100'>{{splitStr("600")}}</span>元</p>
                     <p>
                         <label>分享佣金金额：</label>
-                        <input type="text" name="commission_ex" placeholder="请输入金额"   v-model='setData.commission' />
+                        <input type="text" placeholder="请输入金额"   v-model='setData.commission_ex' />
                     </p>
                 </li>
             </ul>
             <!-- 提交 -->
             <div>
-                <input type="button" value="提交">
+                <input type="button" value="提交" @touchend='setDealer'>
             </div>
         </form>
     </div>
@@ -49,7 +49,7 @@
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/dealer/dealerSet.js"></script>
     <script>
-        var data = '{{$data|json_encode}}';
+        var data = JSON.parse('{{$data|json_encode}}');
         console.log('data: ',data);
         if(!data){
             data = {};
@@ -57,9 +57,34 @@
             data['service_price'] = '--';
             data['commission'] = '--';
         }
-        deal.install_price = splitStr(data.install_price);
-        deal.service_price = splitStr(data.service_price);
-        deal.commission = splitStr(data.commission);
-    </script>
+        deal.setData.id = data.id;
+        deal.install_price = data.install_price;
+        deal.service_price = data.service_price;
+        deal.commission = data.commission;
+
+        // 提交营销设置
+        function upData(data){
+            $.ajax({
+                url: '{{:U("Coms/Dealer/setdealer")}}',
+                type: 'post',
+                data: data,
+                success: function(res){
+                    console.log('res: ',res);
+                    if(res.status == 200){
+                        noticeFn({text: res.msg});
+                        setTimeout(function(){
+                            // location.href = '{{:U("Coms/Dealer/dealer")}}';
+                        },500);
+                    }else{
+                        noticeFn({text: res.msg});
+                    }
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                    noticeFn({text: '系统发生错误，请稍后再试'});
+                }
+            })
+        }
+     </script>
 </body>
 </html>
