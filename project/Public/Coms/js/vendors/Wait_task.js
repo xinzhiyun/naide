@@ -31,7 +31,8 @@ var wait_task = new Vue({
 		// 	location.href = href+"?"+key+"="+value;
 		// },
 		//在待办任务（首页）
-		// task_one:function(type){
+		task_one:function(type){
+			console.log(type)
 		// 	var _this = this;
 		// 	// title
 		// 	var data_info = _this.task[type].task_text;
@@ -57,7 +58,7 @@ var wait_task = new Vue({
 		//  			noticeFn({text: res.text});
 		//  		}
 		//  	},_this.url,_this.data);
-		// },
+		},
 	
 	},
 	// created:function(){

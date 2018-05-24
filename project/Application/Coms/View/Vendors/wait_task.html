@@ -214,25 +214,25 @@
 		// 	},
 		// ];
 		// wait_task.task = task;
-		function ajaxPub(callback,url,data){
-			$.ajax({
-				url:url,
-				type:"post",
-				data:data,
-				success:function(res){
-					// console.log("成功",res)
-					if(res.code == 200){
-						callback({res:res.data,msg:0});
-					}else{
-						callback({res:"",text:"系统出错，请稍候再试",msg:1});
-					}
-				},
-				error:function(res){
-					console.log("失败",res);
-					callback({res: "", text: "系统出错，请稍后再试!", msg:1});
-				}
-			})
-		}
+		// function ajaxPub(callback,url,data){
+		// 	$.ajax({
+		// 		url:url,
+		// 		type:"post",
+		// 		data:data,
+		// 		success:function(res){
+		// 			// console.log("成功",res)
+		// 			if(res.code == 200){
+		// 				callback({res:res.data,msg:0});
+		// 			}else{
+		// 				callback({res:"",text:"系统出错，请稍候再试",msg:1});
+		// 			}
+		// 		},
+		// 		error:function(res){
+		// 			console.log("失败",res);
+		// 			callback({res: "", text: "系统出错，请稍后再试!", msg:1});
+		// 		}
+		// 	})
+		// }
 		// 页面加载时判断url,刷新页面为当前页
 		// var get = {};
 		// var $_GET = (function() {
@@ -273,22 +273,22 @@
 		// 	$("#service_details_bg").hide();
 		// 	$("#navbar").find("h2").html("派工信息");
 		// }
-		var href = location.href.split("?")[1];
-		// var key = href.split("=")[0];
-		var url = window.document.location.href.toString();
-		// console.log(href)
-		if(href == undefined || url.indexOf("?") == -1){
-			$(".wait_task_bg").show();//第一页 待办任务页面
-			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
-			$("#service_details_bg").hide();//第三页
-			$("#navbar").find("h2").html("待办任务");
-		}else {
-			if(href.split("=")[0] == "type"){
-				$(".wait_task_bg").hide();
-				$("#wait_install").show();
-				$("#navbar").find("h2").html(sessionStorage.getItem("title"));
-			}
-		}
+		// var href = location.href.split("?")[1];
+		// // var key = href.split("=")[0];
+		// var url = window.document.location.href.toString();
+		// // console.log(href)
+		// if(href == undefined || url.indexOf("?") == -1){
+		// 	$(".wait_task_bg").show();//第一页 待办任务页面
+		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+		// 	$("#service_details_bg").hide();//第三页
+		// 	$("#navbar").find("h2").html("待办任务");
+		// }else {
+		// 	if(href.split("=")[0] == "type"){
+		// 		$(".wait_task_bg").hide();
+		// 		$("#wait_install").show();
+		// 		$("#navbar").find("h2").html(sessionStorage.getItem("title"));
+		// 	}
+		// }
 		
 		// else if($_GET.index == "2"){
 		// 	$(".wait_task_bg").hide();
