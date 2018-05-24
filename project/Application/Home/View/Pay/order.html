@@ -97,7 +97,7 @@
 				<span v-if="order_pay_info.status == 1  && order_pay_info.type == 1">买家已付款</span>
 				<!-- 待收货 status=2 -->
 				<!-- 快递单号 -->
-				<span v-if="order_pay_info.status == 2 && order_pay_info.type == 1">顺丰快递单：{{order_pay_info.mca}}</span>
+				<span v-if="order_pay_info.status == 2 && order_pay_info.type == 1"><span v-text='order_pay_info.express'></span>：{{order_pay_info.mca}}</span>
 				<span v-if="order_pay_info.status == 2  && order_pay_info.type == 1">卖家已发货</span>
 			</p>
 			<!-- 先不要删 -->
@@ -157,7 +157,7 @@
 			</div>
 			<!-- 待收货 status=2 -->
 			<div class="warn_send_btn" v-if="order_pay_info.status == 2 && order_pay_info.type == 1">
-				<p class="warn_send" style="lineHeight:0.9rem;" @touchend="receive">确认收货</p>
+				<p class="warn_send" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id' @touchend="receive(order_pay_info.order_id)">确认收货</p>
 			</div>
 
 		<!-- 确定支付弹框部分开始 -->
@@ -408,6 +408,30 @@
 				error: function(err){
 					console.log('err: ',err);
 					noticeFn({text: '系遇到问题，请稍后再试'});
+				}
+			})
+		}
+
+		// 确认收货
+		function received(order_id){
+			console.log('order_id: ',order_id);
+			confirmFn("确认收货吗？", function(res){
+				if(res){
+					console.log('确定');
+					// 确定收货
+					$.ajax({
+						url: '',
+						type: 'post',
+						data: {order_id: order_id},
+						success: function(res){
+							console.log('res: ',res);
+						},
+						error: function(err){
+							console.log('err: ',err);
+						}
+					})
+				}else{
+					console.log('取消')
 				}
 			})
 		}
