@@ -181,7 +181,7 @@
 			<h3>提现说明:</h3>
 			<p class='f6' v-for='(value,index) in wDesc' v-html='value'></p>
 			<a class='fblue' :href="tel"><span v-text='returnTel'></span></a>
-		</div>
+		</div> 
 	</div>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
@@ -343,9 +343,10 @@
 			 //            }
 			 //        })
 			 //    }
-
-				this.enmoney = '{{$enmoney}}';
-				console.log('enmoney: ',this.enmoney);
+			 	var balance = JSON.parse('{{$enmoney|json_encode}}')
+				this.enmoney = Number(balance.balance) - Number(balance.canmoney);
+				// console.log('enmoney: ', Number(balance.balance));
+				// console.log('canmoney: ', Number(balance.canmoney));
 				// 查询旧账号
 				getCard(function(res){
 					if(res.code == 200){

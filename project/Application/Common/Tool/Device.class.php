@@ -87,6 +87,7 @@ class Device extends Redis
                 case "id":
                 case "type_id":
                 case "vid":
+//                case "uid":
                     $val = M('devices')->where('device_code='.$device_code)->getField($field);
                     self::$redis->hset($key,$field,$val);
                 break;
