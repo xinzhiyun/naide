@@ -139,9 +139,28 @@ var payment = new Vue({
         });
       }
     },
+    // 搜索公共部分
+    searchPub:function(){
+      console.log(payment.search)
+      $.ajax({
+          url: "",
+          data: {datas: payment.search},
+          type: "post",
+          success: function(res) {
+              if(res.code == 200){
+                
+                  }else{
+
+                  }
+          },
+          error: function(res) {
+            
+          }
+      })
+    },
     // 搜索小图标
     subClick:function(){
-      searchPub();
+      payment.searchPub();
     }
       
   },
