@@ -6,7 +6,7 @@ body {
   display: none !important;
 }
 .main { 
-  border-top: 1px solid #F7F7FB;
+  border-top: 1px solid #F7F7FB; 
 }
 .main .companyLogo { 
   width: 50vw;
