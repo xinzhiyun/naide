@@ -290,3 +290,8 @@ body .main .mainNav ul li:nth-child(5) a span:nth-child(1) {
 body .main .mainNav ul li:nth-child(6) a span:nth-child(1) {
   background-color: #55abff;
 }
+.swiper-pagination-bullet {
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50%;
+}
