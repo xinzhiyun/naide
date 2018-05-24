@@ -31,6 +31,8 @@ class AppframeController extends Controller {
             if(empty($_SESSION['open_id'])){
                 $_SESSION['open_id'] = WeiXin::GetOpenid();
             }
+            $this->assign('open_id',$_SESSION['open_id']);
+
         }
     }
 

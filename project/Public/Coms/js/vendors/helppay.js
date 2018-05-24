@@ -14,9 +14,10 @@ var payment = new Vue({
     // 所有设备
     device_title:"所有设备",
     pay_price : "0",
-    data:"",
+    data:"",       
     weixinPay : "",//微信支付接口
     openid:"",
+    search:"",    //搜索
   },
   methods:{
     url_public:function(num){
@@ -137,8 +138,12 @@ var payment = new Vue({
           }
         });
       }
+    },
+    // 搜索小图标
+    subClick:function(){
+      searchPub();
     }
-
+      
   },
   created:function(){
     var device_info = location.href.split("=")[1];
