@@ -112,9 +112,10 @@
 				return get;
 			} else {
 				// 如何传入的参数只有1对键值对则直接return返回出去
-				return {};
+				return {};   
 			}
 		})();
+		
 		var url = window.document.location.href.toString();
 		if($_GET.index == undefined || url.indexOf("?") == -1){
 			$("#form_div").show();//第一页 

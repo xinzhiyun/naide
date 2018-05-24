@@ -139,6 +139,7 @@ var payment = new Vue({
         });
       }     
     },
+    
     // 搜索公共部分 
     searchPub:function(){
       console.log(payment.search)
