@@ -26,14 +26,14 @@ class DealerController extends ComsbaseController {
            $clear['install_price_ex']=0;
            $clear['service_price_ex']=0;
            $clear['commission_ex']   =0;
-           $data = M('vendors')->where('id='.$id)->save($clear);
+          M('vendors')->where('id='.$id)->save($clear);
 
-           $clear['install_price_ex']   = $data['install_price_ex'];
-           $clear['service_price_ex']   = $data['service_price_ex'];
-           $clear['commission_ex']      = $data['commission_ex'];
-           $clear['examine']            = 1;
+           $savedata['install_price_ex']   = $data['install_price_ex']*100;
+           $savedata['service_price_ex']   = $data['service_price_ex']*100;
+           $savedata['commission_ex']      = $data['commission_ex']*100;
+           $savedata['examine']            = 1;
 
-           $res = M('vendors')->where('id='.$id)->save($clear);
+           $res = M('vendors')->where('id='.$id)->save($savedata);
 
            if($res){
                E('提交成功,请等待审核!',200);
