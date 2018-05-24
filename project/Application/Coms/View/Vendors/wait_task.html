@@ -9,10 +9,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
 	<script>
-		// 待办数量
-		var tone = "{{$tone}}";//安装
-		var ttwo = "{{$ttwo}}";//维修
-		var tf = "{{$tf}}";//维护
+		
 	</script>
 </head>
 <body>   
@@ -21,14 +18,36 @@
 <!-- 待办任务页面部分开始 -->
 	<div class="wait_task_bg" id="wait_task" v-cloak>
 		<ul class="wait_task_content">
-			<li v-for="(each_task,index) in task" @click="task_one(index)">
-				<!-- 待办任务 -->
+			<!-- <li v-for="(each_task,index) in task" @click="task_one(index)">
 				<div class="left task_text">{{each_task.task_text}}</div>
 				<div>
 					<span :id="each_task.task_id" class="task_pub">{{each_task.task_number}}</span>
 					<i class="iconfont icon-xiangyou1 right"></i>
 				</div>
+			</li> -->
+
+			<li @click="task_one(0)">
+				<div class="left task_text">待安装</div>
+				<div>
+					<span id="task_one" class="task_pub">{{tone}}</span>
+					<i class="iconfont icon-xiangyou1 right"></i>
+				</div>
 			</li>
+			<li @click="task_one(1)">
+				<div class="left task_text">待维修</div>
+				<div>
+					<span id="task_two" class="task_pub">{{ttwo}}</span>
+					<i class="iconfont icon-xiangyou1 right"></i>
+				</div>
+			</li>
+			<li @click="task_one(2)">
+				<div class="left task_text">待维护</div>
+				<div>
+					<span id="task_three" class="task_pub">{{tf}}</span>
+					<i class="iconfont icon-xiangyou1 right"></i>
+				</div>
+			</li>
+
 		</ul>
 	</div> 
 <!-- 待办任务页面部分结束 -->
@@ -173,7 +192,28 @@
 		// var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-
+		// 待办数量
+		var tone = "{{$tone}}";//安装
+		var ttwo = "{{$ttwo}}";//维修
+		var tf = "{{$tf}}";//维护
+		// var task = [
+		// 	{
+		// 		task_text:"待安装",
+		// 		task_number:tone,
+		// 		task_id:"task_one"
+		// 	},
+		// 	{
+		// 		task_text:"待维修",
+		// 		task_number:ttwo,
+		// 		task_id:"task_two"
+		// 	},
+		// 	{
+		// 		task_text:"待维护",
+		// 		task_number:tf,
+		// 		task_id:"task_three"
+		// 	},
+		// ];
+		// wait_task.task = task;
 		function ajaxPub(callback,url,data){
 			$.ajax({
 				url:url,

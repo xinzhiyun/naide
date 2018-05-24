@@ -4,38 +4,39 @@ var wait_task = new Vue({
 		type:"",
 		// 待办任务页面
 		task:[ 
-			{
-				task_text:"待安装",
-				task_number:tone
-				,
-				task_id:"task_one"
-			},
-			{
-				task_text:"待维修",
-				task_number:ttwo,
-				task_id:"task_two"
-			},
-			{
-				task_text:"待维护",
-				task_number:tf,
-				task_id:"task_three"
-			},
+			// {
+			// 	task_text:"待安装",
+			// 	task_number:tone
+			// 	,
+			// 	task_id:"task_one"
+			// },
+			// {
+			// 	task_text:"待维修",
+			// 	task_number:ttwo,
+			// 	task_id:"task_two"
+			// },
+			// {
+			// 	task_text:"待维护",
+			// 	task_number:tf,
+			// 	task_id:"task_three"
+			// },
 		],
+		number:[]
 	},
 	methods:{
 		// 跳转页面改变url（公共）
-		url_public:function(key,value){
-			var url = window.document.location.href.toString();
-			var href = url.split("?")[0];
-			location.href = href+"?"+key+"="+value;
-		},
+		// url_public:function(key,value){
+		// 	var url = window.document.location.href.toString();
+		// 	var href = url.split("?")[0];
+		// 	location.href = href+"?"+key+"="+value;
+		// },
 		//在待办任务（首页）
-		task_one:function(type){
-			var _this = this;
-			// title
-			var data_info = _this.task[type].task_text;
-			sessionStorage.setItem("title",data_info);
-			wait_task.url_public("type",type);// 页面跳转
+		// task_one:function(type){
+		// 	var _this = this;
+		// 	// title
+		// 	var data_info = _this.task[type].task_text;
+		// 	sessionStorage.setItem("title",data_info);
+		// 	wait_task.url_public("type",type);// 页面跳转
 			// 0-安装 1-维修 2-维护
 		// 	_this.url = getURL("Coms", "users/sevice_list");
 		// 	_this.data = {
@@ -56,39 +57,39 @@ var wait_task = new Vue({
 		//  			noticeFn({text: res.text});
 		//  		}
 		//  	},_this.url,_this.data);
-		},
+		// },
 	
 	},
-	created:function(){
-		var _this = this;
-		var href = location.href.split("?")[1];
-		if(href != undefined){
-			console.log(href)
-			var key = href.split("=")[0];
-			console.log(key)
-			if(key == "type"){
-				var type = href.split("=")[1];
-				// 0-安装 1-维修 2-维护
-				var url = getURL("Coms", "users/sevice_list");
-				var data = {type:type};
-			 	ajaxPub(function(res){
-			 		console.log(res);
-			 		var task_user = {};
-			 		// 判断是否成功返回数据
-			 		if(res.msg == 0){
-			 			if(res.res != ""){
-			 				console.log(res.res)
-			 			}
-			 		}else{
-			 			// 数据返回失败
-			 			noticeFn({text: res.text});
-			 		}
-			 	},url,data);
-			}
-		}
-	},
-	mounted:function(){
-		var _this = this;
+	// created:function(){
+	// 	var _this = this;
+	// 	var href = location.href.split("?")[1];
+	// 	if(href != undefined){
+	// 		console.log(href)
+	// 		var key = href.split("=")[0];
+	// 		console.log(key)
+	// 		if(key == "type"){
+	// 			var type = href.split("=")[1];
+	// 			// 0-安装 1-维修 2-维护
+	// 			var url = getURL("Coms", "users/sevice_list");
+	// 			var data = {type:type};
+	// 		 	ajaxPub(function(res){
+	// 		 		console.log(res);
+	// 		 		var task_user = {};
+	// 		 		// 判断是否成功返回数据
+	// 		 		if(res.msg == 0){
+	// 		 			if(res.res != ""){
+	// 		 				console.log(res.res)
+	// 		 			}
+	// 		 		}else{
+	// 		 			// 数据返回失败
+	// 		 			noticeFn({text: res.text});
+	// 		 		}
+	// 		 	},url,data);
+	// 		}
+	// 	}
+	// },
+	// mounted:function(){
+	// 	var _this = this;
 		// _this.getAjax = function(callback,url,data){
 		// 	$.ajax({
 		// 		url:url,
@@ -108,5 +109,5 @@ var wait_task = new Vue({
 		// 		}
 		// 	})
 		// }
-	}
+	// }
 });
