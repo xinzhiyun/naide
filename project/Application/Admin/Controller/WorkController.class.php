@@ -19,7 +19,7 @@ class WorkController extends CommonController
         // 搜索功能
         $map = array(
             'w.type' => trim(I('post.type')),
-            'w.result' => trim(I('post.result')),
+            'w.status' => trim(I('post.result')),
         );
         $map['w.no'] = trim(I('post.number')) ? array('like','%'.trim(I('post.number')).'%'): '';
         $map['pub_personnel.name'] = trim(I('post.name')) ?  array('like','%'.trim(I('post.name')).'%'): '';
