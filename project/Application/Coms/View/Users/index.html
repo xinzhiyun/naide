@@ -11,12 +11,12 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <div id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入手机号/设备编码" v-model='searchword'>
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入手机号/设备编码" v-model='search' @keyup.enter="searchs">
             </div>
-        </form>
+        </div>
         <div class="userInfo">
             <ul>
                 <!-- 头部 -->
@@ -56,7 +56,12 @@
                 success: function(res){
                     console.log('res: ',res);
                     if(res.status == 200){
-                        callback(res.list);
+                        if(res.list.length) {
+                            callback(res.list); 
+                        }else {
+                            $(".icon-xiangyou1").hide("fast");
+                        }
+                        
                     }
                 },
                 error: function(err){
