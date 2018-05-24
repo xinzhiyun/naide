@@ -104,7 +104,7 @@
 			var u = url.split("?");
 			if (typeof(u[1]) == "string") {
 				u = u[1].split("&");//["index=3"]
-				//遍历
+				//遍历   
 				for (var i in u) {
 					var j = u[i].split("=");
 					get[j[0]] = j[1];

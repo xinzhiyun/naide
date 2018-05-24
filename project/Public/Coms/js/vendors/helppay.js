@@ -122,14 +122,14 @@ var payment = new Vue({
           success:function(res){
             if(res.status==200){
               // console.log("成功",res);
-              this.data = {
+              var data = {
                 openId:this.openid,
                 money:res.price,
                 order_id:res.order_id,
                 content:res.title,
                 notify_url:res.notify_url,
               }
-              prePay(this.data);
+              prePay(data);
             }
           },
           error:function(res){
@@ -137,9 +137,9 @@ var payment = new Vue({
             noticeFn({text: '支付失败',time: '1500'});
           }
         });
-      }   
+      }     
     },
-    // 搜索公共部分
+    // 搜索公共部分 
     searchPub:function(){
       console.log(payment.search)
       $.ajax({
