@@ -19,8 +19,8 @@
 		</div>
 		<ul id='main'>
 			<li v-for='t in tList' class='cfix'>
-				<span class='fleft'>{{t.name}}</span>
-				<span class='fright'>{{t.created_at}}</span>
+				<span class='fleft' v-text='t.name'></span>
+				<span class='fright' v-text='t.created_at'></span>
 			</li>
 		</ul>
 		<ul id='footer'>
@@ -50,7 +50,11 @@
 					that.tList = res;
 					// 转换时间戳
 					that.tList.forEach(function(item, index){
-						res.data.created_at = getLocalTime(res.data.created_at);
+						// 时间戳转换
+						item.created_at = getLocalTime(item.created_at);
+						if(!item.created_at){
+							item.created_at = '';
+						}
 					})
 				})
 				
