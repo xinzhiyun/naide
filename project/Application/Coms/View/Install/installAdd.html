@@ -61,10 +61,6 @@
             var passReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
             var confirmpass = $("input[name='confirmPass']").val();//确认密码
             var useraddr = $("input[name='userAddr']").val();//地址
-            var addrReg = /^(?=.*?[\u4E00-\u9FA5])[\d\u4E00-\u9FA5]+/;
-            console.log(userpass, confirmpass);
-            // return false;
-            
             //用户名验证
             if(username != '') {
                 if(!nameReg.test(username)) {
@@ -101,12 +97,6 @@
                 noticeFn({text: "密码与确认密码不一致!"});
                 return false;
             }
-            
-            // 地址验证
-            if(addrReg.test(useraddr)) {
-                noticeFn({text: "地址格式有误!"});
-                return false;
-            }
             // 提交参数
             /*
                 name	安装人员姓名
@@ -115,25 +105,29 @@
                 address	地址
             */
             // var url = getURL("Coms","install_man_add");
+            console.log(username, userphone, userpass, useraddr);
             $.ajax({  
                 url:"{{:U('users/install_man_add')}}",
                 data:{
                     name:username,
                     phone:userphone,
                     password:userpass,
-                    address:addrReg
+                    address:useraddr
                 },
                 type:"post",
                 success:function(res){
                     console.log("成功",res)
                     if(res.status == 200) {
+                        // 成功回到安装人员列表
                         // window.location.href = "";
                     }else {
-
+                        noticeFn({text: "提交错误，请重试!"});
                     }
                 },
                 error:function(res){
                     console.log("失败",res);
+                    noticeFn({text: "系统发生错误，请稍后再试"});
+                    // location.href = "{{:U('Coms/install/index')}}";
                 }
             });
         })
