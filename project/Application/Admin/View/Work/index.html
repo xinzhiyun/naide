@@ -154,7 +154,7 @@
                         </switch></td>
                         <td data-wid='{{$vo.id}}' data-vid='{{$vo.vid}}'>
                             <?php if(empty($vo['pid'])) {echo "<a class='_play'>派工单</a>";}elseif($vo['status']==1){
-                                echo "<a class=''>完成工单</a>"; } ?>
+                                echo "<a class='_pass'>完成工单</a>"; } ?>
                         </td>
                     </tr>
                     </foreach>
@@ -241,6 +241,34 @@
                     $('button[type="reset"]').click(function(){
                         location.href = '{{:U("Admin/Work/index")}}';
                     })
+
+                $("._pass").click(function(){
+                    var _this=$(this);
+                    var wid = $(this).parents('td').attr('data-wid');
+
+                    $.ajax({
+                        url: "{{:U('Admin/Work/setpass')}}",
+                        type: "post",
+                        data:{wid:wid},
+                        datatype: "json",
+                        success: function(res){
+                            console.log('请求成功: ',res);
+                            if(res.status == 200) {
+                                layuiHint(res.msg);
+                                setTimeout(function(){
+                                    location.href = '{{:U("Admin/work/index")}}';
+                                },500);
+                            }else if(res.status == 201) {
+                                layuiHint(res.msg);
+
+                            }
+                        },
+                        error: function(err){
+                            console.log('请求失败: ',err);
+                            layuiHint('请求失败，请稍后再试!');
+                        }
+                    })
+                });
                     // 排工单
                     $("._play").click(function(){
                         var _this=$(this);
@@ -278,6 +306,7 @@
                             $('#work-version-edit').modal('show');
                             return ;
                         }
+
 
                         //-------派遣绑定工作人员---
                         $.ajax({

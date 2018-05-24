@@ -189,6 +189,32 @@ class WorkController extends CommonController
     }
 
     /**
+     * 工单完成
+     */
+    public function setpass()
+    {
+        try {
+            $id = I('wid');
+            if (empty( $id ) ) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $id;
+            }
+
+            $res = M('work')->where($map)->save(['status'=>2,'passtime'=>time()]);
+
+            if($res){
+                E('修改成功',200);
+            } else {
+                E('修改失败',201);
+
+            }
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
+    /**
      * 获取安装人员
      */
     public function setpersonnel()
