@@ -137,7 +137,7 @@ var payment = new Vue({
             noticeFn({text: '支付失败',time: '1500'});
           }
         });
-      }
+      }   
     },
     // 搜索公共部分
     searchPub:function(){

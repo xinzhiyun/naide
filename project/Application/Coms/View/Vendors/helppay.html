@@ -91,9 +91,9 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/helppay.js"></script>
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	 <!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
+	 <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script defer>
-		// var vConsole = new VConsole();
+		var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
@@ -143,10 +143,11 @@
 		});
 		// 2.请求微信支付信息，用于微信支付
 		function prePay(data){
+			console.log("支付",data)
 			$.ajax({
 				url:"{{:U('Home/Pay/wxres')}}",
 				type:"post",
-				data:data,
+				data:data,   
 				success:function(res){
 					console.log("成功",res);
 					if(res.status == 200){
