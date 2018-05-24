@@ -142,7 +142,7 @@ class DeviceController extends HomebaseController
                             $order_info = $order_model->where(['id'=>$map['id']])->save(['did'=>$di_info['id'],'is_work'=>1,'vid'=>$di_info['vid']]);
                             if ($order_info) {
                                 $order_info = $order_model->where(['id'=>$map['id']])->find();
-                                R('Home/Wechat/dist', $order_info);
+//                                R('Home/Wechat/dist', $order_info);
                                 session('homeuser.did',$di_info['id']);
                                 E('绑定成功',200);
                             } else {
