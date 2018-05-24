@@ -14,7 +14,9 @@ var payment = new Vue({
     // 所有设备
     device_title:"所有设备",
     pay_price : "0",
-    data:""
+    data:"",
+    weixinPay : "",//微信支付接口
+    openid:"",
   },
   methods:{
     url_public:function(num){
@@ -36,7 +38,6 @@ var payment = new Vue({
         $("#wait_payment").hide();
       }else{
         $(".explain").html("");
-        console.log("正确！");
         // 匹配手机号码或者设备编码符合，
         var url = getURL("Coms", "Service/search_device");
         $.ajax({
@@ -45,8 +46,7 @@ var payment = new Vue({
           data:{dcode:inp_val},
           Type:"json",
           success:function(resData){
-            // console.log("成功接收后台传过来的设备编码数据！");
-            // if(判断存在则返回数据，不存在则提示"数据的数据不存在")
+            // 成功返回设备编码
             if(resData.status==200){
               if (resData.list.length==0) {
                 noticeFn({text: '未搜索到数据请重新输入!！',time: '1500'});
@@ -63,8 +63,8 @@ var payment = new Vue({
     },
     // 选择设备编码
     select_number:function(event){
-      e.preventDefault();
       var e = event || window.event;
+      e.preventDefault();
       var el = e.currentTarget;
       var $el = $(el).children(".selected");
       // 改变选中的字体图标样式
@@ -113,7 +113,6 @@ var payment = new Vue({
       }else{
         // 需要支付的金额
         var url = getURL("Coms","service/agentPay");
-        console.log(this.data)
         $.ajax({
           type:"post",
           url:url,
@@ -121,8 +120,15 @@ var payment = new Vue({
           Type:"json",
           success:function(res){
             if(res.status==200){
-              console.log("成功",res);
-              noticeFn({text: '支付成功',time: '1500'});
+              // console.log("成功",res);
+              this.data = {
+                openId:this.openid,
+                money:res.price,
+                order_id:res.order_id,
+                content:res.title,
+                notify_url:res.notify_url,
+              }
+              prePay(this.data);
             }
           },
           error:function(res){
@@ -137,7 +143,7 @@ var payment = new Vue({
   created:function(){
     var device_info = location.href.split("=")[1];
     if(device_info){      
-      // 获取到选中的设备编码，通过编码查找到数据库中相应的用户信息赋值给vue
+      // 用户信息
       var url = getURL("Coms", "Service/getDeviceInfo");
       $.ajax({
           type:"post",
@@ -145,8 +151,7 @@ var payment = new Vue({
           data:{device_code:device_info},
           Type:"json",
           success:function(resData){
-            console.log(resData);
-            console.log("成功接收后台传过来的设备编码数据！");
+            console.log("用户信息",resData);
             if(resData.status==200){
                 payment.all_user_info.user_name = resData.info.name;
                 payment.all_user_info.phone_number = resData.info.phone;
@@ -159,14 +164,13 @@ var payment = new Vue({
       });
       // 获取套餐数据
       var url = getURL("Coms", "Service/getDeviceSetmeal");
-      console.log(device_info)
       $.ajax({
           type:"post",
           url:url,
           data:{device_code:device_info},
           Type:"json",
           success:function(resData){
-              console.log(resData);
+            console.log("套餐",resData)
               if(resData.status==200){
                   payment.all_user_info.flow_set_meal=resData.list;
               }

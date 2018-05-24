@@ -121,9 +121,94 @@
 			$("#form_div").hide();//第一页 
 			$("#user_info").show();//第二页 
 		}
-		
-		var openid  = "{{$_SESSION['openid']}}";
+
+		var openid  = '{{$_SESSION['openid']}}';
+		payment.openid = openid;
 		console.log(openid)
+		
+
+		//微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
+		// 2.请求微信支付信息，用于微信支付
+		function prePay(data){
+			$.ajax({
+				url:"{{:U('Home/Pay/wxres')}}",
+				type:"post",
+				data:data,
+				success:function(res){
+					console.log("成功",res);
+					if(res.status == 200){
+						// 微信支付
+						weixinPay(res.res, function(res){
+							switch (res.status){
+								case 'ok':
+									// 支付成功
+									noticeFn({text: '支付成功!'});
+									setTimeout(function(){
+										// 待发货
+										location.href = '{{:U("Home/Pay/order")}}' + '?status=2';
+									},500);
+									break
+								case 'cancel':
+									// 取消付款
+									noticeFn({text: '取消付款!'});
+									break
+								case 'fail':
+									// 付款失败
+									noticeFn({text: '付款失败，请稍后再试!'});
+									break
+								default:
+							}
+						});
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+
+				},
+				error:function(res){
+					console.log("失败",res);
+					noticeFn({text: '系统遇到错误，请稍后再试'});
+				}
+			})
+		}
+		// 3、微信支付方法
+		function weixinPay(res, callback){
+			var type = Object.prototype.toString.call(res);
+			if(type === '[object Object]'){
+				res = JSON.stringify(res);
+			}
+			console.log('prePay: ',res);
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				JSON.parse(res),
+				function(res){
+					console.log('payres: ', res);
+					if (res.err_msg.substr(-2) == 'ok') {
+		                // 付款成功
+						callback({status: 'ok'});
+						
+		            } else if (res.err_msg.substr(-6) == 'cancel') {
+		                // 取消付款
+						callback({status: 'cancel'});
+
+		            }else{
+		                // 付款失败
+						callback({status: 'fail'});
+		            }
+		        }
+		    );
+		};
 	</script>
 </body>
 </html>
