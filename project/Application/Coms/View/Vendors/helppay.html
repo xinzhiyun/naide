@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 	<!-- <link rel="stylesheet" href="__PUBLIC__/Home/css/laydate.css"> -->
 	<link rel="stylesheet" href="__PUBLIC__/Home/iconfont/iconfont.css">
+	<script>
+
+	</script>
 </head>
 <body>
 <div id="wait_payment_vue">
@@ -26,11 +29,11 @@
 			<div id="wait_payment">
 				<p><span class="line"></span>{{device_title}}</p>
 				<!-- 设备编码 -->
-				<div v-for="(each_device,index) in all_device" @touchstart="select_number()" class="vue_all">
-					<p class="selected" >
+				<div v-for="(each_device,index) in all_device" @touchstart="select_number()" class="vue_all" :did="each_device.did">
+					<p class="selected" :did="each_device.did">
 						<i class="iconfont icon-not_Selected-copy" id="selected_i"></i>
 						<!-- <i class="iconfont icon-selected-copy"></i> -->
-						<span class="device_code">{{each_device.device_code}}</span>
+						<span class="device_code" :did="each_device.did">{{each_device.device_code}}</span>
 					</p> 
 				</div>
 			</div>
@@ -42,7 +45,7 @@
 <!-- 设备匹配用户信息部分开始 -->
 	<div id="user_info">
 		<!-- 用户信息 -->
-		<div class="user_info">
+		<div class="user_info" :uid="all_user_info.uid">
 			<ul>
 				<li><p>用户信息</p></li>
 				<li class="bottom_line_h">
@@ -87,6 +90,7 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/helppay.js"></script>
+	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 	<script defer>
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
@@ -113,10 +117,99 @@
 		if($_GET.index == undefined || url.indexOf("?") == -1){
 			$("#form_div").show();//第一页 
 			$("#user_info").hide();//第二页 
-		}else if($_GET.index == "1"){
+		}else{
 			$("#form_div").hide();//第一页 
 			$("#user_info").show();//第二页 
 		}
+
+		var openid  = '{{$_SESSION['openid']}}';
+		payment.openid = openid;
+		console.log(openid)
+		
+
+		//微信接口
+		wx.config({
+			debug: false,
+			appId: '{{$wxinfo["appId"]}}', //企业号
+			timestamp: '{{$wxinfo["timestamp"]}}', //生成签名的时间戳
+			nonceStr: '{{$wxinfo["nonceStr"]}}', //生成签名的随机串
+			signature: '{{$wxinfo["signature"]}}', //签名，见附录1	
+			jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'chooseWXPay'
+			]
+		});
+		// 2.请求微信支付信息，用于微信支付
+		function prePay(data){
+			$.ajax({
+				url:"{{:U('Home/Pay/wxres')}}",
+				type:"post",
+				data:data,
+				success:function(res){
+					console.log("成功",res);
+					if(res.status == 200){
+						// 微信支付
+						weixinPay(res.res, function(res){
+							switch (res.status){
+								case 'ok':
+									// 支付成功
+									noticeFn({text: '支付成功!'});
+									setTimeout(function(){
+										// 待发货
+										location.href = '{{:U("Coms/Index/index")}}';
+
+									},500);
+									break
+								case 'cancel':
+									// 取消付款
+									noticeFn({text: '取消付款!'});
+									break
+								case 'fail':
+									// 付款失败
+									noticeFn({text: '付款失败，请稍后再试!'});
+									break
+								default:
+							}
+						});
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+
+				},
+				error:function(res){
+					console.log("失败",res);
+					noticeFn({text: '系统遇到错误，请稍后再试'});
+				}
+			})
+		}
+		// 3、微信支付方法
+		function weixinPay(res, callback){
+			var type = Object.prototype.toString.call(res);
+			if(type === '[object Object]'){
+				res = JSON.stringify(res);
+			}
+			console.log('prePay: ',res);
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				JSON.parse(res),
+				function(res){
+					console.log('payres: ', res);
+					if (res.err_msg.substr(-2) == 'ok') {
+		                // 付款成功
+						callback({status: 'ok'});
+						
+		            } else if (res.err_msg.substr(-6) == 'cancel') {
+		                // 取消付款
+						callback({status: 'cancel'});
+
+		            }else{
+		                // 付款失败
+						callback({status: 'fail'});
+		            }
+		        }
+		    );
+		};
 	</script>
 </body>
 </html>
