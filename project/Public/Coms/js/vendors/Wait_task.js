@@ -124,7 +124,7 @@ var wait_task = new Vue({
 				noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
 				return;
 			}
-			var url = getURL("Coms","users/add_per");
+			var url = getURL("Coms","Vendors/add_per");
 			var id = {
 				id:JSON.parse(sessionStorage.getItem("id"))
 			}
@@ -149,7 +149,7 @@ var wait_task = new Vue({
 			if(key == "type"){
 				console.log(key);
 				// 0-安装 1-维修 2-维护
-				url = getURL("Coms", "users/sevice_list");
+				url = getURL("Coms", "Vendors/sevice_list");
 				data = {
 					type:value
 				}
@@ -174,7 +174,7 @@ var wait_task = new Vue({
 			 	},url,data);
 			}else if(key == "id"){
 				// 服务详情
-				url = getURL("Coms","users/details");
+				url = getURL("Coms","Vendors/details");
 				sessionStorage.setItem("id",value);
 				data = {id:value};
 				postPub(function(res){
@@ -193,7 +193,7 @@ var wait_task = new Vue({
 			}else if(key == "no"){
 				// 派工
 				_this.plan_personnel_info_bg.new_work_order = value;
-				url = getURL("Coms","users/per");
+				url = getURL("Coms","Vendors/per");
 				postPub(function(res){
 					// console.log("成功",res);
 					if(res.msg == 0){
