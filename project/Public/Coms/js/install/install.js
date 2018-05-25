@@ -64,7 +64,7 @@ var home = new Vue({
                 },
                 error: function(res) {
                     console.log("失败", res);
-                }
+                } 
             })
         },
         installedit:function(id){
