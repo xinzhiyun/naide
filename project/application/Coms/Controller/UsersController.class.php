@@ -136,7 +136,7 @@ class UsersController extends ComsbaseController {
         $dev_list =  M('devices')->field('device_code,bindtime')->where($map)->select();
 
         if ($dev_list) {
-            $user_info = M('users')->field('name,phone')->where(['id'=>$map['uid']])->find();
+            $user_info = M('users')->field('name,user phone')->where(['id'=>$map['uid']])->find();
             foreach ($dev_list as $k => $v) {
                 //滤芯详情
                 $type_id = Device::get_devices_info($v['device_code'],'type_id');
