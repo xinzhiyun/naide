@@ -271,6 +271,10 @@
 						success: function(res){
 							console.log('res: ',res);
 							if(res.status == 200){
+								if(!res.order.length){
+									noticeFn({text: '没有查到您的订单购买记录，<br />无法绑定设备，请先买设备后再绑定', time: 1500});
+									return
+								}
 								callback(res.order);
 
 							}else{
