@@ -62,6 +62,7 @@ var users = new Vue({
                         if(res.list) {
                             $(".icon-xiangyou1").show();
                             callback(res);
+                            users.searchFlag = true;
                         }else {
                             console.log("没有数据");
                             $(".icon-xiangyou1").hide();
@@ -69,14 +70,16 @@ var users = new Vue({
                                 name: "暂无用户...",
                                 bindtime: '',
                             }];
+                            users.searchFlag = false;//禁止查看用户详情
                             $(".loadingdiv").fadeOut('fast');
                         }
                     }else {
-
+                        noticeFn({text: "搜索失败，请重试", time: "500"});
                     }
                 },
                 error: function(res) {
                     console.log("失败", res);
+                    noticeFn({text: "搜索失败，请稍后再试", time: "500"});
                 }
             })
         },
@@ -86,7 +89,6 @@ var users = new Vue({
             var url = getURL('Coms','Users/userDetail');
             if(!uid){
                 noticeFn({text: '系统出错，请稍后再试'});
-                return;
             } 
             location.href = url + '?uid=' + uid;
         },
