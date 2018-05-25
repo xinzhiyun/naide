@@ -17,7 +17,7 @@ class UsersController extends ComsbaseController {
 
         if (!empty($search)) {
             $where['d.phone']=array('like','%'.$search.'%');
-            $where['d.name']=array('like','%'.$search.'%');
+            $where['u.name']=array('like','%'.$search.'%');
             $where['d.device_code']=array('like','%'.$search.'%');
             $where['_logic'] = 'or';
             $map['_complex'] =$where;
@@ -28,13 +28,15 @@ class UsersController extends ComsbaseController {
 
         $total = M('devices')
             ->alias('d')
+            ->join("__USERS__ u ON d.uid=u.id", 'LEFT')
             ->where($map)
             ->count();
         $page  = new \Think\Page($total,10);
         $list = M('devices')
             ->alias('d')
             ->where($map)
-            ->field('uid,device_code,name,bindtime')
+            ->join("__USERS__ u ON d.uid=u.id", 'LEFT')
+            ->field('d.uid,u.name,d.bindtime')
             ->limit($page->firstRow.','.$page->listRows)
             ->select();
         $tmp=[];
