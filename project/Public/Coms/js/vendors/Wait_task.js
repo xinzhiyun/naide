@@ -31,23 +31,13 @@ var wait_task = new Vue({
 			install_personnel_info:[] 
 		},
 		search:"",//搜索
-		// 请求ajax
-		// getAjax: "",
-		// data:"",
-		// url:""
-   
 	},   
 	methods:{
-		// 跳转页面改变url（公共）
-		// url_public:function(num){
-		// 	var url = window.document.location.href.toString();
-		// 	var href = url.split("?")[0];
-		// 	location.href = href+"?index="+num;
-		// },
 		url_public:function(key,value){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
 			location.href = href+"?"+key+"="+value;
+			$(".loadingdiv").fadeIn('slow');
 		},
 		// 在待办任务（首页）
 		task_one:function(type){
@@ -66,8 +56,10 @@ var wait_task = new Vue({
         // 点击搜索小图标提交表单
         subClick:function(){
         	console.log(this.search)
+        	$(".loadingdiv").fadeIn('slow');
+        	var url = getURL("Coms","Vendors/sevice_list");
         	$.ajax({
-                url: '',
+                url: url,
                 data: {searchword: this.search},
                 type: "post",
                 success: function(res) {
@@ -81,6 +73,7 @@ var wait_task = new Vue({
                             device_code: '&emsp;'            
                         }];
                     }
+                    $(".loadingdiv").fadeOut('fast');
                 },
                 error: function(err) {
                     wait_task.service_details_info = [{
@@ -88,6 +81,7 @@ var wait_task = new Vue({
                         phone: '查无数据',
                         device_code: '&emsp;'            
                     }];
+                    $(".loadingdiv").fadeOut('fast');
                 }
             })
         },
@@ -129,8 +123,7 @@ var wait_task = new Vue({
 				id:JSON.parse(sessionStorage.getItem("id"))
 			}
 			postPub(function(res){
-				console.log(res);
-				noticeFn({text: res.text,time: '1500'});
+				noticeFn({text: res.msg,time: '1500'});
 				// setTimeout(function(){
 				// 	location.href = '{{:U("Coms/Vendors/wait_task")}}';
 				// },500);
@@ -208,37 +201,5 @@ var wait_task = new Vue({
 		};
 	},
 	mounted:function(){
-		// var _this = this;
-		// _this.getAjax = function(callback,url,data){
-		// 	$.ajax({
-		// 		url:url,
-		// 		type:"post",
-		// 		data:_this.data,
-		// 		success:function(res){
-		// 			// console.log("成功",res)
-		// 			if(res.code == 200){
-		// 				callback({res:res.data,msg:0});
-		// 			}else{
-		// 				callback({res:"",text:"系统出错，请稍候再试",msg:1});
-		// 			}
-		// 		},
-		// 		error:function(res){
-		// 			console.log("失败",res);
-		// 			callback({res: "", text: "系统出错，请稍后再试!", msg:1});
-		// 		}
-		// 	})
-		// }
-		// 待办任务列表
-		// var sevice_list = JSON.parse(sessionStorage.getItem("sevice_list"));
-		// if(sevice_list){
-		// 	for(var i = 0;i<sevice_list.length;i++){				sevice_list[i].addtime = getLocalTime(sevice_list[i].addtime);
-		// 		_this.sevice_list.push(sevice_list[i])			}
-		// }
-		// // 任务详情页面
-		// var detail = JSON.parse(sessionStorage.getItem("service_details_info"));
-		// if(detail){
-		// 	_this.service_details_info = detail;
-		// 	_this.plan_personnel_info_bg.new_work_order = detail.no;
-		// }
 	}
 })
