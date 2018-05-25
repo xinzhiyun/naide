@@ -28,9 +28,11 @@ var wait_task = new Vue({
 		// 派工信息页面
 		plan_personnel_info_bg:{
 			new_work_order:"",
-			install_personnel_info:[] 
+			install_personnel_info:[],
+			time:""
 		},
 		search:"",//搜索
+		num:"",//安装人员index
 	},   
 	methods:{
 		url_public:function(key,value){
@@ -92,11 +94,13 @@ var wait_task = new Vue({
 			$("#service_details_bg").hide();
 			$("#plan_personnel_info_bg").show();
 		},
-		// 点击派工信息页面中的选择，弹出蒙版
+		// 安装人员蒙版
 		select_masking:function(){
-			// 弹出蒙版
-			var  _this = this;
 			$("#plan_personnel_mask_bg").show();
+		},
+		// 预约时段蒙版
+		dtime:function(){
+			$(".mask_bg_public").show();
 		},
 		// 选中安装人员
 		pitch_on:function(index_personnel,even){
@@ -104,29 +108,61 @@ var wait_task = new Vue({
 			// 获取当前点击的元素标签
 			var el = event.target;
 			var $el = $(el);
-			console.log($el.attr("phone"))
+			$this.num = $el.attr("num");
+			console.log($this.num)
 			$el.css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
 			$("#select_personnel").html($el.html());//安装人员名字
 			$("#select_cell").html($el.attr("phone"));//安装人员电话
 			$("#plan_personnel_mask_bg").hide();
 			$("#plan_personnel_submit").css({"background":"#0d94f3"});
 		},
+		// 预约时段
+		dtimeText:function(){
+			var $this = this;
+			// 获取当前点击的元素标签
+			var el = event.target;
+			var $el = $(el);
+			$el.css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
+			$("#dtime").html($el.html());//预约时段
+			$(".mask_bg_public").hide();
+		},
 		// 提交按钮
 		plan_personnel_submit:function(){
 			var _this = this;
+			// 预约时间
+			if($("#my-start-2").val() == ""){
+				noticeFn({text: '请选择预约时间',time: '1500'});
+				return;
+			}
+			// 预约时段
+			if($("#dtime").html() == "选择"){
+				noticeFn({text: '请选择预约时段',time: '1500'});
+				return;
+			}
+			// 安装人员
 			if($("#select_personnel").html() == "选择" && $("#select_cell").html() == ""){
 				noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
 				return;
 			}
 			var url = getURL("Coms","Vendors/add_per");
 			var id = {
-				id:JSON.parse(sessionStorage.getItem("id"))
+				id:JSON.parse(sessionStorage.getItem("id")),
+				pid:wait_task.plan_personnel_info_bg.install_personnel_info[_this.num].id,
+				pphone:wait_task.plan_personnel_info_bg.install_personnel_info[_this.num].phone,
+				pname:wait_task.plan_personnel_info_bg.install_personnel_info[_this.num].name,
+				period:$("#dtime").html(),
+				time:$("#my-start-2").val(),
 			}
+			console.log(id)
 			postPub(function(res){
-				noticeFn({text: res.msg,time: '1500'});
-				// setTimeout(function(){
-				// 	location.href = '{{:U("Coms/Vendors/wait_task")}}';
-				// },500);
+				console.log(res);
+				if(res.msg == "0"){
+					noticeFn({text: res.text,time: '1500'});
+					setTimeout(function(){
+						var url = getURL("Coms","Vendors/wait_task");
+						location.href = url;
+					},500);
+				}
 			},url,id);
 		},
 	},
@@ -192,8 +228,8 @@ var wait_task = new Vue({
 					if(res.msg == 0){
 						// 数据返回成功
 						console.log(res.res)
+						_this.plan_personnel_info_bg.install_personnel_info = [];//清空
 						for(var i = 0;i<res.res.length;i++){
-							_this.plan_personnel_info_bg.install_personnel_info = [];//清空
 							_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
 					}
 				},url);
