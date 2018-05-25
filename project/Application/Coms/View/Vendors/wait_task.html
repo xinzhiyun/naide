@@ -119,13 +119,13 @@
 			</div>
 		</div>
 		<div class="plan_personnel_inp_bg input_bg_public">
-			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
+			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp(service_details_info.no)">
 		</div>
 	</div>
 <!-- 任务详情页面部分结束 -->
 
 <!-- 派工信息页面部分开始 -->
-	<!-- <div id="plan_personnel_info_bg" class="all_div_bg">
+	<div id="plan_personnel_info_bg" class="all_div_bg">
 		<div class="all_div_content">
 			<ul>
 				<li class="bottom_line_h">
@@ -146,18 +146,18 @@
 		<div class="input_bg_public">
 			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
 		</div>
-	</div> -->
+	</div>
 <!-- 派工信息页面部分结束 -->
 
 <!-- 蒙版部分开始 -->
-	<!-- <div class="mask_bg_public" id="plan_personnel_mask_bg">
+	<div class="mask_bg_public" id="plan_personnel_mask_bg">
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
 				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone">{{install_personnel.name}}</li>
 			</ul>
 		</div>
-	</div> -->
+	</div>
 <!-- 蒙版部分结束 -->
 
 </div>
@@ -239,6 +239,12 @@
 				$("#wait_install").hide();
 				$("#service_details_bg").show();
 				$("#navbar").find("h2").html("服务详情");
+			}else if(key == "no"){
+				$("#plan_personnel_info_bg").show();
+				$(".wait_task_bg").hide();
+				$("#wait_install").hide();
+				$("#service_details_bg").hide();
+				$("#navbar").find("h2").html("派工信息");
 			}
 
 		}
@@ -258,7 +264,7 @@
 				},
 				error:function(res){
 					console.log("失败",res);
-					callback({res: "", text: "系统出错，请稍后再试!", msg:1});
+					callback({res: "", text: "系统出错，请稍后再试!", msg:2});
 				}
 			})
 		}

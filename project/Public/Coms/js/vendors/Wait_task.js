@@ -122,60 +122,62 @@ var wait_task = new Vue({
         //     })
         // },
 		// 派工按钮  服务详情页面（第三页）
-		// plan_personnel_inp:function(){
-		// 	var _this = this;
-		// 	wait_task.url_public(3);
-		// 	$("#service_details_bg").hide();
-		// 	$("#plan_personnel_info_bg").show();
-		// },
+		plan_personnel_inp:function(no){
+			var _this = this;
+			wait_task.url_public("no",no);
+			$("#service_details_bg").hide();
+			$("#plan_personnel_info_bg").show();
+		},
 		// 点击派工信息页面中的选择，弹出蒙版
-		// select_masking:function(){
-		// 	// 弹出蒙版
-		// 	var  _this = this;
-		// 	_this.url = getURL("Coms","users/per");
-		// 	_this.getAjax(function(res){
-		// 		// console.log("成功",res);
-		// 		if(res.msg == 0){
-		// 			// 数据返回成功
-		// 			// sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
-		// 			console.log(res.res)
-		// 			for(var i = 0;i<res.res.length;i++){
-		// 				_this.plan_personnel_info_bg.install_personnel_info = [];//清空
-		// 				_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
-		// 		}
-		// 	},_this.url);
-		// 	$("#plan_personnel_mask_bg").show();
-		// },
+		select_masking:function(){
+			// 弹出蒙版
+			var  _this = this;
+			// _this.url = getURL("Coms","users/per");
+			// _this.getAjax(function(res){
+			// 	// console.log("成功",res);
+			// 	if(res.msg == 0){
+			// 		// 数据返回成功
+			// 		// sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
+			// 		console.log(res.res)
+			// 		for(var i = 0;i<res.res.length;i++){
+			// 			_this.plan_personnel_info_bg.install_personnel_info = [];//清空
+			// 			_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
+			// 	}
+			// },_this.url);
+			$("#plan_personnel_mask_bg").show();
+		},
 		// 选中安装人员
-		// pitch_on:function(index_personnel,even){
-		// 	var $this = this;
-		// 	// 获取当前点击的元素标签
-		// 	var el = event.target;
-		// 	var $el = $(el);
-		// 	console.log($el.attr("phone"))
-		// 	$el.css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
-		// 	$("#select_personnel").html($el.html());//安装人员名字
-		// 	$("#select_cell").html($el.attr("phone"));//安装人员电话
-		// 	$("#plan_personnel_mask_bg").hide();
-		// 	$("#plan_personnel_submit").css({"background":"#0d94f3"});
-		// },
+		pitch_on:function(index_personnel,even){
+			var $this = this;
+			// 获取当前点击的元素标签
+			var el = event.target;
+			var $el = $(el);
+			console.log($el.attr("phone"))
+			$el.css({"fontSize":"0.64rem","color":"#1a1a1a"}).siblings().css({"fontSize":"0.512rem","color":"#b3b3b3"});
+			$("#select_personnel").html($el.html());//安装人员名字
+			$("#select_cell").html($el.attr("phone"));//安装人员电话
+			$("#plan_personnel_mask_bg").hide();
+			$("#plan_personnel_submit").css({"background":"#0d94f3"});
+		},
 		// 提交按钮
-		// plan_personnel_submit:function(){
-		// 	var _this = this;
-		// 	if($("#select_personnel").html() == "选择" && $("#select_cell").html() == ""){
-		// 		noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
-		// 		return;
-		// 	}
-		// 	_this.url = getURL("Coms","users/add_per");
-		// 	_this.id = {
-		// 		id:JSON.parse(sessionStorage.getItem("service_details_info")).id
-		// 	}
-		// 	console.log(JSON.parse(sessionStorage.getItem("service_details_info")).id)
-		// 	_this.getAjax(function(res){
-		// 		console.log(res);
-		// 		noticeFn({text: res.text,time: '1500'});
-		// 	},_this.url,_this.id);
-		// },
+		plan_personnel_submit:function(){
+			var _this = this;
+			if($("#select_personnel").html() == "选择" && $("#select_cell").html() == ""){
+				noticeFn({text: '请选择选择安装人员,匹配联系方式',time: '1500'});
+				return;
+			}
+			var url = getURL("Coms","users/add_per");
+			var id = {
+				id:JSON.parse(sessionStorage.getItem("id"))
+			}
+			postPub(function(res){
+				console.log(res);
+				noticeFn({text: res.text,time: '1500'});
+				// setTimeout(function(){
+				// 	location.href = '{{:U("Coms/Vendors/wait_task")}}';
+				// },500);
+			},url,id);
+		},
 	},
 	//实例创建前
 	created:function(){
@@ -186,47 +188,65 @@ var wait_task = new Vue({
 		if(href != undefined){
 			key = href.split("=")[0];
 			value = href.split("=")[1];
-			console.log(key);
-			// 0-安装 1-维修 2-维护
-			url = getURL("Coms", "users/sevice_list");
-			data = {
-				type:value
-			}
-		 	postPub(function(res){
-		 		var task_user = {};
-		 		// 成功返回数据
-		 		if(res.msg == 0){
-		 				console.log(res.res)
-			 			_this.sevice_list = res.res;
-		 		}else if(res.msg == 1){
-		 			// 数据返回失败
-		 			_this.sevice_list = [];
-		 			_this.sevice_list = [{
-	 					name:" ",
-	 					phone:"暂无数据",
-	 					addtime:""
-	 				}];
-		 		}else{
-		 			// 返回数据失败
-		 			noticeFn({text: res.text});
-		 		}
-		 	},url,data);
-		 	// 服务详情
-			url = getURL("Coms","users/details");
-			data = {id:value};
-			postPub(function(res){
-				if(res.msg == 0){
-					// 数据返回成功
-					console.log("成功",res.res);
-					if(res.res != ""){
-						_this.service_details_info = res.res;
+			if(key == "type"){
+				console.log(key);
+				// 0-安装 1-维修 2-维护
+				url = getURL("Coms", "users/sevice_list");
+				data = {
+					type:value
+				}
+			 	postPub(function(res){
+			 		var task_user = {};
+			 		// 成功返回数据
+			 		if(res.msg == 0){
+			 				console.log(res.res)
+				 			_this.sevice_list = res.res;
+			 		}else if(res.msg == 1){
+			 			// 数据返回失败
+			 			_this.sevice_list = [];
+			 			_this.sevice_list = [{
+		 					name:" ",
+		 					phone:"暂无数据",
+		 					addtime:""
+		 				}];
+			 		}else if(res.msg == 2){
+			 			// 返回数据失败
+			 			noticeFn({text: res.text});
+			 		}
+			 	},url,data);
+			}else if(key == "id"){
+				// 服务详情
+				url = getURL("Coms","users/details");
+				sessionStorage.setItem("id",value);
+				data = {id:value};
+				postPub(function(res){
+					if(res.msg == 0){
+						// 数据返回成功
+						console.log("成功",res.res);
+						if(res.res != ""){
+							_this.service_details_info = res.res;
+						}
+					}else{
+						console.log("失败",res.res);
+						// 数据返回失败
+			 			noticeFn({text: res.text});
+			 		}
+				},url,data);
+			}else if(key == "no"){
+				// 派工
+				_this.plan_personnel_info_bg.new_work_order = value;
+				url = getURL("Coms","users/per");
+				postPub(function(res){
+					// console.log("成功",res);
+					if(res.msg == 0){
+						// 数据返回成功
+						console.log(res.res)
+						for(var i = 0;i<res.res.length;i++){
+							_this.plan_personnel_info_bg.install_personnel_info = [];//清空
+							_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
 					}
-				}else{
-					console.log("失败",res.res);
-					// 数据返回失败
-		 			noticeFn({text: res.text});
-		 		}
-			},url,data);
+				},url);
+			}
 		};
 	},
 	mounted:function(){
