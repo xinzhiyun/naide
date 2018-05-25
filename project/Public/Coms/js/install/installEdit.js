@@ -13,7 +13,7 @@ var vm = new Vue({
         console.log(id);
         var url = getURL("Coms","Install/minstall_man_list");
         $.ajax({
-            url:url,
+            url:url, 
             type:"post",
             data:{id:id},
             success:function(res){
