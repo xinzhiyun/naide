@@ -27,7 +27,7 @@
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi" v-for='u in userList' @click='godetail(u.uid)'>
+                <li class="userLi" v-for='u in userList' @click='searchFlag && godetail(u.uid)'>
                     <a class="clearfix">
                         <ol cass="am-g">
                             <li class="am-u-sm-6"><span v-text='u.name'>嗯呢</span></li>
@@ -56,10 +56,13 @@
                 success: function(res){
                     console.log('res: ',res);
                     if(res.status == 200){
-                        if(res.list.length) {
-                            callback(res.list); 
+                        if(res.list) {
+                            callback(res.list);
+                            users.searchFlag = true; 
                         }else {
                             $(".icon-xiangyou1").hide("fast");
+                            // 当用户数据为空时，禁止点击查看用户详情
+                            users.searchFlag = false;
                         }
                         
                     }
