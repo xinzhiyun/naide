@@ -133,23 +133,25 @@
 					<p class="right-b">{{plan_personnel_info_bg.new_work_order}}</p>
 				</li>
 				<li class="bottom_line_h">
-					<p class="left">安装人员：</p>
-					<p class="right_font" @click="select_masking()" id="select_personnel" style="margin-right:0.9rem">选择</p>
-					<i class="iconfont icon-xiangxia2 position_i" @click="select_masking()"></i>
-				</li>
-				<li class="bottom_line_h">
 					<p class="left">预约时间：</p>
 					<label for="my-start-2">
-						<input type="text" placeholder="" value="" id="my-start-2" style="textAlign:right"/>
-						<i class="iconfont icon-xiangxia2"></i>
+						<input type="text" placeholder="选择" value="" id="my-start-2" style="textAlign:right;fontWeight:normal;color:#b3b3b3;marginRight:.5rem;" v-model="plan_personnel_info_bg.time"/>
+						<i class="iconfont icon-xiangxia2" style="color:#b3b3b3;"></i>
 					</label>
-					
+				</li>
+				<li class="bottom_line_h" @click="dtime()">
+					<p class="left">预约时段：</p>
+					<p class="right_font" style="textAlign:right;width:8.8rem;marginLeft:0.1rem;" id="dtime">选择</p>
+					<i class="iconfont icon-xiangxia2"></i>
+				</li>
+				<li class="bottom_line_h" @click="select_masking()">
+					<p class="left">安装人员：</p>
+					<p class="right_font" @click="select_masking()" id="select_personnel" style="width:8.8rem;marginLeft:0.1rem;textAlign:right;">选择</p>
+					<i class="iconfont icon-xiangxia2 position_i"></i>
 				</li>
 				<li class="bottom_line_h">
-					<p class="left">预约时段：</p>
-					<label for="dtime"></label>
-					<input type="text" placeholder="预约时段" value="" style="textAlign:right" id="dtime/>
-					<i class="iconfont icon-xiangxia2"></i>
+					<p class="left">联系电话：</p>
+					<p class="right_font" id="select_cell"></p>
 				</li>
 			</ul>
 		</div>
@@ -164,12 +166,23 @@
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
-				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone">{{install_personnel.name}}</li>
+				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone" :num="index_personnel">{{install_personnel.name}}</li>
 			</ul>
 		</div>
 	</div>
 <!-- 蒙版部分结束 -->
 
+<!-- 预约时段蒙版开始部分 -->
+	<div class="mask_bg_public" id="dtime">
+		<div class="fblue fiexd_div bottom_line_h">预约时段</div>
+		<div class="mask_bottom">
+			<ul id='repair_ul' @click="dtimeText()">
+				<li>上午 09:00-11:00</li>
+				<li>下午 14:00-17:00</li>
+			</ul>
+		</div>
+	</div>
+<!-- 预约时段蒙版结束部分 -->
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
@@ -237,22 +250,25 @@
 
 		// ajax请求
 		function postPub(callback,url,data){
-			console.log(url,data)
+			// console.log(url,data)
 			$.ajax({
 				url:url,
 				type:"post",
 				data:data,
 				success:function(res){
 					console.log("成功",res)
-					if(res.code == 200){
-						if(res.data){
+					if(res.status){
+						if(res.status == 200){
+								callback({res:res.data,text:res.msg,msg:0});
+						}else{
+							callback({res:"",text:"系统出错，请稍候再试",msg:1});
+						}
+					}else if(res.code){
+						if(res.code == 200){
 							callback({res:res.data,msg:0});
 						}else{
-							callback({res:res.code,msg:res.msg});
+							callback({res:"",text:"系统出错，请稍候再试",msg:1});
 						}
-						
-					}else{
-						callback({res:"",text:"系统出错，请稍候再试",msg:1});
 					}
 				},
 				error:function(res){
