@@ -46,10 +46,10 @@ $(function() {
             return false;
         }
         /*
-            user	账号
-            password	密码
-            re_password	重复密码
-            code	验证码
+        user	账号
+        password	密码
+        re_password	重复密码
+        code	验证码
         */
         var url = getURL("Home", "login/reg");
         // 提交表单
@@ -66,11 +66,11 @@ $(function() {
                 console.log("提交成功", res);
                 if(res.status == 200) {
                     noticeFn({text: "提交成功"});
-
+                    
                     setTimeout( function(){
                         window.location.href = getURL('Home','Login/index')
                     },500)
-
+                    
                 }else {
                     noticeFn({text: "系统出错，请稍后再试!"});
                 }
@@ -90,34 +90,57 @@ $(function() {
                 noticeFn({text: "手机号码格式错误!"});
                 return false;
             }else {
-                // md5加密手机号码取8位，从2截取。
-                var md5 = hex_md5(phone.substr(2, 8));
-                var _url = getURL("Home", "Login/send");
-                setTimeout(function(){
-                    noticeFn({text: '验证码已发送, 请注意查收'});
-                },10);
-                // 获取验证码
+                var url = getURL("Home", "Login/phone");
+                // 判断用户是否存在
                 $.ajax({
-                    url: _url,
+                    url: url,
                     type: "post",
-                    data: {
-                        phone:phone,
-                        tocken: md5
-                    },
+                    data: phone,
                     success: function(res) {
-                        console.log("成功", res);
-                        if(res.status == 200) {
-                            codeFlag = true;
+                        console.log("查询成功", res);
+                        if(res.code == 200) {
+                            // 该用户存在
+                            ajaxSend();
                         }else {
-                            codeFlag = false;
+                            noticeFn({text: "用户不存在,请前往注册"});
+                            return;
                         }
                     },
                     error: function(res) {
-                       console.log("失败", res); 
-                       codeFlag = false;
-                       noticeFn({text: "系统出错，请稍后再试!"});
+                        console.log("失败", res);
                     }
                 })
+                function ajaxSend() {
+                    // md5加密手机号码取8位，从2截取。
+                    var md5 = hex_md5(phone.substr(2, 8));
+                    var _url = getURL("Home", "Login/send");
+                    
+                    // 获取验证码
+                    $.ajax({
+                        url: _url,
+                        type: "post",
+                        data: {
+                            phone:phone,
+                            tocken: md5
+                        },
+                        success: function(res) {
+                            console.log("成功", res);
+                            if(res.status == 200) {
+                                codeFlag = true;
+                                noticeFn({text: '验证码已发送, 请注意查收'}, 500);
+                            }else {
+                                codeFlag = false;
+                                noticeFn({text: "发送失败，请重试!", time: 500});
+                            }
+                        },
+                        error: function(res) {
+                            console.log("失败", res); 
+                            codeFlag = false;
+                            noticeFn({text: "系统出错，请稍后再试!"});
+                        }
+                    })
+                }
+                
             }
         }else {
             noticeFn({text: "请输入手机号码!"});
