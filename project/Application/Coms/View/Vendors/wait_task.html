@@ -173,54 +173,6 @@
 		var vConsole = new VConsole();
 
 		// 页面加载时判断url,刷新页面为当前页
-		// var get = {};
-		// var $_GET = (function() {
-		// 	var url = window.document.location.href.toString();
-		// 	var u = url.split("?");
-		// 	if (typeof(u[1]) == "string") {
-		// 		u = u[1].split("&");//["index=3"]
-		// 		//遍历
-		// 		for (var i in u) {
-		// 			var j = u[i].split("=");
-		// 			get[j[0]] = j[1];
-		// 		}
-		// 		return get;
-		// 	} else {
-		// 		// 如何传入的参数只有1对键值对则直接return返回出去
-		// 		return {};
-		// 	}
-		// })();
-		// var url = window.document.location.href.toString();
-		// if($_GET.index == undefined || url.indexOf("?") == -1){
-		// 	$(".wait_task_bg").show();//第一页 待办任务页面
-		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
-		// 	$("#service_details_bg").hide();//第三页
-		// 	$("#navbar").find("h2").html("待办任务");
-		// }else if($_GET.index == "1"){
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").show();
-		// 	$("#navbar").find("h2").html(localStorage.getItem("title"));
-		// }else if($_GET.index == "2"){
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").show();
-		// 	$("#navbar").find("h2").html("服务详情");
-		// }else if($_GET.index == "3"){
-		// 	$("#plan_personnel_info_bg").show();
-		// 	$(".wait_task_bg").hide();
-		// 	$("#wait_install").hide();
-		// 	$("#service_details_bg").hide();
-		// 	$("#navbar").find("h2").html("派工信息");
-		// }
-
-		// $(function(){
-		// 	// 手机默认回车按钮提交表单并接受返回值
-		// 	$("#form1").on("submit", function(e) {
-		// 	    // 阻止表单默认跳转
-		// 	    e.preventDefault(); 
-		// 	    wait_task.sub_pub();
-		// 	})
-		// });
 		var href = location.href.split("?")[1];
 		if(href == undefined){
 			$(".wait_task_bg").show();//第一页 待办任务页面
@@ -246,9 +198,9 @@
 				$("#service_details_bg").hide();
 				$("#navbar").find("h2").html("派工信息");
 			}
-
 		}
 
+		// ajaxqingqiu
 		function postPub(callback,url,data){
 			$.ajax({
 				url:url,
@@ -268,37 +220,39 @@
 				}
 			})
 		}
-		// $(function(){
-		// 	// 手机默认回车按钮提交表单
-		// 	$("#form1").on("submit", function(e) {
-		// 	    // 阻止表单默认跳转
-		// 	    e.preventDefault(); 
-		// 	    console.log(wait_task.search)
-		// 	    $.ajax({
-		// 	        url: "",
-		// 	        data: {datas: wait_task.search},
-		// 	        type: "post",
-		// 	        success: function(res) {
-		// 	            if(res.code == 200){
-	 //                        wait_task.service_details_info = res.data;
-	 //                    }else{
-	 //                        wait_task.service_details_info = [{
-	 //                            name: '&emsp;',
-	 //                            phone: '查无数据',
-	 //                            device_code: '&emsp;'            
-	 //                        }];
-	 //                    }
-		// 	        },
-		// 	        error: function(res) {
-		// 	            wait_task.service_details_info = [{
-  //                           name: '&emsp;',
-  //                           phone: '查无数据',
-  //                           device_code: '&emsp;'            
-  //                       }];
-		// 	        }
-		// 	    })
-		// 	})
-		// });
+
+		// 
+		$(function(){
+			// 手机默认回车按钮提交表单
+			$("#form1").on("submit", function(e) {
+			    // 阻止表单默认跳转
+			    e.preventDefault(); 
+			    console.log(wait_task.search)
+			    $.ajax({
+			        url: "",
+			        data: {datas: wait_task.search},
+			        type: "post",
+			        success: function(res) {
+			            if(res.code == 200){
+	                        wait_task.service_details_info = res.data;
+	                    }else{
+	                        wait_task.service_details_info = [{
+	                            name: '&emsp;',
+	                            phone: '查无数据',
+	                            device_code: '&emsp;'
+	                        }];
+	                    }
+			        },
+			        error: function(res) {
+			            wait_task.service_details_info = [{
+                            name: '&emsp;',
+                            phone: '查无数据',
+                            device_code: '&emsp;'
+                        }];
+			        }
+			    })
+			})
+		});
 	</script>
 	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 </body>
