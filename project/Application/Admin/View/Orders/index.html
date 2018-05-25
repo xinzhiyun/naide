@@ -12,9 +12,9 @@
                     <input type="text" class="input-medium nickname" name="nickname" placeholder="请输入姓名" style="width: 100px;"/ >
                 </span>
 
-                <span class="select-box">购买商品数量:
+                <!-- <span class="select-box">购买商品数量:
                     <input type="text" class="input-medium total_num" name="total_num" placeholder="请输入商品数量" style="width: 100px;"/ >
-                </span>
+                </span> -->
                 <span class="select-box">购买总额:
                     <input type="text" class="input-medium mintotal_price" name="mintotal_price" placeholder="" style="width: 60px;" / > ~ 
                     <input type="text" class="input-medium maxtotal_price" name="maxtotal_price" placeholder="" style="width: 60px;" / >
@@ -190,10 +190,10 @@
 
                 /**************** 搜索关键字保留 -- 开始 ******************/
                     var srearchInfo = {};
-                    var order_id, nickname, total_num, mintotal_price, maxtotal_price, 
+                    var order_id, nickname, mintotal_price, maxtotal_price, 
                     name, phone, address, date_start, date_end;
                     /**
-                     * order_id：订单ID, nickname：昵称, total_num：数量, 
+                     * order_id：订单ID, nickname：昵称, 
                      * mintotal_price：价格最低, maxtotal_price：价格最高, 
                      * name：收货人姓名, phone：收货人电话, address：收货人地址,
                      * date_start：开始时间, date_end：结束时间
@@ -210,7 +210,7 @@
                         name = $('.name').val();
                         phone = $('.phone').val();
                         address = $('.address').val();
-                        total_num = $('.total_num').val();
+                        // total_num = $('.total_num').val();
                         mintotal_price = $('.mintotal_price').val();
                         maxtotal_price = $('.maxtotal_price').val();
                         date_start = $('#date-start').val();
@@ -221,7 +221,7 @@
                         srearchInfo['name'] = name;
                         srearchInfo['phone'] = phone;
                         srearchInfo['address'] = address;
-                        srearchInfo['total_num'] = total_num;
+                        // srearchInfo['total_num'] = total_num;
                         srearchInfo['mintotal_price'] = mintotal_price;
                         srearchInfo['maxtotal_price'] = maxtotal_price;
                         srearchInfo['mintime'] = date_start;
@@ -240,7 +240,7 @@
                             $('.name').val(srearchInfo['name']);
                             $('.phone').val(srearchInfo['phone']);
                             $('.address').val(srearchInfo['address']);
-                            $('.total_num').val(srearchInfo['total_num']);
+                            // $('.total_num').val(srearchInfo['total_num']);
                             $('.mintotal_price').val(srearchInfo['mintotal_price']);
                             $('.maxtotal_price').val(srearchInfo['maxtotal_price']);
                             $('#date-start').val(srearchInfo['mintime']);

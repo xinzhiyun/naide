@@ -27,7 +27,7 @@ class OrdersController extends CommonController
             $map['o.name'] = array('like','%'.trim(I('post.nickname')).'%');
         }
         if (trim(I('post.total_num'))) {
-            $map['o.total_num'] = trim(I('post.total_num'));
+            $map['o.goods_num'] = trim(I('post.total_num'));
         }
         if (trim(I('post.name'))) {
             $map['o.name'] = array('like','%'.trim(I('post.name')).'%');
@@ -46,20 +46,38 @@ class OrdersController extends CommonController
         $mintotal_price = trim(I('post.mintotal_price'))?:null;
         $maxtotal_price = trim(I('post.maxtotal_price'))?:null;
         if (is_numeric($maxtotal_price)) {
-            $map['o.total_price'] = array(array('egt',$mintotal_price*100),array('elt',$maxtotal_price*100));
+            $map['o.goods_price'] = array(array('egt',$mintotal_price*100),array('elt',$maxtotal_price*100));
         }
         if ($maxtotal_price < 0) {
-            $map['o.total_price'] = array(array('egt',$mintotal_price*100));
+            $map['o.goods_price'] = array(array('egt',$mintotal_price*100));
         }
 
+        // echo I('post.mincreated_at');
+        // echo 'AAA';
+        // echo I('post.maxcreated_at');
          $mincreated_at = strtotime(trim(I('post.mincreated_at')))?:null;
-         $maxcreated_at = strtotime(trim(I('post.maxcreated_at')))?:null;
+         $maxcreated_at = strtotime(trim(I('post.maxcreated_at'))."+1 day")?:null;
+
+
+
          if (is_numeric($maxcreated_at)) {
-             $map['o.created_at'] = array(array('egt',$mincreated_at),array('elt',$maxcreated_at));
+             $map['o.created_at'][] = array('elt',$maxcreated_at);
          }
-         if ($maxcreated_at < 0) {
-             $map['o.created_at'] = array(array('egt',$mincreated_at));
+         if (is_numeric($mincreated_at)) {
+             $map['o.created_at'][] = array('egt',$mincreated_at);
          }
+
+
+         // if (is_numeric($maxcreated_at)) {
+         //    echo 111;
+         //     $map['o.created_at'] = array(array('egt',$mincreated_at),array('elt',$maxcreated_at));
+         // }
+         // if ($maxcreated_at < 0) {
+         //    echo 222;
+         //     $map['o.created_at'] = array(array('egt',$mincreated_at));
+         // }
+
+       
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
