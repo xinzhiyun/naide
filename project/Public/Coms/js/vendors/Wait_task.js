@@ -186,8 +186,23 @@ var wait_task = new Vue({
 			 		var task_user = {};
 			 		// 成功返回数据
 			 		if(res.msg == 0){
-			 				console.log(res.res)
-				 			_this.sevice_list = res.res;
+			 			var info = [];
+			 			var obj = {};
+			 			// addtime
+			 			// id
+			 			// name
+			 			// phone
+			 			for(var i = 0;i<res.res.length;i++){
+			 				obj[i] = {
+			 					addtime : getLocalTime(res.res[i].addtime)	,
+				 				id : res.res[i].id,
+					 			name : res.res[i].name,
+					 			phone : res.res[i].phone
+			 				}
+			 				info.push(obj[i]);
+			 			}
+			 				console.log(info)
+				 			_this.sevice_list = info;
 			 		}else if(res.msg == 1){
 			 			// 数据返回失败
 			 			_this.sevice_list = [];
