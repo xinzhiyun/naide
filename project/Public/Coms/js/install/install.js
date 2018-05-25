@@ -1,15 +1,17 @@
 // 实例化vue
 var home = new Vue({
     el: ".main",
-    data: {
-        userList: [
-            {
-                name: "",
-                phone: "暂无数据",
-                create_time: ""
-            }
-        ],// 用户列表
-        search:"",//存放搜索值
+    data() {
+        return {
+            userList: [
+                {
+                    name: "",
+                    phone: "暂无数据",
+                    create_time: ""
+                }
+            ],// 用户列表
+            search:"",//存放搜索值
+        }
     },
     methods: {
         // 点击搜索小图标提交表单
@@ -45,6 +47,7 @@ var home = new Vue({
                         if(res.list.length) {
                             $(".icon-xiangyou1").show();
                             callback(res);
+                            home.searchFlag = true;
                         }else {
                             $(".icon-xiangyou1").hide();
                             home.userList = [{
@@ -52,6 +55,7 @@ var home = new Vue({
                                 phone: "暂无数据",
                                 create_time: ""
                             }];
+                            home.searchFlag = false;
                             $(".loadingdiv").fadeOut('fast');
                         }
                     }else {
