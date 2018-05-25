@@ -70,4 +70,39 @@ class VendorsController extends ComsbaseController {
         }
     }
 
+    // 派工人员列表
+    public function per() {
+        $map['v_id']= session('comsuser.id');
+        $per_list = M('personnel')->field('name,phone')->where($map)->select();
+
+        if($per_list) {
+            $this->ajaxReturn(['code'=>200,'data'=>$per_list]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+    //派工
+    public function add_per() {
+        $map['id'] = I('post.id');
+        $map['v_id'] = session('comsuser.id');
+        $work =  M('work')->where($map)->find();
+
+        if (IS_POST) {
+
+            if ($work) {
+                $data['pid'] = I('post.pid');
+                $info = M('work')->where($map)->save($data);
+                if ($info) {
+                    $this->ajaxReturn(['code'=>200,'msg'=>'提交成功']);
+                } else {
+                    $this->ajaxReturn(['code'=>200,'msg'=>'提交失败']);
+                }
+            } else {
+                $this->ajaxReturn(['code'=>400,'msg'=>'数据有误']);
+            }
+        }
+        $this->ajaxReturn(['code'=>200,'data'=>$work]);
+    }
+
 }

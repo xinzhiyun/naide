@@ -66,8 +66,10 @@ $(function() {
                 console.log("提交成功", res);
                 if(res.status == 200) {
                     noticeFn({text: "提交成功"});
-                    var url = getURL("Coms", "login/index");
-                    window.location.href = url;
+                    setTimeout(function() {
+                        window.location.href = getURL("Coms", "login/index");
+                    }, 1000);
+                    
                 }else {
                     noticeFn({text: "系统出错，请稍后再试!"});
                 }
@@ -102,8 +104,10 @@ $(function() {
                         console.log("成功", res);
                         if(res.status == 200) {
                             codeFlag = true;
+                            noticeFn({text: "验证码已发送, 请注意查收", time: 500});
                         }else {
                             codeFlag = false;
+                            noticeFn({text: "发送失败，请重试!", time: 500});
                         }
                     },
                     error: function(res) {
