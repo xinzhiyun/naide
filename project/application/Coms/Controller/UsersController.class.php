@@ -174,32 +174,32 @@ class UsersController extends ComsbaseController {
 //            }
 //        }
 //    }
-    //添加安装人员
-    public function install_man_add() {
-        if (IS_POST) {
-            $post = I('post.');
-
-            $data['password'] = MD5($post['userPass']);
-
-            if ($data['password'] != md5($post['confirmPass'])) {
-                $this->ajaxReturn(['code'=>400,'msg'=>'两次密码不一致']);
-            }
-
-            $data['name'] = $post['userName'];
-            $data['phone'] = $post['userPhone'];
-            $data['v_id'] = session('comsuser.id');
-            $data['password'] = $post['userPass'];
-            $data['create_time'] = date('Y-m-d H:i:s');
-
-            $info = M('personnel')->add($data);
-            if ($info) {
-                $this->ajaxReturn(['code'=>200,'msg'=>'添加成功']);
-            } else {
-                $this->ajaxReturn(['code'=>400,'msg'=>'添加失败']);
-            }
-
-        }
-    }
+//    //添加安装人员
+//    public function install_man_add() {
+//        if (IS_POST) {
+//            $post = I('post.');
+//
+//            $data['password'] = MD5($post['userPass']);
+//
+//            if ($data['password'] != md5($post['confirmPass'])) {
+//                $this->ajaxReturn(['code'=>400,'msg'=>'两次密码不一致']);
+//            }
+//
+//            $data['name'] = $post['userName'];
+//            $data['phone'] = $post['userPhone'];
+//            $data['v_id'] = session('comsuser.id');
+//            $data['password'] = $post['userPass'];
+//            $data['create_time'] = date('Y-m-d H:i:s');
+//
+//            $info = M('personnel')->add($data);
+//            if ($info) {
+//                $this->ajaxReturn(['code'=>200,'msg'=>'添加成功']);
+//            } else {
+//                $this->ajaxReturn(['code'=>400,'msg'=>'添加失败']);
+//            }
+//
+//        }
+//    }
 
     //服务记录详情
     public function sevice_details() {

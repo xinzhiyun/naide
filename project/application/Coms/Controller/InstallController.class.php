@@ -63,7 +63,7 @@ class InstallController extends ComsbaseController {
             $this->to_json($e);
         }
     }
-    
+
     // 安装人员详情 编辑
     public function minstall_man_edit() {
 
@@ -88,6 +88,33 @@ class InstallController extends ComsbaseController {
             E('修改成功',200);
         } catch (\Exception $e) {
             $this->to_json($e);
+        }
+    }
+
+    //添加安装人员
+    public function install_man_add() {
+        if (IS_POST) {
+            $post = I('post.');
+
+            $data['password'] = MD5($post['userPass']);
+
+            if ($data['password'] != md5($post['confirmPass'])) {
+                $this->ajaxReturn(['code'=>400,'msg'=>'两次密码不一致']);
+            }
+
+            $data['name'] = $post['userName'];
+            $data['phone'] = $post['userPhone'];
+            $data['v_id'] = session('comsuser.id');
+            $data['password'] = $post['userPass'];
+            $data['create_time'] = date('Y-m-d H:i:s');
+
+            $info = M('personnel')->add($data);
+            if ($info) {
+                $this->ajaxReturn(['code'=>200,'msg'=>'添加成功']);
+            } else {
+                $this->ajaxReturn(['code'=>400,'msg'=>'添加失败']);
+            }
+
         }
     }
 
