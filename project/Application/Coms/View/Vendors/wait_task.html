@@ -111,10 +111,10 @@
 						<p class="left">内容：</p>
 						<p class="right">{{service_details_info.content}}</p>
 					</li>
-					<li class="bottom_line_h">
+					<!-- <li class="bottom_line_h">
 						<p class="left">来源：</p>
 						<p class="right">{{service_details_info.pid}}</p>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</div>
@@ -134,12 +134,22 @@
 				</li>
 				<li class="bottom_line_h">
 					<p class="left">安装人员：</p>
-					<p class="right_font" @click="select_masking()" id="select_personnel" style="margin-right:0.7rem">选择</p>
+					<p class="right_font" @click="select_masking()" id="select_personnel" style="margin-right:0.9rem">选择</p>
 					<i class="iconfont icon-xiangxia2 position_i" @click="select_masking()"></i>
 				</li>
 				<li class="bottom_line_h">
-					<p class="left">联系电话：</p>
-					<p class="right_font" id="select_cell"></p>
+					<p class="left">预约时间：</p>
+					<label for="my-start-2">
+						<input type="text" placeholder="" value="" id="my-start-2" style="textAlign:right"/>
+						<i class="iconfont icon-xiangxia2"></i>
+					</label>
+					
+				</li>
+				<li class="bottom_line_h">
+					<p class="left">预约时段：</p>
+					<label for="dtime"></label>
+					<input type="text" placeholder="预约时段" value="" style="textAlign:right" id="dtime/>
+					<i class="iconfont icon-xiangxia2"></i>
 				</li>
 			</ul>
 		</div>
@@ -166,12 +176,37 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
-	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	<!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		// 微信手机端调试工具
-		var vConsole = new VConsole();
-
+		// var vConsole = new VConsole();
+		// 
+		$(function(){
+			// 日历插件
+			var nowTemp = new Date();
+			var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+			var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+			var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+			var $myStart2 = $('#my-start-2');
+			var checkin = $myStart2.datepicker({
+				onRender: function(date, viewMode) {
+					// 默认 days 视图，与当前日期比较
+					var viewDate = nowDay;
+					switch (viewMode) {
+						// moths 视图，与当前月份比较
+						case 1:
+						viewDate = nowMoth;
+						break;
+						// years 视图，与当前年份比较
+						case 2:
+						viewDate = nowYear;
+						break;
+					}
+					return date.valueOf() < viewDate ? 'am-disabled' : '';
+				}
+			})
+		})
 		// 页面加载时判断url,刷新页面为当前页
 		var href = location.href.split("?")[1];
 		if(href == undefined){
@@ -200,16 +235,22 @@
 			}
 		}
 
-		// ajaxqingqiu
+		// ajax请求
 		function postPub(callback,url,data){
+			console.log(url,data)
 			$.ajax({
 				url:url,
 				type:"post",
 				data:data,
 				success:function(res){
-					// console.log("成功",res)
+					console.log("成功",res)
 					if(res.code == 200){
-						callback({res:res.data,msg:0});
+						if(res.data){
+							callback({res:res.data,msg:0});
+						}else{
+							callback({res:res.code,msg:res.msg});
+						}
+						
 					}else{
 						callback({res:"",text:"系统出错，请稍候再试",msg:1});
 					}
@@ -227,12 +268,15 @@
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
+			    $(".loadingdiv").fadeIn('slow');
 			    console.log(wait_task.search)
+			    var url = getURL("Coms","Vendors/sevice_list");
 			    $.ajax({
-			        url: "",
+			        url: url,
 			        data: {datas: wait_task.search},
 			        type: "post",
 			        success: function(res) {
+			        	console.log(res)
 			            if(res.code == 200){
 	                        wait_task.service_details_info = res.data;
 	                    }else{
@@ -242,6 +286,7 @@
 	                            device_code: '&emsp;'
 	                        }];
 	                    }
+	                    $(".loadingdiv").fadeOut('fast');
 			        },
 			        error: function(res) {
 			            wait_task.service_details_info = [{
@@ -249,6 +294,7 @@
                             phone: '查无数据',
                             device_code: '&emsp;'
                         }];
+                        $(".loadingdiv").fadeOut('fast');
 			        }
 			    })
 			})
