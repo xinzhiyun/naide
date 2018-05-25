@@ -101,6 +101,7 @@
 				// console.log(month);
 				// 隐藏日期插件
 				$('.am-datepicker-date').datepicker('close');
+				$(".loadingdiv").fadeIn('fast');
 				setTimeout(function(){
 					var year_month = $('.month').val().split('-');
 					// console.log('year_month: ',year_month[0] + '' + year_month[1]);
@@ -168,17 +169,16 @@
 
 			var lineChart2 = echarts.init(getId('#lineChart2'));
 			lineChart2.setOption(getOption('line', rawArray, pureArray, '#f75151',mustDates));
-
+			// 隐藏loading
+			$(".loadingdiv").fadeOut('slow');
 		}
 		// echarts 配置
 		var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {
 			mustDate = mustDate < 28 ? 30 : mustDate;
 			var chartOption = {
 				grid: {
-					x: 30,
-					x2: 10,
-					y: 30,
-					y2: 25
+					x: 40,
+					y: 10
 				},
 				calculable: false,
 				xAxis: [{
@@ -224,42 +224,6 @@
 				data: {month: _month},
 				success: function(res){
 					console.log('res: ',res);
-					// if(_month == 201804){
-					//    	res.data = [
-					//         {
-					//             "id":"108",
-					//             "dcode":"852852879741476",
-					//             "raw":"92",
-					//             "pure":"13",
-					//             "day":"04",
-					//             "date":"201804"
-					//         },
-					//         {
-					//             "id":"134",
-					//             "dcode":"852852879741476",
-					//             "raw":"90",
-					//             "pure":"50",
-					//             "day":"09",
-					//             "date":"201804"
-					//         },
-					//         {
-					//             "id":"126",
-					//             "dcode":"852852879741476",
-					//             "raw":"100",
-					//             "pure":"100",
-					//             "day":"05",
-					//             "date":"201804"
-					//         },
-					//         {
-					//             "id":"126",
-					//             "dcode":"852852879741476",
-					//             "raw":"100",
-					//             "pure":"100",
-					//             "day":"25",
-					//             "date":"201804"
-					//         }
-					//     ]
-					// }
 					fallback(res);
 				},
 				error: function(err){
