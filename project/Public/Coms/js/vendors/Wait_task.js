@@ -33,8 +33,8 @@ var wait_task = new Vue({
 		search:"",//搜索
 		// 请求ajax
 		// getAjax: "",
-		data:"",
-		url:""
+		// data:"",
+		// url:""
    
 	},   
 	methods:{
@@ -56,7 +56,8 @@ var wait_task = new Vue({
 			var data_info = _this.task[type].task_text;
 			localStorage.setItem("title",data_info);
 			wait_task.url_public("type",type);// 页面跳转
-	
+			console.log("type",type);
+			alert(11)
 		},
 		//在待办任务（首页）
 		// task_one:function(type){
