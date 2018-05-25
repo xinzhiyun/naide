@@ -35,12 +35,12 @@
                 <span class="select-box">地址:
                     <input type="text" class="input-medium address" name="address" placeholder="请输入地址" style="width: 100px;"/ >
                 </span>
-                <span class="select-box">身份证号:
+                <!-- <span class="select-box">身份证号:
                     <input type="text" class="input-medium idcard" name="idcard" placeholder="身份证号" style="width: 100px;"/ >
-                </span>                
-                <span class="select-box" style="display: inline-block;position:relative">时间:
+                </span>     -->            
+                <!-- <span class="select-box" style="display: inline-block;position:relative">时间:
                     <input type="text" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
-                </span>
+                </span> -->
                 <div class="submitBtn">
                     <button type="submit" name="output" value="1" class="btn fr mbtn" style="float: left;color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe62f;</i> 导出</button>
                     <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
@@ -213,7 +213,7 @@
 
                 /**************** 搜索关键字保留 -- 开始 ******************/
                     var srearchInfo = {};
-                    var uid, user, name, phone, email, address, idcard,
+                    var uid, user, name, phone, email, address,
                     date_start, date_end, mglevel;
                     /**
                      * vid: 经销商ID, did：设备ID, 
@@ -234,7 +234,7 @@
                         name = $('.name').val(),
                         phone = $('.phone').val(),
                         address = $('.address').val(),
-                        idcard = $('.idcard').val(),
+                        // idcard = $('.idcard').val(),
                         date_start = $('#date-start').val(),
                         date_end = $('#date-end').val();
                         if($('.mglevel>option:selected').val()){
@@ -247,7 +247,7 @@
                         srearchInfo['name'] = name;
                         srearchInfo['phone'] = phone;
                         srearchInfo['address'] = address;
-                        srearchInfo['idcard'] = idcard;
+                        // srearchInfo['idcard'] = idcard;
                         srearchInfo['mintime'] = date_start;
                         srearchInfo['maxtime'] = date_end;
                         srearchInfo['mglevel'] = mglevel;
@@ -267,7 +267,7 @@
                             $('.name').val(srearchInfo['name']);
                             $('.phone').val(srearchInfo['phone']);
                             $('.address').val(srearchInfo['address']);
-                            $('.idcard').val(srearchInfo['idcard']);
+                            // $('.idcard').val(srearchInfo['idcard']);
                             $('#date-start').val(srearchInfo['mintime']);
                             $('#date-end').val(srearchInfo['maxtime']);
                             if(srearchInfo['mglevel']){
