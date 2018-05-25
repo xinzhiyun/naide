@@ -31,14 +31,16 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000325}}
 .main #form1 .installAdd ul li label {
-  flex: 1;
+  /* flex: 1; */
+  white-space: nowrap;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000328}}
 .main #form1 .installAdd ul li input {
-  flex: 1;
+  /* flex: 1; */
   outline-style: none;
   border: none;
   text-align: right;
+  white-space: wrap;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/E\:\/wampServer\/wamp\/www\/naides\/Public\/css\/trader\/install\/less\/installEdit\.less}line{font-family:\0000335}}
 .main #form1 .installAdd ul li:nth-child(1) {

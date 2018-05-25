@@ -72,6 +72,10 @@ var home = new Vue({
             var url = getURL('Coms', 'install/installEdit');
             location.href = url + "?id=" + id;
             
+        }, 
+        // 鼠标获取焦点时提示
+        tips(){
+            noticeFn({text: "手机号码搜索请输入完整手机号码",time: "1000"})
         }
     },
 });

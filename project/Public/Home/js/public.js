@@ -174,7 +174,7 @@ var trimFn = function(str){
     str += '';
     return str.replace(/^(\s)|(\s*)/g,'');
 }
-
+ 
 // 数字千位分割 默认以逗号，千位分割
 function splitStr(str,zifu=",", num=3){
     var iNum = str.length % num; 

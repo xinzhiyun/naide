@@ -362,6 +362,7 @@
 				getCard(function(res){
 					if(res.code == 200){
 						res.msg.forEach(function(item, index){
+							item.bank = item.bank.substr(0,4) + '****' + item.bank.substr(-4)
 							// console.log(item.bank);
 							withdraw.oldcard.push({bank: item.bank, bankid: item.id});
 						})
