@@ -39,6 +39,58 @@ class InstallController extends ComsbaseController {
             $this->to_json($e);
         }
     }
+
+    // 安装人员详情
+    public function minstall_man_list() {
+
+        try {
+            $data = I('post.');
+            if (empty($data['id'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $data['id'];
+            }
+            $map['v_id'] = session('comsuser.id');
+            $per = M('personnel')->where($map)->find();
+
+            if(empty($per))E('未找到该用户',201);
+            $this->ajaxReturn(array(
+                'status'=>200,
+                'data'=>$per,
+                'msg'=>'获取成功',
+            ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+    
+    // 安装人员详情 编辑
+    public function minstall_man_edit() {
+
+        try {
+            $data = I('post.');
+            if (empty($data['id'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $data['id'];
+            }
+            $map['v_id'] = session('comsuser.id');
+
+            $savedata['name'] = $data['name'];
+            $savedata['phone'] = $data['phone'];
+            if(!empty($data['password'])){
+                $savedata['password'] = md5($data['password']);
+            }
+
+            $per = M('personnel')->where($map)->save($savedata);
+
+            if(empty($per))E('修改失败',201);
+            E('修改成功',200);
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 }
 
 
