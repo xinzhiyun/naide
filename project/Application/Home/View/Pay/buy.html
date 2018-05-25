@@ -13,7 +13,7 @@
 		var list={{$list|json_encode}};
 		var info={{$info|json_encode}};
 		var open_id= "{{$_SESSION['open_id']}}";
-		// console.log(list)
+		console.log(list)
 		// 微信接口
 		wx.config({
 			debug: false,
@@ -34,12 +34,12 @@
 		<div class="mainContent">
 			<h1>选择套餐</h1>
 			<ul class="am-avg-sm-2 am-thumbnails" @click="selectMeals">
-				<li class="am-thumbnail" v-for="(meal, index) in selectMeal">
+				<li class="am-thumbnail" v-if="selectMeal" v-for="(meal, index) in selectMeal">
 					<!-- flow-套餐天数  mealId=套餐id  tId-设备id -->
 					<p :flow="meal.flow" :mealId="meal.id" :tId="meal.tid" :mealMoney="meal.money">{{meal.describe}}</p> 
 				</li>
 			</ul>
-			<p class="quikBuy" @click="quikBuys">立即购买</p>
+			<p class="quikBuy" @click="quikBuys" v-if="selectMeal">立即购买</p>
 		</div>
 		<!-- 支付面板 -->
 		<div class="payKuan">
@@ -75,6 +75,9 @@
         // console.log(is_weixin);
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
+		if(!list.length) {
+			noticeFn({text: "无设备!"});
+		}
 	</script>
 </body>
 </html>
