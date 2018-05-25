@@ -32,7 +32,7 @@
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi" v-for="(list,index) in userList" @click="installedit(list.id)">
+                <li class="userLi" v-for="(list,index) in userList" @click="searchFlag && installedit(list.id)">
                     <a class="cfix">
                         <ol class="am-g">
                             <li class="am-u-sm-4">{{list.name}}</li>
@@ -42,7 +42,7 @@
                             </li>
                         </ol>
                     </a>
-                </li>
+                </li> 
             </ul>
         </div>
     </div>
@@ -57,8 +57,10 @@
         // 开始请求页面用户数据
         if(data) {
             home.userList = JSON.parse(data);
+            home.searchFlag = true;
         }else {
             $(".icon-xiangyou1").hide();
+            home.searchFlag = false;
         }
         console.log(home.userList);
 
