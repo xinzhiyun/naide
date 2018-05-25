@@ -63,19 +63,19 @@ class SetmealController extends CommonController
         if (I('output') == 1) {
             $data = $type->where($map)
                     ->join('pub_device_type ON pub_setmeal.tid = pub_device_type.id')
-                    ->field('pub_setmeal.id,pub_device_type.typename,remodel,money,flow,describe,pub_setmeal.addtime')
+                    ->field('pub_setmeal.id,pub_device_type.typename,type,money,flow,describe,pub_setmeal.addtime')
                     ->order('pub_setmeal.addtime desc')
                     ->select();
             $filename = '套餐列表';
             $title = '套餐列表';
-            $cellName = ['id','产品类型','充值模式','套餐金额','套餐量(天)','套餐描述','创建时间'];
+            $cellName = ['id','产品类型','套餐类型','套餐金额','套餐量(天)','套餐描述','创建时间'];
 
             // 数组中枚举数值替换
             $arr = [
                 'addtime'=>['date','Y-m-d H:i:s'],
-                'remodel'=>[
-                    '0'=>'流量',
-                    '1'=>'时长'
+                'type'=>[
+                    '0'=>'充值套餐',
+                    '1'=>'水机套餐'
                 ],
                 'money'=>['price']
             ];

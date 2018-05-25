@@ -27,7 +27,7 @@ class VendorsController extends ComsbaseController {
                 $where['_logic'] = 'or';
                 $map['_complex'] =$where;
             }
-            
+
             if (!isset($data['type'])) {
                 E('任务类型', 201);
             } else {
