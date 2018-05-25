@@ -12,25 +12,25 @@ class WechatController extends Controller
      */
     public function notify()
     {
-//        $xml=file_get_contents('php://input', 'r');
-        $xml = '<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
-<attach><![CDATA[201805231032372734635]]></attach>
-<bank_type><![CDATA[CFT]]></bank_type>
-<cash_fee><![CDATA[1]]></cash_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[Y]]></is_subscribe>
-<mch_id><![CDATA[1247894201]]></mch_id>
-<nonce_str><![CDATA[gw7ydxyjtn7pz9uuhch3r15h8fc07sa2]]></nonce_str>
-<openid><![CDATA[ocea2uOOZraYg9BwNjepME3g-Y7Q]]></openid>
-<out_trade_no><![CDATA[201805231032372734635]]></out_trade_no>
-<result_code><![CDATA[SUCCESS]]></result_code>
-<return_code><![CDATA[SUCCESS]]></return_code>
-<sign><![CDATA[C03F87B70AB4CAF9CA978F1B8884925E]]></sign>
-<time_end><![CDATA[20180523103241]]></time_end>
-<total_fee>1</total_fee>
-<trade_type><![CDATA[JSAPI]]></trade_type>
-<transaction_id><![CDATA[4200000130201805232709310161]]></transaction_id>
-</xml>';
+        $xml=file_get_contents('php://input', 'r');
+//        $xml = '<xml><appid><![CDATA[wx6619d283675acc74]]></appid>
+//<attach><![CDATA[201805231032372734635]]></attach>
+//<bank_type><![CDATA[CFT]]></bank_type>
+//<cash_fee><![CDATA[1]]></cash_fee>
+//<fee_type><![CDATA[CNY]]></fee_type>
+//<is_subscribe><![CDATA[Y]]></is_subscribe>
+//<mch_id><![CDATA[1247894201]]></mch_id>
+//<nonce_str><![CDATA[gw7ydxyjtn7pz9uuhch3r15h8fc07sa2]]></nonce_str>
+//<openid><![CDATA[ocea2uOOZraYg9BwNjepME3g-Y7Q]]></openid>
+//<out_trade_no><![CDATA[201805231032372734635]]></out_trade_no>
+//<result_code><![CDATA[SUCCESS]]></result_code>
+//<return_code><![CDATA[SUCCESS]]></return_code>
+//<sign><![CDATA[C03F87B70AB4CAF9CA978F1B8884925E]]></sign>
+//<time_end><![CDATA[20180523103241]]></time_end>
+//<total_fee>1</total_fee>
+//<trade_type><![CDATA[JSAPI]]></trade_type>
+//<transaction_id><![CDATA[4200000130201805232709310161]]></transaction_id>
+//</xml>';
 
 //        Log::write($xml,'水机支付回调xml');
 
@@ -54,7 +54,7 @@ class WechatController extends Controller
                         'is_pay'=>1
                     );
 
-                    $order_res = $order->where('id='.$orderData['id'])->find($data);
+                    $order_res = $order->where('id='.$orderData['id'])->save($data);
 
 
 //                    $order_res = $order->where('id='.$orderData['id'])->find($data);

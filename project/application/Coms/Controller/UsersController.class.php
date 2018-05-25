@@ -9,8 +9,6 @@ class UsersController extends ComsbaseController {
      */
     public function user_list()
     {
-
-
         $p = I('p',1);
         $vid = session('comsuser.id');
         $map['d.vid']=$vid;
@@ -22,8 +20,6 @@ class UsersController extends ComsbaseController {
                $map['d.device_code']=$search;
            }
         }
-
-
 
         $total = M('devices')
             ->alias('d')
@@ -54,6 +50,8 @@ class UsersController extends ComsbaseController {
             'msg'=>'ok',
         ),'JSON');
     }
+
+
     //加载他的用户
     public function of_users() {
         $vid = session('comsuser.id');
@@ -201,17 +199,17 @@ class UsersController extends ComsbaseController {
 //        }
 //    }
 
-    //服务记录详情
-    public function sevice_details() {
-        $map  = I('get.');
-        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
-        if ($work_info) {
-            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
-            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
-        } else {
-            $this->ajaxReturn(['code'=>400]);
-        }
-    }
+//    //服务记录详情
+//    public function sevice_details() {
+//        $map  = I('get.');
+//        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
+//        if ($work_info) {
+//            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
+//            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
+//        } else {
+//            $this->ajaxReturn(['code'=>400]);
+//        }
+//    }
     //待办任务
     public function todo_sevice() {
 

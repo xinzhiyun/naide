@@ -36,14 +36,25 @@ class AppframeController extends Controller {
         }
     }
 
-    public function to_json($e)
+    /**
+     * 接口返回
+     * @param $e
+     * @param string $msg
+     * @param int $status
+     */
+    public function to_json($e,$msg='',$status=200)
     {
-        $err = [
-            'status' => $e->getCode(),
-            'msg' =>   $e->getMessage(),
-        ];
+        if(is_array($e)){
+            $err=array_merge($e,['status'=>$status,'msg'=>$msg]);
+        }else{
+            $err = [
+                'status' => $e->getCode(),
+                'msg' =>   $e->getMessage(),
+            ];
+        }
         $this->ajaxReturn($err,'JSON');
     }
+
 
     /**
      * Ajax方式返回数据到客户端
@@ -56,6 +67,7 @@ class AppframeController extends Controller {
 
         if(isset($data['url'])){
             $data['referer'] = $data['url'] ? $data['url'] : "";
+            unset($data['url']);
         }
         $data['state']   = (!empty($data['status']) and $data['status']== 200) ? "success" : "fail";
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');

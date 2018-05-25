@@ -25,6 +25,34 @@ class ServiceController extends ComsbaseController {
     }
 
     /**
+     * 服务记录(分页)
+     */
+    public function sevice_list()
+    {
+        
+    }
+
+
+
+    //服务记录详情
+    public function sevice_details() {
+        $map  = I('get.');
+        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
+        if ($work_info) {
+            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
+            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+
+
+
+
+
+
+    /**
      *  检索设备
      */
     public function search_device()
