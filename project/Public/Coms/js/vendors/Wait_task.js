@@ -57,17 +57,35 @@ var wait_task = new Vue({
 		},
         // 点击搜索小图标提交表单
         subClick:function(){
+        	var _this = this;
         	console.log(this.search)
+        	var href = location.href.split("?")[1];
+		    var value = href.split("=")[1];
+		    console.log(value)
         	$(".loadingdiv").fadeIn('slow');
         	var url = getURL("Coms","Vendors/sevice_list");
         	$.ajax({
                 url: url,
-                data: {searchword: this.search},
+                data: {datas: this.search,type:value},
                 type: "post",
                 success: function(res) {
                     console.log('res: ',res);
-                    if(res.code == 200){
-                        wait_task.service_details_info = res.data;
+                    if(res.status == 200){
+                        // wait_task.service_details_info = res.data;
+                        var info = [];
+			 			var obj = {};
+			 			for(var i = 0;i<res.data.length;i++){
+			 				obj[i] = {
+			 					addtime : getLocalTime(res.data[i].addtime)	,
+				 				id : res.data[i].id,
+					 			name : res.data[i].name,
+					 			phone : res.data[i].phone,
+					 			status : res.data[i].status
+			 				}
+			 				info.push(obj[i]);
+			 			}
+			 				console.log(info)
+				 			_this.sevice_list = info;
                     }else{
                         wait_task.service_details_info = [{
                             name: '&emsp;',
@@ -162,6 +180,8 @@ var wait_task = new Vue({
 						var url = getURL("Coms","Vendors/wait_task");
 						location.href = url;
 					},500);
+				}else{
+					noticeFn({text: res.text,time: '1500'});
 				}
 			},url,id);
 		},
@@ -188,10 +208,6 @@ var wait_task = new Vue({
 			 		if(res.msg == 0){
 			 			var info = [];
 			 			var obj = {};
-			 			// addtime
-			 			// id
-			 			// name
-			 			// phone
 			 			for(var i = 0;i<res.res.length;i++){
 			 				obj[i] = {
 			 					addtime : getLocalTime(res.res[i].addtime)	,
