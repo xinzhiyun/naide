@@ -38,10 +38,6 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.min.js"></script> -->
 	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-	</script>
 	<script>
 
 		$(function(){
@@ -54,12 +50,11 @@
 
 			var dataList = [];	//数据集
 			// 请求净水记录数据
-            var seach = year+month;
+            var seach = year + month;
 			getData(seach, function(res){
 				if(res.status == 200){
-					if(!res.data){
+					if(!res.data.length){
 						noticeFn({text: "本月无数据",time: '1000'});
-						return
 					}
 					// 显示折线图
 					getAvg(res.data, res.data.length);
@@ -77,27 +72,36 @@
 				// 显示日期插件
 				$('.am-datepicker-date').datepicker('open');
 			})
+
 			// 选中月份获取净水记录
 			$('.am-datepicker').on('click', '.am-datepicker-month', function(){
 				var month = $(this).parent().children().index($(this));
 				var now = new Date().getMonth();
-				// console.log(month);
+				console.log(month);
 				if(month <= now){
 					// 隐藏日期插件
 					$('.am-datepicker-date').datepicker('close');
-					// 请求数据
-					getData(month, function(res){
-						if(res.status == 200){
-							// 显示折线图
-							getAvg(res.data, res.data.length);
+					setTimeout(function(){
+						var year_month = $('.month').val().split('-');
+						console.log('year_month: ',year_month[0] + '' + year_month[1]);
+						// 请求数据
+						getData(year_month[0] + '' + year_month[1], function(res){
+							if(!res.data.length){
+								noticeFn({text: '当月无净水记录', time: 1500});
+								return
+							}
+							if(res.status == 200){
+								// 显示折线图
+								getAvg(res.data, res.data.length);
 
-						}else if(res.code == -1){
-							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
-							
-						}else{
-							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
-						}
-					});
+							}else if(res.code == -1){
+								noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+								
+							}else{
+								noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+							}
+						});
+					},0);
 				}else{
 					
 					noticeFn({text: '请选择当月之前的月份',time: '1000'});

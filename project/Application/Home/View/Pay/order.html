@@ -93,15 +93,12 @@
 				<span>订单时间：{{order_pay_info.created_at}}</span>
 				<!-- 待付款 status=0 -->
 				<span v-if="order_pay_info.status == 0 && order_pay_info.type == 1">等待买家付款</span>
-				<span v-if="order_pay_info.status == 0 && order_pay_info.type == 2">等待买家付款</span>
 				<!-- 待发货 status=1 -->
 				<span v-if="order_pay_info.status == 1  && order_pay_info.type == 1">买家已付款</span>
 				<!-- 待收货 status=2 -->
 				<!-- 快递单号 -->
-				<span v-if="order_pay_info.status == 2 && order_pay_info.type == 1"><span v-text='order_pay_info.express'></span>：{{order_pay_info.mca}}</span>
+				<span v-if="order_pay_info.status == 2 && order_pay_info.type == 1">顺丰快递单：{{order_pay_info.mca}}</span>
 				<span v-if="order_pay_info.status == 2  && order_pay_info.type == 1">卖家已发货</span>
-				<span v-if="order_pay_info.status == 3">已完成</span>
-				<span v-if="order_pay_info.status == 9">已取消</span>
 			</p>
 			<!-- 先不要删 -->
 			<!-- <div class="product_box" v-for="(pay_info,index) in order_pay_info.product_info"> -->
@@ -160,7 +157,7 @@
 			</div>
 			<!-- 待收货 status=2 -->
 			<div class="warn_send_btn" v-if="order_pay_info.status == 2 && order_pay_info.type == 1">
-				<p class="warn_send" style="lineHeight:0.9rem;" :orderid='order_pay_info.order_id' @touchend="receive(order_pay_info.order_id)">确认收货</p>
+				<p class="warn_send" style="lineHeight:0.9rem;" @touchend="receive">确认收货</p>
 			</div>
 
 		<!-- 确定支付弹框部分开始 -->
@@ -286,35 +283,33 @@
 			'chooseWXPay'
 			]
 		});
-		// 1、请求订单信息，用于微信支付
-		function getOrderInfo(orderid){
-			$.ajax({
-				url: '{{:U("Home/Pay/getOrderInfo")}}',
-				type: 'post',
-				data: {orderid: orderid},
-				success: function(res){
-					console.log('res: ',res);
-					if(res.code == 200){
-						var jogData = {
-							openId: "{{$_SESSION['open_id']}}",
-							money: res.money/100,
-							order_id: res.order_id,
-							content: res.content,
-							notify_url: res.notify_url
-						}
-						prePay(jogData);
+		// 3、微信支付方法
+		function weixinPay(res, callback){
+			var type = Object.prototype.toString.call(res);
+			if(type === '[object Object]'){
+				res = JSON.stringify(res);
+			}
+			console.log('prePay: ',res);
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				JSON.parse(res),
+				function(res){
+					console.log('payres: ', res);
+					if (res.err_msg.substr(-2) == 'ok') {
+		                // 付款成功
+						callback({status: 'ok'});
+						
+		            } else if (res.err_msg.substr(-6) == 'cancel') {
+		                // 取消付款
+						callback({status: 'cancel'});
 
-					}else{
-						noticeFn({text: res.msg});
-					}
-				},
-				error: function(err){
-					console.log('err: ',err);
-					noticeFn({text: '系统遇到错误，请稍后再试'});
-				}
-			})
-		}
-
+		            }else{
+		                // 付款失败
+						callback({status: 'fail'});
+		            }
+		        }
+		    );
+		};
 		// 2、请求微信支付信息，用于微信支付
 		function prePay(data){
 			$.ajax({
@@ -360,34 +355,36 @@
 			})
 		}
 
-		// 3、微信支付方法
-		function weixinPay(res, callback){
-			var type = Object.prototype.toString.call(res);
-			if(type === '[object Object]'){
-				res = JSON.stringify(res);
-			}
-			console.log('prePay: ',res);
-			WeixinJSBridge.invoke(
-				'getBrandWCPayRequest',
-				JSON.parse(res),
-				function(res){
-					console.log('payres: ', res);
-					if (res.err_msg.substr(-2) == 'ok') {
-		                // 付款成功
-						callback({status: 'ok'});
-						
-		            } else if (res.err_msg.substr(-6) == 'cancel') {
-		                // 取消付款
-						callback({status: 'cancel'});
-
-		            }else{
-		                // 付款失败
-						callback({status: 'fail'});
-		            }
-		        }
-		    );
-		};
 		
+		// 1、请求订单信息，用于微信支付
+		function getOrderInfo(orderid){
+			$.ajax({
+				url: '{{:U("Home/Pay/getOrderInfo")}}',
+				type: 'post',
+				data: {orderid: orderid},
+				success: function(res){
+					console.log('res: ',res);
+					if(res.code == 200){
+						var jogData = {
+							openId: "{{$_SESSION['open_id']}}",
+							money: res.money/100,
+							order_id: res.order_id,
+							content: res.content,
+							notify_url: res.notify_url
+						}
+						prePay(jogData);
+
+					}else{
+						noticeFn({text: res.msg});
+					}
+				},
+				error: function(err){
+					console.log('err: ',err);
+					noticeFn({text: '系统遇到错误，请稍后再试'});
+				}
+			})
+		}
+
 		// 取消订单
 		function cancelOrder(orderid){
 			console.log(orderid);
@@ -411,39 +408,6 @@
 				error: function(err){
 					console.log('err: ',err);
 					noticeFn({text: '系遇到问题，请稍后再试'});
-				}
-			})
-		}
-
-		// 确认收货
-		function received(order_id){
-			console.log('order_id: ',order_id);
-			confirmFn("确认收货吗？", function(res){
-				if(res){
-					console.log('确定');
-					// 确定收货
-					$.ajax({
-						url: '{{:U("Home/Users/confirmation")}}',
-						type: 'post',
-						data: {order_id: order_id},
-						success: function(res){
-							console.log('res: ',res);
-							if(res.status == 200){
-								noticeFn({text: '收货成功, 感谢您的使用'});
-								setTimeout(function(){
-									location.reload();
-								},300);
-							}else{
-								noticeFn({text: res.msg});
-							}
-						},
-						error: function(err){
-							console.log('err: ',err);
-							noticeFn({text: '系统遇到问题，请稍后再试'});
-						}
-					})
-				}else{
-					console.log('取消')
 				}
 			})
 		}

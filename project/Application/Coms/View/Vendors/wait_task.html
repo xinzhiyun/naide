@@ -51,7 +51,8 @@
 			</div>
 			<div class="install_user_content">
 				<ul>
-					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
+					<!-- <li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)"> -->
+					<li v-for="(each_sevice_list,index) in sevice_list">
 						<span>{{each_sevice_list.name}}</span>
 						<span>{{each_sevice_list.phone}}</span>
 						<span>{{each_sevice_list.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
@@ -63,9 +64,9 @@
 <!-- 待办任务列表部分结束 -->
 
 <!-- 任务详情页面部分开始 -->
-	<div id="service_details_bg">
+	<!-- <div id="service_details_bg"> -->
 		<!-- 用户信息 -->
-		<div class="service_details_public">
+		<!-- <div class="service_details_public">
 			<div class="service_div_one_public">用户信息</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -91,9 +92,9 @@
 					{{service_details_info.address}}
 				</p>
 			</div>   
-		</div>
+		</div> -->
 		<!-- 请求内容 -->
-		<div class="service_details_public margin_bottom_public">
+		<!-- <div class="service_details_public margin_bottom_public">
 			<div class="service_div_one_public">请求内容</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -121,11 +122,11 @@
 		<div class="plan_personnel_inp_bg input_bg_public">
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
-	</div>
+	</div> -->
 <!-- 任务详情页面部分结束 -->
 
 <!-- 派工信息页面部分开始 -->
-	<div id="plan_personnel_info_bg" class="all_div_bg">
+	<!-- <div id="plan_personnel_info_bg" class="all_div_bg">
 		<div class="all_div_content">
 			<ul>
 				<li class="bottom_line_h">
@@ -146,18 +147,18 @@
 		<div class="input_bg_public">
 			<input type="button" value="提交" id="plan_personnel_submit" class=" input_btn"@click="plan_personnel_submit()">
 		</div>
-	</div>
+	</div> -->
 <!-- 派工信息页面部分结束 -->
 
 <!-- 蒙版部分开始 -->
-	<div class="mask_bg_public" id="plan_personnel_mask_bg">
+	<!-- <div class="mask_bg_public" id="plan_personnel_mask_bg">
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
 				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone">{{install_personnel.name}}</li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 <!-- 蒙版部分结束 -->
 
 </div>
@@ -165,7 +166,7 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
+	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
@@ -173,45 +174,45 @@
 		var vConsole = new VConsole();
 
 		// 页面加载时判断url,刷新页面为当前页
-		var get = {};
-		var $_GET = (function() {
-			var url = window.document.location.href.toString();
-			var u = url.split("?");
-			if (typeof(u[1]) == "string") {
-				u = u[1].split("&");//["index=3"]
-				//遍历
-				for (var i in u) {
-					var j = u[i].split("=");
-					get[j[0]] = j[1];
-				}
-				return get;
-			} else {
-				// 如何传入的参数只有1对键值对则直接return返回出去
-				return {};
-			}
-		})();
-		var url = window.document.location.href.toString();
-		if($_GET.index == undefined || url.indexOf("?") == -1){
-			$(".wait_task_bg").show();//第一页 待办任务页面
-			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
-			$("#service_details_bg").hide();//第三页
-			$("#navbar").find("h2").html("待办任务");
-		}else if($_GET.index == "1"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").show();
-			$("#navbar").find("h2").html(localStorage.getItem("title"));
-		}else if($_GET.index == "2"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").show();
-			$("#navbar").find("h2").html("服务详情");
-		}else if($_GET.index == "3"){
-			$("#plan_personnel_info_bg").show();
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").hide();
-			$("#navbar").find("h2").html("派工信息");
-		}
+		// var get = {};
+		// var $_GET = (function() {
+		// 	var url = window.document.location.href.toString();
+		// 	var u = url.split("?");
+		// 	if (typeof(u[1]) == "string") {
+		// 		u = u[1].split("&");//["index=3"]
+		// 		//遍历
+		// 		for (var i in u) {
+		// 			var j = u[i].split("=");
+		// 			get[j[0]] = j[1];
+		// 		}
+		// 		return get;
+		// 	} else {
+		// 		// 如何传入的参数只有1对键值对则直接return返回出去
+		// 		return {};
+		// 	}
+		// })();
+		// var url = window.document.location.href.toString();
+		// if($_GET.index == undefined || url.indexOf("?") == -1){
+		// 	$(".wait_task_bg").show();//第一页 待办任务页面
+		// 	$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+		// 	$("#service_details_bg").hide();//第三页
+		// 	$("#navbar").find("h2").html("待办任务");
+		// }else if($_GET.index == "1"){
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").show();
+		// 	$("#navbar").find("h2").html(localStorage.getItem("title"));
+		// }else if($_GET.index == "2"){
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").show();
+		// 	$("#navbar").find("h2").html("服务详情");
+		// }else if($_GET.index == "3"){
+		// 	$("#plan_personnel_info_bg").show();
+		// 	$(".wait_task_bg").hide();
+		// 	$("#wait_install").hide();
+		// 	$("#service_details_bg").hide();
+		// 	$("#navbar").find("h2").html("派工信息");
+		// }
 
 		// $(function(){
 		// 	// 手机默认回车按钮提交表单并接受返回值
@@ -221,38 +222,73 @@
 		// 	    wait_task.sub_pub();
 		// 	})
 		// });
+		var href = location.href.split("?")[1];
+		if(href == undefined){
+			$(".wait_task_bg").show();//第一页 待办任务页面
+			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
+			$("#service_details_bg").hide();//第三页
+			$("#navbar").find("h2").html("待办任务");
+		}else{
+			var key = href.split("=")[0];
+			console.log(key);
+			if(key == "type"){
+				$(".wait_task_bg").hide();
+				$("#wait_install").show();
+				$("#navbar").find("h2").html(localStorage.getItem("title"));
+			}
+		}
 
-		$(function(){
-			// 手机默认回车按钮提交表单
-			$("#form1").on("submit", function(e) {
-			    // 阻止表单默认跳转
-			    e.preventDefault(); 
-			    console.log(wait_task.search)
-			    $.ajax({
-			        url: "",
-			        data: {datas: wait_task.search},
-			        type: "post",
-			        success: function(res) {
-			            if(res.code == 200){
-	                        wait_task.service_details_info = res.data;
-	                    }else{
-	                        wait_task.service_details_info = [{
-	                            name: '&emsp;',
-	                            phone: '查无数据',
-	                            device_code: '&emsp;'            
-	                        }];
-	                    }
-			        },
-			        error: function(res) {
-			            wait_task.service_details_info = [{
-                            name: '&emsp;',
-                            phone: '查无数据',
-                            device_code: '&emsp;'            
-                        }];
-			        }
-			    })
+		function postPub(callback,url,data){
+			$.ajax({
+				url:url,
+				type:"post",
+				data:data,
+				success:function(res){
+					// console.log("成功",res)
+					if(res.code == 200){
+						callback({res:res.data,msg:0});
+					}else{
+						callback({res:"",text:"系统出错，请稍候再试",msg:1});
+					}
+				},
+				error:function(res){
+					console.log("失败",res);
+					callback({res: "", text: "系统出错，请稍后再试!", msg:1});
+				}
 			})
-		});
+		}
+		// $(function(){
+		// 	// 手机默认回车按钮提交表单
+		// 	$("#form1").on("submit", function(e) {
+		// 	    // 阻止表单默认跳转
+		// 	    e.preventDefault(); 
+		// 	    console.log(wait_task.search)
+		// 	    $.ajax({
+		// 	        url: "",
+		// 	        data: {datas: wait_task.search},
+		// 	        type: "post",
+		// 	        success: function(res) {
+		// 	            if(res.code == 200){
+	 //                        wait_task.service_details_info = res.data;
+	 //                    }else{
+	 //                        wait_task.service_details_info = [{
+	 //                            name: '&emsp;',
+	 //                            phone: '查无数据',
+	 //                            device_code: '&emsp;'            
+	 //                        }];
+	 //                    }
+		// 	        },
+		// 	        error: function(res) {
+		// 	            wait_task.service_details_info = [{
+  //                           name: '&emsp;',
+  //                           phone: '查无数据',
+  //                           device_code: '&emsp;'            
+  //                       }];
+		// 	        }
+		// 	    })
+		// 	})
+		// });
 	</script>
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 </body>
 </html>
