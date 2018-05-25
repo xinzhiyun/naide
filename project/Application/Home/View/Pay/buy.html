@@ -34,12 +34,12 @@
 		<div class="mainContent">
 			<h1>选择套餐</h1>
 			<ul class="am-avg-sm-2 am-thumbnails" @click="selectMeals">
-				<li class="am-thumbnail" v-if="selectMeal" v-for="(meal, index) in selectMeal">
+				<li class="am-thumbnail" v-if="selectMeal.length" v-for="(meal, index) in selectMeal">
 					<!-- flow-套餐天数  mealId=套餐id  tId-设备id -->
 					<p :flow="meal.flow" :mealId="meal.id" :tId="meal.tid" :mealMoney="meal.money">{{meal.describe}}</p> 
 				</li>
 			</ul>
-			<p class="quikBuy" @click="quikBuys" v-if="selectMeal">立即购买</p>
+			<p class="quikBuy" @click="quikBuys" v-if="selectMeal.length">立即购买</p>
 		</div>
 		<!-- 支付面板 -->
 		<div class="payKuan">
@@ -67,9 +67,7 @@
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Home/js/pay/buy.js?123"></script>
-	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script defer>
-		var vconsole = new VConsole();
         var wxinfo = {{$wxinfo|json_encode}};
         var is_weixin ={{$is_weixin}};
         console.log(wxinfo);
