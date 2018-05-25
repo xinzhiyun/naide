@@ -15,7 +15,7 @@
 		<input name="date" type="button" class="am-datepicker-add-on month" value="">
 	</div>
 	<div class="echartDiv">
-		<h3 class="eChartTitle">纯水 <span class="rawMean"></span></h3><br />
+		<h3 class="eChartTitle">纯水 <span class="pureMean"></span></h3><br />
 		<div class="chart" id="lineChart1" _echarts_instance_="1513755345537" >
 			<div>
 				<div data-zr-dom-id="bg" ></div>
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<div class="echartDiv">
-		<h3 class="eChartTitle">原水 <span class="pureMean"></span></h3><br />
+		<h3 class="eChartTitle">原水 <span class="rawMean"></span></h3><br />
 		<div class="chart" id="lineChart2" _echarts_instance_="1513755345537" >
 			<div>
 				<div data-zr-dom-id="bg" ></div>
@@ -41,6 +41,7 @@
 	<script>
 
 		$(function(){
+	    	var _date = new Date();
 			var year = new Date().getFullYear();//年份
 			var month = ((new Date().getMonth()+1)+'').length == 1
 						? '0' + (new Date().getMonth()+1)
@@ -56,8 +57,26 @@
 					if(!res.data.length){
 						noticeFn({text: "本月无数据",time: '1000'});
 					}
-					// 显示折线图
-					getAvg(res.data, res.data.length);
+
+				    // 按当月天数生成数据结构
+				    getMonthLen(_date.getFullYear(),_date.getMonth()+1, function(monthData){
+				    	// console.log('monthData: ',monthData);
+				    	for(var i=0; i<monthData.length; i++){
+				    		for(var k=0; k<res.data.length; k++){
+
+				    			if(monthData[i].day == res.data[k].day){
+				    				monthData[i].raw = res.data[k].raw;
+				    				monthData[i].pure = res.data[k].pure;
+				    			}
+				    		}
+				    	}
+				    	console.log('monthData: ',monthData);
+				    	setTimeout(function(){
+							// 显示折线图
+							getAvg(monthData, res.data.length);
+						},0);
+				    	
+				    });
 
 				}else{
 					noticeFn({text: "系统遇到问题, 请稍后再试！",time: '1000'});
@@ -77,41 +96,55 @@
 			$('.am-datepicker').on('click', '.am-datepicker-month', function(){
 				var month = $(this).parent().children().index($(this));
 				var now = new Date().getMonth();
-				console.log(month);
-				if(month <= now){
-					// 隐藏日期插件
-					$('.am-datepicker-date').datepicker('close');
-					setTimeout(function(){
-						var year_month = $('.month').val().split('-');
-						console.log('year_month: ',year_month[0] + '' + year_month[1]);
-						// 请求数据
-						getData(year_month[0] + '' + year_month[1], function(res){
-							if(!res.data.length){
-								noticeFn({text: '当月无净水记录', time: 1500});
-								return
-							}
-							if(res.status == 200){
-								// 显示折线图
-								getAvg(res.data, res.data.length);
+				// console.log(month);
+				// 隐藏日期插件
+				$('.am-datepicker-date').datepicker('close');
+				setTimeout(function(){
+					var year_month = $('.month').val().split('-');
+					// console.log('year_month: ',year_month[0] + '' + year_month[1]);
+					// 请求数据
+					getData(year_month[0] + '' + year_month[1], function(res){
+						if(!res.data.length){
+							noticeFn({text: '当月无净水记录', time: 1500});
+						}
+						if(res.status == 200){
 
-							}else if(res.code == -1){
-								noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
-								
-							}else{
-								noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
-							}
-						});
-					},0);
-				}else{
-					
-					noticeFn({text: '请选择当月之前的月份',time: '1000'});
-				}
+						    // 按当月天数生成数据结构
+						    getMonthLen(_date.getFullYear(),_date.getMonth()+1, function(monthData){
+						    	// console.log('monthData: ',monthData);
+						    	for(var i=0; i<monthData.length; i++){
+						    		for(var k=0; k<res.data.length; k++){
+
+						    			if(monthData[i].day == res.data[k].day){
+						    				monthData[i].raw = res.data[k].raw;
+						    				monthData[i].pure = res.data[k].pure;
+						    			}
+						    		}
+						    	}
+						    	console.log('monthData: ',monthData);
+
+			    				setTimeout(function(){
+									// 显示折线图
+									getAvg(monthData, res.data.length);
+								},0);
+						    	
+						    });
+
+						}else if(res.code == -1){
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+							
+						}else{
+							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
+						}
+					});
+				},0);
 			})
 		})
 		function getAvg(datalist,mustDates){
 			var rawArray = [];	//原水数据集
 			var pureArray = [];	//净水数据集
 			var rawSum = 0, pureSum = 0;
+			// console.log('datalist: ',datalist);
 			for(var i=0; i<datalist.length; i++){	//遍历原水值与净水值的数据
 				rawArray[i] = parseInt(datalist[i].raw);
 				pureArray[i] = parseInt(datalist[i].pure);
@@ -183,26 +216,77 @@
 		}
 		// 请求净水记录数据
 		function getData(_month, fallback){
-			// 模拟数据
-			// var res = {};
-			// res.code = 200;
-			// res.data = [{raw:'10',pure:'20'},{raw:'60',pure:'70'},{raw:'20',pure:'30'},{raw:'50',pure:'60'},{raw:'30',pure:'45'},{raw:'90',pure:'220'},{raw:'20',pure:'620'},{raw:'120',pure:'50'},{raw:'70',pure:'20'},{raw:'10',pure:'320'},{raw:'50',pure:'70'},{raw:'60',pure:'30'},{raw:'70',pure:'20'}];
-			// // console.log(res);
-			// // fallback(res);
 			$.ajax({
 				url: '{{:U("Home/Device/getTds")}}',
 				type: 'post',
 				data: {month: _month},
 				success: function(res){
-					console.log('请求成功！',res);
+					console.log('res: ',res);
+					// if(_month == 201804){
+					//    	res.data = [
+					//         {
+					//             "id":"108",
+					//             "dcode":"852852879741476",
+					//             "raw":"92",
+					//             "pure":"13",
+					//             "day":"04",
+					//             "date":"201804"
+					//         },
+					//         {
+					//             "id":"134",
+					//             "dcode":"852852879741476",
+					//             "raw":"90",
+					//             "pure":"50",
+					//             "day":"09",
+					//             "date":"201804"
+					//         },
+					//         {
+					//             "id":"126",
+					//             "dcode":"852852879741476",
+					//             "raw":"100",
+					//             "pure":"100",
+					//             "day":"05",
+					//             "date":"201804"
+					//         },
+					//         {
+					//             "id":"126",
+					//             "dcode":"852852879741476",
+					//             "raw":"100",
+					//             "pure":"100",
+					//             "day":"25",
+					//             "date":"201804"
+					//         }
+					//     ]
+					// }
 					fallback(res);
 				},
 				error: function(err){
-					console.log('请求失败！',err);
-					fallback(err);
+					console.log('err: ',err);
+					noticeFn({text: '系统遇到问题, 请稍后再试'});
 				}
 			})
 		}
+
+	    // 按当月天数生成数据结构
+	    function getMonthLen(year, month, callback){
+	    	// console.log('year: ',year);
+	    	// console.log('month: ',month);
+	    	var monthData = [];
+		    var monthLen = new Date(year, month, 0).getDate();
+	    	// console.log('monthLen: ',monthLen);
+	    	// 按当月天数遍历数据结构
+		    for(var i=0; i<monthLen; i++){
+		    	// console.log(i+1);
+		    	monthData.push({
+		    		raw: 0,
+		    		pure: 0,
+		    		day: (i < 9 ? 0+''+(i+1) : (i+1)+'')
+		    	})
+		    }
+		    // console.log('monthData: ',monthData);
+		    callback(monthData);
+	    }
+
 	</script>
 </body>
 </html>

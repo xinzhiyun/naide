@@ -92,6 +92,7 @@ html, body {
 	font-weight: 400;
 	border-radius: 0 0.33333rem 0.33333rem 0;
 	background: #039CE9;
+	transition: .3s linear;
 }
 .eChartTitle:after {
 	content: '';
