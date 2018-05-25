@@ -56,69 +56,13 @@ var wait_task = new Vue({
 			var data_info = _this.task[type].task_text;
 			localStorage.setItem("title",data_info);
 			wait_task.url_public("type",type);// 页面跳转
-			console.log("type",type);
-			alert(11)
 		},
-		//在待办任务（首页）
-		// task_one:function(type){
-		// 	var _this = this;
-		// 	// title
-		// 	var data_info = _this.task[type].task_text;
-		// 	localStorage.setItem("title",data_info);
-		// 	wait_task.url_public(1);// 页面跳转
-		// 	// 0-安装 1-维修 2-维护
-		// 	_this.url = getURL("Coms", "users/sevice_list");
-		// 	_this.data = {
-		// 		type:type
-		// 	}
-		// 	sessionStorage.setItem("type",type);
-		//  	_this.getAjax(function(res){
-		//  		console.log(res);
-		//  		var task_user = {};
-		//  		// 判断是否成功返回数据
-		//  		if(res.msg == 0){
-		//  				console.log(res.res)
-		// 	 			sessionStorage.setItem("sevice_list",JSON.stringify(res.res));
-		 			
-		//  		}else if(res.msg == 1){
-		//  			// 数据返回失败
-		//  			// noticeFn({text: res.text});
-		//  			_this.sevice_list = [];
-		//  			var sevice_list = [{
-	 // 					name:" ",
-	 // 					phone:"暂无数据",
-	 // 					addtime:"&nbsp;"
-	 // 				}];
-	 // 				sessionStorage.setItem("sevice_list",JSON.stringify(sevice_list));
-		//  		}else{
-		//  			noticeFn({text: res.text});
-		//  		}
-		//  	},_this.url,_this.data);
-		// },
 		//搜索用户页面（第二页）
-		// service_details:function(index){
-		// 	var _this = this;
-		// 	wait_task.url_public(2);// 页面跳转
-			
-		// 	_this.url = getURL("Coms","users/details");
-		// 	var id = _this.sevice_list[index].id;
-		// 	_this.data = {
-		// 		id:id
-		// 	}
-		// 	_this.getAjax(function(res){
-		// 		if(res.msg == 0){
-		// 			// 数据返回成功
-		// 			console.log("成功",res.res);
-		// 			if(res.res != ""){
-		// 				sessionStorage.setItem("service_details_info",JSON.stringify(res.res));
-		// 			}
-		// 		}else{
-		// 			console.log("失败",res.res);
-		// 			// 数据返回失败
-		//  			noticeFn({text: res.text});
-		//  		}
-		// 	},_this.url,_this.data);
-		// },
+		service_details:function(index){
+			var _this = this;
+			var id = _this.sevice_list[index].id;
+			wait_task.url_public("id",id);// 页面跳转
+		},
 		// 点击搜索小图标提交表单
         // subClick:function(){
         // 	var _this = this;
@@ -235,42 +179,55 @@ var wait_task = new Vue({
 	},
 	//实例创建前
 	created:function(){
+		var url,data,key,value;
 		var _this = this;
 		var href = location.href.split("?")[1];
+		// 待办任务详情
 		if(href != undefined){
-			var key = href.split("=")[0];
-			var value = href.split("=")[1];
-			// console.log(key);
+			key = href.split("=")[0];
+			value = href.split("=")[1];
+			console.log(key);
 			// 0-安装 1-维修 2-维护
-			var url = getURL("Coms", "users/sevice_list");
-			var data = {
+			url = getURL("Coms", "users/sevice_list");
+			data = {
 				type:value
 			}
-			// sessionStorage.setItem("type",type);
 		 	postPub(function(res){
-		 		console.log(res);
 		 		var task_user = {};
-		 		// 判断是否成功返回数据
+		 		// 成功返回数据
 		 		if(res.msg == 0){
 		 				console.log(res.res)
-			 			// sessionStorage.setItem("sevice_list",JSON.stringify(res.res));
 			 			_this.sevice_list = res.res;
-		 			
 		 		}else if(res.msg == 1){
 		 			// 数据返回失败
-		 			// noticeFn({text: res.text});
 		 			_this.sevice_list = [];
 		 			_this.sevice_list = [{
 	 					name:" ",
 	 					phone:"暂无数据",
 	 					addtime:""
 	 				}];
-	 				// sessionStorage.setItem("sevice_list",JSON.stringify(sevice_list));
 		 		}else{
+		 			// 返回数据失败
 		 			noticeFn({text: res.text});
 		 		}
 		 	},url,data);
-		}
+		 	// 服务详情
+			url = getURL("Coms","users/details");
+			data = {id:value};
+			postPub(function(res){
+				if(res.msg == 0){
+					// 数据返回成功
+					console.log("成功",res.res);
+					if(res.res != ""){
+						_this.service_details_info = res.res;
+					}
+				}else{
+					console.log("失败",res.res);
+					// 数据返回失败
+		 			noticeFn({text: res.text});
+		 		}
+			},url,data);
+		};
 	},
 	mounted:function(){
 		// var _this = this;
