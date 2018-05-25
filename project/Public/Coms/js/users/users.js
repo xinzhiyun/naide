@@ -12,7 +12,7 @@ var users = new Vue({
             }],
         }
     },
-    created() {
+    created() { 
         // 请求数据
         getData(1, function(res){
             users.userList = [];    // 清空
