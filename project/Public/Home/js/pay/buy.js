@@ -1,7 +1,7 @@
 
 $(".payKuan").css("display", "none");
 // 实例化vue对象
-new Vue({
+new Vue({ 
 	el: ".main",
 	data: {
 		// 套餐选择
