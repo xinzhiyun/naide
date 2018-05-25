@@ -63,64 +63,34 @@ var wait_task = new Vue({
 			var id = _this.sevice_list[index].id;
 			wait_task.url_public("id",id);// 页面跳转
 		},
-		// 点击搜索小图标提交表单
-        // subClick:function(){
-        // 	var _this = this;
-        // 	_this.sub_pub();
-        // },
-        // 搜索
-        // sub_pub:function(){
-        // 	var _this = this;
-        // 	var sub = [];
-        // 	if(chineseCheck(trimFn(this.search)) || phoneCheck(this.search)){
-        // 		// console.log($("input[name='Info']").val());
-        // 		var detail = JSON.parse(sessionStorage.getItem("sevice_list"));
-        // 		for(var i = 0;i<detail.length;i++){        			
-        // 			if($("input[name='Info']").val() == detail[i].name || detail[i].name == detail[i].phone){
-        // 				sub.push(detail[i])
-        // 			}
-        // 		}    	
-        // 		console.log(sub.length);	
-        // 		if(sub.length != 0){
-	       //  		_this.sevice_list = [];
-        // 			_this.sevice_list = sub;
-        // 			$(".install_user_content").show();
-        // 		}else{
-	       //  		_this.service_details_info = detail;
-        // 			noticeFn({text:'没有搜索到匹配的信息!'});
-        // 			$(".install_user_content").hide();
-        // 		}
-        // 	}
-
-        // },
         // 点击搜索小图标提交表单
-        // subClick:function(){
-        // 	console.log(this.search)
-        // 	$.ajax({
-        //         url: '',
-        //         data: {searchword: this.search},
-        //         type: "post",
-        //         success: function(res) {
-        //             console.log('res: ',res);
-        //             if(res.code == 200){
-        //                 wait_task.service_details_info = res.data;
-        //             }else{
-        //                 wait_task.service_details_info = [{
-        //                     name: '&emsp;',
-        //                     phone: '查无数据',
-        //                     device_code: '&emsp;'            
-        //                 }];
-        //             }
-        //         },
-        //         error: function(err) {
-        //             wait_task.service_details_info = [{
-        //                 name: '&emsp;',
-        //                 phone: '查无数据',
-        //                 device_code: '&emsp;'            
-        //             }];
-        //         }
-        //     })
-        // },
+        subClick:function(){
+        	console.log(this.search)
+        	$.ajax({
+                url: '',
+                data: {searchword: this.search},
+                type: "post",
+                success: function(res) {
+                    console.log('res: ',res);
+                    if(res.code == 200){
+                        wait_task.service_details_info = res.data;
+                    }else{
+                        wait_task.service_details_info = [{
+                            name: '&emsp;',
+                            phone: '查无数据',
+                            device_code: '&emsp;'            
+                        }];
+                    }
+                },
+                error: function(err) {
+                    wait_task.service_details_info = [{
+                        name: '&emsp;',
+                        phone: '查无数据',
+                        device_code: '&emsp;'            
+                    }];
+                }
+            })
+        },
 		// 派工按钮  服务详情页面（第三页）
 		plan_personnel_inp:function(no){
 			var _this = this;
@@ -132,18 +102,6 @@ var wait_task = new Vue({
 		select_masking:function(){
 			// 弹出蒙版
 			var  _this = this;
-			// _this.url = getURL("Coms","users/per");
-			// _this.getAjax(function(res){
-			// 	// console.log("成功",res);
-			// 	if(res.msg == 0){
-			// 		// 数据返回成功
-			// 		// sessionStorage.setItem("install_personnel_info",JSON.stringify(res.res));
-			// 		console.log(res.res)
-			// 		for(var i = 0;i<res.res.length;i++){
-			// 			_this.plan_personnel_info_bg.install_personnel_info = [];//清空
-			// 			_this.plan_personnel_info_bg.install_personnel_info.push(res.res[i]);					}
-			// 	}
-			// },_this.url);
 			$("#plan_personnel_mask_bg").show();
 		},
 		// 选中安装人员
