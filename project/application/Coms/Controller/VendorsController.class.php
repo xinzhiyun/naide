@@ -35,7 +35,11 @@ class VendorsController extends ComsbaseController {
             }
             $map['vid'] = session('comsuser.id');
 
-            $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
+            $list = M('work')->field('id,name,phone,addtime,status')->where($map)->select();
+            $arr = [
+                'status'=>['未处理','进行中','已完成']
+            ];
+            $list = replace_array_value($list,$arr);
 
             $this->to_json(['data'=>$list],'加载中',200);
 
