@@ -45,7 +45,6 @@ class VendorsController extends ComsbaseController {
                 $map['type'] = $data['type'];
             }
             $map['vid'] = session('comsuser.id');
-var_export($map);
 
             $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
 
@@ -108,7 +107,7 @@ var_export($map);
     // 派工人员列表
     public function per() {
         $map['v_id']= session('comsuser.id');
-        $per_list = M('personnel')->field('name,phone')->where($map)->select();
+        $per_list = M('personnel')->field('id,name,phone')->where($map)->select();
 
         if($per_list) {
             $this->ajaxReturn(['code'=>200,'data'=>$per_list]);

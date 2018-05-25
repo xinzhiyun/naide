@@ -4,15 +4,11 @@ use Think\Controller;
 
 /**
  * 客户建议及报修控制器
- * 
- * @author 潘宏钢 <619328391@qq.com>
  */
-
 class FeedsController extends CommonController 
 {
 	/**
      * 建议列表
-     * @author 潘宏钢 <619328391@qq.com>
      */
     public function feedslist()
     {	
@@ -60,7 +56,8 @@ class FeedsController extends CommonController
         if (I('output') == 1) {
             $data = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
+//                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
+                        ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
                         ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
