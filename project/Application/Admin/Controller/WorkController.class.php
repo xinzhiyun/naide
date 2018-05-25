@@ -25,7 +25,7 @@ class WorkController extends CommonController
         $map['pub_personnel.name'] = trim(I('post.name')) ?  array('like','%'.trim(I('post.name')).'%'): '';
         $map['pub_personnel.phone'] = trim(I('post.phone')) ? array('like','%'.trim(I('post.phone')).'%'):'';
         /* 修改搜索地址失败的 */
-        $map['w.address|w.province|w.city|w.district|pub_repair.address'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
+        $map['w.address|w.province|w.city|w.district'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
         // $map['w.province'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
         // $map['w.city'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
         // $map['w.district'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
