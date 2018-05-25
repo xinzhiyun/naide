@@ -40,26 +40,7 @@ var payment = new Vue({
       }else{
         $(".explain").html("");
         // 匹配手机号码或者设备编码符合，
-        var url = getURL("Coms", "Service/search_device");
-        $.ajax({
-          type:"post",
-          url:url,
-          data:{dcode:inp_val},
-          Type:"json",
-          success:function(resData){
-            // 成功返回设备编码
-            if(resData.status==200){
-              if (resData.list.length==0) {
-                noticeFn({text: '未搜索到数据请重新输入!！',time: '1500'});
-              }else{
-                payment.all_device=resData.list;
-                $("#wait_payment").show();
-              }
-            }else{
-              noticeFn({text: resData.msg,time: '1500'});
-            }
-          }
-        });
+        souPub(inp_val);
       }
     },
     // 选择设备编码
@@ -138,31 +119,7 @@ var payment = new Vue({
           }
         });
       }   
-    },
-    // 搜索公共部分
-    searchPub:function(){
-      console.log(payment.search)
-      $.ajax({
-          url: "",
-          data: {datas: payment.search},
-          type: "post",
-          success: function(res) {
-              if(res.code == 200){
-                
-                  }else{
-
-                  }
-          },
-          error: function(res) {
-            
-          }
-      })
-    },
-    // 搜索小图标
-    subClick:function(){
-      payment.searchPub();
-    }
-      
+    },   
   },
   created:function(){
     var device_info = location.href.split("=")[1];

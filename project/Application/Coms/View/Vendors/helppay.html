@@ -20,7 +20,7 @@
 	<div id="form_div">
 		<form action="" method="post" id="form" v-cloak>
 			<div class="bottom_line">
-				<i class="am-u-sm-1 iconfont icon-search" @click="subClick()"></i>
+				<i class="am-u-sm-1 iconfont icon-search" @click="device_number()"></i>
 				<input type="text" name="text" placeholder="请输入手机号码/设备编码" id="Generation_payment_inp" value="" v-model="search">
 			</div>
 			<!-- 提示信息 -->
@@ -91,9 +91,9 @@
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
 	<script src="__PUBLIC__/Coms/js/vendors/helppay.js"></script>
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
-	 <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
+	 <!-- <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> -->
 	<script defer>
-		var vConsole = new VConsole();
+		// var vConsole = new VConsole();
 		var back2home = document.getElementsByClassName('back2home');
 		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
 
@@ -116,6 +116,7 @@
 			}
 		})();
 		
+		
 		var url = window.document.location.href.toString();
 		if($_GET.index == undefined || url.indexOf("?") == -1){
 			$("#form_div").show();//第一页 
@@ -127,7 +128,7 @@
 
 		var openid = "{{$open_id}}";
 		payment.openid = openid;
-		console.log(openid)
+		// console.log(openid)
 		  
 
 		//微信接口
@@ -216,12 +217,38 @@
 		};
 		$(function(){
 			// 手机默认回车按钮提交表单
-			$("#form1").on("submit", function(e) {
-			    // 阻止表单默认跳转
-			    e.preventDefault(); 
-			    payment.searchPub();
+			$("#form1").on("submit", function(even) {
+			    var e = event || window.event;
+			    e.preventDefault();
+			    var inp_val = $("#Generation_payment_inp").val();
+			    console.log("回车",inp_val)
+			   	payment.device_number();
 			})
 		});
+
+		function souPub(dcode){
+			// 匹配手机号码或者设备编码符合，
+	        var url = getURL("Coms", "Service/search_device");
+	        $.ajax({
+	          	type:"post",
+	          	url:url,
+	          	data:{dcode:dcode},
+	          	Type:"json",
+	          	success:function(resData){
+	           	 	// 成功返回设备编码
+	           		if(resData.status==200){
+	           	   		if (resData.list.length==0) {
+	               			 noticeFn({text: '未搜索到数据请重新输入!！',time: '1500'});
+	             		}else{
+	              			payment.all_device=resData.list;
+	               			$("#wait_payment").show();
+	             		 }
+	           		}else{
+	           		   noticeFn({text: resData.msg,time: '1500'});
+	           		}
+	          	}
+	        });
+		}
 	</script>
 </body>
 </html>    
