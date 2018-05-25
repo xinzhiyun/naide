@@ -18,16 +18,6 @@ class VendorsController extends ComsbaseController {
 
     //待办任务列表
     public function sevice_list() {
-//        $map['vid'] = session('comsuser.id');
-//        $map['type'] = I('post.type');
-//        $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
-//        if ($list) {
-//            $this->ajaxReturn(['code'=>200,'data'=>$list]);
-//        } else {
-//            $this->ajaxReturn(['code'=>400]);
-//        }
-
-
         try {
             $data = I('post.');
 
@@ -38,8 +28,7 @@ class VendorsController extends ComsbaseController {
                 $map['_complex'] =$where;
             }
 
-
-            if (isset($data['type'])) {
+            if (!isset($data['type'])) {
                 E('任务类型', 201);
             } else {
                 $map['type'] = $data['type'];
@@ -49,11 +38,7 @@ class VendorsController extends ComsbaseController {
             $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
 
             $this->to_json(['data'=>$list],'加载中',200);
-//            $this->ajaxReturn(array(
-//                'status'=>200,
-//                'order_id'=>$order_sn,
-//                'msg'=>'创建成功',
-//            ),'JSON');
+
         } catch (\Exception $e) {
             $this->to_json($e);
         }
