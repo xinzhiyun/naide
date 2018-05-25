@@ -17,4 +17,17 @@ class VendorsController extends ComsbaseController {
         $this->assign('tf',$tf);
         $this->display();
     }
+
+    //待办任务列表
+    public function sevice_list() {
+        $map['vid'] = session('comsuser.id');
+        $map['type'] = I('post.type');
+        $list = M('work')->field('id,name,phone,addtime')->where($map)->select();
+        if ($list) {
+            $this->ajaxReturn(['code'=>200,'data'=>$list]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
 }
