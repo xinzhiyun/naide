@@ -49,7 +49,8 @@ var users = new Vue({
         },
         // 搜索(公共部分)
         sub_pub: function(searchVal, callback){
-            var url = getURL("Coms", "");
+            console.log()
+            var url = getURL("Coms", "Users/user_list");
             $.ajax({
                 url: url,
                 type: "post",
@@ -58,10 +59,11 @@ var users = new Vue({
                     console.log("搜索成功", res);
                     if(res.status == 200) {
                         // 返回搜索到的数据
-                        if(res.list.length) {
+                        if(res.list) {
                             $(".icon-xiangyou1").show();
                             callback(res);
                         }else {
+                            console.log("没有数据");
                             $(".icon-xiangyou1").hide();
                             users.userList = [{
                                 name: "暂无用户...",
@@ -109,20 +111,3 @@ var users = new Vue({
         }
     }
 });
-// 手机默认回车按钮提交表单
-$("#form1").on("submit", function(e) {
-    // 阻止表单默认跳转
-    e.preventDefault(); 
-    // alert(123)
-    $.ajax({
-        url: "",
-        data: {datas: $("input[name='searchInfo']".val())},
-        type: "post",
-        success: function(res) {
-            
-        },
-        error: function(res) {
-            
-        }
-    })
-})
