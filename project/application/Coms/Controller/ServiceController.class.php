@@ -151,7 +151,7 @@ class ServiceController extends ComsbaseController {
     {
         try {
             $data = I('post.');
-            
+
             if (empty($data['pay'])) {
                 E('支付方式错误', 201);
             }

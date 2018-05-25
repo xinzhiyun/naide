@@ -39,13 +39,17 @@ class UsersController extends ComsbaseController {
             ->field('d.uid,u.name,d.bindtime')
             ->limit($page->firstRow.','.$page->listRows)
             ->select();
+        
         $tmp=[];
         foreach ($list as $item) {
-            if(!in_array($item['uid'],$tmp)) {
-                $tmp[]=$item['uid'];
-                $res[] =$item;
+            if(!empty($item['uid'])){
+                if(!in_array($item['uid'],$tmp)) {
+                    $tmp[]=$item['uid'];
+                    $res[] =$item;
+                }
             }
         }
+    
         $arr = [
             'bindtime'=>['date','Y-m-d']
         ];
