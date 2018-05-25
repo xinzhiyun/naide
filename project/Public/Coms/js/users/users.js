@@ -2,7 +2,7 @@
 var users = new Vue({
     el: ".main",
     data() {
-        return {
+        return { 
             search: '',
             page: '1',
             // 用户列表
