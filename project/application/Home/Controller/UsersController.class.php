@@ -60,7 +60,7 @@ class UsersController extends HomebaseController {
             $info = $m->where('user='.$reg['user'])->find();
 
             if (empty($info)) {
-                $data['created_at']=time();
+                $reg['created_at']=time();
                 $reg['code'] = $this->create_guid();
                 //老父亲
                 $reg['to_code'] = $users_code['code'];
