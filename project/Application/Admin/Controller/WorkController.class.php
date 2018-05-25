@@ -64,15 +64,16 @@ class WorkController extends CommonController
         if (I('output') == 1) {
             $data = $type->where($map)
                 ->alias('w')
-                ->join('__DEVICES__ d ON w.device_code = __DEVICES__.device_code','LEFT')
-                ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
+//                ->join('__DEVICES__ d ON w.device_code = __DEVICES__.device_code','LEFT')
+//                ->join('pub_personnel ON w.personnel_id = pub_personnel.id ','LEFT')
 //                ->join('pub_repair ON w.repair_id = pub_repair.id ','LEFT')
-                ->field('w.no,pub_personnel.name,pub_personnel.phone,w.type,w.content,w.address,w.result,w.create_at,w.time,pub_repair.address raddress,w.province,w.city,w.district')
-                ->order('w.result asc,w.create_at desc')
+                ->field('w.no,w.pname,w.pphone,w.type,w.content,w.address,w.status,w.addtime,concat(w.time,w.period),w.playtime,w.address raddress,w.province,w.city,w.district')
+                ->order('w.status asc,w.addtime desc')
                 ->getAll();
             $arr = [
-                'time'=>['date','Y-m-d H:i:s'],
-                'create_at'=>['date','Y-m-d H:i:s'],
+                'status'=>['未处理','进行中','已完成'],
+                'addtime'=>['date','Y-m-d H:i:s'],
+                'playtime'=>['date','Y-m-d H:i:s'],
             ];
             foreach ($data as $key => $value) {
                 if($value['type'] === '维修' ){
@@ -87,7 +88,7 @@ class WorkController extends CommonController
             $data = replace_array_value($data,$arr);
             $filename = '工单列表数据';
             $title = '工单列表';
-            $cellName = ['工单编号','处理人','处理人电话','维护类型','工作内容','地址','处理结果','创建时间','处理时间'];
+            $cellName = ['工单编号','处理人','处理人电话','维护类型','工作内容','地址','处理结果','创建时间','预约时间','处理时间'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();
