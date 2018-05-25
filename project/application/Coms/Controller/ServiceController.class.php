@@ -102,7 +102,13 @@ class ServiceController extends ComsbaseController {
      */
     public function getDeviceSetmeal()
     {
-        $list = M('setmeal')->where('type=0')->field('id,describe,money')->select();
+
+        $device_code = I('device_code');
+
+        if(!empty($device_code))$map['tid'] = Device::get_devices_info($device_code,'type_id');
+        $map['type'] = 0;
+
+        $list = M('setmeal')->where($map)->field('id,describe,money')->select();
         $this->ajaxReturn(array(
             'status'=>200,
             'list'=>$list,

@@ -198,7 +198,6 @@ class PayController extends AppframeController {
         //后期加设备类型 此处需要加限制
         $list = $setmeal_model->where('type=1')->select();
 
-
         if (empty($list)){
             $data=array(
                 'status'=>201,
@@ -228,8 +227,10 @@ class PayController extends AppframeController {
         $info['uid'] = session('homeuser.id');
         $info['did'] = session('homeuser.did');
         $info['vid'] = Device::get_devices_sn($info['did'],'vid');
-
-        $list = M('setmeal')->where('type=0')->select();
+        $map['tid'] = Device::get_devices_sn($info['did'],'type_id');
+        $map['type'] = 0;
+        $list = M('setmeal')->where($map)->select();
+//        dump($list);
 //        $arr = [
 //            'money'=>['price']
 //        ];

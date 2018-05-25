@@ -4,7 +4,7 @@ use Common\Controller\ComsbaseController;
 
 class InstallController extends ComsbaseController {
 
-    //安装工人
+    //安装工人列表
     public function index() {
         $map['v_id'] = session('comsuser.id');
         $personnel_list =M('personnel')->field('id,name,phone,create_time')->where($map)->select();

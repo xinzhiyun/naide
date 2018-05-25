@@ -151,16 +151,16 @@ class UsersController extends ComsbaseController {
         }
 
     }
-    //安装人员列表
-    public function install_man_list() {
-        $map['v_id'] = session('comsuser.id');
-        $personnel_list =M('personnel')->field('id,name,phone,create_time')->where($map)->select();
-
-        if ($personnel_list) {
-            $this->assign('data', json_encode($personnel_list));
-        }
-        $this->display();
-    }
+//    //安装人员列表
+//    public function install_man_list() {
+//        $map['v_id'] = session('comsuser.id');
+//        $personnel_list =M('personnel')->field('id,name,phone,create_time')->where($map)->select();
+//
+//        if ($personnel_list) {
+//            $this->assign('data', json_encode($personnel_list));
+//        }
+//        $this->display();
+//    }
 //    /安装人员详情  迁移到 install 控制器
 //    public function minstall_man_list() {
 //        if (IS_POST) {
