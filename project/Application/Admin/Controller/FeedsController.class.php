@@ -26,14 +26,16 @@ class FeedsController extends CommonController
         $name = trim(I('post.name'));
         $phone = trim(I('post.phone'));
         if (!empty($name)){
-            $map['d.name'] =  array('like','%'.$name.'%');
+            $map['u.name'] =  array('like','%'.$name.'%');
         }
         if (!empty($phone)){
-            $map['d.phone'] = array('like','%'.$phone.'%');
+            $map['u.user'] = array('like','%'.$phone.'%');
         }
 
          $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
-         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
+         $maxaddtime = strtotime(trim(I('post.maxcaddtime'))."+1 day")?:false;
+
+
          if (is_numeric($maxaddtime)) {
              $map['f.addtime'][] = array('elt',$maxaddtime);
          }
@@ -90,7 +92,6 @@ class FeedsController extends CommonController
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
-
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
         $this->display();
