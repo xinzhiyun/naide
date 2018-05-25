@@ -11,15 +11,20 @@ class UsersController extends ComsbaseController {
     {
         $p = I('p',1);
         $vid = session('comsuser.id');
-        $map['d.vid']=$vid;
+
         $search= I('search');
+
+
         if (!empty($search)) {
-           if(strlen($search)==11){
-               $map['d.phone']=$search;
-           }else{
-               $map['d.device_code']=$search;
-           }
+            $where['d.phone']=array('like','%'.$search.'%');
+            $where['d.name']=array('like','%'.$search.'%');
+            $where['d.device_code']=array('like','%'.$search.'%');
+            $where['_logic'] = 'or';
+            $map['_complex'] =$where;
         }
+
+        $map['d.vid']=$vid;
+
 
         $total = M('devices')
             ->alias('d')
@@ -116,9 +121,7 @@ class UsersController extends ComsbaseController {
             'msg'=>'ok',
         ),'JSON');
     }
-    public function  userDetail() {
-            $this->display();
-    }
+
     //用户设备详情
     public function userDetailTo() {
         $map['uid'] = I('get.uid');
@@ -149,67 +152,7 @@ class UsersController extends ComsbaseController {
         }
 
     }
-//    //安装人员列表
-//    public function install_man_list() {
-//        $map['v_id'] = session('comsuser.id');
-//        $personnel_list =M('personnel')->field('id,name,phone,create_time')->where($map)->select();
-//
-//        if ($personnel_list) {
-//            $this->assign('data', json_encode($personnel_list));
-//        }
-//        $this->display();
-//    }
-//    /安装人员详情  迁移到 install 控制器
-//    public function minstall_man_list() {
-//        if (IS_POST) {
-//            $map['v_id'] = session('comsuser.id');
-//            $map['id'] = 55;
-//            $per = M('personnel')->where($map)->find();
-//            if ($per) {
-//                $this->ajaxReturn(['code' => 200, 'data' => $per]);
-//            } else {
-//                $this->ajaxReturn(['code' => 400]);
-//            }
-//        }
-//    }
-//    //添加安装人员
-//    public function install_man_add() {
-//        if (IS_POST) {
-//            $post = I('post.');
-//
-//            $data['password'] = MD5($post['userPass']);
-//
-//            if ($data['password'] != md5($post['confirmPass'])) {
-//                $this->ajaxReturn(['code'=>400,'msg'=>'两次密码不一致']);
-//            }
-//
-//            $data['name'] = $post['userName'];
-//            $data['phone'] = $post['userPhone'];
-//            $data['v_id'] = session('comsuser.id');
-//            $data['password'] = $post['userPass'];
-//            $data['create_time'] = date('Y-m-d H:i:s');
-//
-//            $info = M('personnel')->add($data);
-//            if ($info) {
-//                $this->ajaxReturn(['code'=>200,'msg'=>'添加成功']);
-//            } else {
-//                $this->ajaxReturn(['code'=>400,'msg'=>'添加失败']);
-//            }
-//
-//        }
-//    }
 
-//    //服务记录详情
-//    public function sevice_details() {
-//        $map  = I('get.');
-//        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
-//        if ($work_info) {
-//            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
-//            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
-//        } else {
-//            $this->ajaxReturn(['code'=>400]);
-//        }
-//    }
     //待办任务
     public function todo_sevice() {
 
