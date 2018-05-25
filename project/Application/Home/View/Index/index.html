@@ -295,7 +295,7 @@
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script src="__PUBLIC__/Home/js/jweixin-1.2.0.js"></script>
 	<script>
-        var vConsole = new VConsole();
+        // var vConsole = new VConsole();
         // 微信配置
 		wx.config({ 
 		    debug: false,
@@ -446,6 +446,7 @@
                         console.log('res: ',res);
                         if(res.status == 200){
                             home.filterList = res.data;				// 滤芯数据
+                        	console.log('home.filterList: ',home.filterList);
                             home.filtermode = res.filtermode;		// 滤芯模式
                             home.deviceId = res.deviceId;
                             home.dataList = res.dataList;
@@ -476,6 +477,7 @@
                     // 发送登录包
                     //home.deviceId;	页面加载时候需要后台提供
                     home.ajson.DeviceID = home.deviceId;
+                    home.bjson.DeviceID = home.deviceId;
                     home.ajson.PackType = "login";
                     home.sendMSG(home.ajson);
                     setTimeout(function () {
@@ -497,7 +499,8 @@
                          * 接收数据更新到页面
                          */
                         home.dataList = JSON.parse(res);//读取websoket数据，转换为json对象
-
+                        console.log('home.dataList: ',home.dataList);
+                        
                         // 水机状态图标
                         home.statusIconName = home.statusIconClass[home.dataList.DeviceStause];
                         // 水机状态描述
