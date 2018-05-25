@@ -35,7 +35,7 @@ class DevicesController extends CommonController
 
         //按绑定的用户查询
         if(I('post.dname')){
-            $map['d.name']=array('like','%'.trim(I('post.dname')).'%');
+            $map['u.name']=array('like','%'.trim(I('post.dname')).'%');
         }
 
         //按电话查询
