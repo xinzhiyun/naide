@@ -31,10 +31,10 @@
                         <label for="">确认密码：</label>
                         <input type="password" placeholder="请确认密码" name="confirmPass">
                     </li>
-                    <li>
+                    <!-- <li>
                         <label for="">住址：</label>
                         <input type="text" placeholder="选填" name="userAddr">
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="save">
@@ -105,7 +105,7 @@
             // var url = getURL("Coms","install_man_add");
             console.log(username, userphone, userpass, useraddr, confirmpass);
             $.ajax({  
-                url:"{{:U('users/install_man_add')}}",
+                url:"{{:U('Coms/Install/install_man_add')}}",
                 data:{
                     userName:username,
                     userPhone:userphone,
