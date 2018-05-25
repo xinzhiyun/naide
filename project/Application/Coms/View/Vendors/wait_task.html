@@ -47,14 +47,14 @@
 			<div class="install_user_title bottom_line_h">
 				<span>用户名</span>
 				<span>手机号码</span>
-				<span>请求时间</span>
+				<span>状态</span>
 			</div>
 			<div class="install_user_content">
 				<ul>
 					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
-						<span>{{each_sevice_list.name}}</span>
+						<span style="width:3rem;textAlign:center;">{{each_sevice_list.name}}</span>
 						<span>{{each_sevice_list.phone}}</span>
-						<span>{{each_sevice_list.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span>{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
 			</div>

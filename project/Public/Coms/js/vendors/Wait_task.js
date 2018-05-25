@@ -197,7 +197,8 @@ var wait_task = new Vue({
 			 					addtime : getLocalTime(res.res[i].addtime)	,
 				 				id : res.res[i].id,
 					 			name : res.res[i].name,
-					 			phone : res.res[i].phone
+					 			phone : res.res[i].phone,
+					 			status : res.res[i].status
 			 				}
 			 				info.push(obj[i]);
 			 			}
