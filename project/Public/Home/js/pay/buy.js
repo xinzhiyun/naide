@@ -1,13 +1,13 @@
 
 $(".payKuan").css("display", "none");
 // 实例化vue对象
-new Vue({
+new Vue({ 
 	el: ".main",
 	data: {
 		// 套餐选择
 		selectMeal: list,
 		// 选择套餐内容变量
-		displayMeal: (list[0].money/100), //默认为第一个套餐的金额
+		displayMeal: list.length ? (list[0].money/100) : "", //默认为第一个套餐的金额
 		// 用户相关信息
 		userInfo: info
 	},

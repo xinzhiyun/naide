@@ -76,7 +76,7 @@ class LoginController extends AppframeController
 
 
     /**
-     * 用户录入
+     * 用户录入 密码修改
      */
     public function reg()
     {
@@ -86,6 +86,7 @@ class LoginController extends AppframeController
             if (empty($data['user'])) {
                 E('账号不能为空', 201);
             }
+
             if (empty($data['password'])) {
                 E('密码不能为空', 201);
             }
@@ -101,14 +102,15 @@ class LoginController extends AppframeController
                 E('密码不一至', 201);
             }
 
-            $data['password'] = md5($data['password']);
+            $savedata['password'] = md5($data['password']);
             $m =  M('vendors');
             $info = $m->where('phone='.$data['user'])->find();
             if (empty($info)) {
-                $data['created_at']=time();
-                $res = $m->add($data);
+                E('账户不存在', 201);
+//                $data['created_at']=time();
+//                $res = $m->add($data);
             } else {
-                $res = $m->where('id='.$info['id'])->save($data);
+                $res = $m->where('id='.$info['id'])->save($savedata);
             }
 
             if ($res) {

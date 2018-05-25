@@ -151,13 +151,6 @@ class ServiceController extends ComsbaseController {
     {
         try {
             $data = I('post.');
-            $data=array(
-                'pay'=>1,
-                'setMealId'=>60,
-                'price'=>10000,
-                'uid'=>1,
-                'did'=>262
-            );
 
             if (empty($data['pay'])) {
                 E('支付方式错误', 201);
