@@ -36,9 +36,10 @@ class OrdersController extends CommonController
             $map['o.phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
         if (trim(I('post.addres'))) {
-            $map['o.addres'] = array('like','%'.trim(I('post.addres')).'%');
+            $map['o.address|o.province|o.city|o.district'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
+        // dump($map);
         if(empty(session('adminuser.is_admin'))){
             $map['o.vid'] = $_SESSION['adminuser']['id'];
         }
