@@ -55,7 +55,7 @@ var service_log_vue = new Vue({
 		if(href){
 			var index = url.split("=")[1].split("&")[0];
 			var no = url.split("=")[2];
-			var url = getURL("Coms","users/sevice_details.html?index="+index+"&no="+no);
+			var url = getURL("Coms","Service/sevice_details.html?index="+index+"&no="+no);
 			console.log(url)
 			$.ajax({
 				url:url,
