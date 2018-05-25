@@ -58,7 +58,7 @@ class FeedsController extends CommonController
                         ->alias('f')
 //                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
                         ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
-                        ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
+                        ->field('f.id,f.uid,u.name,u.user,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
             $arr = ['addtime'=>['date','Y-m-d H:i:s']];
