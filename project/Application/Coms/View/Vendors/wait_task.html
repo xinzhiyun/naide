@@ -51,8 +51,7 @@
 			</div>
 			<div class="install_user_content">
 				<ul>
-					<!-- <li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)"> -->
-					<li v-for="(each_sevice_list,index) in sevice_list">
+					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
 						<span>{{each_sevice_list.name}}</span>
 						<span>{{each_sevice_list.phone}}</span>
 						<span>{{each_sevice_list.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
@@ -64,9 +63,9 @@
 <!-- 待办任务列表部分结束 -->
 
 <!-- 任务详情页面部分开始 -->
-	<!-- <div id="service_details_bg"> -->
+	<div id="service_details_bg">
 		<!-- 用户信息 -->
-		<!-- <div class="service_details_public">
+		<div class="service_details_public">
 			<div class="service_div_one_public">用户信息</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -92,9 +91,9 @@
 					{{service_details_info.address}}
 				</p>
 			</div>   
-		</div> -->
+		</div>
 		<!-- 请求内容 -->
-		<!-- <div class="service_details_public margin_bottom_public">
+		<div class="service_details_public margin_bottom_public">
 			<div class="service_div_one_public">请求内容</div>
 			<div class="service_div_two_public">
 				<ul>
@@ -122,7 +121,7 @@
 		<div class="plan_personnel_inp_bg input_bg_public">
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
 		</div>
-	</div> -->
+	</div>
 <!-- 任务详情页面部分结束 -->
 
 <!-- 派工信息页面部分开始 -->
@@ -235,7 +234,13 @@
 				$(".wait_task_bg").hide();
 				$("#wait_install").show();
 				$("#navbar").find("h2").html(localStorage.getItem("title"));
+			}else if(key == "id"){
+				$(".wait_task_bg").hide();
+				$("#wait_install").hide();
+				$("#service_details_bg").show();
+				$("#navbar").find("h2").html("服务详情");
 			}
+
 		}
 
 		function postPub(callback,url,data){
