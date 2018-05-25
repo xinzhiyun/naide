@@ -79,7 +79,8 @@
 				支付金额：
 				<span class="total_price">{{pay_price}}.00元</span>
 			</div>
-			<div class="botton_right" @touchstart="pay()">立即支付</div>
+			<input type="button" class="botton_right" @touchstart="pay()" value="立即支付">
+			<!-- <div class="botton_right" @touchstart="pay()">立即支付</div> -->
 		</div>
 	</div>
 <!-- 设备匹配用户信息部分结束 -->
@@ -151,7 +152,7 @@
 				type:"post",
 				data:data,   
 				success:function(res){
-					console.log("成功",res);
+					console.log("微信支付",res);
 					if(res.status == 200){
 						// 微信支付
 						weixinPay(res.res, function(res){
@@ -236,6 +237,7 @@
 	          	Type:"json",
 	          	success:function(resData){
 	           	 	// 成功返回设备编码
+	           	 	console.log(resData)
 	           		if(resData.status==200){
 	           	   		if (resData.list.length==0) {
 	               			 noticeFn({text: '未搜索到数据请重新输入!！',time: '1500'});

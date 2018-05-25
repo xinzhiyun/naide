@@ -18,6 +18,8 @@ var payment = new Vue({
     weixinPay : "",//微信支付接口
     openid:"",
     search:"",    //搜索
+    message:"",//提示
+    flag:true,
   },
   methods:{
     url_public:function(num){
@@ -71,8 +73,13 @@ var payment = new Vue({
       var $el = $(el);
       // 选中套餐样式
       $el.css({"background":"rgb(13,148,243)","color":"#fff"}).siblings().css({"background":"#f5f5fa","color":"rgb(84,84,84)"});
+        var price = el.getAttribute("price");
+        var setMealId = el.getAttribute("setMealId");//套餐的ID
+        //套餐价格
+        this.pay_price = price/100;
       // 立即支付样式
-      $(".botton_right").css("background","rgb(13,148,243)");
+      if(payment.flag){
+          $(".botton_right").css("background","rgb(13,148,243)");
         var price = el.getAttribute("price");
         var setMealId = el.getAttribute("setMealId");//套餐的ID
         this.data = {
@@ -82,8 +89,7 @@ var payment = new Vue({
           uid:_this.all_user_info.uid,
           did:sessionStorage.getItem("did"),
         }
-      // $(".total_price").html(price+".00元");//套餐价格
-      this.pay_price = price/100;
+      }
     },
     pay:function(event){
       var e = event || window.event;
@@ -92,7 +98,10 @@ var payment = new Vue({
       if(this.pay_price == 0){
         console.log("不能支付");
         noticeFn({text: '未选择套餐，无法支付',time: '1500'});
-      }else{
+      }
+      if(payment.flag){
+        console.log(22)
+        $(".botton_right").css("background","rgb(13,148,243)");
         // 需要支付的金额
         var url = getURL("Coms","service/agentPay");
         $.ajax({
@@ -111,6 +120,7 @@ var payment = new Vue({
                 notify_url:res.notify_url,
               }
               prePay(data);
+              console.log("data",data)
             }
           },
           error:function(res){
@@ -118,6 +128,8 @@ var payment = new Vue({
             noticeFn({text: '支付失败',time: '1500'});
           }
         });
+      }else{
+        noticeFn({text: payment.message,time: '1500'});
       }   
     },   
   },
@@ -134,10 +146,17 @@ var payment = new Vue({
           success:function(resData){
             console.log("用户信息",resData);
             if(resData.status==200){
+                payment.message = true;
                 payment.all_user_info.user_name = resData.info.name;
                 payment.all_user_info.phone_number = resData.info.phone;
                 payment.all_user_info.device_code = device_info;
                 payment.all_user_info.uid = resData.info.uid;
+            }else if(resData.status==202){
+                payment.flag = false;
+                payment.message = resData.msg;
+                console.log("message",payment.message)
+                console.log("flag",payment.flag)
+                noticeFn({text: resData.msg,time: '1500'});
             }
             $("#form_div").hide();
             $("#user_info").show();
