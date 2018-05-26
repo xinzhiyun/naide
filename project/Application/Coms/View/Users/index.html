@@ -61,10 +61,16 @@
                         if(res.list) {
                             callback(res.list);
                             users.searchFlag = true; 
-                        }else {
+                        }
+                        if(page == 1 && !res.list){
                             $(".icon-xiangyou1").hide("fast");
+                            $('.loadmore').hide();
                             // 当用户数据为空时，禁止点击查看用户详情
                             users.searchFlag = false;
+                        }
+                        if(page > 1 && !res.list){
+                            $('.loadmore').hide();
+                            noticeFn({text: '查无数据'});
                         }
                         
                     }
