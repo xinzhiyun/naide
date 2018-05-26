@@ -128,6 +128,8 @@ $(".saveUpdate").on("click", function() {
                 // 成功跳转至安装人员列表页
                 var url = getURL("Coms", "install/index");
                 setTimeout(function() {
+                    // 修改历史记录
+                    history.replaceState({}, null, getURL("Coms", "Index/index"));
                     location.href = url;
                 }, 1000);
             }else {
