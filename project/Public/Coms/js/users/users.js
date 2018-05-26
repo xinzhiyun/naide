@@ -96,7 +96,7 @@ var users = new Vue({
         loadmore (){
             console.log(users.page);
             // 请求页码数据
-            getData(users.page + 1, function(res){
+            getData(+users.page + 1, function(res){
                 if(!res){   
                     $('.loadmore').hide();
                     noticeFn({text: '没有更多数据了'});

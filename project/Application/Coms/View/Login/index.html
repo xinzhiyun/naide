@@ -19,7 +19,7 @@
 			<form action="javascript:return;" method="" id="forms">
 				<p>
 					<span class="iconfont icon-yonghu"></span>
-					<input type="text" name="username" placeholder="请输入手机号码">
+					<input type="text" name="uname" placeholder="请输入手机号码">
 				</p>
 				<p>
 					<span class="iconfont icon-mima"></span>
@@ -40,7 +40,7 @@
 
 	// 验证
 	$(".loginBtn").on("click", function() {
-		var username = $("input[name='username']").val();
+		var username = $("input[name='uname']").val();
 		var userpass = $("input[name='userpass']").val();
 		// 姓名判断
 		if(username) {
