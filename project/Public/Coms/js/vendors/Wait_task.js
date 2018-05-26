@@ -32,16 +32,18 @@ var wait_task = new Vue({
 			time:""
 		},
 		search:"",//搜索
-		num:"",//安装人员index
+		num:"",//安装人员下标
+		flag: true
 	},   
 	methods:{
+		// url(公共)
 		url_public:function(key,value){
 			var url = window.document.location.href.toString();
 			var href = url.split("?")[0];
 			location.href = href+"?"+key+"="+value;
 			$(".loadingdiv").fadeIn('slow');
 		},
-		// 在待办任务（首页）
+		// 待办任务统计（首页）
 		task_one:function(type){
 			var _this = this;
 			// title
@@ -49,11 +51,16 @@ var wait_task = new Vue({
 			localStorage.setItem("title",data_info);
 			wait_task.url_public("type",type);// 页面跳转
 		},
-		//搜索用户页面（第二页）
-		service_details:function(index){
+		//待办任务列表（第二页）
+		service_details:function(index,status){
 			var _this = this;
 			var id = _this.sevice_list[index].id;
 			wait_task.url_public("id",id);// 页面跳转
+			if(status != "未处理"){
+				sessionStorage.setItem("flagPg",true)
+			}else{
+				sessionStorage.setItem("flagPg",false)
+			}
 		},
         // 点击搜索小图标提交表单
         subClick:function(){
@@ -69,23 +76,33 @@ var wait_task = new Vue({
                 data: {datas: this.search,type:value},
                 type: "post",
                 success: function(res) {
-                    console.log('res: ',res);
+	                    console.log('res: ',res);
+	                    console.log(res.data.length)
                     if(res.status == 200){
-                        // wait_task.service_details_info = res.data;
-                        var info = [];
+                    	var info = [];
 			 			var obj = {};
-			 			for(var i = 0;i<res.data.length;i++){
-			 				obj[i] = {
-			 					addtime : getLocalTime(res.data[i].addtime)	,
-				 				id : res.data[i].id,
-					 			name : res.data[i].name,
-					 			phone : res.data[i].phone,
-					 			status : res.data[i].status
-			 				}
-			 				info.push(obj[i]);
-			 			}
-			 				console.log(info)
-				 			_this.sevice_list = info;
+                        if(res.data.length == "0"){
+                        	_this.sevice_list = [{
+	                            name: '',
+	                            phone: '查无数据',
+	                            status: ''
+	                        }];
+                        }else{
+                        	// wait_task.service_details_info = res.data;
+	                        
+				 			for(var i = 0;i<res.data.length;i++){
+				 				obj[i] = {
+				 					addtime : getLocalTime(res.data[i].addtime)	,
+					 				id : res.data[i].id,
+						 			name : res.data[i].name,
+						 			phone : res.data[i].phone,
+						 			status : res.data[i].status
+				 				}
+				 				info.push(obj[i]);
+				 			}
+				 				console.log(info)
+					 			_this.sevice_list = info;
+                        }
                     }else{
                         wait_task.service_details_info = [{
                             name: '&emsp;',
@@ -105,7 +122,7 @@ var wait_task = new Vue({
                 }
             })
         },
-		// 派工按钮  服务详情页面（第三页）
+		// 服务详情页面（第三页）
 		plan_personnel_inp:function(no){
 			var _this = this;
 			wait_task.url_public("no",no);
@@ -188,6 +205,14 @@ var wait_task = new Vue({
 	},
 	//实例创建前
 	created:function(){
+		var flagPg = sessionStorage.getItem("flagPg");
+		if(flagPg == "true"){
+			$("#plan_personnel_inp").hide();
+			$("#dehe").show();
+		}else{
+			$("#plan_personnel_inp").show();
+			$("#dehe").hide();
+		}
 		var url,data,key,value;
 		var _this = this;
 		var href = location.href.split("?")[1];
@@ -269,5 +294,6 @@ var wait_task = new Vue({
 		};
 	},
 	mounted:function(){
+
 	}
 })

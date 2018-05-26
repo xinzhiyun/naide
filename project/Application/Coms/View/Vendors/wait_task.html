@@ -51,10 +51,12 @@
 			</div>
 			<div class="install_user_content">
 				<ul>
-					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
+					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index,each_sevice_list.status)">
 						<span style="width:3rem;textAlign:center;">{{each_sevice_list.name}}</span>
-						<span>{{each_sevice_list.phone}}</span>
-						<span>{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span style="width:4rem;textAlign:left;">{{each_sevice_list.phone}}</span>
+						<span class="status" v-if="each_sevice_list.status == '未处理'" style="color:#000;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span class="status" v-if="each_sevice_list.status == '进行中'" style="color:#f00;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span class="status" v-if="each_sevice_list.status == '已完成'" style="color:#4AD7BB;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
 			</div>
@@ -118,6 +120,30 @@
 				</ul>
 			</div>
 		</div>
+		<!-- 请求内容 -->
+		<div class="service_details_public margin_bottom_public" style="marginTop:-2.8rem;" id="dehe">
+			<div class="service_div_one_public">派工详情</div>
+			<div class="service_div_two_public">
+				<ul>
+					<li class="bottom_line_h">
+						<p class="left">预约时间：</p>
+						<p class="right">{{service_details_info.time}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">预约时段：</p>
+						<p class="right">{{service_details_info.period}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">安装人员：</p>
+						<p class="right">{{service_details_info.pname}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">联系电话：</p>
+						<p class="right">{{service_details_info.pphone}}</p>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<div class="plan_personnel_inp_bg input_bg_public">
 			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp(service_details_info.no)">
 		</div>
@@ -133,25 +159,31 @@
 					<p class="right-b">{{plan_personnel_info_bg.new_work_order}}</p>
 				</li>
 				<li class="bottom_line_h">
-					<p class="left" style="width:3.5rem;">预约时间：</p>
-					<label for="my-start-2">
+					<!-- <p class="left" style="width:3.5rem;">预约时间：</p> -->
+					<!-- <label for="my-start-2">
 						<input type="text" placeholder="选择" value="" id="my-start-2" style="textAlign:right;fontWeight:normal;color:#b3b3b3;marginRight:.5rem;" v-model="plan_personnel_info_bg.time"/>
 						<i class="iconfont icon-xiangxia2" style="color:#b3b3b3;"></i>
-					</label>
+					</label> -->
+					<p class="left">预约时间：</p>
+					<p>
+						<input type="text" placeholder="选择" value="" id="my-start-2" v-model="plan_personnel_info_bg.time"/>
+					</p>
+						<i class="iconfont icon-xiangxia2"></i>
 				</li>
 				<li class="bottom_line_h" @click="dtime()">
 					<p class="left">预约时段：</p>
-					<p class="right_font" style="textAlign:right;width:8.8rem;marginLeft:0.1rem;" id="dtime">选择</p>
+					<p class="right_font" id="dtime">选择</p>
 					<i class="iconfont icon-xiangxia2"></i>
 				</li>
 				<li class="bottom_line_h" @click="select_masking()">
 					<p class="left">安装人员：</p>
-					<p class="right_font" @click="select_masking()" id="select_personnel" style="width:8.8rem;marginLeft:0.1rem;textAlign:right;">选择</p>
+					<p class="right_font" @click="select_masking()" id="select_personnel">选择</p>
 					<i class="iconfont icon-xiangxia2 position_i"></i>
 				</li>
 				<li class="bottom_line_h">
 					<p class="left">联系电话：</p>
 					<p class="right_font" id="select_cell"></p>
+					<i class="iconfont icon-xiangxia2 position_i" style="visibility:hidden;"></i>
 				</li>
 			</ul>
 		</div>
