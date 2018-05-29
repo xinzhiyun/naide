@@ -116,13 +116,14 @@ class UsersController extends  HomebaseController
             $this->ajaxReturn(['code'=>400]);
         }
     }
-   //净水记录
+   //净水记录  修改到 /Home/Device/getTds
     public function tds()
     {
-
-//        $did = session('homeuser.did');
-//        $dcode  = Device::get_devices_sn($did);
-        $map['dcode'] = '155753845596778';
+        echo "<h1>接口已更新,请联系李振东!</h1>";
+        exit();
+        $did = session('homeuser.did');
+        $dcode  = Device::get_devices_sn($did);
+//        $map['dcode'] = '155753845596778';
         $list = M('tds')->where($map)->select();
         if ($list) {
             $this->ajaxReturn(['code'=>200,'data'=>$list]);

@@ -27,7 +27,7 @@ class OrdersController extends CommonController
             $map['o.name'] = array('like','%'.trim(I('post.nickname')).'%');
         }
         if (trim(I('post.total_num'))) {
-            $map['o.total_num'] = trim(I('post.total_num'));
+            $map['o.goods_num'] = trim(I('post.total_num'));
         }
         if (trim(I('post.name'))) {
             $map['o.name'] = array('like','%'.trim(I('post.name')).'%');
@@ -36,9 +36,10 @@ class OrdersController extends CommonController
             $map['o.phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
         if (trim(I('post.addres'))) {
-            $map['o.addres'] = array('like','%'.trim(I('post.addres')).'%');
+            $map['o.address|o.province|o.city|o.district'] = array('like','%'.trim(I('post.addres')).'%');
         }
 
+        // dump($map);
         if(empty(session('adminuser.is_admin'))){
             $map['o.vid'] = $_SESSION['adminuser']['id'];
         }
@@ -46,20 +47,36 @@ class OrdersController extends CommonController
         $mintotal_price = trim(I('post.mintotal_price'))?:null;
         $maxtotal_price = trim(I('post.maxtotal_price'))?:null;
         if (is_numeric($maxtotal_price)) {
-            $map['o.total_price'] = array(array('egt',$mintotal_price*100),array('elt',$maxtotal_price*100));
+            $map['o.goods_price'] = array(array('egt',$mintotal_price*100),array('elt',$maxtotal_price*100));
         }
         if ($maxtotal_price < 0) {
-            $map['o.total_price'] = array(array('egt',$mintotal_price*100));
+            $map['o.goods_price'] = array(array('egt',$mintotal_price*100));
         }
 
+
          $mincreated_at = strtotime(trim(I('post.mincreated_at')))?:null;
-         $maxcreated_at = strtotime(trim(I('post.maxcreated_at')))?:null;
+         $maxcreated_at = strtotime(trim(I('post.maxcreated_at'))."+1 day")?:null;
+
+
+
          if (is_numeric($maxcreated_at)) {
-             $map['o.created_at'] = array(array('egt',$mincreated_at),array('elt',$maxcreated_at));
+             $map['o.created_at'][] = array('elt',$maxcreated_at);
          }
-         if ($maxcreated_at < 0) {
-             $map['o.created_at'] = array(array('egt',$mincreated_at));
+         if (is_numeric($mincreated_at)) {
+             $map['o.created_at'][] = array('egt',$mincreated_at);
          }
+
+
+         // if (is_numeric($maxcreated_at)) {
+         //    echo 111;
+         //     $map['o.created_at'] = array(array('egt',$mincreated_at),array('elt',$maxcreated_at));
+         // }
+         // if ($maxcreated_at < 0) {
+         //    echo 222;
+         //     $map['o.created_at'] = array(array('egt',$mincreated_at));
+         // }
+
+       
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
@@ -78,11 +95,13 @@ class OrdersController extends CommonController
 //                        ->join('pub_wechat w ON u.open_id = w.open_id','LEFT')
 //                        ->join('pub_express_information e ON o.express_id = e.id','LEFT')
 //                        ->join('pub_binding b on o.device_id = b.did','LEFT')
-                        ->join('__VENDORS__ v on o.vid = v.id','LEFT')
+                ->join('__VENDORS__ v on o.vid = v.id','LEFT')
+                ->join('__VENDORS__ wv on o.wvid = v.id','LEFT')
                         ->order('o.created_at desc')
-                        ->field(['o.order_id','o.name','v.name vname','o.money','o.name s','o
-                            .phone','o.address','o.is_pay','o.created_at'])
+                        ->field(['o.order_id','o.name','v.name vname','wv.name wvname','o.money','o.name s','o
+                            .phone','concat(o.province,o.city,o.district,o.address)','o.is_pay','o.created_at'])
                         ->select();
+
             // 数组中枚举数值替换
             $arr = [
                 'total_price'=>['price'],
@@ -116,7 +135,7 @@ class OrdersController extends CommonController
 
             $filename = '订单列表数据';
             $title = '订单列表';
-            $cellName = ['订单编号','下单用户','经销商名称','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
+            $cellName = ['订单编号','下单用户','经销商名称','服务站名称','购买总额','收货人','收货人电话','收货地址','下单时间','订单状态'];
             // dump($data);die;
             $myexcel = new \Org\Util\MYExcel($filename,$title,$cellName,$data);
             $myexcel->output();

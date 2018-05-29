@@ -35,11 +35,12 @@ class FlowModel extends Model
                 'f.addtime' => array(array('gt',$firstat),array('lt',$lastat), 'and'),
                 'f.status' => "1",
             ];
-            $map['b.vid']=$_SESSION['adminuser']['id'];
+            $map['d.vid']=$_SESSION['adminuser']['id'];
             $data = $this
                 ->where($map)
                 ->alias('f')
-                ->join('__DEVICES__ d on f.did = b.did','LEFT')
+                ->join('__DEVICES__ d on f.did = d.id','LEFT')
+                ->field('f.*')
                 ->select();
         }else{
             $data = $this->where($map)->select();
@@ -66,7 +67,7 @@ class FlowModel extends Model
               $result["$i"+1]['count'] += 1;
               $result["$i"+1]['money'] += $value['money'];
               $result["$i"+1]['num']  += $value['num'];
-              $result["$i"+1]['flow'] += $value['currentflow'];            
+              $result["$i"+1]['flow'] += $value['flow'];
             }else{
               if (!array_key_exists($i+1,$result)) {
                 $result["$i"+1] = null;

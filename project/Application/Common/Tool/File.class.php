@@ -1,7 +1,7 @@
 <?php
 namespace Common\Tool;
 
-
+use Think\Log;
 class File
 {
     public static $maxSize      = 3145728;
@@ -83,6 +83,7 @@ class File
 
     public function downloadPic($paths='')
     {
+        Log::write($paths,'图片上传');
 
         $path_info = '/Pic/repair/'.date('Y-m-d',time());
 
@@ -99,8 +100,8 @@ class File
 
         $path = './Public'.$path_info;
 
-        $weixin = new WeixinJssdk;
-        $ACCESS_TOKEN = $weixin->getAccessToken();
+        $ACCESS_TOKEN = WeiXin::getAccessToken();
+
 
         $url="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$ACCESS_TOKEN&media_id=$paths";
         // $url = "http://img.taopic.com/uploads/allimg/140729/240450-140HZP45790.jpg";
@@ -111,7 +112,7 @@ class File
         $file = curl_exec($ch);
         curl_close($ch);
 
-        $resource = fopen($path, 'a');
+        $resource = fopen($path, 'w');
         fwrite($resource, $file);
         fclose($resource);
         return $path_info;

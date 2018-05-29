@@ -16,10 +16,10 @@
 	</script>
 </head>
 <body>   
-<div id="wait_task_vue">
+<div id="wait_task_vue" v-cloak>
 
 <!-- 待办任务页面部分开始 -->
-	<div class="wait_task_bg" id="wait_task" v-cloak>
+	<div class="wait_task_bg" id="wait_task">
 		<ul class="wait_task_content">
 			<li v-for="(each_task,index) in task" @click="task_one(index)">
 				<!-- 待办任务 -->
@@ -47,14 +47,16 @@
 			<div class="install_user_title bottom_line_h">
 				<span>用户名</span>
 				<span>手机号码</span>
-				<span>请求时间</span>
+				<span>状态</span>
 			</div>
 			<div class="install_user_content">
 				<ul>
-					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index)">
-						<span>{{each_sevice_list.name}}</span>
-						<span>{{each_sevice_list.phone}}</span>
-						<span>{{each_sevice_list.addtime}}<i class="iconfont icon-xiangyou1"></i></span>
+					<li v-for="(each_sevice_list,index) in sevice_list" @click="service_details(index,each_sevice_list.status)">
+						<span style="width:3rem;textAlign:center;">{{each_sevice_list.name}}</span>
+						<span style="width:4rem;textAlign:left;">{{each_sevice_list.phone}}</span>
+						<span class="status" v-if="each_sevice_list.status == '未处理'" style="color:#000;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span class="status" v-if="each_sevice_list.status == '进行中'" style="color:#f00;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
+						<span class="status" v-if="each_sevice_list.status == '已完成'" style="color:#4AD7BB;">{{each_sevice_list.status}}<i class="iconfont icon-xiangyou1"></i></span>
 					</li>
 				</ul>
 			</div>
@@ -85,12 +87,12 @@
 			</div>
 			<div class="service_div_three_public">
 				<p class="left">维护地址：</p>
-				<p class="right" style="width:25rem">
+				<p class="right" style="width:25rem;textAlign:right;">
 					{{service_details_info.province}}
 					{{service_details_info.district}}
 					{{service_details_info.address}}
 				</p>
-			</div>
+			</div>   
 		</div>
 		<!-- 请求内容 -->
 		<div class="service_details_public margin_bottom_public">
@@ -111,15 +113,39 @@
 						<p class="left">内容：</p>
 						<p class="right">{{service_details_info.content}}</p>
 					</li>
-					<li class="bottom_line_h">
+					<!-- <li class="bottom_line_h">
 						<p class="left">来源：</p>
 						<p class="right">{{service_details_info.pid}}</p>
+					</li> -->
+				</ul>
+			</div>
+		</div>
+		<!-- 请求内容 -->
+		<div class="service_details_public margin_bottom_public" style="marginTop:-2.8rem;" id="dehe">
+			<div class="service_div_one_public">派工详情</div>
+			<div class="service_div_two_public">
+				<ul>
+					<li class="bottom_line_h">
+						<p class="left">预约时间：</p>
+						<p class="right">{{service_details_info.time}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">预约时段：</p>
+						<p class="right">{{service_details_info.period}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">安装人员：</p>
+						<p class="right">{{service_details_info.pname}}</p>
+					</li>
+					<li class="bottom_line_h">
+						<p class="left">联系电话：</p>
+						<p class="right">{{service_details_info.pphone}}</p>
 					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="plan_personnel_inp_bg input_bg_public">
-			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp()">
+			<input type="button" value="派工" id="plan_personnel_inp" class="bgblue input_btn" @click="plan_personnel_inp(service_details_info.no)">
 		</div>
 	</div>
 <!-- 任务详情页面部分结束 -->
@@ -133,13 +159,31 @@
 					<p class="right-b">{{plan_personnel_info_bg.new_work_order}}</p>
 				</li>
 				<li class="bottom_line_h">
+					<!-- <p class="left" style="width:3.5rem;">预约时间：</p> -->
+					<!-- <label for="my-start-2">
+						<input type="text" placeholder="选择" value="" id="my-start-2" style="textAlign:right;fontWeight:normal;color:#b3b3b3;marginRight:.5rem;" v-model="plan_personnel_info_bg.time"/>
+						<i class="iconfont icon-xiangxia2" style="color:#b3b3b3;"></i>
+					</label> -->
+					<p class="left">预约时间：</p>
+					<p>
+						<input type="text" placeholder="选择" value="" id="my-start-2" v-model="plan_personnel_info_bg.time"/>
+					</p>
+						<i class="iconfont icon-xiangxia2"></i>
+				</li>
+				<li class="bottom_line_h" @click="dtime()">
+					<p class="left">预约时段：</p>
+					<p class="right_font" id="dtime">选择</p>
+					<i class="iconfont icon-xiangxia2"></i>
+				</li>
+				<li class="bottom_line_h" @click="select_masking()">
 					<p class="left">安装人员：</p>
-					<p class="right_font" @click="select_masking()" id="select_personnel" style="margin-right:0.7rem">选择</p>
-					<i class="iconfont icon-xiangxia2 position_i" @click="select_masking()"></i>
+					<p class="right_font" @click="select_masking()" id="select_personnel">选择</p>
+					<i class="iconfont icon-xiangxia2 position_i"></i>
 				</li>
 				<li class="bottom_line_h">
 					<p class="left">联系电话：</p>
 					<p class="right_font" id="select_cell"></p>
+					<i class="iconfont icon-xiangxia2 position_i" style="visibility:hidden;"></i>
 				</li>
 			</ul>
 		</div>
@@ -154,75 +198,159 @@
 		<div class="fblue fiexd_div bottom_line_h">人员选择</div>
 		<div class="mask_bottom">
 			<ul id='repair_ul'>
-				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info">{{install_personnel.name}}</li>
+				<li class="no_selected" @click="pitch_on(index_personnel)" v-for="(install_personnel,index_personnel) in plan_personnel_info_bg.install_personnel_info" :phone="install_personnel.phone" :num="index_personnel">{{install_personnel.name}}</li>
 			</ul>
 		</div>
 	</div>
 <!-- 蒙版部分结束 -->
 
+<!-- 预约时段蒙版开始部分 -->
+	<div class="mask_bg_public" id="dtime">
+		<div class="fblue fiexd_div bottom_line_h">预约时段</div>
+		<div class="mask_bottom">
+			<ul id='repair_ul' @click="dtimeText()">
+				<li>上午 09:00-11:00</li>
+				<li>下午 14:00-17:00</li>
+			</ul>
+		</div>
+	</div>
+<!-- 预约时段蒙版结束部分 -->
 </div>
 	<script src="__PUBLIC__/Home/js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<script src="__PUBLIC__/Home/js/public.js"></script>
 	<script src="__PUBLIC__/Home/js/vue.min.js"></script>
-	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
-	<!--<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>-->
+	<!-- <script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script> -->
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/js/laydate.js"></script> -->
 	<script defer>	
 		// 微信手机端调试工具
-//		var vConsole = new VConsole();
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-
-		// 页面加载时判断url,刷新页面为当前页
-		var get = {};
-		var $_GET = (function() {
-			var url = window.document.location.href.toString();
-			var u = url.split("?");
-			if (typeof(u[1]) == "string") {
-				u = u[1].split("&");//["index=3"]
-				//遍历
-				for (var i in u) {
-					var j = u[i].split("=");
-					get[j[0]] = j[1];
+		// var vConsole = new VConsole();
+		// 
+		$(function(){
+			// 日历插件
+			var nowTemp = new Date();
+			var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+			var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+			var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+			var $myStart2 = $('#my-start-2');
+			var checkin = $myStart2.datepicker({
+				onRender: function(date, viewMode) {
+					// 默认 days 视图，与当前日期比较
+					var viewDate = nowDay;
+					switch (viewMode) {
+						// moths 视图，与当前月份比较
+						case 1:
+						viewDate = nowMoth;
+						break;
+						// years 视图，与当前年份比较
+						case 2:
+						viewDate = nowYear;
+						break;
+					}
+					return date.valueOf() < viewDate ? 'am-disabled' : '';
 				}
-				return get;
-			} else {
-				// 如何传入的参数只有1对键值对则直接return返回出去
-				return {};
-			}
-		})();
-		var url = window.document.location.href.toString();
-		if($_GET.index == undefined || url.indexOf("?") == -1){
+			})
+		})
+		// 页面加载时判断url,刷新页面为当前页
+		var href = location.href.split("?")[1];
+		if(href == undefined){
 			$(".wait_task_bg").show();//第一页 待办任务页面
 			$("#wait_install").hide();//第二页 待安装、待维修、待维护页面
 			$("#service_details_bg").hide();//第三页
 			$("#navbar").find("h2").html("待办任务");
-		}else if($_GET.index == "1"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").show();
-			$("#navbar").find("h2").html(localStorage.getItem("title"));
-		}else if($_GET.index == "2"){
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").show();
-			$("#navbar").find("h2").html("服务详情");
-		}else if($_GET.index == "3"){
-			$("#plan_personnel_info_bg").show();
-			$(".wait_task_bg").hide();
-			$("#wait_install").hide();
-			$("#service_details_bg").hide();
-			$("#navbar").find("h2").html("派工信息");
+		}else{
+			var key = href.split("=")[0];
+			console.log(key);
+			if(key == "type"){
+				$(".wait_task_bg").hide();
+				$("#wait_install").show();
+				$("#navbar").find("h2").html(localStorage.getItem("title"));
+			}else if(key == "id"){
+				$(".wait_task_bg").hide();
+				$("#wait_install").hide();
+				$("#service_details_bg").show();
+				$("#navbar").find("h2").html("服务详情");
+			}else if(key == "no"){
+				$("#plan_personnel_info_bg").show();
+				$(".wait_task_bg").hide();
+				$("#wait_install").hide();
+				$("#service_details_bg").hide();
+				$("#navbar").find("h2").html("派工信息");
+			}
 		}
 
+		// ajax请求
+		function postPub(callback,url,data){
+			// console.log(url,data)
+			$.ajax({
+				url:url,
+				type:"post",
+				data:data,
+				success:function(res){
+					console.log("成功",res)
+					if(res.status){
+						if(res.status == 200){
+								callback({res:res.data,text:res.msg,msg:0});
+						}else{
+							callback({res:"",text:res.msg,msg:1});
+						}
+					}else if(res.code){
+						if(res.code == 200){
+							callback({res:res.data,msg:0});
+						}else{
+							callback({res:"",text:"系统出错，请稍候再试",msg:1});
+						}
+					}
+				},
+				error:function(res){
+					console.log("失败",res);
+					callback({res: "", text: "系统出错，请稍后再试!", msg:2});
+				}
+			})
+		}
+
+		// 
 		$(function(){
-			// 手机默认回车按钮提交表单并接受返回值
+			// 手机默认回车按钮提交表单
 			$("#form1").on("submit", function(e) {
 			    // 阻止表单默认跳转
 			    e.preventDefault(); 
-			    wait_task.sub_pub();
+			    $(".loadingdiv").fadeIn('slow');
+			    var href = location.href.split("?")[1];
+			    var value = href.split("=")[1];
+			    console.log(value)
+			    console.log(wait_task.search)
+			    var url = getURL("Coms","Vendors/sevice_list");
+			    $.ajax({
+			        url: url,
+			        data: {datas: wait_task.search,type:value},
+			        type: "post",
+			        success: function(res) {
+			        	console.log(res)
+			            if(res.code == 200){
+	                        wait_task.service_details_info = res.data;
+	                    }else{
+	                        wait_task.service_details_info = [{
+	                            name: '&emsp;',
+	                            phone: '查无数据',
+	                            device_code: '&emsp;'
+	                        }];
+	                    }
+	                    $(".loadingdiv").fadeOut('fast');
+			        },
+			        error: function(res) {
+			            wait_task.service_details_info = [{
+                            name: '&emsp;',
+                            phone: '查无数据',
+                            device_code: '&emsp;'
+                        }];
+                        $(".loadingdiv").fadeOut('fast');
+			        }
+			    })
 			})
 		});
 	</script>
+	<script src="__PUBLIC__/Coms/js/vendors/Wait_task.js"></script>
 </body>
 </html>

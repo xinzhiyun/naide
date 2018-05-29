@@ -193,15 +193,16 @@ var home = new Vue({
 			}
 			// 确认取消框
 			confirmFn(text + "滤芯" + this.resetFilter, function(res){
-				if(res){
+				if(res){ 
 					home.ajson['DeviceID'] = home.deviceId;
 					home.ajson['PackType'] = 'SetData';
 					home.ajson['type'] = '复位中';
 					
-                    home.ajson['ReFlowFilter'+ filter ] = home.filterList[filter].flowlife;
-                    home.ajson['ReDayFilter'+ filter ] = home.filterList[filter].timelife;
-                    home.ajson['FlowLifeFilter'+ filter ] = home.filterList[filter].flowlife;
-                    home.ajson['DayLifeFiter'+ filter ] = home.filterList[filter].timelife;
+                    home.ajson['ReFlowFilter'+ filter ] = home.filterList[filter].reflow;
+                    home.ajson['ReDayFilter'+ filter ] = home.filterList[filter].reday;
+                    home.ajson['FlowLifeFilter'+ filter ] = home.filterList[filter].allFlow;
+                    home.ajson['DayLifeFiter'+ filter ] = home.filterList[filter].allLife;
+					console.log('home.ajson: ',home.ajson);
 					// 点击确定
 					// 发送数据包
 					that.sendMSG(home.ajson);
@@ -212,6 +213,7 @@ var home = new Vue({
 			})
 		},
 		sendMSG: function(data){
+			console.log('senddata: ',data);
 			// 发送json格式数据
 			if(Object.prototype.toString.call(data) === "[object Object]"){
 				data = JSON.stringify(data);

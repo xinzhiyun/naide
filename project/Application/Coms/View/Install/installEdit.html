@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <div id="form1">
             <div class="installAdd">
                 <p>新的安装人员：</p>
                 <ul>
@@ -25,26 +25,22 @@
                     </li>
                     <li>
                         <label for="">登录密码：</label>
-                        <input type="text" placeholder="请输入登录密码" name="userPass" :value="userInfo.password">
+                        <input type="password" placeholder="输入密码会覆盖原密码" name="userPass">
                     </li>
-                    <li>
+                    <!-- <li>
                         <label for="">住址：</label>
                         <input type="text" name="userAddr" :value="userInfo.address">
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="save">
-                <input type="submit" value="保存修改">
+                <input type="submit" value="保存修改" class="saveUpdate">
             </div>
-        </form>
+        </div>
     </div>
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/install/installEdit.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-    </script>
 </body>
 </html>

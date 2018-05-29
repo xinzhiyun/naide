@@ -76,8 +76,8 @@ downFresh.prototype = {
 		moveY = e.changedTouches[0].pageY;
 		len = moveY - startY;
 		// 最大260/3的距离
-		len = len >= 260 ? 260 : len;
-		if(len >= 200 && _elem.scrollTop == _from && moveTime - startTime >= 200){
+		len = len >= 160 ? 260 : len;
+		if(len >= 100 && _elem.scrollTop == _from && moveTime - startTime >= 200){
 			_fresh.setAttribute('style',
 				_elemStyle + ';margin-top:'+ len/3 +'px;'
 			);
@@ -95,10 +95,9 @@ downFresh.prototype = {
 		// 指定that指向
 		var that = downFresh.prototype;
 		// endY = e.changedTouches[0].pageY;
-		if(len >= 260 && moveTime - startTime >= 200){
-			len = 220;
+		if(len >= 100 && moveTime - startTime >= 20){
 			_fresh.setAttribute('style',
-				_elemStyle + ';margin-top:'+ len/3 +'px;'
+				_elemStyle + ';margin-top:11vh;'
 			);
 			flag = true;		// 滑动结束标志
 		}else{

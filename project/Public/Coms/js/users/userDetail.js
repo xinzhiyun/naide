@@ -29,15 +29,15 @@ var detail = new Vue({
                         // 遍历滤芯数据
                         var _index = filter.indexOf('filter') + 6;
                         // 天数，流量剩余比例
-                        perday = item.dev_status["ReDayFilter" + filter.substring(_index,)]/item.dev_status["DayLifeFiter" + filter.substring(_index,)];
-                        perflow = item.dev_status["ReFlowFilter" + filter.substring(_index,)]/item.dev_status["FlowLifeFilter" + filter.substring(_index,)];
+                        perday = item.dev_status["ReDayFilter" + filter.substring(_index)]/item.dev_status["DayLifeFiter" + filter.substring(_index)];
+                        perflow = item.dev_status["ReFlowFilter" + filter.substring(_index)]/item.dev_status["FlowLifeFilter" + filter.substring(_index)];
                         detail.devicesList['filter'][index].push({
-                            index: filter.substring(_index,),
+                            index: filter.substring(_index),
                             name: item.type_name[filter],
-                            dayLife: item.dev_status["DayLifeFiter" + filter.substring(_index,)],
-                            reday: item.dev_status["ReDayFilter" + filter.substring(_index,)],
-                            flowLife: item.dev_status["FlowLifeFilter" + filter.substring(_index,)],
-                            reflow: item.dev_status["ReFlowFilter" + filter.substring(_index,)],
+                            dayLife: item.dev_status["DayLifeFiter" + filter.substring(_index)],
+                            reday: item.dev_status["ReDayFilter" + filter.substring(_index)],
+                            flowLife: item.dev_status["FlowLifeFilter" + filter.substring(_index)],
+                            reflow: item.dev_status["ReFlowFilter" + filter.substring(_index)],
                         })
                         // 调用设备详情小圆圈
                         ;(function(container, colorindex){
@@ -48,7 +48,7 @@ var detail = new Vue({
                             setTimeout(function(){
                                 circle(container, colorList[colorindex], 1 - Math.floor(Math.max(perday, perflow)*100)/100/100);
                             },0);
-                        })("#container" + index + (filter.substring(_index,) - 0 - 1), (filter.substring(_index,) - 0 - 1));
+                        })("#container" + index + (filter.substring(_index) - 0 - 1), (filter.substring(_index) - 0 - 1));
                         // console.log('filter: ',filter);
                     }
                 }

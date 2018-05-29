@@ -28,14 +28,14 @@ class VendorsController extends CommonController
             'idcard' => array('like','%'.trim(I('post.idcard')).'%'),
             'leavel' => trim(I('post.leavel')),
         );
-        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-        if (is_numeric($maxaddtime)) {
-            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
-        }
-        if ($maxaddtime < 0) {
-            $map['addtime'] = array(array('egt',$minaddtime));
-        }
+        // $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
+        // $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
+        // if (is_numeric($maxaddtime)) {
+        //     $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
+        // }
+        // if ($maxaddtime < 0) {
+        //     $map['addtime'] = array(array('egt',$minaddtime));
+        // }
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
@@ -292,9 +292,9 @@ class VendorsController extends CommonController
                 // 获取经销商信息
 
                 if(empty(session('adminuser.is_admin'))){
-                    $user = M('vendors')->where('id='.$_SESSION['adminuser']['id'])->select();
+                    $user = M('vendors')->where(['is_vendors'=>1,'id'=>$_SESSION['adminuser']['id']])->select();
                 }else{
-                    $user = D('vendors')->getAll();
+                    $user = D('vendors')->where(['is_vendors'=>1])->getAll();
 
                 }
                 // 获取设备信息

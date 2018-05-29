@@ -13,18 +13,19 @@
 	<div class="main"> 
 		<div class="companyLogo">
 			<img src="__PUBLIC__/Home/images/logo.png" alt="">
+			<p class="leaderLogin">经销商登录</p>
 		</div>
 		<div class="userInfo">
 			<form action="javascript:return;" method="" id="forms">
 				<p>
 					<span class="iconfont icon-yonghu"></span>
-					<input type="text" name="username" placeholder="请输入手机号码">
+					<input type="text" name="uname" placeholder="请输入手机号码">
 				</p>
 				<p>
 					<span class="iconfont icon-mima"></span>
 					<input type="password" name="userpass" placeholder="请输入密码">
 				</p>
-				<p><a href="{{}}" class="forgetPass">忘记密码</a></p>
+				<p><a href="{{:U('Coms/Login/resetPassword')}}" class="forgetPass">忘记密码</a></p>
 				<p class="loginBtn"><button>登录</button></p>
 			</form>
 		</div>
@@ -39,7 +40,7 @@
 
 	// 验证
 	$(".loginBtn").on("click", function() {
-		var username = $("input[name='username']").val();
+		var username = $("input[name='uname']").val();
 		var userpass = $("input[name='userpass']").val();
 		// 姓名判断
 		if(username) {

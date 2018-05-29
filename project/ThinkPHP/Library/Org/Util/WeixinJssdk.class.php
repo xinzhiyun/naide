@@ -100,7 +100,7 @@ class WeixinJssdk
       //show($res);die;
       $access_token = $res->access_token;
       if ($access_token) {
-        $data->expire_time = time() + 7000;
+        $data->expire_time = time() + 3000;
         $data->access_token = $access_token;
         $this->set_php_file("access_token.php", json_encode($data));
       }

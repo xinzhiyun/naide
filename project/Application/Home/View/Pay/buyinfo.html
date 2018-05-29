@@ -109,7 +109,7 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.js"></script>
 	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
-		var vconsole = new VConsole();
+		// var vconsole = new VConsole();
 		
 		document.querySelector('.back2home').style.display = 'none';
 		// 邀请码
@@ -210,115 +210,115 @@
 	</script>
 	<script src="__PUBLIC__/Home/js/pay/buyinfo.js"></script>
 	<script>
-			$(function(){
-				// 提交
-				$('.confirm').click(function(){
-					var nameEle = $('.uname'), 
-					phoneEle = $('.uphone'), 
-					addrEle = $('.uaddress'), 
-					addrdetEle = $('.uaddrdetail');
+		$(function(){
+			// 提交
+			$('.confirm').click(function(){
+				var nameEle = $('.uname'), 
+				phoneEle = $('.uphone'), 
+				addrEle = $('.uaddress'), 
+				addrdetEle = $('.uaddrdetail');
 
-					var uname = trimFn($('.uname').val()),
-					uphone = trimFn($('.uphone').val()),
-					uaddress = trimFn($('.uaddress').text()),
-					uaddrdetail = trimFn($('.uaddrdetail').val()),
-					uService = $('.serviceF88').attr("index");
+				var uname = trimFn($('.uname').val()),
+				uphone = trimFn($('.uphone').val()),
+				uaddress = trimFn($('.uaddress').text()),
+				uaddrdetail = trimFn($('.uaddrdetail').val()),
+				uService = $('.serviceF88').attr("index");
 
-					if(!$(".passwordSet").is(':hidden')) {
-						var pwdEle = $('.upwd');
-						var upwd = trimFn($('.upwd').val());
-						//验证密码
-						if(!upwd){
-							noticeFn({text:'请输入密码！'});
-							pwdEle.css({border: '1px solid red'});
-							return
-						}else{
-							pwdEle.css({border: 'none'});
-						}
-					}
-					
-					//验证收货人
-					if(!uname){
-						noticeFn({text:'请输入收货人！'});
-						nameEle.css({border: '1px solid red'});
-						return
-					}else if(!nameCheck(uname)){
-						noticeFn({text:'收货人只能是中文,英文,下划线组成'});
-						nameEle.css({border: '1px solid red'});
-						return	
-					}else{
-						nameEle.css({border: 'none'});
-					}
-					
-					//验证手机号码
-					if(!uphone){
-						noticeFn({text:'请输入手机号码！'});
-						phoneEle.css({border: '1px solid red'});
-						return
-					}else if(!phoneCheck(uphone)){
-						noticeFn({text:'请输入正确的手机号码！'});
-						phoneEle.css({border: '1px solid red'});
+				if(!$(".passwordSet").is(':hidden')) {
+					var pwdEle = $('.upwd');
+					var upwd = trimFn($('.upwd').val());
+					//验证密码
+					if(!upwd){
+						noticeFn({text:'请输入密码！'});
+						pwdEle.css({border: '1px solid red'});
 						return
 					}else{
-						phoneEle.css({border: 'none'});
+						pwdEle.css({border: 'none'});
 					}
-					
-					
-					
-					//验证地区
-					if(!uaddress){
-						noticeFn({text:'请选择收货地区！'});
-						return
-					}
+				}
+				
+				//验证收货人
+				if(!uname){
+					noticeFn({text:'请输入收货人！'});
+					nameEle.css({border: '1px solid red'});
+					return
+				}else if(!nameCheck(uname)){
+					noticeFn({text:'收货人只能是中文,英文,下划线组成'});
+					nameEle.css({border: '1px solid red'});
+					return	
+				}else{
+					nameEle.css({border: 'none'});
+				}
+				
+				//验证手机号码
+				if(!uphone){
+					noticeFn({text:'请输入手机号码！'});
+					phoneEle.css({border: '1px solid red'});
+					return
+				}else if(!phoneCheck(uphone)){
+					noticeFn({text:'请输入正确的手机号码！'});
+					phoneEle.css({border: '1px solid red'});
+					return
+				}else{
+					phoneEle.css({border: 'none'});
+				}
+				
+				
+				
+				//验证地区
+				if(!uaddress){
+					noticeFn({text:'请选择收货地区！'});
+					return
+				}
 
-					// 验证服务区
-					if(uService == '0'){
-						noticeFn({text:'请选择服务地区！'});
-						return
+				// 验证服务区
+				if(uService == '0'){
+					noticeFn({text:'请选择服务地区！'});
+					return
+				}
+				
+				//验证详细地址
+				if(!uaddrdetail){
+					noticeFn({text:'请输入详细地址！'});
+					addrdetEle.css({border: '1px solid red'});
+					return
+				}else if(!nameCheck(uaddrdetail)){
+					noticeFn({text:'详细地址只能是中文、英文和下划线组成！'});
+					addrdetEle.css({border: '1px solid red'});
+					return
+				}else{
+					addrdetEle.css({border: 'none'});
+				}
+				// $('input[name="uaddress"]').val(uaddress);
+				
+				var formdata = new FormData($('#form')[0]);
+				// 验证通过则 提交
+				$.ajax({ 
+					url: '{{:U("Home/Pay/userbuy")}}',
+					data: formdata,
+					type: "post",
+					contentType: false,
+					processData: false,
+					success: function(res){
+						console.log('请求成功: ',res);
+						if(res.status == 200) {
+							noticeFn({text:'提交成功!'});
+							setTimeout(function(){
+								// 调到首租付款页面
+								location.href = '{{:U("Home/Pay/firstHire")}}';
+							},500);
+						}else if(res.status == 201) {
+							noticeFn({text:res.msg});
+						} 
+					},
+					error: function(err){
+						console.log('请求失败: ',err);
+						noticeFn({text:'提交失败，请稍后再试!'});
 					}
-					
-					//验证详细地址
-					if(!uaddrdetail){
-						noticeFn({text:'请输入详细地址！'});
-						addrdetEle.css({border: '1px solid red'});
-						return
-					}else if(!nameCheck(uaddrdetail)){
-						noticeFn({text:'详细地址只能是中文、英文和下划线组成！'});
-						addrdetEle.css({border: '1px solid red'});
-						return
-					}else{
-						addrdetEle.css({border: 'none'});
-					}
-					// $('input[name="uaddress"]').val(uaddress);
-					
-					var formdata = new FormData($('#form')[0]);
-					// 验证通过则 提交
-					$.ajax({ 
-						url: '{{:U("Home/Pay/userbuy")}}',
-						data: formdata,
-						type: "post",
-						contentType: false,
-						processData: false,
-						success: function(res){
-							console.log('请求成功: ',res);
-							if(res.status == 200) {
-								noticeFn({text:'提交成功!'});
-								setTimeout(function(){
-									// 调到首租付款页面
-									location.href = '{{:U("Home/Pay/firstHire")}}';
-								},500);
-							}else if(res.status == 201) {
-								noticeFn({text:res.msg});
-							} 
-						},
-						error: function(err){
-							console.log('请求失败: ',err);
-							noticeFn({text:'提交失败，请稍后再试!'});
-						}
-					})
 				})
-								
 			})
+							
+		})
 	</script>
 </body>
 </html>

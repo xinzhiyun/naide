@@ -10,9 +10,153 @@ class VendorsController extends ComsbaseController {
         $ttwo= M('work')->where(['vid'=>$id,'type'=>1])->count();
         $tf= M('work')->where(['vid'=>$id,'type'=>2])->count();
 //        $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
-
         $this->assign('tone',$tone);
         $this->assign('ttwo',$ttwo);
         $this->assign('tf',$tf);
+        $this->display();
     }
+
+    //待办任务列表
+    public function sevice_list() {
+        try {
+            $data = I('post.');
+
+            if (!empty($data['datas'])) {
+                $where['phone']=array('like','%'.$data['datas'].'%');
+                $where['name']=array('like','%'.$data['datas'].'%');
+                $where['_logic'] = 'or';
+                $map['_complex'] =$where;
+            }
+
+            if (!isset($data['type'])) {
+                E('任务类型', 201);
+            } else {
+                $map['type'] = $data['type'];
+            }
+            $map['vid'] = session('comsuser.id');
+
+            $list = M('work')->field('id,name,phone,addtime,status')->where($map)->select();
+            $arr = [
+                'status'=>['未处理','进行中','已完成']
+            ];
+            $list = replace_array_value($list,$arr);
+
+            $this->to_json(['data'=>$list],'加载中',200);
+
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+
+
+
+    }
+
+
+    //待办任务
+    public function todo_sevice() {
+
+        $map['v_id'] = session('comsuser.id');
+        $ma['id'] = I('get.id');
+        $per_name = M('personnel')->field('id,name')->where($map)->select();
+        if ($per_name) {
+            $this->ajaxReturn(['code'=>200,'data'=>$per_name]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+        foreach ($per_name as $v) {
+
+            if ($v['id'] == $ma['id']) {
+                $status = 1;
+            }
+
+        }
+        if ($status == 1) {
+            $tone = M('work')->where(['pid'=>$ma['id'],'type'=>0])->count();
+            $ttwo= M('work')->where(['pid'=>$ma['id'],'type'=>1])->count();
+            $tf= M('work')->where(['pid'=>$ma['id'],'type'=>2])->count();
+            $this->ajaxReturn(['code'=>200,'tone'=>$tone,'ttwo'=>$ttwo,'tf'=>$tf]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+    //任务详情
+    public function details() {
+
+        $map['id'] = I('post.id');
+//        $id = session('comsuser.id');
+        $info = M('work')->where($map)->find();
+        if ($info) {
+            $this->ajaxReturn(['code'=>200,'data'=>$info]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+    // 派工人员列表
+    public function per() {
+        $map['v_id']= session('comsuser.id');
+        $per_list = M('personnel')->field('id,name,phone')->where($map)->select();
+
+        if($per_list) {
+            $this->ajaxReturn(['code'=>200,'data'=>$per_list]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+
+    /**
+     * 派遣任务
+     */
+    public function add_per() {
+        try {
+            $data = I('post.');
+            if (empty($data['id'])) {
+                E('数据不完整', 201);
+            } else {
+                $map['id'] = $data['id'];
+            }
+
+            if (empty($data['pid'])) {
+                E('数据不完整', 202);
+            } else {
+                $save['pid'] = $data['pid'];
+            }
+            if (empty($data['pphone'])) {
+                E('数据不完整', 203);
+            } else {
+                $save['pphone'] = $data['pphone'];
+            }
+            if (empty($data['pname'])) {
+                E('数据不完整', 204);
+            } else {
+                $save['pname'] = $data['pname'];
+            }
+
+            if (empty($data['period'])) {
+                E('数据不完整', 205);
+            } else {
+                $save['period'] = $data['period'];
+            }
+            if (empty($data['time'])) {
+                E('数据不完整', 206);
+            } else {
+                $save['time'] = $data['time'];
+            }
+
+            $save['status'] = 1;
+
+            $res = M('work')->where($map)->save($save);
+
+            if($res){
+                E('派遣成功','200');
+            }else{
+                E('派遣失败,请重试','201');
+            }
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 }

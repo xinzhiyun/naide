@@ -4,15 +4,11 @@ use Think\Controller;
 
 /**
  * 客户建议及报修控制器
- * 
- * @author 潘宏钢 <619328391@qq.com>
  */
-
 class FeedsController extends CommonController 
 {
 	/**
      * 建议列表
-     * @author 潘宏钢 <619328391@qq.com>
      */
     public function feedslist()
     {	
@@ -26,14 +22,16 @@ class FeedsController extends CommonController
         $name = trim(I('post.name'));
         $phone = trim(I('post.phone'));
         if (!empty($name)){
-            $map['d.name'] =  array('like','%'.$name.'%');
+            $map['u.name'] =  array('like','%'.$name.'%');
         }
         if (!empty($phone)){
-            $map['d.phone'] = array('like','%'.$phone.'%');
+            $map['u.user'] = array('like','%'.$phone.'%');
         }
 
          $minaddtime = strtotime(trim(I('post.minaddtime')))?:false;
-         $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:false;
+         $maxaddtime = strtotime(trim(I('post.maxcaddtime'))."+1 day")?:false;
+
+
          if (is_numeric($maxaddtime)) {
              $map['f.addtime'][] = array('elt',$maxaddtime);
          }
@@ -58,8 +56,9 @@ class FeedsController extends CommonController
         if (I('output') == 1) {
             $data = $user->where($map)
                         ->alias('f')
-                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
-                        ->field('f.id,f.uid,d.name,d.phone,f.content,f.addtime')
+//                        ->join('__DEVICES__ d ON f.uid = d.uid AND f.did = d.id', 'LEFT')
+                        ->join('__USERS__ u ON f.uid = u.id', 'LEFT')
+                        ->field('f.id,f.uid,u.name,u.user,f.content,f.addtime')
                         ->order('f.addtime desc')
                         ->select();
             $arr = ['addtime'=>['date','Y-m-d H:i:s']];
@@ -90,7 +89,6 @@ class FeedsController extends CommonController
                         ->order('f.addtime desc')
                         ->limit($page->firstRow.','.$page->listRows)
                         ->select();
-
         $this->assign('list',$userlist);
         $this->assign('button',$pageButton);
         $this->display();

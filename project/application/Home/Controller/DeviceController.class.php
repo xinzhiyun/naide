@@ -206,4 +206,32 @@ class DeviceController extends HomebaseController
 
     }
 
+
+    // 查询净水记录
+    public function getTds()
+    {
+        try {
+            $date = I('post.month');
+            if( empty($date) ) {
+                $map['date'] = date("Ym", time());
+            } else {
+                $map['date'] = $date;
+            }
+            $data=[];
+            $map['dcode'] =  Device::get_devices_sn($_SESSION['homeuser']['did']);
+
+            $list = M('Tds')->where($map)->field('raw,pure,day')->select();
+            foreach ($list as $datum){
+                $data[(int)$datum['day']] = $datum;
+            }
+            $this->ajaxReturn(array(
+                'data'=>$list,
+                'status'=>200,
+                'msg'=>'获取成功',
+            ),'JSON');
+        } catch (\Exception $e) {
+            $this->to_json($e);
+        }
+    }
+
 }

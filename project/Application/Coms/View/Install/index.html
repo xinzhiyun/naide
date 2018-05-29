@@ -15,12 +15,12 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <div id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入姓名/手机号码" v-model="search">
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入姓名/手机号码" v-model="search" @keyup.enter="searchs" @focus="tips()">
             </div>
-        </form>
+        </div>
         <div class="userInfo">
             <ul>
                 <!-- 头部 -->
@@ -32,9 +32,9 @@
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi" v-for="(list,index) in userList" @click="installedit(list.id)">
-                    <a class="clearfix">
-                        <ol cass="am-g">
+                <li class="userLi" v-for="(list,index) in userList" @click="searchFlag && installedit(list.id)">
+                    <a class="cfix">
+                        <ol class="am-g">
                             <li class="am-u-sm-4">{{list.name}}</li>
                             <li class="am-u-sm-4">{{list.phone}}</li>
                             <li class="am-u-sm-4 nextIcon">
@@ -42,40 +42,7 @@
                             </li>
                         </ol>
                     </a>
-                </li>
-                <!-- <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">卡卡</li>
-                            <li class="am-u-sm-4">13554625389</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li> -->
-               <!--  <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">卡卡</li>
-                            <li class="am-u-sm-4">13554625389</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li>
-                <li class="userLi">
-                    <a href="####" class="clearfix">
-                        <ol cass="am-g">
-                            <li class="am-u-sm-4">卡卡</li>
-                            <li class="am-u-sm-4">13554625389</li>
-                            <li class="am-u-sm-4 nextIcon">
-                                <span>2018-02-17</span> <span class="iconfont icon-xiangyou1"></span>
-                            </li>
-                        </ol>
-                    </a>
-                </li> -->
+                </li> 
             </ul>
         </div>
     </div>
@@ -87,10 +54,17 @@
         var back2home = document.getElementsByClassName('back2home');
         back2home[0].setAttribute('href','{{:U("Coms/install/installAdd")}}');
         var data = '{{$data}}';
-        console.log(data)
-        home.userList = JSON.parse(data);
-        console.log(home.userList)
+        // 开始请求页面用户数据
+        if(data) {
+            home.userList = JSON.parse(data);
+            home.searchFlag = true;
+        }else {
+            $(".icon-xiangyou1").hide();
+            home.searchFlag = false;
+        }
+        console.log(home.userList);
 
+        
     </script>
 </body>
 </html>

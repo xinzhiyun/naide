@@ -2,17 +2,17 @@
 var users = new Vue({
     el: ".main",
     data() {
-        return {
-            searchword: '',
+        return { 
+            search: '',
             page: '1',
             // 用户列表
             userList: [{
-                name: '加载中...',
-                bindtime: '加载中...',
+                name: '暂无用户...',
+                bindtime: '',
             }],
         }
     },
-    created() {
+    created() { 
         // 请求数据
         getData(1, function(res){
             users.userList = [];    // 清空
@@ -29,16 +29,57 @@ var users = new Vue({
     methods: {
         // 点击搜索小图标提交表单
         subClick() {
-            // alert(234)
+            var _this = this;
+            $(".loadingdiv").fadeIn('slow');
+            _this.sub_pub(trimFn(_this.search), function(res) {
+                // 显示搜索出来的用户人员列表
+                _this.userList = res.list;
+                $(".loadingdiv").fadeOut('fast');
+            });
+        },
+        // 回车搜索
+        searchs: function() {
+            $(".loadingdiv").fadeIn('slow');
+            var _this = this;
+            _this.sub_pub(trimFn(_this.search), function(res) {
+                // 显示搜索出来的用户人员列表
+                _this.userList = res.list;
+                $(".loadingdiv").fadeOut('fast');
+            });
+        },
+        // 搜索(公共部分)
+        sub_pub: function(searchVal, callback){
+            console.log()
+            var url = getURL("Coms", "Users/user_list");
             $.ajax({
-                url: "",
-                data: {datas: users.searchword},
+                url: url,
                 type: "post",
+                data: {search: searchVal}, 
                 success: function(res) {
-                    
+                    console.log("搜索成功", res);
+                    if(res.status == 200) {
+                        // 返回搜索到的数据
+                        if(res.list) {
+                            $(".icon-xiangyou1").show();
+                            callback(res);
+                            users.searchFlag = true;
+                        }else {
+                            console.log("没有数据");
+                            $(".icon-xiangyou1").hide();
+                            users.userList = [{
+                                name: "暂无用户...",
+                                bindtime: '',
+                            }];
+                            users.searchFlag = false;//禁止查看用户详情
+                            $(".loadingdiv").fadeOut('fast');
+                        }
+                    }else {
+                        noticeFn({text: "搜索失败，请重试", time: "500"});
+                    }
                 },
                 error: function(res) {
-                    
+                    console.log("失败", res);
+                    noticeFn({text: "搜索失败，请稍后再试", time: "500"});
                 }
             })
         },
@@ -48,7 +89,6 @@ var users = new Vue({
             var url = getURL('Coms','Users/userDetail');
             if(!uid){
                 noticeFn({text: '系统出错，请稍后再试'});
-                return;  
             } 
             location.href = url + '?uid=' + uid;
         },
@@ -56,7 +96,7 @@ var users = new Vue({
         loadmore (){
             console.log(users.page);
             // 请求页码数据
-            getData(users.page + 1, function(res){
+            getData(+users.page + 1, function(res){
                 if(!res){   
                     $('.loadmore').hide();
                     noticeFn({text: '没有更多数据了'});
@@ -73,20 +113,3 @@ var users = new Vue({
         }
     }
 });
-// 手机默认回车按钮提交表单
-$("#form1").on("submit", function(e) {
-    // 阻止表单默认跳转
-    e.preventDefault(); 
-    // alert(123)
-    $.ajax({
-        url: "",
-        data: {datas: $("input[name='searchInfo']".val())},
-        type: "post",
-        success: function(res) {
-            
-        },
-        error: function(res) {
-            
-        }
-    })
-})

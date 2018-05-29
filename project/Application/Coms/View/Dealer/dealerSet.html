@@ -9,38 +9,38 @@
     <link rel="stylesheet" href="__PUBLIC__/Coms/css/dealer/css/dealerSet.css">
     <link rel="stylesheet" href="__PUBLIC__/Home/css/common.css">
 </head>
-<body>
+<body> 
     <div class="main">
-        <form method="post" id="form1" action="">
+        <form method="post" id="form1">
             <ul>
                 <!-- 初装费金额 -->
                 <li>
-                    <p>初装费金额: <span>{{splitStr("2000")}}</span>元</p>
+                    <p>初装费金额: <span v-text='install_price/100'>{{splitStr("2000")}}</span>元</p>
                     <p>
                         <label>初装费金额：</label>
-                        <input type="text" name="czfei" placeholder="请输入金额" /> 
+                        <input type="text" placeholder="请输入金额" v-model='setData.install_price_ex' />
                     </p>
                 </li>
                 <!-- 年服务费金额 -->
                 <li>
-                    <p>年服务费金额: <span>{{splitStr("12000")}}</span>元</p>
+                    <p>年服务费金额: <span v-text='service_price/100'>{{splitStr("12000")}}</span>元</p>
                     <p>
                         <label>年服务费金额：</label>
-                        <input type="text" name="nfwu" placeholder="请输入金额" /> 
+                        <input type="text" placeholder="请输入金额"   v-model='setData.service_price_ex'/>
                     </p>
                 </li>
                 <!-- 分享佣金金额 -->
                 <li>
-                    <p>分享佣金金额: <span>{{splitStr("600")}}</span>元</p>
+                    <p>分享佣金金额: <span v-text='commission/100'>{{splitStr("600")}}</span>元</p>
                     <p>
                         <label>分享佣金金额：</label>
-                        <input type="text" name="fxyjin" placeholder="请输入金额" /> 
+                        <input type="text" placeholder="请输入金额"   v-model='setData.commission_ex' />
                     </p>
                 </li>
             </ul>
             <!-- 提交 -->
             <div>
-                <input type="submit" value="提交">
+                <input type="button" value="提交" @touchend='setDealer'>
             </div>
         </form>
     </div>
@@ -48,9 +48,43 @@
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
     <script src="__PUBLIC__/Coms/js/dealer/dealerSet.js"></script>
-    <script defer>
-        var back2home = document.getElementsByClassName('back2home');
-        // back2home[0].setAttribute('href','{{:U("Coms/Index/index")}}');
-    </script>
+    <script>
+        var data = JSON.parse('{{$data|json_encode}}');
+        console.log('data: ',data);
+        if(!data){
+            data = {};
+            data['install_price'] = '--';
+            data['service_price'] = '--';
+            data['commission'] = '--';
+        }
+        deal.setData.id = data.id;
+        deal.install_price = data.install_price;
+        deal.service_price = data.service_price;
+        deal.commission = data.commission;
+
+        // 提交营销设置
+        function upData(data){
+            $.ajax({
+                url: '{{:U("Coms/Dealer/setdealer")}}',
+                type: 'post',
+                data: data,
+                success: function(res){
+                    console.log('res: ',res);
+                    if(res.status == 200){
+                        noticeFn({text: res.msg});
+                        setTimeout(function(){
+                            location.href = '{{:U("Coms/Dealer/dealer")}}';
+                        },500);
+                    }else{
+                        noticeFn({text: res.msg});
+                    }
+                },
+                error: function(err){
+                    console.log('err: ',err);
+                    noticeFn({text: '系统发生错误，请稍后再试'});
+                }
+            })
+        }
+     </script>
 </body>
 </html>

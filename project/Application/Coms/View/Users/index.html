@@ -11,12 +11,12 @@
 </head>
 <body>
     <div class="main">
-        <form action="" method="post" id="form1">
+        <div id="form1">
             <div>
                 <span class="iconfont icon-search" @click="subClick()"></span>
-                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入手机号/设备编码" v-model='searchword'>
+                <input type="search" autocomplete="off" name="searchInfo" placeholder="请输入用户名/手机号/设备编码" v-model='search' @keyup.enter="searchs">
             </div>
-        </form>
+        </div>
         <div class="userInfo">
             <ul>
                 <!-- 头部 -->
@@ -27,7 +27,7 @@
                     </ol>
                 </li>
                 <!-- 内容 -->
-                <li class="userLi" v-for='u in userList' @click='godetail(u.uid)'>
+                <li class="userLi" v-for='u in userList' @click='searchFlag && godetail(u.uid)'>
                     <a class="clearfix">
                         <ol cass="am-g">
                             <li class="am-u-sm-6"><span v-text='u.name'>嗯呢</span></li>
@@ -45,7 +45,9 @@
     <script src="__PUBLIC__/Home/js/jquery.min.js"></script>
     <script src="__PUBLIC__/Home/js/public.js"></script>
     <script src="__PUBLIC__/Home/js/vue.min.js"></script>
+    <script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script> 
     <script>
+        // var vConsole = new VConsole();
         // 获取用户列表数据
         function getData(page, callback){
             // page: 请求的页码
@@ -56,7 +58,21 @@
                 success: function(res){
                     console.log('res: ',res);
                     if(res.status == 200){
-                        callback(res.list);
+                        if(res.list) {
+                            callback(res.list);
+                            users.searchFlag = true; 
+                        }
+                        if(page == 1 && !res.list){
+                            $(".icon-xiangyou1").hide("fast");
+                            $('.loadmore').hide();
+                            // 当用户数据为空时，禁止点击查看用户详情
+                            users.searchFlag = false;
+                        }
+                        if(page > 1 && !res.list){
+                            $('.loadmore').hide();
+                            noticeFn({text: '查无数据'});
+                        }
+                        
                     }
                 },
                 error: function(err){

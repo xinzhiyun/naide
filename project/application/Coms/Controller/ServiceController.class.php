@@ -25,6 +25,34 @@ class ServiceController extends ComsbaseController {
     }
 
     /**
+     * 服务记录(分页)
+     */
+    public function sevice_list()
+    {
+        
+    }
+
+
+
+    //服务记录详情
+    public function sevice_details() {
+        $map  = I('get.');
+        $work_info = M('work')->where(['no'=>$map['index'],'no'=>$map['no']])->find();
+        if ($work_info) {
+            $work_info['p_name'] = M('personnel')->where(['id'=>$work_info['pid']])->getField('name');
+            $this->ajaxReturn(['code'=>200,'data'=>$work_info]);
+        } else {
+            $this->ajaxReturn(['code'=>400]);
+        }
+    }
+
+
+
+
+
+
+
+    /**
      *  检索设备
      */
     public function search_device()
@@ -102,7 +130,13 @@ class ServiceController extends ComsbaseController {
      */
     public function getDeviceSetmeal()
     {
-        $list = M('setmeal')->where('type=0')->field('id,describe,money')->select();
+
+        $device_code = I('device_code');
+
+        if(!empty($device_code))$map['tid'] = Device::get_devices_info($device_code,'type_id');
+        $map['type'] = 0;
+
+        $list = M('setmeal')->where($map)->field('id,describe,money')->select();
         $this->ajaxReturn(array(
             'status'=>200,
             'list'=>$list,
@@ -117,13 +151,6 @@ class ServiceController extends ComsbaseController {
     {
         try {
             $data = I('post.');
-            $data=array(
-                'pay'=>1,
-                'setMealId'=>60,
-                'price'=>10000,
-                'uid'=>1,
-                'did'=>262
-            );
 
             if (empty($data['pay'])) {
                 E('支付方式错误', 201);
@@ -151,6 +178,8 @@ class ServiceController extends ComsbaseController {
 
 
     }
+
+
 }
 
 

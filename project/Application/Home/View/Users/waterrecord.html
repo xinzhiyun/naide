@@ -15,16 +15,16 @@
 		<input name="date" type="button" class="am-datepicker-add-on month" value="">
 	</div>
 	<div class="echartDiv">
-		<h3 class="eChartTitle">纯水 <span class="rawMean"></span></h3><br />
+		<h3 class="eChartTitle">纯水 <span class="pureMean"></span></h3><br />
 		<div class="chart" id="lineChart1" _echarts_instance_="1513755345537" >
 			<div>
 				<div data-zr-dom-id="bg" ></div>
 				<canvas data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
 			</div>
-		</div>
+		</div> 
 	</div>
 	<div class="echartDiv">
-		<h3 class="eChartTitle">原水 <span class="pureMean"></span></h3><br />
+		<h3 class="eChartTitle">原水 <span class="rawMean"></span></h3><br />
 		<div class="chart" id="lineChart2" _echarts_instance_="1513755345537" >
 			<div>
 				<div data-zr-dom-id="bg" ></div>
@@ -38,13 +38,12 @@
 	<script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.min.js"></script>
 	<!-- <script src="__PUBLIC__/Home/amazeui/assets/js/amazeui.datetimepicker.min.js"></script> -->
 	<script src="__PUBLIC__/Home/js/public.js"></script>
-	<script defer>
-		var back2home = document.getElementsByClassName('back2home');
-		// back2home[0].setAttribute('href','{{:U("Home/Index/index")}}');
-	</script>
+	<script src="__PUBLIC__/Home/vConsole-3.1.0/dist/vconsole.min.js"></script>
 	<script>
 
+		// var vConsole = new VConsole();
 		$(function(){
+	    	var _date = new Date();
 			var year = new Date().getFullYear();//年份
 			var month = ((new Date().getMonth()+1)+'').length == 1
 						? '0' + (new Date().getMonth()+1)
@@ -54,14 +53,32 @@
 
 			var dataList = [];	//数据集
 			// 请求净水记录数据
-			getData(month, function(res){
-				if(res.code == 200){
-					if(!res.data){
+            var seach = year + month;
+			getData(seach, function(res){
+				if(res.status == 200){
+					if(!res.data.length){
 						noticeFn({text: "本月无数据",time: '1000'});
-						return
 					}
-					// 显示折线图
-					getAvg(res.data, res.data.length);
+
+				    // 按当月天数生成数据结构
+				    getMonthLen(_date.getFullYear(),_date.getMonth()+1, function(monthData){
+				    	// console.log('monthData: ',monthData);
+				    	for(var i=0; i<monthData.length; i++){
+				    		for(var k=0; k<res.data.length; k++){
+
+				    			if(monthData[i].day == res.data[k].day){
+				    				monthData[i].raw = res.data[k].raw;
+				    				monthData[i].pure = res.data[k].pure;
+				    			}
+				    		}
+				    	}
+				    	console.log('monthData: ',monthData);
+				    	setTimeout(function(){
+							// 显示折线图
+							getAvg(monthData, res.data.length);
+						},0);
+				    	
+				    });
 
 				}else{
 					noticeFn({text: "系统遇到问题, 请稍后再试！",time: '1000'});
@@ -76,19 +93,45 @@
 				// 显示日期插件
 				$('.am-datepicker-date').datepicker('open');
 			})
+
 			// 选中月份获取净水记录
 			$('.am-datepicker').on('click', '.am-datepicker-month', function(){
 				var month = $(this).parent().children().index($(this));
 				var now = new Date().getMonth();
 				// console.log(month);
-				if(month <= now){
-					// 隐藏日期插件
-					$('.am-datepicker-date').datepicker('close');
+				// 隐藏日期插件
+				$('.am-datepicker-date').datepicker('close');
+				$(".loadingdiv").fadeIn('fast');
+				setTimeout(function(){
+					var year_month = $('.month').val().split('-');
+					// console.log('year_month: ',year_month[0] + '' + year_month[1]);
 					// 请求数据
-					getData(month, function(res){
-						if(res.code == 200){
-							// 显示折线图
-							getAvg(res.data, res.data.length);
+					getData(year_month[0] + '' + year_month[1], function(res){
+						if(!res.data.length){
+							noticeFn({text: '当月无净水记录', time: 1500});
+						}
+						if(res.status == 200){
+
+						    // 按当月天数生成数据结构
+						    getMonthLen(_date.getFullYear(),_date.getMonth()+1, function(monthData){
+						    	// console.log('monthData: ',monthData);
+						    	for(var i=0; i<monthData.length; i++){
+						    		for(var k=0; k<res.data.length; k++){
+
+						    			if(monthData[i].day == res.data[k].day){
+						    				monthData[i].raw = res.data[k].raw;
+						    				monthData[i].pure = res.data[k].pure;
+						    			}
+						    		}
+						    	}
+						    	console.log('monthData: ',monthData);
+
+			    				setTimeout(function(){
+									// 显示折线图
+									getAvg(monthData, res.data.length);
+								},0);
+						    	
+						    });
 
 						}else if(res.code == -1){
 							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
@@ -97,16 +140,14 @@
 							noticeFn({text: '请求出错，请稍后再试！',time: '1000'});
 						}
 					});
-				}else{
-					
-					noticeFn({text: '请选择当月之前的月份',time: '1000'});
-				}
+				},0);
 			})
 		})
 		function getAvg(datalist,mustDates){
 			var rawArray = [];	//原水数据集
 			var pureArray = [];	//净水数据集
 			var rawSum = 0, pureSum = 0;
+			// console.log('datalist: ',datalist);
 			for(var i=0; i<datalist.length; i++){	//遍历原水值与净水值的数据
 				rawArray[i] = parseInt(datalist[i].raw);
 				pureArray[i] = parseInt(datalist[i].pure);
@@ -128,17 +169,16 @@
 
 			var lineChart2 = echarts.init(getId('#lineChart2'));
 			lineChart2.setOption(getOption('line', rawArray, pureArray, '#f75151',mustDates));
-
+			// 隐藏loading
+			$(".loadingdiv").fadeOut('slow');
 		}
 		// echarts 配置
 		var getOption = function(_chartType, _yAxisData, _seriesData, lineColor,mustDate) {
 			mustDate = mustDate < 28 ? 30 : mustDate;
 			var chartOption = {
 				grid: {
-					x: 30,
-					x2: 10,
-					y: 30,
-					y2: 25
+					x: 40,
+					y: 10
 				},
 				calculable: false,
 				xAxis: [{
@@ -178,26 +218,41 @@
 		}
 		// 请求净水记录数据
 		function getData(_month, fallback){
-			// 模拟数据
-			var res = {};
-			res.code = 200;
-			res.data = [{raw:'10',pure:'20'},{raw:'60',pure:'70'},{raw:'20',pure:'30'},{raw:'50',pure:'60'},{raw:'30',pure:'45'},{raw:'90',pure:'220'},{raw:'20',pure:'620'},{raw:'120',pure:'50'},{raw:'70',pure:'20'},{raw:'10',pure:'320'},{raw:'50',pure:'70'},{raw:'60',pure:'30'},{raw:'70',pure:'20'}];
-			// console.log(res);
-			fallback(res);
-			// $.ajax({
-			// 	url: '{:U("Home/Users/waterrecord")}',
-			// 	type: 'get',
-			// 	data: {month: _month},
-			// 	success: function(res){
-			// 		console.log('请求成功！',res);
-			// 		fallback(res);
-			// 	},
-			// 	error: function(err){
-			// 		console.log('请求失败！',err);
-			// 		fallback(err);
-			// 	}
-			// })
+			$.ajax({
+				url: '{{:U("Home/Device/getTds")}}',
+				type: 'post',
+				data: {month: _month},
+				success: function(res){
+					console.log('res: ',res);
+					fallback(res);
+				},
+				error: function(err){
+					console.log('err: ',err);
+					noticeFn({text: '系统遇到问题, 请稍后再试'});
+				}
+			})
 		}
+
+	    // 按当月天数生成数据结构
+	    function getMonthLen(year, month, callback){
+	    	// console.log('year: ',year);
+	    	// console.log('month: ',month);
+	    	var monthData = [];
+		    var monthLen = new Date(year, month, 0).getDate();
+	    	// console.log('monthLen: ',monthLen);
+	    	// 按当月天数遍历数据结构
+		    for(var i=0; i<monthLen; i++){
+		    	// console.log(i+1);
+		    	monthData.push({
+		    		raw: 0,
+		    		pure: 0,
+		    		day: (i < 9 ? 0+''+(i+1) : (i+1)+'')
+		    	})
+		    }
+		    // console.log('monthData: ',monthData);
+		    callback(monthData);
+	    }
+
 	</script>
 </body>
 </html>

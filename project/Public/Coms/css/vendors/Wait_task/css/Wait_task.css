@@ -62,6 +62,14 @@ li {
   background: #fff;
   padding: 0 1.06666667rem;
 }
+.all_div_bg .all_div_content ul li i {
+  color: #b3b3b3;
+}
+.all_div_bg .all_div_content ul li p:nth-child(2) {
+  width: 8.8rem;
+  margin-left: 0.1rem;
+  text-align: right;
+}
 .all_div_bg .all_div_content ul li:nth-child(2) {
   position: relative;
 }
@@ -70,6 +78,22 @@ li {
   right: 0.74666667rem;
   top: 0.10666667rem;
   font-size: 0.85333333rem;
+  color: #b3b3b3;
+}
+.all_div_bg .all_div_content ul li:nth-child(2) p input {
+  color: #b3b3b3;
+  text-align: right;
+  width: 8.8rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+}
+.all_div_bg .all_div_content ul li:nth-child(2) p input::-ms-input-placeholder {
+  color: #b3b3b3;
+}
+.all_div_bg .all_div_content ul li:nth-child(2) p input::-webkit-input-placeholder {
+  color: #b3b3b3;
+}
+.all_div_bg .all_div_content ul li:nth-child(2) p input::-moz-placeholder {
   color: #b3b3b3;
 }
 .wait_task_bg {

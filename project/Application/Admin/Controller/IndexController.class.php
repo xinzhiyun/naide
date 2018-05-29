@@ -49,6 +49,8 @@ class IndexController extends CommonController {
                 // // 经销商数据审核统计->建议列表
                 // $feeds['total'] = D('Feeds')->count();
                 $feeds['total'] = M('vendors')->where(['examine=1'])->count();
+
+
                 
             }
 	    	$data = [
@@ -58,6 +60,8 @@ class IndexController extends CommonController {
 	    		'repairs' => $repairs,
 	    		'feeds' => $feeds
 	    	];
+
+            // dump($data);
 	    	$this->ajaxReturn($data);
     	}
 
