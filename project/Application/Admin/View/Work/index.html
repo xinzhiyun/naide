@@ -1,65 +1,20 @@
 <include file="Public/header" />
 <div class="content">
+    <link rel="stylesheet" href="__PUBLIC__/Admin/magnify/css/jquery.magnify.min.css">
+    <script src="__PUBLIC__/Admin/magnify/js/jquery-1.11.0.min.js"></script>
+    <script src="__PUBLIC__/Admin/magnify/js/jquery.magnify.min.js"></script>
     <include file="Public/nav" />
 
     <style type="text/css">
         /*报修图片*/
-        #showImg {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            display: none;
-            top: 100px;
-            background: rgba(0,0,0,.5);
-            overflow-x: hidden;
-            overflow-y: scroll;
-            z-index: 9999;
-        }
-        #showImg>.closepic {
-            width: 40px;
-            height: 40px;
-            position: fixed;
-            top: 120px;
-            right: 20px;
-            line-height: 40px;
-            text-align: center;
-            border-radius: 50%;
-            color: red;
-            font-size: 20px;
-            background: #eee;
-            box-shadow: 0 0 10px rgba(0,0,0,.6);
-        }
-        #showImg>.closepic:hover {
-            cursor: pointer;
-            background: #ddd;
-        }
-        #showImg>.closepic:hover::before {
-            content: '';
-            position: fixed;
-            top: 18px;
-            right: 62px;
-            border-width: 16px;
-            border-style: solid;
-            border-color: transparent transparent #ddd #ddd;
-            z-index: 9;
-        }
-        #showImg>.closepic:hover::after {
-            content: '关闭图片';
-            position: fixed;
-            padding: 0 6px;
-            top: 10px;
-            right: 80px;
-            border-radius: 4px;
-            background: #ddd;
-            z-index: 10;
-        }
-        #showImg>div {
-            padding: 10px;
-            text-align: center;
-        }
-        #showImg>div>img {
-            width: 100%;
-            height: auto;
+        .magnify-modal {
+            width: 90% !important;
+            height: 80% !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            margin: auto !important;
         }
     </style>
     <div id='showImg'>
@@ -137,7 +92,7 @@
                         <td width="120px">
                             <?php $pics =unserialize($vo['picpath']); ?>
                             <foreach name="pics" item="v">
-                                <img src="{{$v}}" class="img-thumbnail picture" width="50px" height="50px">
+                                <img data-magnify="gallery" data-src="{{$v}}" src="{{$v}}" class="img-thumbnail picture" width="50px" height="50px">
                             </foreach>
                         </td>
                         <?php $addr = $vo['province'].$vo['city'].$vo['district']; ?>
@@ -242,33 +197,33 @@
                         location.href = '{{:U("Admin/Work/index")}}';
                     })
 
-                $("._pass").click(function(){
-                    var _this=$(this);
-                    var wid = $(this).parents('td').attr('data-wid');
+                    $("._pass").click(function(){
+                        var _this=$(this);
+                        var wid = $(this).parents('td').attr('data-wid');
 
-                    $.ajax({
-                        url: "{{:U('Admin/Work/setpass')}}",
-                        type: "post",
-                        data:{wid:wid},
-                        datatype: "json",
-                        success: function(res){
-                            console.log('请求成功: ',res);
-                            if(res.status == 200) {
-                                layuiHint(res.msg);
-                                setTimeout(function(){
-                                    location.href = '{{:U("Admin/work/index")}}';
-                                },500);
-                            }else if(res.status == 201) {
-                                layuiHint(res.msg);
+                        $.ajax({
+                            url: "{{:U('Admin/Work/setpass')}}",
+                            type: "post",
+                            data:{wid:wid},
+                            datatype: "json",
+                            success: function(res){
+                                console.log('请求成功: ',res);
+                                if(res.status == 200) {
+                                    layuiHint(res.msg);
+                                    setTimeout(function(){
+                                        location.href = '{{:U("Admin/work/index")}}';
+                                    },500);
+                                }else if(res.status == 201) {
+                                    layuiHint(res.msg);
 
+                                }
+                            },
+                            error: function(err){
+                                console.log('请求失败: ',err);
+                                layuiHint('请求失败，请稍后再试!');
                             }
-                        },
-                        error: function(err){
-                            console.log('请求失败: ',err);
-                            layuiHint('请求失败，请稍后再试!');
-                        }
-                    })
-                });
+                        })
+                    });
                     // 排工单
                     $("._play").click(function(){
                         var _this=$(this);
@@ -397,19 +352,22 @@
                         })
                     }
                 /**************** 搜索关键字保留 -- 结束 ******************/
-                // 点击图片放大查看
-                $('.picture').click(function(){
-                    var img = new Image();
-                    img.src = $(this).attr('src');
-                    $("#showImg>div").html(img);
-                    $("#showImg").fadeIn();
+                // 图片浏览
+                $("[data-magnify=gallery]").magnify(); 
 
-                })
+                // // 点击图片放大查看
+                // $('.picture').click(function(){
+                //     var img = new Image();
+                //     img.src = $(this).attr('src');
+                //     $("#showImg>div").html(img);
+                //     $("#showImg").fadeIn();
 
-                // 关闭图片
-                $('.closepic').click(function(){
-                    $("#showImg").fadeOut();
-                })
+                // })
+
+                // // 关闭图片
+                // $('.closepic').click(function(){
+                //     $("#showImg").fadeOut();
+                // })
 
             </script>
         </div>
